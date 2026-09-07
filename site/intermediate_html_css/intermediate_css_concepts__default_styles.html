@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Default Styles</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">Default Styles <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn about how browsers style your HTML.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ブラウザは、すべてのウェブページに一連のデフォルトスタイルを適用します。これについて直接考えたことはないかもしれませんが、間違いなく遭遇したことはあるはずです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>ブラウザのデフォルトスタイルについて学びます。</li>
+<li>CSSリセットを使って、それらのデフォルトスタイルを削除したり変更したりする方法を学びます。</li>
+</ul>
+<h3 id="what-are-default-styles-and-where-do-they-come-from">デフォルトスタイルとは何で、どこから来るのか?</h3>
+<p>プロジェクトに取り組んできた中で、<code>h1</code>要素の大きく太字な見出しや、<code>a</code>要素の青い下線付きリンクなど、特定の要素に適用されるデフォルトスタイルにおそらく気づいたことでしょう。デフォルトのmarginやpaddingのようなものに苦戦した可能性も十分あります。これらのスタイルはユーザーエージェントスタイルシートの一部であり、CSSがないウェブページに基本的なスタイルを保証してくれます。各ブラウザは独自のユーザーエージェントスタイルシートを持っているため、デフォルトスタイルはブラウザ間で多少異なります。</p>
+<h3>デフォルトが気に入らない場合はどうする?</h3>
+<p>ごくわずかな例外を除いて、単に自分自身のCSSルールを書けば済みます。あなたがスタイルシートに書くルールは、ユーザーエージェントのルールよりも優先度が高いため、デフォルトを上書きします。しかし、別の選択肢もあります。</p>
+<p>ブラウザ間の不一致に対処し、スタイリングの一貫した出発点を確立するために、一部の開発者はCSSリセットを使い始めました。これらのリセットは、ユーザーエージェントスタイルシートによって設定されたデフォルトを変更または削除することを目的としたCSSルールを含むスタイルシートです。それらを使用することで一貫性を実現する助けとなり、開発者が干渉なくスタイルを適用できる、まっさらな状態を提供できます。</p>
+<p><span id="resets-optional">CSSリセットは今でも一般的に使われていますが、必須ではありません。使わないことを選ぶ開発者もいれば、独自のものを作成したり、既製のリセットを利用したりする開発者もいます。リセットは主観的で個人の考え方に基づくものであり、それを作成した開発者の好みを反映しているということを理解しておくのが重要です。あなたは自分自身でどうしたいかを決めることができます。</span></p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>リセットの素晴らしい歴史と、リセットが個人の考え方に基づくとはどういうことかについて、<a href="https://css-tricks.com/reboot-resets-reasoning/">Reboot, Resets, and Reasoning</a>を読んでください。</li>
+<li><a href="https://mattbrictson.com/blog/css-normalize-and-reset">Making the case for CSS normalize and reset stylesheets in 2023</a>を読んでください。さまざまなリセットの違いと、なぜそれらを使うことを選ぶかもしれないかについて、見事に論じてくれています。</li>
+<li><a href="https://www.joshwcomeau.com/css/custom-css-reset/">Josh Comeauのカスタムcssリセット</a>にも、彼が使用する各ルールの背後にある思考プロセスの素晴らしい解説が含まれており、これらの考え方についてどう考えればよいかのイメージを与えてくれます。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#what-are-default-styles-and-where-do-they-come-from">なぜCSSリセットを使いたいと思うのでしょうか?</a></li>
+<li><a href="#resets-optional">リセットは必須ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

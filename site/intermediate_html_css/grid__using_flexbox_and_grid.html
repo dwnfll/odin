@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Using Flexbox and Grid</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">Using Flexbox and Grid <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Finish our study of Grid by comparing it to Flexbox</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>GridとFlexboxのどちらを使うべきか、そしてどちらかがもう一方より優れているかどうかについて、議論があると言う人もいるかもしれません。実際のところ、これらは互いに補完し合うツールであり、組み合わせて使うことができ、それぞれがCSSの世界において独自の居場所を持っています。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>FlexboxをGridより使いたくなるのはどんなときかを知ります。</li>
+<li>GridをFlexboxより使いたくなるのはどんなときかを知ります。</li>
+<li>2つを一緒に使いたくなるのはどんなときかを知ります。</li>
+</ul>
+<h3 id="content-first-vs-layout-first-design">コンテンツ優先設計とレイアウト優先設計</h3>
+<p>GridとFlexboxのどちらかを決める一つの方法は、あなたのデザインがコンテンツから始まるのか、それともレイアウトから始まるのかを考えることです。</p>
+<p>コンテンツ優先設計では、まずコンテンツがどうあるべきかを明確にすることから始め、レイアウトはそれに従います。これはFlexboxを使う絶好の機会です。その柔軟な性質は、論理的なルールを通してアイテムの<em>振る舞い</em>をコントロールする力を与えてくれます。それらがどう成長し、縮小し、互いに対しての理想的なサイズと位置がどうであるか、そのすべてがレイアウトを動的にします。Flexboxはコンテンツをコントロールする力を与えてくれますが、最終的なレイアウトは単なる結果に過ぎません。flexコンテナの寸法によって、全体的なレイアウトは大きく変わり得ます。</p>
+<p>レイアウト優先設計では、まずパーツをどう配置したいかを決め、それからコンテンツを埋めていきます。それこそが、Gridが輝く場面です。グリッドの行と列のトラックを定義することで、レイアウトを完全にコントロールできます。グリッド内のコンテンツは、明示的または暗黙的なトラックのスペースしか埋めることができません。ですので、コンテナの全体像がどうあるべきかについてすでにアイデアがある場合は、Gridが明らかな選択肢になります。</p>
+<p>コンテンツ優先設計もレイアウト優先設計も、FlexboxかGridのどちらかを使うことを強制するものではありません!多くの人がFlexboxのために取っておくタスクである、1次元のアイテムのセットのレイアウトを、Gridを使って試してみましょう。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="mdByJRV" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/mdByJRV">
+  1-Dimensional Grid | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>うまくいって、まさに<em>美しく</em>見えますね!しかし、これらのボックスを将来動かしたくなったとしましょう。あるいは例えば、3番目のボックスを2行目に伸ばして、ボックスが1行だけに収まるように縮みすぎないようにしたいとしましょう。これらはどちらもGridでは<em>可能</em>です。しかし、レイアウトをコントロールすることが優先事項でないなら、Flexboxの方が直感的でタスクに適しています。</p>
+<h3 id="combining-flexbox-and-grid">FlexboxとGridを組み合わせる</h3>
+<p>1次元のコンテンツがある場合、Flexboxを使うと、そのコンテンツがFlexコンテナ内でどう位置指定されるかをコントロールしやすくなります。一方で、複雑な2次元レイアウトにコンテンツを正確に配置したい場合は、Gridの方が使いやすいことがあります。</p>
+<p>全体的なレイアウトをグリッドにしたいが、グリッドアイテムをflexの親として振る舞わせたい、としましょう。こうすることで、グリッドアイテムはGridが可能にする正確な2次元の配置を使って動かすことができる一方で、グリッドアイテムの中のコンテンツはFlexを使って自由に動き回れるようになります。CSS-Tricksからのこの例を見てみてください。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="vYeEOxN" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/vYeEOxN">
+  Combine Grid and Flexbox</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h3>締めくくりの意見</h3>
+<p>このレッスンには推奨事項が含まれていますが、FlexboxやGridを使う「正しい」方法や「間違った」方法があるわけではありません。結局のところ、それは個人の好みと、与えられたタスクが何であれ、開発者がどちらがより簡単だと感じるかによります。この時点で、あなたはこれら両方のツールをあなたの道具箱に持っており、それらを一緒に使ったり、一方を他方の代わりに使ったりする方法についても垣間見ました。FlexboxとGridを学ぶ最良の方法は、両方を使ってたくさんのプロジェクトを構築し、異なる状況でどちらを使うべきかについて自分自身の意見を育てていくことです。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p><a href="https://css-tricks.com/css-grid-replace-flexbox/">CSS Gridはflexboxを置き換えるものではない</a>ということについて読んでください。</p>
+</li>
+<li>
+<p>Kevin Powellによるこの動画は、<a href="https://www.youtube.com/watch?v=3elGSZSWTbM">GridとFlexboxの実世界でのユースケース</a>を実演してくれています。</p>
+</li>
+<li>
+<p><a href="https://webdesign.tutsplus.com/flexbox-vs-css-grid-which-should-you-use--cms-30184a">GridまたはFlexboxをいつ、なぜ使うか</a>について読んでみてください。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#content-first-vs-layout-first-design">FlexboxをGridより使いたくなるのはどんなときですか?</a></li>
+<li><a href="#content-first-vs-layout-first-design">GridをFlexboxより使いたくなるのはどんなときですか?</a></li>
+<li><a href="#combining-flexbox-and-grid">これら2つのツールを一緒に使いたくなるのはどんなときですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

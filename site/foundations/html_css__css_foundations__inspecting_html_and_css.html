@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspecting HTML and CSS</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Inspecting HTML and CSS <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Use your browser to inspect and debug your HTML and CSS.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>HTMLとCSSを検証し、デバッグできることは、フロントエンド開発にとって極めて重要です。このレッスンでは、Chrome Dev Toolsについて見ていきます。これにより、要素やCSSルールについての詳細な情報を確認できるだけでなく、コード内の問題を見つけて修正する助けにもなります。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>要素インスペクターにアクセスする方法が分かるようになる。</li>
+<li>特定の要素を選択して検証する方法が分かるようになる。</li>
+<li>インスペクターでHTMLとCSSを試す方法が分かるようになる。</li>
+</ul>
+<h3>インスペクター</h3>
+<p>インスペクターを開くには、ウェブページ上の任意の要素を右クリックして「検証」をクリックするか、F12を押します。実際に今すぐそれを行って、このページで使われているHTMLとCSSを見てみましょう。</p>
+<p>今目にしているたくさんのツールに圧倒されないでください!このレッスンでは、ElementsパネルとStylesパネルに焦点を当てます。</p>
+<h3 id="inspecting-elements">要素を検証する</h3>
+<p>Elementsパネルでは、ページ全体のHTML構造を確認できます。このパネル内の任意の要素をクリックすることで、その特定の要素を選択できます。あるいは、左上の「element select」アイコン(下の画像に表示)をクリックしてから、ページ上の任意の要素にカーソルを合わせることもできます。</p>
+<p><img alt="インスペクターのアイコン" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/e7ab90e044fba9f8ef9b5915c62221e2822b102b/foundations/html_css/css-foundations/inspecting-html-and-css/imgs/00.jpg" /></p>
+<p><span id="strikethrough">要素を選択すると、Stylesタブには現在適用されているすべてのスタイルと、上書きされているスタイル(テキストに取り消し線が引かれて示されます)が表示されます。</span>例えば、<a href="https://www.theodinproject.com/home">TOPのホームページ</a>にある「Your Career in Web Development Starts Here」という見出しの「Your」をインスペクターでクリックすると、右側に、以下のように現在その要素に影響を与えているすべてのスタイルが表示されます(<code>var()</code>という構文についてはこの時点では関係ないので気にしないでください):</p>
+<p><img alt="上書きされたスタイル" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/e7ab90e044fba9f8ef9b5915c62221e2822b102b/foundations/html_css/css-foundations/inspecting-html-and-css/imgs/01.jpg" /></p>
+<h3 id="testing-styles-in-the-inspector">インスペクターでスタイルを試す</h3>
+<p>Stylesパネルでは、ブラウザ内で直接スタイルを編集することもできます。任意の個々のセレクタの中をクリックして新しいルールを追加したり、既存の属性や値をクリックして変更したりできます。そうすると、ウェブページはリアルタイムでその変更を反映します。これはテキストエディタ内のソースコードには影響しませんが、ページを何度も再読み込みすることなく、さまざまな属性や値をすばやく試すのに非常に役立ちます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools">Chrome DevToolsの公式ドキュメント</a>の以下のセクションに目を通してください:</li>
+</ol>
+<ul>
+<li><a href="https://developer.chrome.com/docs/devtools/overview/">Devtools overview</a>: ここからリンクされている他のページには移動せず、今はすべての使い方ではなく、DevToolsに<em>どんな</em>ツールがあるのかに慣れることだけに集中してください。</li>
+<li><a href="https://developer.chrome.com/docs/devtools/open/">Open Chrome DevTools</a>: 上記で扱った内容と似ていますが、いくつか役立つ追加情報があります。</li>
+<li><a href="https://developer.chrome.com/docs/devtools/dom/">Get Started With Viewing And Changing The DOM</a>: JavaScriptコンソールを使っている部分は飛ばして構いません。</li>
+<li><a href="https://developer.chrome.com/docs/devtools/css">View and change CSS</a>: インタラクティブな指示があれば、必ず一緒に手を動かしてみてください!</li>
+</ul>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#inspecting-elements">ブラウザの開発者ツールで、ページ上の特定の要素を選択するにはどうすればよいですか?</a></li>
+<li><a href="#strikethrough">ブラウザの開発者ツールで、CSS宣言に取り消し線が引かれているのは何を意味しますか?</a></li>
+<li><a href="#testing-styles-in-the-inspector">ブラウザの開発者ツールで、ウェブページの特定の要素のCSSをリアルタイムで変更するにはどうすればよいですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

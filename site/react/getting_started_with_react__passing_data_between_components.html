@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passing Data Between Components</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Passing Data Between Components <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Passing Data Between Components</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>By now you should be starting to understand just how powerful React and reusable components can be, but you may be left wondering ‘How can I share information between components?’ or ‘Am I able to customize the behavior of my components each time I use them?'. In this lesson, we will learn about React props (short for properties) and how to use props to pass data between components.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Passing data between components.</li>
+<li>Using data to create customizable reusable components.</li>
+</ul>
+<h3>Data transfer in React</h3>
+<p>In React, data is transferred from parent components to child components via props. This data transfer is unidirectional, meaning it flows in only one direction. Any changes made to this data will only affect child components using the data, and not parent or sibling components. This restriction on the flow of data gives us more explicit control over it, resulting in fewer errors in our application.</p>
+<h3>Using props in React</h3>
+<p>Now that we know <em>how</em> data transfers between components, let's explore <em>why</em> this might be a useful feature in React. Consider the following <code>Button</code> component, which gets rendered multiple times within our <code>App</code> component.</p>
+<pre class="highlight"><code class="language-jsx">function Button() {
+  return (
+    &lt;button&gt;Click Me!&lt;/button&gt;
+  );
+}
+
+export default function App() {
+  return (
+    &lt;div&gt;
+      &lt;Button /&gt;
+      &lt;Button /&gt;
+      &lt;Button /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>So far so good right? We have a beautiful reusable button that we can use as many times as we like, there is just one small problem.</p>
+<p>What if we wanted the text within our second button to be “Don’t Click Me!"? Right now, we would have to create a second button component with this different text.</p>
+<pre class="highlight"><code class="language-jsx">function Button() {
+  return (
+    &lt;button&gt;Click Me!&lt;/button&gt;
+  );
+}
+
+function Button2() {
+  return (
+    &lt;button&gt;Don't Click Me!&lt;/button&gt;
+  );
+}
+
+export default function App() {
+  return (
+    &lt;div&gt;
+      &lt;Button /&gt;
+      &lt;Button2 /&gt;
+      &lt;Button /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>This may not seem like a huge deal right now, but what if we had 10 buttons? Each one having different text, fonts, colors, sizes, and any other variation you can think of. Creating a new component for each of these button variations would very quickly lead to a LOT of code duplication.</p>
+<p>Let's see how by using props, we can account for any number of variations with a <em>single</em> button component.</p>
+<pre class="highlight"><code class="language-jsx">function Button(props) {
+  const buttonStyle = {
+    color: props.color,
+    fontSize: props.fontSize + 'px'
+  };
+
+  return (
+    &lt;button style={buttonStyle}&gt;{props.text}&lt;/button&gt;
+  );
+}
+
+export default function App() {
+  return (
+    &lt;div&gt;
+      &lt;Button text="Click Me!" color="blue" fontSize={12} /&gt;
+      &lt;Button text="Don't Click Me!" color="red" fontSize={12} /&gt;
+      &lt;Button text="Click Me!" color="blue" fontSize={20} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>There are a few things going on here.</p>
+<ul>
+<li>The <code>Button</code> functional component now receives <code>props</code> as a function parameter. The individual properties are then referenced within the component via <code>props.propertyName</code>.</li>
+<li>When rendering the <code>Button</code> components within <code>App</code>, the <code>prop</code> values are defined on each component.</li>
+<li>Inline styles are dynamically generated and then applied to the <code>button</code> element.</li>
+</ul>
+<h3>Prop destructuring</h3>
+<p>A very common pattern you will come across in React is prop <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">destructuring</a>. Unpacking your props in the component parameters allows for more concise and readable code. Check out prop destructuring in action in the example below.</p>
+<pre class="highlight"><code class="language-jsx">function Button({ text, color, fontSize }) {
+  const buttonStyle = {
+    color: color,
+    fontSize: fontSize + "px"
+  };
+
+  return &lt;button style={buttonStyle}&gt;{text}&lt;/button&gt;;
+}
+
+export default function App() {
+  return (
+    &lt;div&gt;
+      &lt;Button text="Click Me!" color="blue" fontSize={12} /&gt;
+      &lt;Button text="Don't Click Me!" color="red" fontSize={12} /&gt;
+      &lt;Button text="Click Me!" color="blue" fontSize={20} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<h3>Default props</h3>
+<p>You may have noticed in the above examples that there is some repetition when defining props on the <code>Button</code> components within <code>App</code>. In order to stop repeating ourselves by re-defining these common values, and to protect our application from undefined values, we can define default parameters to set default values for props.</p>
+<pre class="highlight"><code class="language-jsx">function Button({ text = "Click Me!", color = "blue", fontSize = 12 }) {
+  const buttonStyle = {
+    color: color,
+    fontSize: fontSize + "px"
+  };
+
+  return &lt;button style={buttonStyle}&gt;{text}&lt;/button&gt;;
+}
+
+export default function App() {
+  return (
+    &lt;div&gt;
+      &lt;Button /&gt;
+      &lt;Button text="Don't Click Me!" color="red" /&gt;
+      &lt;Button fontSize={20} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>As you can see, we now only need to supply prop values to <code>Button</code> when rendering within <code>App</code> if they differ from the default values defined in the function parameters.</p>
+<p>You may also come across the use of <code>defaultProps</code> in some codebases. This was traditionally used to set default values for props, particularly in class components. Here’s how it looks:</p>
+<pre class="highlight"><code class="language-jsx">function Button({ text, color, fontSize }) {
+  const buttonStyle = {
+    color: color,
+    fontSize: fontSize + "px"
+  };
+
+  return &lt;button style={buttonStyle}&gt;{text}&lt;/button&gt;;
+}
+
+Button.defaultProps = {
+  text: "Click Me!",
+  color: "blue",
+  fontSize: 12
+};
+
+export default function App() {
+  return (
+    &lt;div&gt;
+      &lt;Button /&gt;
+      &lt;Button text="Don't Click Me!" color="red" /&gt;
+      &lt;Button fontSize={20} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>While React no longer accepts the latter approach for function components, understanding <code>defaultProps</code> is still useful, especially when working with class components or older codebases.</p>
+<h3>Functions as props</h3>
+<p>In addition to passing variables through to child components as props, you can also pass through functions. Consider the following example.</p>
+<pre class="highlight"><code class="language-jsx">function Button({ text = "Click Me!", color = "blue", fontSize = 12, handleClick }) {
+  const buttonStyle = {
+    color: color,
+    fontSize: fontSize + "px"
+  };
+
+  return (
+    &lt;button onClick={handleClick} style={buttonStyle}&gt;
+      {text}
+    &lt;/button&gt;
+  );
+}
+
+export default function App() {
+  const handleButtonClick = () =&gt; {
+    window.location.href = "https://www.google.com";
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;Button handleClick={handleButtonClick} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<ul>
+<li>The function <code>handleButtonClick</code> is defined in the parent component.</li>
+<li>A reference to this function is passed through as the value for the <code>handleClick</code> prop on the <code>Button</code> component.</li>
+<li>The function is received in <code>Button</code> and is called on a click event.</li>
+</ul>
+<p>There are a few things to note here.</p>
+<ul>
+<li>
+<p>We only pass through a reference to <code>handleButtonClick</code>, i.e. we do not include parenthesis when passing the function to <code>Button</code>. If we were to do something like <code>handleClick={handleButtonClick()}</code> then the function would be called as the button renders.</p>
+</li>
+<li>
+<p>Every <code>Button</code> calling this function will navigate to the same page. We can refactor the function and supply an argument within <code>Button</code> to customize this functionality.</p>
+</li>
+</ul>
+<pre class="highlight"><code class="language-jsx">function Button({ text = "Click Me!", color = "blue", fontSize = 12, handleClick }) {
+  const buttonStyle = {
+    color: color,
+    fontSize: fontSize + "px"
+  };
+
+  return (
+    &lt;button onClick={handleClick} style={buttonStyle}&gt;
+      {text}
+    &lt;/button&gt;
+  );
+}
+
+export default function App() {
+  const handleButtonClick = (url) =&gt; {
+    window.location.href = url;
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;Button handleClick={() =&gt; handleButtonClick('https://www.theodinproject.com')} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>When supplying an argument to the function, we can't just write <code>onClick={handleClick('https://www.theodinproject.com')}</code>, and instead must attach a reference to an anonymous function which then calls the function with the argument. Like the previous example, this is to prevent the function being called during the render.</p>
+<div class="lesson-note">
+<h4>Alternative implementation with curried functions</h4>
+<p>There are also other ways to implement this behavior. Hint: <a href="https://javascript.info/currying-partials">curried functions!</a></p>
+</div>
+<p>Hopefully, you can now understand from the examples in this lesson just how incredibly useful props are for writing reusable and customizable React components. However, we are still only scratching the surface of what React can offer us. Continue on to the next section to learn even more!</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Read through the React docs on <a href="https://react.dev/learn/passing-props-to-a-component">Passing Props to a Component</a>. Make sure to edit the code examples and experiment with different prop values.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#data-transfer-in-react">How does data flow between React components? From child to parent? From parent to child? Both?</a></li>
+<li><a href="#using-props-in-react">Why do we use props in React?</a></li>
+<li><a href="#default-props">How do we define default properties on a React component? What are some benefits in doing so?</a></li>
+<li><a href="#functions-as-props">How can we pass functions as props?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

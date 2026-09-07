@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOP Principles</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">OOP Principles <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">OOP Principles</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>この時点まで来て、あなたはJavaScriptで最も一般的なオブジェクトの作成・整理のパターンを学び、それを練習する機会を持ったはずです。しかし、それは氷山の<em>一角</em>に過ぎません。ファクトリー関数やモジュールの構文を学ぶことよりも重要なのは、それらを効果的に使う方法を見つけ出すことです。</p>
+<p>この一連のレッスンはすべて、「オブジェクト指向プログラミング」パラダイム(OOP)についてのものでした。オブジェクトやクラスを作成する基本は比較的単純明快です。しかし、それぞれのオブジェクトに何を入れるべきか、いつ新しいオブジェクトを作るべきか、いつあるオブジェクトを別のオブジェクトから「継承」させるべきかを決めることは、単純明快ではありません。</p>
+<p>幸いなことに、私たちのオブジェクトに関して良い決断を下す助けとなる、いくつかの概念や原則があります。このレッスンは、それらの概念のうち最も重要なものへの入門です。あなたのアプリケーション設計の質問に対する非常に明確な答えは、通常存在しないということを心に留めておいてください。一部のパターンやアイデアは明らかに他のものより優れていますが、特定の関数をどこに置くかを決める際には、しばしば何らかのトレードオフがあります。言い換えると…これらの原則は<em>ルール</em>ではなく、役立つガイドラインです。</p>
+<p>これらのリソースを読んでいく中で、すでに終えたいくつかのプロジェクトに戻って、あなたが書いたものが目にする例とどう比較されるかを考えてみるのが役立つかもしれません。そしてもちろん、先に進んでいくにつれて、新しいプロジェクトを作る際にもこれらのことを心に留めておいてください。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>「単一責任の原則」を説明します。</li>
+<li>追加のSOLID原則を簡単に説明します。</li>
+<li>「密結合」なオブジェクトとは何で、なぜそれを避けたいのかを説明します。</li>
+<li>なぜ一般的に継承よりコンポジションが好まれるのかを理解します。</li>
+</ul>
+<h3 id="single-responsibility">単一責任</h3>
+<p>オブジェクトを作っていく中で、覚えておくべき最も重要なことの一つは、<strong>単一責任の原則</strong>です。これは、クラス(あるいはオブジェクトやモジュール…お分かりですね)は<em>一つ</em>の責任だけを持つべきだと述べています。これは、あるオブジェクトが一つのことしかできないという意味ではありませんが、そのオブジェクトが行うすべてのことは、一つの責任の一部であるべきだという意味です。</p>
+<p>本当によくある例をご紹介します。私たちのコードのほとんどは、アプリケーションロジックに加えて、DOMに何かを更新・書き込む関数を持っています。DOM関連のものをアプリケーションロジックから分離するのは、<em>本当に</em>良い考えです。</p>
+<p>ここに、ゲームオーバーの条件が満たされたかどうかをチェックすべき関数があります。これには2つの問題があります:</p>
+<pre class="highlight"><code class="language-javascript">function isGameOver() {
+
+  // game over logic goes here!
+
+  if (gameOver) {
+    const gameOverDiv = document.createElement('div');
+    gameOverDiv.classList.add('game-over');
+    gameOverDiv.textContent = `${this.winner} won the game!`;
+    document.body.appendChild(gameOverDiv);
+  }
+}</code></pre>
+<p>一つ目の問題は、この関数(そしてそれが含まれるモジュール)が、DOMを直接操作するものであるべきではないということです。すべてのDOM操作を独自のモジュールに抽出し、次のように使うべきです:</p>
+<pre class="highlight"><code class="language-javascript">function isGameOver() {
+
+  // game over logic goes here!
+
+  if (gameOver){
+    DOMStuff.gameOver(this.winner);
+  }
+}</code></pre>
+<p>残っている二つ目の問題は、<code>isGameOver</code>関数は<code>gameOver</code>の条件が満たされているかどうかをチェックすることだけに責任を持つべきだということです。<code>isGameOver</code>の戻り値に基づいて、<code>DOMStuff.gameOver(this.winner)</code>を呼び出すかどうかを決める責任は、ゲームループを処理する関数が持つべきです。</p>
+<p>単一責任の原則についてのもう一つの考え方は、あるメソッド/クラス/コンポーネントは、変更すべき理由を一つだけ持つべきだというものです。そうでなければ、あるオブジェクトが複数の責任を持とうとすると、ある側面を変更することが別の側面に影響してしまうかもしれません。</p>
+<p>単一責任の原則は、<strong>SOLID</strong>原則と呼ばれる、一般的によく見られる5つの設計原則のセットの最初のものです。これらの原則については、以下の課題の記事でさらに読むことになります。</p>
+<h3>疎結合なオブジェクト</h3>
+<p>当然ながら、私たちのすべてのオブジェクトは、一緒に働いて最終的なアプリケーションを形作ることを意図しています。しかし、あなたの個々のオブジェクトが可能な限り単独で成り立つように気を配るべきです。<strong>密結合</strong>なオブジェクトとは、互いに非常に強く依存しているため、一方を削除したり変更したりすると、もう一方を完全に変更しなければならなくなるオブジェクトのことです - これは本当にがっかりすることです。</p>
+<p>これは「単一責任」とかなり強く関連していますが、異なる角度から見たものです。例えば、もしゲームを書いていて、ユーザーインターフェースの動作方法を完全に変更したい場合、ゲームロジックを完全に作り直すことなくそれができるべきです。ですので、主に<code>console.log()</code>を使ってゲームを書き始め、それから後で、ゲームロジックに触れることなくたくさんの<code>DOM</code>関数を追加できるべきです。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>以下の記事と動画は、単一責任について話す前に、<strong>SOLID</strong>という頭字語に言及しています。単一責任は間違いなく5つの中で最も関連性が高いものですが、もし興味があれば、他のSOLID原則についても自由に掘り下げてみてください。<ol>
+<li><a href="https://duncan-mcardle.medium.com/solid-principle-1-single-responsibility-javascript-5d9ce2c6f4a5">SOLID principle #1: Single responsibility (JavaScript)</a>についてのこの記事を読んでください。これは、以下のSOLIDの動画でより詳しく扱われている内容を単純化してくれています。</li>
+<li>それぞれの原則についてのコード例を見るために、<a href="https://www.youtube.com/playlist?list=PLZlA0Gpn_vH9kocFX7R7BAe_CvvOCO_p9">The SOLID Design Principles by WDS</a>を見てください。</li>
+</ol>
+</li>
+<li><a href="https://web.archive.org/web/20170215102316/http://www.innoarchitech.com:80/scalable-maintainable-javascript-coupling">How to Write Highly Scalable and Maintainable JavaScript: Coupling</a>は、疎結合なオブジェクトについてかなりよく説明してくれています。</li>
+<li>FunFunFunctionには、<a href="https://www.youtube.com/watch?v=wfMtDGfHWpA">継承よりコンポジションを優先すること</a>についての素晴らしい動画があります。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#single-responsibility">「単一責任の原則」とは何ですか?</a></li>
+<li><a href="https://duncan-mcardle.medium.com/solid-principle-1-single-responsibility-javascript-5d9ce2c6f4a5">追加のSOLID原則にはどのようなものがありますか?</a></li>
+<li><a href="https://web.archive.org/web/20170215102316/http://www.innoarchitech.com:80/scalable-maintainable-javascript-coupling">「密結合」なオブジェクトとは何で、なぜそれを避けたいのですか?</a></li>
+<li><a href="https://www.youtube.com/watch?v=wfMtDGfHWpA">なぜ継承よりコンポジションを優先することが推奨されるのですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

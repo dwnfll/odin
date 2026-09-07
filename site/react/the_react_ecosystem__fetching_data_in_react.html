@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fetching Data In React</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Fetching Data In React <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Fetching Data In React</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Up to this point, we have been using React to build client-side applications with interactive user interfaces, but what if we want to fetch data from the internet? In order to create full-fledged web applications, we need some way to get data from external sources and dynamically display it.</p>
+<p>In this lesson, we'll explore the ins and outs of fetching data in React, starting with the basics of making API calls, managing component state, and handling asynchronous operations using JavaScript's <code>fetch</code> function. You've already performed data fetching in earlier projects, so some material covered in the lesson will be familiar to you. Revision doesn't hurt!</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Making fetch requests in React components.</li>
+<li>Catching and handling errors.</li>
+<li>Lifting requests up the component hierarchy.</li>
+</ul>
+<h3>A basic fetch request</h3>
+<p>Before we dive into the specifics of fetching data in React, let's briefly revisit how we can use the fetch API to get data from a server.</p>
+<pre class="highlight"><code class="language-javascript">const image = document.querySelector("img");
+fetch("https://picsum.photos/v2/list")
+  .then((response) =&gt; response.json())
+  .then((response) =&gt; {
+    image.src = response[0].download_url;
+  })
+  .catch((error) =&gt; console.error(error));</code></pre>
+<p>We're making a request to the Picsum API to retrieve an image, and then setting that URL to the src of an <code>&lt;img&gt;</code> element.</p>
+<div class="lesson-note">
+<h4>Including an identification header</h4>
+<p>Some APIs might require clients to identify their traffic. When this is the case, you can do it by including a custom identifier header, such as a <code>User-Agent</code> or any other identifier the API owner specifies inside the request options. This is the same process for adding any other header.</p>
+<pre class="highlight"><code class="language-javascript">const image = document.querySelector("img");
+fetch("https://picsum.photos/v2/list", {
+  headers: {
+    "User-Agent": "the-odin-project"
+  }
+})
+  .then((response) =&gt; response.json())
+  .then((response) =&gt; {
+    image.src = response[0].download_url;
+  })
+  .catch((error) =&gt; console.error(error));</code></pre>
+</div>
+<h3>Using fetch in React components</h3>
+<p>Now, let's take a look at how we can incorporate <code>fetch</code> into a React component, similar to our previous example. One common use case is to fetch data from an API when a component mounts, so that the data can be displayed on screen.</p>
+<p>Whenever a component needs to make a request as it renders, it's often best to wrap that <code>fetch</code> inside of an effect.</p>
+<pre class="highlight"><code class="language-jsx">import { useEffect, useState } from "react";
+
+const Image = () =&gt; {
+  const [imageURL, setImageURL] = useState(null);
+
+  useEffect(() =&gt; {
+    fetch("https://picsum.photos/v2/list", {
+      headers: {
+        "User-Agent": "the-odin-project"
+      }
+    })
+    .then((response) =&gt; response.json())
+    .then((response) =&gt; setImageURL(response[0].download_url))
+    .catch((error) =&gt; console.error(error));
+  }, []);
+
+  return (
+    imageURL &amp;&amp; (
+      &lt;&gt;
+        &lt;h1&gt;An image&lt;/h1&gt;
+        &lt;img src={imageURL} alt={"placeholder text"} /&gt;
+      &lt;/&gt;
+    )
+  );
+};
+
+export default Image;</code></pre>
+<p><code>useState</code> lets us add the <code>imageURL</code> state, whereas <code>useEffect</code> allows us to perform side effects. In this case, the side effect is fetching data from an external API. Since we need to fetch the data only once when the component mounts, we pass an empty dependency array.</p>
+<h3>Handling errors</h3>
+<p>Working over the network is inherently unreliable. The API you're making a request to might be down, there could be network connectivity issues, or the response you receive could contain errors. A multitude of things can go wrong, and if you don't preemptively plan for errors, your website can break or appear unresponsive to users.</p>
+<p>To simulate a network error, scroll up to the previous code snippet and change the <code>fetch</code> URL to something random. After a refresh of your browser window, the page will remain a blank white screen, without giving the user any indication that the page has finished loading or that there was an error.</p>
+<p>To fix this, we need to check for <em>something</em> before Image component returns JSX. We'll call it: <code>error</code>.</p>
+<pre class="highlight"><code class="language-jsx">if (error) return &lt;p&gt;A network error was encountered&lt;/p&gt;
+
+return (
+  imageURL &amp;&amp; (
+    &lt;&gt;
+      &lt;h1&gt;An image&lt;/h1&gt;
+      &lt;img src={imageURL} alt={"placeholder text"} /&gt;
+    &lt;/&gt;
+  )
+);</code></pre>
+<p>To set this <code>error</code>, we'll add it to the component's state.</p>
+<pre class="highlight"><code class="language-jsx">const [imageURL, setImageURL] = useState(null);
+const [error, setError] = useState(null);</code></pre>
+<p>And finally, to assign <code>error</code> a value when a request fails, we'll add a conditional to check the response status, and set it where our console.error line was.</p>
+<pre class="highlight"><code class="language-jsx">useEffect(() =&gt; {
+  fetch("https://picsum.photos/v2/list", {
+    headers: {
+      "User-Agent": "the-odin-project"
+    }
+  })
+    .then((response) =&gt; {
+      if (response.status &gt;= 400) {
+        throw new Error("server error");
+      }
+      return response.json();
+    })
+    .then((response) =&gt; setImageURL(response[0].download_url))
+    .catch((error) =&gt; setError(error));
+}, []);</code></pre>
+<div class="lesson-note">
+<h4>Handling response errors</h4>
+<p>Notice how we also handle errors in the <code>then</code> block? This is because the <code>fetch</code> request itself might not fail, but rather complete successfully and yield a response. However, the response received may not be what our app expected. To handle this case, we check the response status codes.</p>
+</div>
+<p>Now when a bad URL is passed or the API returns an unexpected response, the page will relay that information to the user.</p>
+<h4>Loading state</h4>
+<p>In the same way we added an error value in state to check for errors, we can also add a loading value to check whether the request is resolved or not.</p>
+<pre class="highlight"><code class="language-jsx">const Image = () =&gt; {
+  const [imageURL, setImageURL] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() =&gt; {
+    fetch("https://picsum.photos/v2/list", {
+      headers: {
+        "User-Agent": "the-odin-project"
+      }
+    })
+      .then((response) =&gt; {
+        if (response.status &gt;= 400) {
+          throw new Error("server error");
+        }
+        return response.json();
+      })
+      .then((response) =&gt; setImageURL(response[0].download_url))
+      .catch((error) =&gt; setError(error))
+      .finally(() =&gt; setLoading(false));
+  }, []);
+
+  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
+  if (error) return &lt;p&gt;A network error was encountered&lt;/p&gt;;
+
+  return (
+    &lt;&gt;
+      &lt;h1&gt;An image&lt;/h1&gt;
+      &lt;img src={imageURL} alt={"placeholder text"} /&gt;
+    &lt;/&gt;
+  );
+};</code></pre>
+<h3>Using custom hooks</h3>
+<p>We can separate out the fetching logic altogether into a custom hook. This will allow us to make the logic reusable and easily testable.</p>
+<p>Recall in the <a href="https://www.theodinproject.com/lessons/node-path-react-new-introduction-to-state">Introduction to state</a> lesson we said that a React hook is just a function that lets you use features of React (like states, effects etc.) and that they follow a naming rule where they begin with <code>use</code> followed by a capital letter (e.g. <code>useState</code> or <code>useEffect</code>). If we tried to put a hook such as <code>useEffect</code> inside our own regular helper function like <code>getImageURL</code>, React would not be happy about this since it only wants hooks to be called in the top level of a component or another hook. Therefore, we can just turn our helper function into a custom hook by following the hook naming rule - <code>useImageURL</code>.</p>
+<p>Here's how we would do it for our example:</p>
+<pre class="highlight"><code class="language-jsx">import { useState, useEffect } from "react";
+
+const useImageURL = () =&gt; {
+  const [imageURL, setImageURL] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() =&gt; {
+    fetch("https://picsum.photos/v2/list", {
+      headers: {
+        "User-Agent": "the-odin-project"
+      }
+    })
+      .then((response) =&gt; {
+        if (response.status &gt;= 400) {
+          throw new Error("server error");
+        }
+        return response.json();
+      })
+      .then((response) =&gt; setImageURL(response[0].download_url))
+      .catch((error) =&gt; setError(error))
+      .finally(() =&gt; setLoading(false));
+  }, []);
+
+  return { imageURL, error, loading };
+};
+
+const Image = () =&gt; {
+  const { imageURL, error, loading } = useImageURL();
+
+  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
+  if (error) return &lt;p&gt;A network error was encountered&lt;/p&gt;;
+
+  return (
+    &lt;&gt;
+      &lt;h1&gt;An image&lt;/h1&gt;
+      &lt;img src={imageURL} alt={"placeholder text"} /&gt;
+    &lt;/&gt;
+  );
+};</code></pre>
+<p>If we ever needed to fetch images in different components, instead of rewriting all of that fetching logic we could call <code>useImageURL</code>.</p>
+<h3>Managing multiple fetch requests</h3>
+<div class="lesson-note lesson-note--warning">
+<h4>Using an artificial delay</h4>
+<p>In this section, we use a code example where we've added an artificial <code>delay</code> with the <code>setTimeout</code> function. As you've likely guessed by now, this is to help you walk through the data fetching basics in the lesson. We recommend removing these delays after finishing this section then playing around with the code examples to further cement the concepts.</p>
+</div>
+<p>In a full-scale web app, you're often going to be making more than one request, and you need to be careful with how you organize them. A common issue that new React developers face when their apps start making multiple requests is called a <em>waterfall of requests</em>. Let's look at an example in our <a href="https://github.com/TheOdinProject/react-examples">react-examples repo</a> (fork and clone it if you haven't already), this time in the <code>fetching-data/</code> directory. <code>cd</code> into it, run <code>npm install</code> then start the dev server with <code>npm run dev</code>.</p>
+<p>We have two components making fetch requests: <code>Profile</code> and its child component <code>Bio</code>. In both of those files, you'll see a component and another version of it commented out below - we'll return to these shortly. The requests in <code>Profile</code> and <code>Bio</code> are both firing inside of their respective components. On the surface this looks like a well-organized separation of concerns, but in this case, it comes at a cost in performance.</p>
+<p>Notice how whenever you load the page, <code>Bio</code> is taking an extra second to display? Their fetch requests should both take 1000ms to resolve so what's going on? In React, the component is not rendered until it is actually called. If JSX has conditional logic, the false branches will never render until they become true. <code>Bio</code> has to wait for the request inside of <code>Profile</code> to resolve before it starts rendering, which means the request inside <code>Bio</code> isn't sent.</p>
+<p>If we remove the short-circuiting conditional that waits for <code>imageURL</code>, <code>Bio</code> would send a request immediately, but that would mean abandoning our loading screen. Instead of compromising on design, we can lift the request up the component tree and pass its response as a prop to <code>Bio</code>.</p>
+<p>To see this in action, in both the <code>Profile</code> and <code>Bio</code> components, comment them out then uncomment the alternative versions below them.</p>
+<p>Now we have both requests firing as soon as <code>Profile</code> renders. The request for <code>imageURL</code> resolves 2 seconds before the <code>bioText</code> request, and our div containing <code>&lt;Bio /&gt;</code> renders. When <code>bioText</code> resolves, an update will be made in state which will trigger a rerender in <code>&lt;Bio /&gt;</code>, adding that text description to the page.</p>
+<h3>Data fetching libraries</h3>
+<p>We've only just begun to scratch the surface of data fetching on the frontend. Keeping your frontend data up-to-date with the server is a challenging task to accomplish. Managing "async" state becomes increasingly complex with each added feature.</p>
+<p>You've already tasted the complexity of data fetching in this lesson. Each request has to have a <em>minimum</em> of three states to achieve an optimal user experience: <code>data</code>, <code>loading</code>, and <code>error</code>. Although some libraries can help you with data fetching and more, it is highly recommended to use vanilla React data fetching for all the projects in this course. The lessons you will learn while doing so will be invaluable.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Read <a href="https://blog.logrocket.com/modern-api-data-fetching-methods-react/">Modern API data fetching methods</a> until you reach the Axios section for a brief overview of what was discussed in this lesson.</li>
+<li>Read <a href="https://www.developerway.com/posts/how-to-fetch-data-in-react">How to fetch data in React with performance in mind</a> to learn more about efficiently handling fetch requests in React components.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#using-fetch-in-react-components">How can you fetch data from an API in React?</a></li>
+<li><a href="#handling-errors">Why should you manually throw errors in fetch requests?</a></li>
+<li><a href="#managing-multiple-fetch-requests">How can you avoid waterfalling requests?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

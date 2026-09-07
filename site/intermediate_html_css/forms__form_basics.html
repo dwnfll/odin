@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form Basics</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">Form Basics <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn the basics of creating forms in HTML.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>フォームは、あなたのサイトの最も重要な部分の一つです。フォームはユーザーがあなたのバックエンドに入っていくための入り口です。ユーザーがフォームにデータを入力し、あなたはそれを使って何かを行います。</p>
+<p>一つのデータを収集する方法は複数ある場合が多いですが、ユーザーにとって最も簡単な方法は一つだけであるため、それぞれ可能なデータ項目に対して適切な種類の入力を指定する必要があります。</p>
+<p>このレッスンでは、HTMLフォームの基本と、利用可能ないくつかの異なる種類の入力を探っていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>HTMLでフォームを作成する。</li>
+<li>フォームのスタイリングの基本的な考え方を持つ。</li>
+</ul>
+<h3 id="the-form-element">form要素</h3>
+<p>form要素は、カリキュラムの前の方で学んだdiv要素のようなコンテナ要素です。form要素は、ユーザーがフォーム上でやり取りするすべての入力をラップします。</p>
+<p>form要素は2つの重要な属性を受け付けます。1つ目は<code>action</code>属性で、これはフォームがそのデータを処理のためにどこに送るべきかを伝える、URLの値を取ります。
+カリキュラムの後の方で、この属性を使ってバックエンドシステムをフロントエンドのフォームに接続する方法を学びます。今のところは、<code>action</code>属性が何に使われるかを知っておくだけで十分です。</p>
+<p>2つ目は<code>method</code>属性で、これはフォームを送信するために<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">どのHTTPリクエストメソッド</a>を使うべきかをブラウザに伝えます。
+GETとPOSTのリクエストメソッドが、あなたが最もよく使うことになる2つです。</p>
+<p>サーバーから何かを取得したいときにGETを使います。例えば、Googleは検索を行う際にGETリクエストを使います。なぜならそれは検索結果を<em>取得する(gets)</em>からです。</p>
+<p>POSTは、サーバー上の何かを変更したいとき、例えばユーザーがアカウントを作成したり、ウェブサイトで支払いを行ったりするときに使われます。</p>
+<p>form要素を作成するためのマークアップは、次のようになります:</p>
+<pre class="highlight"><code class="language-html">&lt;form action="example.com/path" method="post"&gt;
+
+&lt;/form&gt;</code></pre>
+<h3 id="form-controls">フォームコントロール</h3>
+<p>ユーザーデータの収集を始めるには、フォームコントロール要素を使う必要があります。これらは、テキストボックス、ドロップダウン、チェックボックス、ボタンなど、ユーザーがフォーム上でやり取りするすべての要素です。以降のいくつかのセクションでは、あなたが最も一般的に使うことになるフォームコントロールのいくつかを探っていきます。</p>
+<h3>input要素</h3>
+<p>input要素は、すべてのフォームコントロール要素の中で最も汎用性の高いものです。<code>type</code>属性を受け付け、これがブラウザにどんな<em>種類</em>のデータを期待すべきか、input要素をどう描画すべきかを伝えます。</p>
+<p>テキスト入力は次のようになります:</p>
+<pre class="highlight"><code class="language-html">&lt;form action="example.com/path" method="post"&gt;
+  &lt;input type="text"&gt;
+&lt;/form&gt;</code></pre>
+<p>テキスト入力はどんなテキストの入力も受け付けます。例えば、これを使ってユーザーの名前や苗字のようなものを収集できます。</p>
+<h4>ラベル</h4>
+<p>入力だけでは、ユーザーがどんな種類のデータを提供すべきか分からないため、あまり役に立ちません。その代わり、入力にラベルを付けて、ユーザーにどんな種類のデータを入力することが期待されているかを伝えることができます。</p>
+<p>ラベルを作成するには、<code>&lt;label&gt;</code>要素を使います。ラベルに表示したいテキストは、その開始タグと終了タグの間に置きます:</p>
+<pre class="highlight"><code class="language-html">&lt;form action="example.com/path" method="post"&gt;
+  &lt;label for="first_name"&gt;First Name:&lt;/label&gt;
+  &lt;input type="text" id="first_name"&gt;
+&lt;/form&gt;</code></pre>
+<p>ラベルは<code>for</code>属性を受け付け、これを特定の入力と関連付けます。ラベルと関連付けたい入力には、ラベルの<code>for</code>属性と同じ値を持つ<code>id</code>属性が必要です。</p>
+<p>ラベルが入力と関連付けられていてクリックされると、その入力にカーソルがフォーカスし、ユーザーがデータを入力する準備が整います。これは、支援技術に頼っているユーザーにとって、私たちのフォームをよりアクセシブルにするのに役立ちます。</p>
+<h4>placeholder属性</h4>
+<p>フォーム要素に何を入力すべきかをユーザーに案内するために、入力フィールドにプレースホルダーテキストを含めることができます。</p>
+<p>これは、入力に<code>placeholder</code>属性を追加することで行います。値は、入力に表示したい<em>プレースホルダー</em>テキストになります:</p>
+<pre class="highlight"><code class="language-html">&lt;label for="first_name"&gt;First Name:&lt;/label&gt;
+&lt;input type="text" id="first_name" placeholder="Bob..."&gt;</code></pre>
+<p>プレースホルダーテキストを使って、テキストがどう入力・フォーマットされるべきかを示してください。</p>
+<h4 id="the-name-attribute">name属性</h4>
+<p>入力フィールドに入力されたデータが何を表すのかをユーザーが理解できるように、ラベルを使う必要があります。それと同じように、私たちがデータを送信するバックエンドにも、それぞれのデータが何を表すのかを知らせる必要があります。</p>
+<p>これは、入力に<code>name</code>属性を追加することで行います:</p>
+<pre class="highlight"><code class="language-html">&lt;label for="first_name"&gt;First Name:&lt;/label&gt;
+&lt;input type="text" id="first_name" name="first_name"&gt;</code></pre>
+<p><code>name</code>属性は、フォームコントロールに入力されたデータが、送信後にどのデータを指すかの参照として機能します。これは、入力のための変数名のようなものだと考えることができます。フォームの入力には常に<code>name</code>属性を持たせるべきです。そうしないと、フォームが送信されたときに無視されてしまいます。</p>
+<p>これがどのようなものかをより深く理解するために、<a href="http://httpbin.org/">httpbin</a>にフォームを送信してみましょう。このサービスは、送信されたデータを確認できるレスポンスを送り返してくれます。以下のフォームに記入して送信をクリックしてください:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="dyVRMbq" data-preview="true" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/dyVRMbq">
+  form-basics-name-attribute</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>レスポンスから注目すべき出力は「form」オブジェクトです。次のようなものになるはずです:</p>
+<pre class="highlight"><code class="language-json">"form": {
+    "age": "33",
+    "first_name": "John",
+    "last_name": "Doe"
+  },</code></pre>
+<p>フォーム内のいくつかの入力フィールドの<code>name</code>属性を変更したり、その属性を完全に削除したりしてから、もう一度フォームを送信して、レスポンス内のフォームデータがどう変わるか見てみてください。</p>
+<h4>フォームの外でフォームコントロールを使う</h4>
+<p>HTMLが提供するフォームコントロールのどれでも、<code>&lt;form&gt;</code>要素の外で、たとえデータを送信できるバックエンドサーバーがない場合でも使うことができる、ということは言及する価値があります。</p>
+<p>例えば、ユーザーから何らかのデータを取得する入力を用意し、それをJavaScriptでページの別の場所に表示したい場合があるかもしれません:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="result" data-slug-hash="PoJjNYr" data-preview="true" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/PoJjNYr">
+  using-form-controls-outside-of-form</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>カリキュラムの後の方のプロジェクトで、このようなフォームコントロールからのデータを操作する必要が出てきます。</p>
+<h4>type属性</h4>
+<p><code>Email</code>入力は、メールアドレス専用の特殊なテキスト入力です。モバイルデバイスで@記号を含む異なるキーボードが表示され、メールアドレスの入力を簡単にしてくれるという点で、テキスト入力とは異なります。</p>
+<p>また、ユーザーが正しくフォーマットされたメールアドレスを入力したことも検証してくれますが、バリデーションについては後でさらに詳しく扱います。</p>
+<p>email入力を作成するには、<code>type</code>属性が"email"であるinput要素を使います:</p>
+<pre class="highlight"><code class="language-html">&lt;label for="user_email"&gt;Email Address:&lt;/label&gt;
+&lt;input type="email" id="user_email" name="email" placeholder="you@example.com"&gt;</code></pre>
+<p><code>Password</code>入力は、もう一つの特殊なテキスト入力です。入力されたデータを別の文字(通常はアスタリスク(*)や黒丸(•))でマスクし、入力された内容を誰にも見られないようにするという点で、通常のテキスト入力とは異なります。</p>
+<p>password入力は、<code>type</code>が"password"であるinput要素を使って作成できます:</p>
+<pre class="highlight"><code class="language-html">&lt;label for="user_password"&gt;Password:&lt;/label&gt;
+&lt;input type="password" id="user_password" name="password"&gt;</code></pre>
+<p><code>number</code>入力は数値のみを受け付け、ユーザーが入力しようとする他の文字はすべて無視します。</p>
+<p>number入力は、<code>type</code>属性が"number"であるinput要素を使って作成します:</p>
+<pre class="highlight"><code class="language-html">&lt;label for="amount"&gt;Amount:&lt;/label&gt;
+&lt;input type="number" id="amount" name="amount"&gt;</code></pre>
+<p>ユーザーから日付を収集するには、<code>date</code>入力を使うことができます。この入力は、日付選択カレンダーを描画することで、日付を選ぶ際のより良いユーザー体験を提供してくれるという点でユニークです。</p>
+<p>date入力を作成するには、<code>type</code>属性が"date"であるinput要素を使います:</p>
+<pre class="highlight"><code class="language-html">&lt;label for="dob"&gt;Date of Birth:&lt;/label&gt;
+&lt;input type="date" id="dob" name="dob"&gt;</code></pre>
+<h4>テキストエリア</h4>
+<p>厳密にはinput要素ではありませんが、text area要素は、ユーザーコメントやレビューのような複数行にまたがるテキストを受け付けられる入力ボックスを提供します。また、右下の角をクリックしてドラッグすることで、大きくしたり小さくしたりリサイズすることもできます。</p>
+<p>テキストエリアを作成するには、<code>&lt;textarea&gt;</code>要素を使います:</p>
+<pre class="highlight"><code class="language-html">&lt;textarea&gt;&lt;/textarea&gt;</code></pre>
+<p>input要素とは異なり、Textarea要素には終了タグがあります。これにより、テキストエリアに表示させたい初期コンテンツをラップできます:</p>
+<pre class="highlight"><code class="language-html">&lt;textarea&gt;Some initial content&lt;/textarea&gt;</code></pre>
+<p>Text area要素は、他のフォームコントロールにはないいくつかの独自の属性を受け付けます。それらは<code>rows</code>属性と<code>cols</code>属性です。これらを使うと、テキストエリアの初期の高さ(rows)と幅(cols)をコントロールできます:</p>
+<pre class="highlight"><code class="language-html">&lt;textarea rows="20" cols="60"&gt;&lt;/textarea&gt;</code></pre>
+<h3 id="selection-elements">選択要素</h3>
+<p>時には、あらかじめ定義されたリストからユーザーに値を選択させたい場合があります。これが、select要素が役立つ場面です。</p>
+<h4>セレクトドロップダウン</h4>
+<p>select要素は、ユーザーがオプションを選択できるドロップダウンリストを描画します。構文的には、select要素は順序なしリストと似たマークアップを持ちます。select要素は、選択可能なオプションであるoption要素をラップします。</p>
+<p>セレクトドロップダウンを作成するには、<code>&lt;select&gt;</code>要素を使います。select要素の中に表示したいオプションは、<code>&lt;option&gt;</code>要素を使って定義します:</p>
+<pre class="highlight"><code class="language-html">&lt;select name="Car"&gt;
+  &lt;option value="mercedes"&gt;Mercedes&lt;/option&gt;
+  &lt;option value="tesla"&gt;Tesla&lt;/option&gt;
+  &lt;option value="volvo"&gt;Volvo&lt;/option&gt;
+  &lt;option value="bmw"&gt;BMW&lt;/option&gt;
+  &lt;option value="mini"&gt;Mini&lt;/option&gt;
+  &lt;option value="ford"&gt;Ford&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+<p>すべてのoption要素は<code>value</code>属性を持つべきです(そうしないと、中のテキストコンテンツが使われます)。この値は、フォームが送信されたときにサーバーに送信されます。</p>
+<p>ブラウザが最初にフォームを描画するときにデフォルトで選択される要素を、オプションの一つに<code>selected</code>属性を与えることで設定できます:</p>
+<pre class="highlight"><code class="language-html">&lt;select name="Car"&gt;
+  &lt;option value="mercedes"&gt;Mercedes&lt;/option&gt;
+  &lt;option value="tesla"&gt;Tesla&lt;/option&gt;
+  &lt;option value="volvo" selected&gt;Volvo&lt;/option&gt;
+  &lt;option value="bmw"&gt;BMW&lt;/option&gt;
+  &lt;option value="mini"&gt;Mini&lt;/option&gt;
+  &lt;option value="ford"&gt;Ford&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+<p><code>&lt;optgroup&gt;</code>要素を使って、オプションのリストをグループに分けることもできます。optgroup要素は<code>label</code>属性を取り、ブラウザはこれを各グループのラベルとして使います:</p>
+<pre class="highlight"><code class="language-html">&lt;select name="fashion"&gt;
+  &lt;optgroup label="Clothing"&gt;
+    &lt;option value="t_shirt"&gt;T-Shirts&lt;/option&gt;
+    &lt;option value="sweater"&gt;Sweaters&lt;/option&gt;
+    &lt;option value="coats"&gt;Coats&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Foot Wear"&gt;
+    &lt;option value="sneakers"&gt;Sneakers&lt;/option&gt;
+    &lt;option value="boots"&gt;Boots&lt;/option&gt;
+    &lt;option value="sandals"&gt;Sandals&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;</code></pre>
+<h4>ラジオボタン</h4>
+<p>セレクトドロップダウンは、ユーザーに選んでもらいたいオプションの広範なリストがある場合に、ページ上のスペースを節約するのに優れています。しかし、選択肢が5個以下の小さなリストの場合は、ドロップダウンの裏に隠すのではなく、ページ上に表示する方が良いユーザー体験になることが多いです。</p>
+<p>この場合、ラジオボタンを使うことができます。ラジオボタンを使うと、ユーザーが一つを選べる複数のオプションを作成できます。ラジオボタンを作成するには、再びあの融通の利くinput要素を、<code>type</code>属性を"radio"にして使います:</p>
+<pre class="highlight"><code class="language-html">&lt;h1&gt;Ticket Type&lt;/h1&gt;
+&lt;div&gt;
+  &lt;input type="radio" id="child" name="ticket_type" value="child"&gt;
+  &lt;label for="child"&gt;Child&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;input type="radio" id="adult" name="ticket_type" value="adult"&gt;
+  &lt;label for="adult"&gt;Adult&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;input type="radio" id="senior" name="ticket_type" value="senior"&gt;
+  &lt;label for="senior"&gt;Senior&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+<p>一つのラジオボタンを選択してから別のものを選択すると、最初のものの選択が解除されます。ラジオボタンがこれを行う理由は、同じ<code>name</code>属性を持っているからです。これにより、ブラウザはこれらの要素が同じオプションのグループの一部であることを知ります。</p>
+<p><code>checked</code>属性を追加することで、デフォルトで選択されるラジオボタンを設定できます:</p>
+<pre class="highlight"><code class="language-html">&lt;h1&gt;Ticket Type&lt;/h1&gt;
+&lt;div&gt;
+  &lt;input type="radio" id="child" name="ticket_type" value="child"&gt;
+  &lt;label for="child"&gt;Child&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;input type="radio" id="adult" name="ticket_type" value="adult" checked&gt;
+  &lt;label for="adult"&gt;Adult&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;input type="radio" id="senior" name="ticket_type" value="senior"&gt;
+  &lt;label for="senior"&gt;Senior&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+<h4>チェックボックス</h4>
+<p>チェックボックスは、あらかじめ定義されたオプションのセットからユーザーが選択できるという点で、ラジオボタンと似ています。しかし、ラジオボタンとは異なり、一度に複数のオプションを選択できるようにします。</p>
+<p>チェックボックスを作成するには、<code>type</code>属性が"checkbox"であるinput要素を使います:</p>
+<pre class="highlight"><code class="language-html">&lt;h1&gt;Pizza Toppings&lt;/h1&gt;
+
+&lt;div&gt;
+  &lt;input type="checkbox" id="sausage" name="topping" value="sausage"&gt;
+  &lt;label for="sausage"&gt;Sausage&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;input type="checkbox" id="onions" name="topping" value="onions"&gt;
+  &lt;label for="onions"&gt;Onions&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;input type="checkbox" id="pepperoni" name="topping" value="pepperoni"&gt;
+  &lt;label for="pepperoni"&gt;Pepperoni&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;input type="checkbox" id="mushrooms" name="topping" value="mushrooms"&gt;
+  &lt;label for="mushrooms"&gt;Mushrooms&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+<p>何かをtrueにするかfalseにするかをユーザーに切り替えてもらいたい場合、単一のチェックボックスを使うこともできます。例えば、アカウントを作成する際にニュースレターに登録する場合などです:</p>
+<pre class="highlight"><code class="language-html">&lt;div&gt;
+  &lt;input type="checkbox" id="newsletter" name="news_letter"&gt;
+  &lt;label for="newsletter"&gt;Send me the news letter&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+<p><code>checked</code>属性を与えることで、ページ読み込み時にデフォルトでチェックされるようにチェックボックスを設定できます:</p>
+<pre class="highlight"><code class="language-html">&lt;div&gt;
+  &lt;input type="checkbox" id="newsletter" name="news_letter" checked&gt;
+  &lt;label for="newsletter"&gt;Send me the news letter&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+<h3 id="buttons">ボタン</h3>
+<p>button要素は、ユーザーがフォームを送信したり他のアクションをトリガーしたりするためにやり取りできる、クリック可能なボタンを作成します。</p>
+<p>ボタンを作成するには、<code>&lt;button&gt;</code>要素を使います。ボタンの中に表示したいコンテンツやテキストは、開始タグと終了タグの中に入れます:</p>
+<pre class="highlight"><code class="language-html">&lt;button&gt;Click Me&lt;/button&gt;</code></pre>
+<p>button要素はまた、ブラウザにどんな種類のボタンを扱っているかを伝える<code>type</code>属性も受け付けます。私たちが使える3種類のボタンがあります。</p>
+<h4>送信ボタン</h4>
+<p>ユーザーがフォームへの入力を終えたら、それを送信する方法が必要になります。これには専用のボタンがあります。送信ボタンです。送信ボタンがクリックされると、それが含まれているフォームを送信します。<code>type</code>属性は、<code>type</code>が指定されていないか提供された値が無効な場合、デフォルトでsubmitという値を持ちます。</p>
+<p>送信ボタンを作成するには、<code>type</code>属性が"submit"であるbutton要素を使います:</p>
+<pre class="highlight"><code class="language-html">&lt;button type="submit"&gt;Submit&lt;/button&gt;</code></pre>
+<h4>リセットボタン</h4>
+<p>リセットボタンは、ユーザーがフォームに入力したすべてのデータをクリアし、フォーム内のすべての入力を最初の状態に戻します。</p>
+<p>リセットボタンを作成するには、<code>type</code>属性が"reset"であるbutton要素を使います:</p>
+<pre class="highlight"><code class="language-html">&lt;button type="reset"&gt;Reset&lt;/button&gt;</code></pre>
+<h4>汎用ボタン</h4>
+<p>3つ目で最後のボタンのタイプは、何にでも使える汎用ボタンです。インタラクティブなUIを作成するためにJSと一緒によく使われます。</p>
+<p>汎用ボタンを作成するには、<code>type</code>属性が"button"であるbutton要素を使います:</p>
+<pre class="highlight"><code class="language-html">&lt;button type="button"&gt;Click to Toggle&lt;/button&gt;</code></pre>
+<div class="lesson-note lesson-note--tip">
+<h4>フォーム内でのボタンのtypeのデフォルト</h4>
+<p><code>type</code>の値がsubmit(たまたまデフォルトの値でもあります)であるフォーム内のボタンは、常に新しいリクエストを試みてデータをサーバーに送り返そうとする、ということを覚えておくことが重要です。したがって、データを送信すること以外の目的でフォーム内で使われるボタンについては、フォーム送信の意図しない影響を避けるために、常に<code>type</code>属性を指定すべきです。</p>
+</div>
+<h3>フォーム要素を整理する</h3>
+<p>ユーザーに入力してもらいたいデータに対して正しい入力を使うことは、フォームをユーザーフレンドリーにする上で大きな効果があります。しかし、より大きなフォームでは、記入すべき入力がたくさんあると、ユーザーは簡単に圧倒され、やる気をなくしてしまうことがあります。</p>
+<p>幸いなことに、HTMLにはフォームを視覚的に区別され消化しやすいセクションに整理するのを簡単にしてくれる、いくつかの要素が用意されています。</p>
+<h4>fieldset要素</h4>
+<p>fieldset要素は、関連するフォーム入力を一つの論理的な単位にグループ化できるコンテナ要素です。</p>
+<p>fieldsetを作成するには、<code>&lt;fieldset&gt;</code>要素を使います。グループ化したいフォーム入力は、fieldsetの開始タグと終了タグの中に入れます:</p>
+<pre class="highlight"><code class="language-html">&lt;fieldset&gt;
+  &lt;label for="first_name"&gt;First Name&lt;/label&gt;
+  &lt;input type="text" id="first_name" name="first_name"&gt;
+
+  &lt;label for="last_name"&gt;Last Name&lt;/label&gt;
+  &lt;input type="text" id="last_name" name="last_name"&gt;
+&lt;/fieldset&gt;</code></pre>
+<h4>legend</h4>
+<p>legend要素は、field setに見出しやキャプションを与え、ユーザーが入力のグループが何のためのものかを見られるようにするために使われます。</p>
+<p>legendを作成するには、<code>&lt;legend&gt;</code>要素を使い、表示したいテキストを開始タグと終了タグの中に入れます。legendは常に、fieldsetの開始タグの直後に来るべきです:</p>
+<pre class="highlight"><code class="language-html">&lt;fieldset&gt;
+  &lt;legend&gt;Contact Details&lt;/legend&gt;
+
+  &lt;label for="name"&gt;Name:&lt;/label&gt;
+  &lt;input type="text" id="name" name="name"&gt;
+
+  &lt;label for="phone_number"&gt;Phone Number:&lt;/label&gt;
+  &lt;input type="tel" id="phone_number" name="phone_number"&gt;
+
+  &lt;label for="email"&gt;Email:&lt;/label&gt;
+  &lt;input type="email" id="email" name="email"&gt;
+&lt;/fieldset&gt;
+
+&lt;fieldset&gt;
+  &lt;legend&gt;Delivery Details&lt;/legend&gt;
+
+  &lt;label for="street_address"&gt;Street Address:&lt;/label&gt;
+  &lt;input type="text" id="street_address" name="street_address"&gt;
+
+  &lt;label for="city"&gt;City:&lt;/label&gt;
+  &lt;input type="text" id="city" name="city"&gt;
+
+  &lt;label for="zip_code"&gt;Zip Code:&lt;/label&gt;
+  &lt;input type="text" id="zip_code" name="zip_code"&gt;
+&lt;/fieldset&gt;</code></pre>
+<p>これらの要素の一般的な使用例は、fieldsetを使ってラジオボタンをグループ化し、legendを使ってそれぞれのオプションが最終的に何のためのものかをユーザーに伝えることです:</p>
+<pre class="highlight"><code class="language-html">&lt;fieldset&gt;
+  &lt;legend&gt;What would you like to drink?&lt;/legend&gt;
+
+  &lt;div&gt;
+    &lt;input type="radio" name="drink" id="coffee" value="coffee"&gt;
+    &lt;label for="coffee"&gt;Coffee&lt;/label&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;input type="radio" name="drink" id="tea" value="tea"&gt;
+    &lt;label for="tea"&gt;Tea&lt;/label&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;input type="radio" name="drink" id="soda" value="soda"&gt;
+    &lt;label for="soda"&gt;Soda&lt;/label&gt;
+  &lt;/div&gt;
+&lt;/fieldset&gt;</code></pre>
+<h3 id="a-note-on-styling-forms">フォームのスタイリングについての注意</h3>
+<p>次に続く課題のセクションで、フォームのスタイリングを深く掘り下げるリソースを提供します。しかし、課題に入る前に、HTMLフォームをスタイリングすることのいくつかの課題と、それらをどう乗り越えられるかについて話しておくべきでしょう:</p>
+<h4>デフォルトのブラウザスタイル</h4>
+<p>各ブラウザはフォームコントロールに独自のデフォルトスタイルを持っており、使っているブラウザによってユーザーにとってフォームの見た目が視覚的に異なるものになります。</p>
+<p>すべてのブラウザで一貫したデザインにするためには、これらのデフォルトスタイルを上書きし、自分たちでスタイリングする必要があります。</p>
+<h4>スタイリングが厄介、あるいはまったく不可能なフォームコントロール</h4>
+<p>text、email、password、テキストエリアのようなテキストベースのフォームコントロールは、比較的スタイリングが簡単です。これらは他のHTML要素と同じように動作し、ほとんどのCSSプロパティを使うことができます。</p>
+<p>ラジオボタンやチェックボックス用にカスタムスタイルを作成しようとすると、もっと厄介になります。しかし、<a href="https://moderncss.dev/pure-css-custom-checkbox-style">カスタムチェックボックススタイリングについてのこのガイド</a>のように、望むデザインを達成するために使えるガイドがたくさん出回っています。また、ラジオボタンやチェックボックスのスタイリングをずっと簡単にするための<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/accent-color">新しいCSSプロパティ</a>も、最近になって利用可能になりました。</p>
+<p>他の要素の特定の側面は、例えばカレンダーや日付ピッカーのように、まったくスタイリングが不可能なものもあります。これらにカスタムスタイルを適用したい場合は、JavaScriptでカスタムフォームコントロールを構築するか、既製のソリューションを提供してくれる多数のJavaScriptライブラリのいずれかを使う必要があります。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<h4>フォームの基本</h4>
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/Forms#introductory_tutorials">MDNの「Introductory Tutorials」(フォームについて)</a>を読んで、一緒に手を動かしてみてください。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/Forms#the_different_form_controls">MDNの「The Different Form Controls」ガイド</a>を読んで、一緒に手を動かしてみてください。</li>
+</ol>
+<h4>フォームのスタイリング</h4>
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/Forms#form_styling_tutorials">MDNのForm Styling Tutorials</a>を読んで、一緒に手を動かしてみてください。「Customizable select elements」と「Customizable select listbox」のチュートリアルは、まだ多くのブラウザでサポートされていない非常に新しいCSS機能に依存しているため、スキップしても構いません。</li>
+<li><a href="https://internetingishard.netlify.app/html-and-css/forms/index.html">internetingishardのフォームについてのガイド</a>を読んで、一緒に手を動かしてみてください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#the-form-element">form要素が何のためのものか、そして常に含めるべき2つの属性が何かを説明してください。</a></li>
+<li><a href="#form-controls">フォームコントロールが大まかに何であるかを説明してください。</a></li>
+<li><a href="#the-name-attribute"><code>name</code>属性は何のためのものですか?</a></li>
+<li><a href="#selection-elements">あらかじめ定義されたオプションをユーザーに選択させるために使える、3つの最も一般的なフォームコントロールは何ですか?</a></li>
+<li><a href="#buttons">HTMLにおける3種類のボタンは何ですか?</a></li>
+<li><a href="#a-note-on-styling-forms">フォームをスタイリングする際に最も難しい2つの側面は何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

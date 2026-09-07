@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landing Page</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Landing Page <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Build a complete landing page from a given web design.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>このプロジェクトでは、私たちが提供するデザインをもとに、ウェブページ全体を作成します。ここまでついてきていれば、これを達成するために必要なスキルは身についているはずですが、簡単ではないかもしれません!</p>
+<p>私たちが提供するデザインは、完成したウェブサイトの画像であり、以下の課題セクションにはフォントや色についての詳細も記載しています。</p>
+<p>何かを調べるためにGoogleを使ったり、前のレッスンに戻ったりすることを恐れ<em>ないで</em>ください。<strong>現実の世界では、プロの開発者も、何年もやってきたことについて<em>常に</em>Googleを使っています。</strong>この時点で、すべてを暗記していることは期待されていないので、心配しないでください。さらに、私たちのレッスンでまだ出会っていないかもしれない、いくつかの小さな詳細もあります。<em>これは意図的なものです。</em>これらの詳細は些細なものであり、簡単に検索できます(例:Google検索で<code>css rounded corners</code>)。</p>
+<p>プロジェクトをできる限りデザインに近づけてください。ただし、ピクセル単位で完璧にすることは気にしなくて構いません。さまざまなセクション間の正確なマージンを調べるために定規を取り出したりピクセル数を数えたりする必要はありません。この課題のポイントは、ゼロから何かを作成し、さまざまな要素を他の要素との相対的な位置関係において、だいたい正しい位置に配置することです。デザインでは実際には<code>margin: 48px</code>になっているところを<code>margin: 24px</code>にしてしまっても問題ありません。</p>
+<p><em>最後に</em>、このデザインに自分自身のコンテンツを自由に入れ替えて構いません。画像には意味のないダミーコンテンツが含まれていますが、架空のビジネスを考え出してこのページを自分らしくカスタマイズしたいのであれば、ぜひそうしてください!プレースホルダーには実際の画像を挿入し、色やフォントも少し自由にいじってみてください。</p>
+<div class="lesson-note">
+<h4>ウェブ上の画像についての注意</h4>
+<p>ウェブ上で見つけたどんな画像でも、それを使用する法的権利があるとは限りません。無料で見つけられる画像はたくさんありますが、使用する画像が実際に自分が使用してよいものであることを確認し、プロジェクトの中で画像の制作者にクレジットを表記するようにしてください。クレジットを表記する簡単な方法は、リポジトリのREADMEファイルに制作者の名前と連絡先情報を記載することです。</p>
+<p>ウェブ上で自由に使用できる画像を見つけるのに適した場所には、<a href="https://www.pexels.com/">Pexels</a>、<a href="https://pixabay.com/">Pixabay</a>、<a href="https://unsplash.com/">Unsplash</a>などがあります。</p>
+</div>
+<h3>プロジェクトのGitHubリポジトリをセットアップする</h3>
+<p>Recipesプロジェクトで行ったのと同じように、このプロジェクトの作業を始める前にgitリポジトリをセットアップしてください。GitとGitHubは、今後あなたのポートフォリオとして機能することになるので、すべてをそこに保管しておく必要があります!セットアップ方法を思い出す必要があれば、<a href="https://www.theodinproject.com/lessons/foundations-recipes">Recipesプロジェクト</a>を振り返ってみてください。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<p>早めに、こまめにコミットするのを忘れないでください<img alt="Commit Messageのレッスンを参照" src="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/commit-messages" />できます!</p>
+<ol>
+<li><a href="https://cdn.statically.io/gh/TheOdinProject/curriculum/81a5d553f4073e593d23a6ab00d50eef8620796d/foundations/html_css/project/imgs/01.png">完全なデザイン画像をダウンロード</a>して、これから作成するものを見てみましょう。フォント、色、サイズの一部は以下の通りです(お好みで自分自身のものを使っても構いません):
+   - フォント: <code>Roboto</code>(まだ持っていない場合は、このフォントをダウンロードしてインストールする必要があります)
+   - 暗い背景色(ヘッダー、ヒーローセクション、フッター): <code>#1F2937</code>
+   - ロゴのテキスト:<ul>
+<li>フォントサイズ: <code>24px</code></li>
+<li>色: <code>#F9FAF8</code></li>
+<li>ヒーローセクションのメインテキスト(「This website is awesome」):</li>
+<li>フォントサイズ: <code>48px</code></li>
+<li>色: <code>#F9FAF8</code></li>
+<li>ウェイト: <code>900</code></li>
+<li>ヒーローセクションのサブテキスト(「This website has some subtext...」)とヘッダーのリンク:</li>
+<li>フォントサイズ: <code>18px</code></li>
+<li>色: <code>#E5E7EB</code></li>
+<li>ボタンと「Call to action」の背景色: <code>#3882F6</code></li>
+<li>Informationの見出し:</li>
+<li>フォントサイズ: <code>36px</code></li>
+<li>色: <code>#1F2937</code></li>
+<li>ウェイト: <code>900</code></li>
+<li>引用:</li>
+<li>背景色: <code>#E5E7EB</code></li>
+<li>フォントサイズ: <code>36px</code></li>
+<li>色: <code>#1F2937</code></li>
+<li>ウェイト: <code>300</code></li>
+<li>フォントスタイル: <code>italic</code></li>
+</ul>
+</li>
+<li>このようなプロジェクトに取り組む方法はたくさんあり、白紙のHTMLドキュメントを見て何から始めればいいか分からなくなると、圧倒されてしまうことがあります。私たちからの提案は、一度に1つのセクションずつ取り組むことです。作成しているウェブサイトには4つの主なセクション(とフッター)があるので、1つを選び、次に進む前にかなり良い形に仕上げてください。上から始めるのは常に堅実な計画です。</li>
+<li>取り組んでいるセクションについては、スタイルを適用し始める前に、まずすべてのコンテンツをページに載せることから始めてください。つまり、HTMLを行い、<em>それから</em>CSSを行うということです。スタイリングを始めると、おそらくHTMLに戻る必要が出てきますが、最初から行ったり来たりすると、より時間がかかり、よりもどかしさを感じる原因になりかねません。(注:スタイルシートを複数使う必要はありません。このプロジェクトでは、1つのCSSファイルだけで十分です。)</li>
+<li>このページの要素の多くは、flexboxの演習で見たものと非常によく似ています……復習が必要であれば、遠慮なくそれらに戻ってください。</li>
+<li>このプロジェクトをレスポンシブにする必要は<strong>ありません</strong>。つまり、さまざまな画面サイズ、ズームレベル、モバイルデバイスに合わせてデザインを調整する必要はないということです。今のところは、通常のコンピューター画面で見栄えが良くなることだけに集中してください。さまざまな画面サイズへの対応方法は、後で学びます。</li>
+<li>完成したら、GitHubにプッシュするのを忘れないでください!</li>
+</ol>
+<h4>ウェブ上でプロジェクトを表示する</h4>
+<p>ウェブサイトを他の人と共有するには、<strong>GitHub Pagesを使ってデプロイする</strong>必要があります。このプロセスの完全な手順は、<a href="https://www.theodinproject.com/lessons/foundations-recipes#viewing-your-project-on-the-web">Recipesプロジェクト</a>のレッスンにあります。</p>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

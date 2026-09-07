@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Setting up Git</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Setting up Git <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">The Source Code Ambulance</p>
+  </div>
+  <div class="lesson-content">
+    <h3 id="introduction">イントロダクション</h3>
+<p><a href="https://git-scm.com/">Git</a>は非常に人気のあるバージョン管理システムです。TOPを通じてこのソフトウェアに非常に慣れ親しんでいくことになるので、今の時点で理解することにあまり心配しなくて大丈夫です。カリキュラムの後半には、Gitに焦点を当てたレッスンがたくさんあります。</p>
+<p><a href="https://github.com/">GitHub</a>は、優れたウェブインターフェースを通じて、Gitを使ってコードをアップロード、ホスティング、管理できるようにしてくれるサービスです。</p>
+<p>GitHubとGitは名前が似ていますが、同じものではなく、同じ会社が作ったものでもありません。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>Gitとは何か。</li>
+<li>GitHubとは何か。</li>
+<li>Gitをインストールし、設定すること。</li>
+<li>GitHubアカウントを作成すること。</li>
+<li>GitとGitHubアカウントを接続すること。</li>
+</ul>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<h4>Gitをインストールする</h4>
+<ol>
+<li>お使いのOSに応じて、以下の該当するGitインストールガイドに従ってください:
+   - <a href="https://github.com/TheOdinProject/curriculum/tree/main/foundations/installations/installation_guides/git/linux.md" title="LinuxへのGitインストール">Linux</a>
+   - <a href="https://github.com/TheOdinProject/curriculum/tree/main/foundations/installations/installation_guides/git/macos.md" title="macOSへのGitインストール">macOS</a>
+   - <a href="https://github.com/TheOdinProject/curriculum/tree/main/foundations/installations/installation_guides/git/chromeos.md" title="ChromeOSへのGitインストール">ChromeOS</a></li>
+</ol>
+<h4>GitとGitHubを設定する</h4>
+<ol>
+<li>
+<p><a href="https://github.com/">GitHub.com</a>にアクセスして、アカウントを作成しましょう!アカウント設定の途中でメールアドレスを尋ねられます。これは実在するメールアドレスである必要があり、デフォルトではあなたの貢献を識別するために使用されます。プライバシーを気にする場合、あるいは単にメールアドレスを公開したくない場合は、サインイン後に<a href="https://github.com/settings/emails">Email Settings</a>ページで以下の2つのチェックボックスに必ずチェックを入れてください:</p>
+<p><img alt="GitHubの非公開メール設定" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/725b80d126105d2f717697f97e7eaefb5f886c7b/foundations/installations/setting_up_git/imgs/01.png" /></p>
+<p>これら2つのオプションを有効にしておくことで、GitやGitHubを使う際に個人のメールアドレスが誤って公開されてしまうのを防げます。</p>
+<p><strong>Keep my email addresses private</strong>オプションの下にメールアドレスが表示されていることにも気づくかもしれません。これはあなたの非公開GitHubメールアドレスです。<strong>これを使うつもりであれば、次のステップでGitを設定する際に必要になるので、今のうちにメモしておいてください。</strong></p>
+</li>
+<li>
+<p>(任意) GitHubの二要素認証(2FA)を有効にしましょう。これは、ウェブサイトやアプリにログインする際に使われる追加のセキュリティ層です。2FAでは、ユーザー名とパスワードでログインした上で、自分だけが知っている、あるいはアクセスできる別の認証手段を提供する必要があります。</p>
+<pre><code>[GitHub 2FAのドキュメント](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-app)にアクセスし、設定手順に従ってください。ステップ1では、時間ベースのワンタイムパスワード(TOTP)アプリであるGoogle Authenticatorをお勧めします。[Google Account Help](https://support.google.com/accounts/answer/1066447)にアクセスし、`Android`または`iPhone &amp; iPad`をクリックして、ダウンロードとセットアップの手順に従ってください。
+
+&lt;div class="lesson-note lesson-note--warning" markdown=1&gt;
+
+#### 2FAの認証情報やアカウント復旧コードへのアクセスを失った場合
+
+セキュリティ上の理由により、二要素認証の認証情報を失ったり、アカウント復旧手段へのアクセスを失ったりした場合、GitHubサポートは二要素認証が有効なアカウントへのアクセスを復元することができません。
+</code></pre>
+</li>
+</ol>
+</div>
+<ol>
+<li>
+<p>Gitが正しく機能するためには、ローカルのGitユーザー(あなた)をGitHubに結びつけられるよう、自分が誰であるかをGitに伝える必要があります。チームで作業する場合、これによって、誰が何をコミットしたか、各行のコードを誰がコミットしたかを他の人が確認できるようになります。</p>
+<p>以下のコマンドでGitを設定します。引用符の中には必ず自分自身の情報を入力してください(ただし引用符自体は残してください!)。GitHubでメールアドレスを非公開にすることを選んだ場合は、ステップ1で確認した特別な非公開GitHubメールアドレスを使用してください。</p>
+<pre class="highlight"><code class="language-bash">git config --global user.name "Your Name"
+git config --global user.email yourname@example.com</code></pre>
+<p>例えば、GitHubでメールアドレスを非公開に設定した場合、2つ目のコマンドは次のようになります:</p>
+<pre class="highlight"><code class="language-bash">git config --global user.email 123456789+odin@users.noreply.github.com # Remember to use your own private GitHub email here.</code></pre>
+<p>GitHubは最近、新しいリポジトリのデフォルトブランチを<code>master</code>から<code>main</code>に変更しました。以下のコマンドを使って、Gitのデフォルトブランチを変更してください:</p>
+<pre class="highlight"><code class="language-bash">git config --global init.defaultBranch main</code></pre>
+<p>正しく機能しているかを確認するために、以下のコマンドを入力し、出力があなたの名前とメールアドレスに一致しているか確認してください。</p>
+<pre class="highlight"><code class="language-bash">git config --get user.name
+git config --get user.email</code></pre>
+<div class="lesson-note" markdown="1">
+<h4>macOSユーザー向け</h4>
+<p>以下の2つのコマンドを実行して、Finderでフォルダを見るときに自動的に作成される.DS_Storeファイルを無視するようGitに指示してください。.DS_Storeファイルはユーザーには見えず、そのフォルダのカスタム属性やメタデータ(サムネイルなど)を保持していますが、これを無視するようGitを設定していないと、うっとうしい.DS_Storeファイルがコミットに紛れ込んでしまいます。これらの各コマンドを、忘れずにターミナルにコピー&amp;ペーストしてください。</p>
+<pre class="highlight"><code class="language-bash">echo .DS_Store &gt;&gt; ~/.gitignore_global
+git config --global core.excludesfile ~/.gitignore_global</code></pre>
+</div>
+</li>
+<li>
+<p><span id="ssh-key"></span>SSHキーを作成しましょう。これは暗号学的に安全な識別子です。あなたのマシンを識別するために使われる、とても長いパスワードのようなものです。GitHubはSSHキーを使うことで、毎回ユーザー名とパスワードを入力しなくてもリポジトリにアップロードできるようにしてくれます。</p>
+<div class="lesson-note" markdown="1">
+<h4>複数のSSHキー</h4>
+<p>The Odin Projectを始める前に、別のマシンですでにGitHubとのSSHキーペアをセットアップ済みの場合、GitHubではアカウントに複数のキーペアを関連付けることができます。この手順をもう一度実行するだけで、別のキーペアをセットアップしてGitHubに登録できます。</p>
+</div>
+<p>まず、Ed25519アルゴリズムのSSHキーがすでにインストールされているかを確認する必要があります。以下をターミナルに入力し、出力を下の情報と照らし合わせて確認してください:</p>
+<pre class="highlight"><code class="language-bash">ls ~/.ssh/id_ed25519.pub</code></pre>
+<p>コンソールに「No such file or directory」というテキストを含むメッセージが表示された場合、まだEd25519 SSHキーを持っていないということなので、新しく作成する必要があります。そのようなメッセージがコンソールの出力に表示されなかった場合は、そのまま次のステップに進んで構いません。</p>
+<p>新しいSSHキーを作成するには、ターミナル内で以下のコマンドを実行してください。</p>
+<pre class="highlight"><code class="language-bash">ssh-keygen -t ed25519</code></pre>
+<p>生成されたキーの保存場所を尋ねられたら、そのまま<kbd>Enter</kbd>を押してください。</p>
+<p>次に、パスフレーズを尋ねられます。このパスフレーズは、コンピューター上に保存される秘密のSSHキーを暗号化するために使われ、これらのキーを使ってSSHを利用するたびにこのパスフレーズを入力する必要があります。パスフレーズを使わない場合、あなたのコンピューターにアクセスできる人なら誰でもその秘密鍵を読み取ることができ、あなたのすべてのGitHubリポジトリを変更できるようになってしまいます。希望する場合は入力してください。必須ではありません。パスフレーズを使わないことを選ぶ場合は、何も入力せずにそのまま<kbd>Enter</kbd>を押してください。</p>
+</li>
+<li>
+<p>さて、毎回パスワードを入力せずにコードをプッシュできるように、あなたのSSHキーが何であるかをGitHubに伝える必要があります。</p>
+<p>まず、GitHubがSSHキーを受け取る場所に移動します。GitHubにログインし、右上のプロフィール画像をクリックしてください。それから、ドロップダウンメニューの中の<code>Settings</code>をクリックします。</p>
+<p>次に、左側にある<code>SSH and GPG keys</code>をクリックします。それから、右上にある<code>New SSH Key</code>という緑色のボタンをクリックしてください。このSSHキーがどのデバイスのものか思い出せるよう、分かりやすい名前を付けましょう。例えば<code>linux-ubuntu</code>などです。次のステップを行う間、このウィンドウは開いたままにしておいてください。</p>
+<p>次に、公開SSHキーをコピーする必要があります。そのために、ファイルの内容をコンソールに読み出す<a href="http://www.linfo.org/cat.html"><code>cat</code></a>というコマンドを使います。(この場合、<code>.pub</code>という拡張子が重要であることに注意してください。)</p>
+<pre class="highlight"><code class="language-bash">cat ~/.ssh/id_ed25519.pub</code></pre>
+<p>コマンドの出力全体を選択してコピーしてください。上記の手順に従っていれば、出力はおそらく<code>ssh-ed25519</code>で始まり、あなたの<code>username@hostname</code>で終わっているはずです。</p>
+<p>では、ブラウザウィンドウでGitHubに戻り、コピーしたキーをキー欄に貼り付けてください。キーの種類は<code>Authentication Key</code>のままにして、<code>Add SSH key</code>をクリックします。これで完了です!SSHキーの追加に成功しました!</p>
+</li>
+<li>
+<p><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection?platform=linux">GitHubのSSH接続テストの手順</a>に従って、キーをテストしてください。ターミナルに表示されるフィンガープリントの出力が、<a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints">GitHubの4つの公開フィンガープリントのいずれか</a>と一致することを確認してください。</p>
+<p>ターミナルには次のような応答が表示されるはずです: <code>Hi username! You've successfully authenticated, but GitHub does not provide shell access.</code> GitHubがシェルアクセスを提供しないことを気にする必要はありません。このメッセージが表示されれば、SSHキーの追加に成功しており、先に進んで構いません。出力が正しく一致しない場合は、これらの手順をもう一度試すか、<a href="https://discord.gg/fbFCkYabZB">私たちのDiscordサーバー</a>に来て助けを求めてください。</p>
+</li>
+</ol>
+<h4>これで完了です!</h4>
+<p>どうだったか教えてください!基本的なインストールのセクションを完了しました。よくやりました!カリキュラムを進めていく中で、他にもインストールすべきツールが出てくるので、注意しておいてください!</p>
+<p>おそらく完全に手に負えないと感じ、自分が何をしているのかほとんど理解できなかったことでしょう。それは100%普通のことです。頑張ってください。あなたならできます!そして私たちがついています。</p>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#introduction">Gitとは何ですか?</a></li>
+<li><a href="#introduction">GitHubとは何ですか?</a></li>
+<li><a href="#ssh-key">Gitで設定しているのはどちらの認証方式ですか、SSHですかHTTPSですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

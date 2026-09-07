@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript Developer Tools</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">JavaScript Developer Tools <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Covers using the dev tools from the perspective of a JS developer</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ブラウザ内の開発者ツールの使い方を知っていることは、どんなウェブ開発者にとっても重要なスキルです。開発者ツールは、JavaScriptコードを実行したり、ページを更新することなくHTMLやCSSのスタイルを編集したり、パフォーマンスデータを確認したりするのに役立ちます。また、多くの時間も節約してくれます。始めるのはこれ以上ないほど簡単です。デバッグやHTML・CSSの作業のためにすでに使い慣れているはずなので、JavaScriptを書く際にそれらがどう役立つかを見ていきましょう。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>開発者ツールでウェブサイトの画面サイズを変更する。</li>
+<li>DOMを表示・変更する。</li>
+<li>JavaScriptをデバッグする。</li>
+<li>ブレークポイントを使用する。</li>
+<li>Elementsタブ内でHTMLを表示・編集する。</li>
+<li>Resourcesパネルを表示して、ウェブサイトで実行されているスクリプトを確認する。</li>
+<li>クラスにCSS疑似状態を追加する。</li>
+<li>CSSプロパティをアルファベット順に表示する。</li>
+<li>Chrome DevToolsで任意の要素のボックスモデルを表示・編集する。</li>
+<li>印刷モードでページを表示する。</li>
+<li>CSSクラスを有効化・無効化する。</li>
+<li>デバイスモードでメディアクエリをシミュレートする。</li>
+</ul>
+<h3 id="opening-devtools">DevToolsを開く</h3>
+<p>Chrome DevToolsメニューを開く方法は3つあります:</p>
+<ol>
+<li><code>Chromeメニュー</code> &gt; <code>その他のツール</code> &gt; <code>デベロッパー ツール</code>から</li>
+<li>ウェブページ上の任意の場所を右クリックし、<code>検証</code>を選択する</li>
+<li>キーボードショートカット<kbd>F12</kbd>、または<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>(Mac: <kbd>Opt</kbd> + <kbd>Cmd</kbd> + <kbd>C</kbd>)を使用する</li>
+</ol>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<p>Googleは以下のチュートリアルの必須セクションの一部を更新しており、いくつかの要素が変更されたり、もはや存在しなくなったりしていますが、それらが扱っている同じ機能やツールを使って引き続き学習を進めることができます。例えば、もうページ上に存在しないボタンを検証するよう求められることがあるかもしれませんが、それでも問題なく既存の要素を検証しながら進めることができます。</p>
+<ol>
+<li>JavaScript.infoの<a href="https://javascript.info/debugging-chrome">Chromeでのデバッグについてのチュートリアル</a>を完了させましょう。</li>
+<li>
+<p>Googleによる<a href="https://developer.chrome.com/docs/devtools/">Chrome DevToolsのドキュメント</a>にアクセスしましょう。以下のサブセクションは、あなたが開発者ツールを使う時間の95%を占める内容を扱っています。これはブラウザでのデバッグ方法についての認識を得るためのものなので、暗記する必要はありません。何か調べる必要があるときはいつでも遠慮なく見返してください:
+   - CSS</p>
+<ol>
+<li><a href="https://developer.chrome.com/docs/devtools/css/">View and change CSS</a></li>
+<li><a href="https://developer.chrome.com/docs/devtools/css/reference/">CSS features reference</a>
+   - <a href="https://developer.chrome.com/docs/devtools/dom/">Get Started With Viewing And Changing The DOM</a>
+   - JavaScript</li>
+<li><a href="https://developer.chrome.com/docs/devtools/javascript/breakpoints/">Different types of breakpoints</a></li>
+</ol>
+</li>
+<li>
+<p><a href="https://developer.chrome.com/docs/devtools/console/">Chrome DevToolsのコンソール概要</a>に目を通して、コンソールとその使い方に慣れましょう。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#opening-devtools">開発者ツールを開くにはどうすればよいですか?</a></li>
+<li><a href="https://developer.chrome.com/docs/devtools/device-mode/">開発者ツールを使ってウェブサイトの画面サイズを変更するにはどうすればよいですか?</a></li>
+<li><a href="https://developer.chrome.com/docs/devtools/javascript/breakpoints/">ブレークポイントとは何ですか?</a></li>
+<li><a href="https://developer.chrome.com/docs/devtools/javascript/breakpoints/#loc">ブレークポイントを設定するにはどうすればよいですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

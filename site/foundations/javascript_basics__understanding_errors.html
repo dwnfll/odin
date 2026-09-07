@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Understanding Errors</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Understanding Errors <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">In this lesson we will learn how to read error messages and understand how to resolve them.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>エラーメッセージを読んで理解することは、開発者としての必須条件です。一見すると、多くの初心者はエラーメッセージから尻込みしてしまいます。なじみのない用語が含まれているために「怖く」、理解しにくいものに見えるからです。</p>
+<p>しかし、エラーメッセージは開発者に知識の宝庫を提供してくれ、それを解決する方法について知る必要のあることをすべて教えてくれます!恐れることなくエラーメッセージや警告を解析できるようになれば、アプリケーションを効果的にデバッグし、他の人から有意義な助けを得て、エラーに直面したときに前進する力を自分自身に与えられるようになります。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>JavaScriptのエラーの種類を少なくとも3つ挙げる。</li>
+<li>エラーがどこから発生しているかを見つけるのに役立つ、エラーメッセージの2つの部分を特定する。</li>
+<li>エラーを調査し解決する方法を理解できるようになる。</li>
+</ul>
+<h3>エラーの構造</h3>
+<p>エラーとは、JS言語に組み込まれたオブジェクトの一種であり、名前(型)とメッセージで構成されます。エラーには、そのエラーの原因となっているコードを特定し、なぜこのエラーが発生しているのかを判断し、エラーを解決するのに役立つ重要な情報が含まれています。</p>
+<p>HTMLページにリンクされた<code>script.js</code>ファイルに、以下のコードを書いたとしましょう:</p>
+<pre class="highlight"><code class="language-javascript">const a = "Hello";
+const b = "World";
+
+console.log(c);</code></pre>
+<p>このコードは実行されますが、エラーを発生させます。専門用語では、これはエラーを「スロー(throw)」すると呼ばれます。エラーの最初の部分は、エラーの種類を表示します。これは、あなたが何に対処しているのかについての最初の手がかりを与えてくれます。さまざまなエラーの種類については、このレッスンの後半で詳しく学びます。この例では、<code>ReferenceError</code>が発生しています。</p>
+<p><img alt="参照エラーの例" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/175b5ef2a1b4758a7b75f4ef43d7e27203e5707b/foundations/javascript_basics/understanding_errors/imgs/00.png" /></p>
+<p><code>ReferenceError</code>は、現在のスコープ内で宣言および/または初期化されていない変数を参照したときにスローされます。私たちのケースでは、エラーメッセージは<code>c is not defined</code>(cは定義されていません)が原因でエラーが発生したことを説明しています。</p>
+<p>このタイプのさまざまなエラーは、何が<code>ReferenceError</code>を引き起こしているかに応じて異なるメッセージを持ちます。例えば、遭遇するかもしれない別のメッセージには<code>ReferenceError: can't access lexical declaration 'X' before initialization</code>があります。</p>
+<p>見て分かる通り、これは上記の元の<code>ReferenceError</code>とはまったく異なる理由を指し示しています。エラーの種類とエラーメッセージの両方を理解することが、なぜそのエラーを受け取っているのかを理解する上で極めて重要です。</p>
+<p>エラーの次の部分は、エラーが見つかるファイルの名前(この場合は私たちの<code>script.js</code>)と、行番号を教えてくれます。</p>
+<p>これにより、コード内の問題のある行に簡単に移動できます。ここでは、エラーは<code>script.js</code>の4行目から発生しており、これはエラーメッセージの下に<code>at script.js:4</code>というテキストのリンクとして表示されます。このリンクをクリックすると、ほとんどのブラウザは開発者ツールのSourcesタブで、コードの正確な行とスクリプトの残りの部分に移動します。</p>
+<p>ブラウザのコンソールは、エラーが発生している行の中の列(または文字)も表示することがあります。私たちの例では、これは<code>at script.js:4:13</code>になります。</p>
+<p>エラーのもう一つの重要な部分は<strong>スタックトレース</strong>です。これは、アプリケーション内でいつエラーがスローされたのか、そしてエラーに至るまでにどの関数が呼び出されたのかを理解するのに役立ちます。例えば、以下のコードがあるとしましょう:</p>
+<pre class="highlight"><code class="language-javascript">const a = 5;
+const b = 10;
+
+function add() {
+  return c;
+}
+
+function print() {
+  add();
+}
+
+print();</code></pre>
+<p>私たちの関数<code>print()</code>は<code>add()</code>を呼び出すはずで、<code>add()</code>は<code>c</code>という名前の変数を返しますが、これは現時点で宣言されていません。対応するエラーは以下の通りです:</p>
+<p><img alt="参照エラーのスタックトレース" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/284f0cdc998be7e4751e29e8458323ad5d320303/foundations/javascript_basics/understanding_errors/imgs/01.png" /></p>
+<p>スタックトレースは、以下のことを教えてくれます:</p>
+<ol>
+<li><code>add()</code>のスコープ内で<code>c is not defined</code>(cは定義されていません)であり、<code>add()</code>は5行目で宣言されている。</li>
+<li><code>add()</code>は9行目で宣言されている<code>print()</code>によって呼び出された。</li>
+<li><code>print()</code>自体は12行目で呼び出された。</li>
+</ol>
+<p>つまり、スタックトレースを使うことで、エラーの経緯をその発生源まで遡ることができ、ここではそれが<code>add()</code>の宣言です。</p>
+<h3>よくあるエラーの種類</h3>
+<p>これらは、あなたが遭遇することになる最も一般的なエラーのいくつかなので、理解しておくことが重要です。</p>
+<h4>構文エラー</h4>
+<p>構文エラーは、実行しようとしているコードが正しく、つまりJavaScriptの文法規則に従って書かれていない場合に発生します。例えば、次のようなコードです:</p>
+<pre class="highlight"><code class="language-javascript">function helloWorld() {
+  console.log "Hello World!"
+}</code></pre>
+<p>これは以下のエラーをスローします。<code>console.log()</code>のかっこを忘れているからです!</p>
+<p><img alt="構文エラーの例" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/284f0cdc998be7e4751e29e8458323ad5d320303/foundations/javascript_basics/understanding_errors/imgs/02.png" /></p>
+<h4>参照エラー</h4>
+<p>このレッスンの最初の例で参照エラーを扱いましたが、これらは、参照しようとしている変数が(現在のスコープ内に)存在しない、あるいはスペルが間違っているために発生する、ということを覚えておくのが重要です!</p>
+<h4 id="type-error">型エラー</h4>
+<p>これらのエラーは、いくつかの異なる理由でスローされます:</p>
+<p>MDNによると、<code>TypeError</code>は以下の場合にスローされることがあります:</p>
+<blockquote>
+<ul>
+<li>演算子や関数に渡されたオペランドや引数が、その演算子や関数が期待する型と互換性がない場合。</li>
+<li>変更できない値を変更しようとした場合。</li>
+<li>値を不適切な方法で使用しようとした場合。</li>
+</ul>
+</blockquote>
+<p>以下のように、1つのメッセージを作るために結合したい2つの文字列があるとしましょう:</p>
+<pre class="highlight"><code class="language-javascript">const str1 = "Hello";
+const str2 = "World!";
+const message = str1.push(str2);</code></pre>
+<p><img alt="型エラーの例" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/4ed59981b4ce2c60b5b83bf7415d3127b61821f5/foundations/javascript_basics/understanding_errors/imgs/03.png" /></p>
+<p>ここでは、<code>str1.push is not a function</code>というメッセージを伴う<code>TypeError</code>が発生します。これはよくあるエラーメッセージで、学習者を混乱させます。なぜなら、<code>.push()</code>が確かに関数であることを知っているかもしれないからです(例えば、以前<em>配列</em>に項目を追加するために使ったことがあれば)。</p>
+<p>しかし、それがポイントなのです---<code>.push()</code>はStringメソッドではなく、Arrayメソッドです。したがって、Stringメソッドとして見つけられる「関数ではない」ということになります。<code>.push()</code>を、適切なStringメソッドである<code>.concat()</code>に変更すれば、私たちのコードは意図通りに動作します!</p>
+<p><code>TypeError</code>に直面したときに心に留めておくべき良い注意点は、メソッドや操作を実行しようとしているデータ型について考えることです。おそらく、それがあなたの思っているものではないか、あるいはその操作やメソッドがその型と互換性がないことに気づくでしょう。</p>
+<h3 id="tips-for-resolving-errors">エラーを解決するためのヒント</h3>
+<p>この時点で、これらのエラーをどう解決すればよいのか疑問に思っているかもしれません。</p>
+<ol>
+<li>まず、エラーメッセージはあなたの敵ではなく味方であると理解することから始められます。エラーメッセージは、あなたのコードの何が間違っているのか、そしてエラーの原因を見つけるためにどの行を調べるべきかを<em>正確に</em>教えてくれます。エラーメッセージがなければ、コードをデバッグするのは<em>悪夢</em>でしょう---なぜなら、それでも動かないままなのに、なぜなのか分からないからです!</li>
+<li>さあ、エラーをGoogleで検索する時です!おそらく、StackOverflowやドキュメントで修正方法や説明を見つけられるでしょう。それ以外にも、なぜこのエラーを受け取っているのかについて、より明確に分かるようになります。</li>
+<li>デバッガーを使いましょう!前述の通り、デバッガーはより複雑なトラブルシューティングに最適であり、開発者にとって重要なツールです。ブレークポイントを設定したり、アプリケーションの実行中の任意の時点で任意の変数の値を確認したり、コードを1行ずつステップ実行したりなど、さまざまなことができます!これは非常に価値のあるツールであり、すべてのプログラマーがその使い方を知っておくべきです。</li>
+<li>コンソールを活用しましょう!<code>console.log()</code>はすばやいデバッグのための人気の選択肢です。より複雑なトラブルシューティングにはデバッガーを使う方が適切かもしれませんが、<code>console.log()</code>を使うのは、関数をステップ実行することなくすぐにフィードバックを得るのに最適です。<code>console.table()</code>や<code>console.trace()</code>など、他にも便利なメソッドがあります!</li>
+</ol>
+<h3 id="errors-vs-warnings">エラーと警告</h3>
+<p>最後に、多くの人は警告に遭遇すると、それをエラーとして扱ってしまいます。エラーは、あなたのプログラムや実行しようとしている何らかのプロセスの実行を止め、それ以上の動作を妨げます。一方、警告は、実行時に必ずしもプログラムをクラッシュさせるとは限らない、あるいはまったくクラッシュさせない潜在的な問題についての洞察を与えてくれるメッセージです!</p>
+<p>可能であれば、できるだけ早くこれらの警告に対処すべきですが、警告はエラーほど重大ではなく、情報提供的なものである可能性が高いです。警告は通常黄色で表示され、エラーは通常赤色で表示されます。これらの色は決まりというわけではありませんが、どのプラットフォームで遭遇するかにかかわらず、この2つの間には頻繁に視覚的な区別があります。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>さあ、ドキュメントに目を通す時です!MDNドキュメントから<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError">ReferenceError</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError">SyntaxError</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError">TypeError</a>について詳しく学びましょう。今すぐすべてのドキュメントを完全に理解する必要はありません。目標は、概念に慣れ親しむことです。例では「try...catch」文が使われており、これは「try」ブロック内のコードを実行します。エラーが発生した場合、それは自動的に「catch」ブロックによって捕捉されます。これにより、スクリプトを終了させてしまう前にエラーに対処でき、「catch」ブロック内でそれらを適切に処理できるようになります。今のところは、「try...catch」文が存在すること、そしてカリキュラムを進めていく中でそれが役立つようになることだけを覚えておいてください。</p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/What_went_wrong">「What went wrong? Troubleshooting JavaScript」</a>に取り組んでみましょう。意図的なエラーが含まれているスターターコードを必ずダウンロードしてください。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#type-error">TypeErrorが表示される理由として考えられる3つの理由は何ですか?</a></li>
+<li><a href="#errors-vs-warnings">エラーと警告の重要な違いは何ですか?</a></li>
+<li><a href="#tips-for-resolving-errors">エラーを解決するために使える方法の一つは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

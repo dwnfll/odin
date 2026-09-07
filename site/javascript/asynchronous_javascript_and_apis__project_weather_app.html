@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weather App</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Weather App <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Weather App</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>これまで話してきたすべてを使って、前のレッスンからのVisual Crossing APIを使った天気予報サイトを作成してください。特定の場所を検索でき、華氏か摂氏でデータを表示するかを切り替えられるべきです。</p>
+<p>データに基づいてページの見た目を変えるべきです。おそらく、背景の色を変えたり、天気を表す画像を追加したりすることによってです。(適切な天気関連のgifを見つけて表示するために、Giphy APIを使うことさえできます)。コードでpromiseかasync/awaitのどちらを使っても構いませんが、両方に慣れておくよう努めるべきです。</p>
+<h3>APIキー、シークレット、セキュリティ</h3>
+<p>すべてのAPIが無料というわけではなく、それらがどうセットアップされているかによっては、使用ごとにお金がかかることがあります。これにより、それらは、<strong>あなたの</strong>APIキーを使うことでお金を払わずにAPIを使おうとする人々にとって、格好の標的になります。それらはレート制限がかかっていることもあり、もし誰かがあなたのAPIキーにアクセスできれば、あなたの使用可能回数をすべて使い果たしてしまう可能性があります。この問題を防ぐ一つの方法は、APIキーをサーバーに保存し、そもそもそれをフロントエンドに送らないようにすることです。これはしばしば環境変数を使って行われ、そのキーをコードがデプロイされているサーバー上でのみ利用可能にします。</p>
+<p>APIキーとセキュリティについて話すとき、しばしば「クライアントを決して信頼するな」(クライアントはフロントエンドを意味します)という言葉を耳にするでしょう。多くの場合、これはクライアント<em>から</em>来るデータが有効であると信頼してはいけないという意味ですが、それはまた、私たちがクライアント<em>に</em>送るものは何も信頼できないという意味でもあります。このため、APIキーを漏洩させると、GitHubは、あなたがAPIキーを公開してコミットしたことを警告してくれます。このプロジェクトに従い、実際にAPIキーを露出させた後、GitHubがこのアラートを送ってくることに気づくかもしれません。これは、このAPIキーが公開されているものであり、それを露出させても何の影響もないため、このプロジェクトでは完全に問題ありません。これは、<em>すべての</em>キーがこのようなものだという意味ではありません。後のバックエンドのコースで、これらのトピックを安全に扱う方法を学びます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>JavaScriptファイルとCSSファイルへの適切なリンクを含む、空のHTMLドキュメントをセットアップしてください。</li>
+<li>APIにアクセスする関数を書いてください。場所を受け取り、その場所の天気データを返せる関数が欲しいところです。今のところは、単にその情報を<code>console.log()</code>してください。</li>
+<li>APIから取得しているJSONデータを<em>処理</em>し、あなたのアプリに必要なデータだけを持つオブジェクトを返す関数を書いてください。</li>
+<li>ユーザーが自分の場所を入力でき、天気情報を取得できるフォームをセットアップしてください(まだ単に<code>console.log()</code>するだけです)。</li>
+<li>華氏か摂氏で温度データを表示するトグルと共に、あなたのウェブページに情報を表示してください。
+   - その必要はありませんが、天気アイコンを表示したい場合、インポートすべきものがたくさんあるかもしれないので、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import">動的インポート</a>を見てみてください。インポートのないプレーンなテンプレート文字列とは異なり、<a href="https://webpack.js.org/api/module-methods/#dynamic-expressions-in-import">Webpackは動的インポートを読み取り</a>、それでも関連するすべてのアセットをバンドルできます。</li>
+<li>好きなスタイリングを追加してください!</li>
+<li>オプション: フォームが送信されてからAPIから情報が返ってくるまでの間表示される「読み込み中」コンポーネントを追加してください。DevToolsを使ってネットワーク速度をシミュレートしてください。</li>
+<li>その力作をGitHubにプッシュして、以下であなたの解決策を共有してください!</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

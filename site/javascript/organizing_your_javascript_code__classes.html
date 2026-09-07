@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classes</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Classes <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Classes</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>JavaScriptには、JavaやRubyのような他のオブジェクト指向言語と同じ意味でのクラスは<em>ありません</em>。しかし、ES6では、<code>class</code>キーワードを使うオブジェクト作成のための構文が導入され<em>ました</em>。これは基本的に、コンストラクタのレッスンで学んだオブジェクトコンストラクタとプロトタイプに<em>ほとんど</em>似た、新しい構文です。</p>
+<p>歴史的に、特にES6がリリースされた当時、class構文がまさにJavaのような言語のクラスのように見えるという理由で、ちょっとした論争がありました。JavaScriptのclass構文はシンタックスシュガーのように見えますが、オブジェクトコンストラクタやプロトタイプとは異なる、いくつかの独自の性質を持っています。とはいえ、構文が異なっていても、根底にある仕組みは変わっていません(古典的な継承が行われているわけではありません)。しかし、この構文がこれらのオブジェクトで<em>実際に</em>何が起きているのかについてそれほど明示的ではないため、しばしば人々を混乱させます。</p>
+<p>かなりの時間が経ち、今ではclass構文は多くのコードベースに存在しています。ここで学ぶべき新しい仕組みはそれほど多くなく、主にほとんど馴染みのある概念のための新しい構文だけです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>オブジェクトコンストラクタとクラスの違いを説明します。</li>
+<li>getterとsetterが何かを説明します。</li>
+<li>基本的なクラス構文を説明します。</li>
+<li>クラスで継承を使います。</li>
+<li>プライベートなクラスのフィールドとメソッドを実装する方法を説明します。</li>
+<li>staticなプロパティとメソッドが何かを説明します。</li>
+</ul>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://javascript.info/property-accessors">getterとsetter</a>について読んでください(「accessor descriptors」のセクションについては、以前扱っていないので心配しなくて構いません)。この記事ではまだクラスを示していませんが、クラスも(<code>Object.defineProperty</code>を使わずに)同じ構文でgetterとsetterを使うことができます。</li>
+<li>クラス構文の概要については、JavaScript.infoの<a href="https://javascript.info/class">クラス構文の入門</a>を読んでください。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">MDNのクラスについてのドキュメント</a>は、いつも通り、もう少し深く掘り下げるための素晴らしいリソースです。個々の構文機能はたくさんありますが、これらは時間をかけて探っていくことができます。いつも通り、ここで今すぐドキュメントを読んだだけで何かを暗記する必要はありません。少し見ておくとよい機能には、次のようなものがあります:
+   - <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends">クラスを拡張する</a>(例えば、Personクラスを拡張するPlayerクラスを持ち、<code>Person.prototype</code>をプロトタイプチェーンに追加するようなこと)。
+   - <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields">プライベートプロパティ</a>。これにより、ファクトリー関数のプライベート変数のように、クラスの外からアクセスできないプロパティやメソッドを持つことができます。
+   - <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static">staticなプロパティとメソッド</a>。これらは、クラスのインスタンスにではなく、クラス自体にアクセスされるプロパティやメソッド(パブリックまたはプライベート)です。これは、一部の文字列メソッドが文字列自体のインスタンスにアクセスされる(例えば<code>someString.slice(0, 5)</code>)のに対し、一部のメソッドはStringコンストラクタに直接呼び出される(例えば<code>String.fromCharCode(79, 100, 105, 110)</code>)のと似ています。</li>
+</ol>
+<h4>練習</h4>
+<p>あなたの<a href="https://www.theodinproject.com/lessons/node-path-javascript-library">Libraryプロジェクト</a>に戻り、単なるコンストラクタの代わりに<code>class</code>を使うようにリファクタリングしてください。新しい機能に取り組むために、<a href="https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors">Revisiting Rock Paper Scissors</a>で学んだgitのブランチワークフローを使うのを忘れないでください。このように作業することに慣れておくべきです!</p>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://javascript.info/class#not-just-a-syntactic-sugar">オブジェクトコンストラクタとクラスの間にはどんな違いがありますか?</a></li>
+<li><a href="https://javascript.info/property-accessors">getterとsetterとは何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#inheritance">クラスで継承はどう使われますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields">プライベートなクラスの機能にはどのようなものがありますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static">staticなプロパティとは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Class Based Components</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Class Based Components <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Class Based Components</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>All the components so far have been functional in style and syntax. This is common now, but you will see a different <code>class</code> based syntax too. In this lesson, we explore how a class-based component is written and how concepts like props and state are used in one.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>How class components are written.</li>
+<li>How to use props and state in class components.</li>
+<li>Uses of the <code>this</code> keyword in class components.</li>
+</ul>
+<h3>Historical React component patterns</h3>
+<p>In your previous lessons, you have already been introduced to functional components, and the basic patterns in which components get written nowadays. However, React components did not look this way when React was introduced.</p>
+<p>If you look into any older React codebase, you'll notice a lot of classes. These are known as class-based components. Prior to February 2019, functional components were also called state-less, as there was no way to manage state in them. This was changed when hooks were introduced, leading to less verbose and 'neater' components.</p>
+<p>In your career, chances are, you will be dealing with legacy code, so there will be days where you would be dealing with class components. Let's peek into the intricacies of a class-based component, and how they work.</p>
+<h3>Building a class component</h3>
+<p>As we already know about functional components, let us build a class-based component from a functional one. Usually, you will want to divide the contents of a component, like the one we use, into smaller, reusable components, but for the purposes of this exercise, we will stick to everything in one component.</p>
+<p>Firstly, go and fork then clone our <a href="https://github.com/TheOdinProject/react-examples">react-examples repo</a> if you have not already done so. <code>cd</code> into the <code>class-components/</code> directory, install dependencies with <code>npm install</code> then open the dev server with <code>npm run dev</code>. You'll see we have two versions of the same feature - one made with a functional component, the other with a class component. Let's start by looking at the functional component inside <code>src/components/FunctionalInput.jsx</code>. It's a solid chunk of code so take a while, sip some water, and read it a couple of times.</p>
+<h4>The start of a class-based component</h4>
+<p>You'll see in <code>src/components/ClassInput.jsx</code> that we have a completed class-based version of it. Let's take a few steps back and walk through step by step how it was recreated from the functional version. The first thing it should have is, <em>drumroll</em>, a class! But it cannot be just another class, it will need to have certain properties that qualifies it as a React component. React provides us with all those properties on a class called <code>Component</code>, and we can write our components by extending the given class, as shown below:</p>
+<pre class="highlight"><code class="language-jsx">import { Component } from "react";
+
+class ClassInput extends Component {
+  // Some code goes here
+}
+
+export default ClassInput;</code></pre>
+<h4>The use of a constructor and props</h4>
+<p>A class is generally incomplete without a constructor, so let's add one.</p>
+<p>The props passed into this component are passed to the class's <code>constructor</code>. This, along with the <code>super</code> method, allows you to use the props in the context of <code>this</code>, which, in <em>this</em> case, refers to the component. If you’re really curious about what <code>super</code> actually does, check out the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super">MDN docs on the <code>super</code> keyword</a>.</p>
+<p>If your component doesn't have any props, it is fine to leave the <code>constructor</code> and the <code>super</code> with no arguments.</p>
+<pre class="highlight"><code class="language-jsx">import { Component } from "react";
+
+class ClassInput extends Component {
+  constructor(props) {
+    super(props);
+  }
+  // Some more code goes here
+}
+
+export default ClassInput;</code></pre>
+<h4>How you can render JSX</h4>
+<p>Now that the props can be accessed inside of the class component, the next issue is to find a way to render the JSX.</p>
+<p>Well, you can do that by returning your JSX from a <code>render</code> method! You can use the props that you declared in the constructor too!</p>
+<pre class="highlight"><code class="language-jsx">import { Component } from "react";
+
+class ClassInput extends Component {
+  constructor(props) {
+    super(props);
+  }
+  // Some more code goes here
+
+  render() {
+    return (
+      &lt;section&gt;
+        &lt;h3&gt;{this.props.name}&lt;/h3&gt;
+       {/* The input field to enter Todos */}
+        &lt;form&gt;
+          &lt;label htmlFor="task-entry"&gt;Enter a task: &lt;/label&gt;
+          &lt;input type="text" id="task-entry" name="task-entry" /&gt;
+          &lt;button type="submit"&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;h4&gt;All the tasks!&lt;/h4&gt;
+        {/* The list of all the Todos, displayed */}
+        &lt;ul&gt;&lt;/ul&gt;
+      &lt;/section&gt;
+    );
+  }
+}
+
+export default ClassInput;</code></pre>
+<p>Notice how the props get provided by <code>this</code>, unlike the functional component that we saw, initially?</p>
+<h4>How to use state and manage context</h4>
+<p>Next comes the state. In a class-based component, the state gets initialized as a part of the constructor.</p>
+<pre class="highlight"><code class="language-jsx">import { Component } from "react";
+
+class ClassInput extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      todos: [],
+      inputVal: "",
+    };
+  }
+  // Some more code goes here
+
+  render() {
+    return (
+      &lt;section&gt;
+        &lt;h3&gt;{this.props.name}&lt;/h3&gt;
+        &lt;form&gt;
+          &lt;label htmlFor="task-entry"&gt;Enter a task: &lt;/label&gt;
+          &lt;input type="text" id="task-entry" name="task-entry" /&gt;
+          &lt;button type="submit"&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;h4&gt;All the tasks!&lt;/h4&gt;
+        &lt;ul&gt;&lt;/ul&gt;
+      &lt;/section&gt;
+    );
+  }
+}
+
+export default ClassInput;</code></pre>
+<p>The pre-defined <code>setState</code> method can be used to set it again! Remember, state must not be mutated, so a new state must be set, every time.</p>
+<p><span id="the-importance-of-bind">Now, it is time to finish it off by adding all the functionality! It is nearly the same, except for a single difference. Whenever a method is declared, you must <code>bind</code> the <code>this</code> of the method to that of the class in order to work with it, as by default, the methods in a class are not bound to it. Usually, you do this inside the constructor and not at runtime [in the render method]. Alternatively, if you define your methods using the arrow function syntax, <code>this</code> is automatically bound to the class instance, and you can skip binding it in the constructor.</span></p>
+<pre class="highlight"><code class="language-jsx">import { Component } from "react";
+
+class ClassInput extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      todos: [],
+      inputVal: "",
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleInputChange(e) {
+    this.setState((state) =&gt; ({
+      ...state,
+      inputVal: e.target.value,
+    }));
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.setState((state) =&gt; ({
+      todos: state.todos.concat(state.inputVal),
+      inputVal: "",
+    }));
+  }
+
+  render() {
+    return (
+      &lt;section&gt;
+        &lt;h3&gt;{this.props.name}&lt;/h3&gt;
+        &lt;form onSubmit={this.handleSubmit}&gt;
+          &lt;label htmlFor="task-entry"&gt;Enter a task: &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task-entry"
+            name="task-entry"
+            value={this.state.inputVal}
+            onChange={this.handleInputChange}
+          /&gt;
+          &lt;button type="submit"&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;h4&gt;All the tasks!&lt;/h4&gt;
+        &lt;ul&gt;
+          {this.state.todos.map((todo) =&gt; (
+            &lt;li key={todo}&gt;{todo}&lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+      &lt;/section&gt;
+    );
+  }
+}
+
+export default ClassInput;</code></pre>
+<p>And there we go, we have successfully made a class-based component as easy as that!</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<p>Since we have a completed class-based component, let's add additional functionality to it.</p>
+<ol>
+<li>Implement a delete button for each task. The delete button should remove that specific task from the state array, thus deleting the task itself! Styling isn't a priority at this moment, but the button tag should be styled by default.</li>
+<li>Implement a new class component, <code>Count</code>, that displays the number of todos at any given time. Render it somewhere within the <code>ClassInput</code> component.</li>
+<li>Implement an edit button for each task. It should replace the todo with an input field, and change the button itself to 'Resubmit', so the edits can be saved. This is a comparatively harder task, kudos for when you finish it!</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#the-use-of-a-constructor-and-props">How do props get used in a class-based component?</a></li>
+<li><a href="#how-you-can-render-jsx">How does JSX get displayed?</a></li>
+<li><a href="#how-to-use-state-and-manage-context">How do we deal with state in a class-based component?</a></li>
+<li><a href="#the-importance-of-bind">How do you restore the context of <code>this</code> in a method?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

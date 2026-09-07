@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intro to CSS</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Intro to CSS <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Use CSS selectors to pick elements to style.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>前のレッスンでは、ウェブページの構造を決めるHTMLの書き方を学びました。次のステップは、その構造に何らかの<em>スタイル</em>を加えて見栄えを良くすることです。まさにこれこそがCSSの目的です。これから数レッスンでは、初めて学ぶ人にも、復習が必要な人にも、誰もが最初から知っておくべきだと私たちが考える、基礎的なCSSの概念に焦点を当てていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>CSSを使ってHTMLにスタイルを追加すること。</li>
+<li><code>class</code>属性と<code>id</code>属性の使い方。</li>
+<li>さまざまなCSSセレクタがどのように機能するか。</li>
+</ul>
+<h3 id="adding-css-to-html">HTMLにCSSを追加する</h3>
+<p>CSSルールの書き方を学ぶ前に、まずは<code>index.html</code>にCSSファイルをリンクしておき、このレッスンを通してすべての例を実際に試せるようにしましょう。</p>
+<p>HTMLにCSSを追加する方法は3つあります:</p>
+<ul>
+<li>外部CSS</li>
+<li>内部CSS</li>
+<li>インラインCSS</li>
+</ul>
+<p>今のところは外部CSSに焦点を当てます。これが最もよく使うことになる方法だからです。残りの2つの方法は、このレッスンの後半で扱います。</p>
+<h4>外部CSS</h4>
+<p>外部CSSは、あなたが最もよく出会うことになる方法であり、CSS用に別のファイルを作成し、それをHTMLの中でリンクすることを伴います。</p>
+<pre class="highlight"><code class="language-html">&lt;!-- index.html --&gt;
+
+&lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;</code></pre>
+<p>まず、HTMLファイルの開始<code>&lt;head&gt;</code>タグと終了<code>&lt;head&gt;</code>タグの中に、ボイド要素である<code>&lt;link&gt;</code>要素を追加します。<code>href</code>属性はCSSファイルの場所であり、この例ではHTMLファイルの場所から見た相対パスですが、他のどこかでホストされているスタイルシートへのURLのようなものでも構いません。上記の例では、両方のファイルが同じディレクトリにあることを前提としています。<code>rel</code>属性は必須であり、HTMLファイルとリンクされたファイルの間の関係を指定します。</p>
+<p>次に、<code>index.html</code>ファイルと同じディレクトリに、空の<code>styles.css</code>ファイルを作成します。次のセクションから、このファイルにCSSルールを追加し始めます。</p>
+<div class="lesson-note">
+<h4>CSSファイル名</h4>
+<p><code>styles.css</code>は、ここでファイル名として採用したものにすぎません。ファイルタイプが<code>.css</code>である限り、好きな名前を付けることができます。「style」や「styles」は、単に最もよく使われているというだけです。</p>
+</div>
+<p>この方法のメリットのいくつかは以下の通りです:</p>
+<ol>
+<li>HTMLとCSSが分離された状態を保てるため、HTMLファイルが小さくなり、見た目もすっきりします。</li>
+<li>CSSを編集する必要があるのは<em>1か所</em>だけで済みます。これは、似たようなスタイルを共有する多くのページを持つウェブサイトにとって特に便利です。</li>
+</ol>
+<p>CSSルールの書き方を学ぶ助けとして、まず(いつものボイラープレートを含む)<code>index.html</code>ファイルと、同じディレクトリに<code>styles.css</code>ファイルを作成し、上記で説明した通りに両方のファイルをリンクさせましょう。</p>
+<h3>基本構文</h3>
+<p>最も基本的なレベルでは、CSSはさまざまなルールで構成されています。各ルールは、セレクタ(これについては後ほど詳しく説明します)と、セミコロンで区切られた宣言のリストで構成されており、それぞれの宣言はプロパティと値のペアで構成されています。</p>
+<p><img alt="CSSの基本構文" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/05ce472eabf8e04eeb2cc9139e66db884074fd7d/foundations/html_css/css-foundations/imgs/00.jpg" /></p>
+<div class="lesson-note">
+<h4>セマンティックHTML</h4>
+<p><code>&lt;div&gt;</code>は基本的なHTML要素の一つです。これは空のコンテナです。一般的に、プロジェクトのコンテンツには<code>&lt;h1&gt;</code>や<code>&lt;p&gt;</code>のような他のタグを使うのが最善ですが、CSSについてさらに学んでいくと、必要なのが他の要素のためのただのコンテナである場合が多くあることに気づくでしょう。私たちの演習の多くは、シンプルさのために単純な<code>&lt;div&gt;</code>を使用しています。後のレッスンでは、さまざまなHTML要素をいつ使うのが適切かについて、さらに深く掘り下げます。</p>
+</div>
+<h3>セレクタ</h3>
+<p>セレクタとは、CSSルールが適用されるHTML要素のことを指し、各ルールについて実際に「選択」されているものです。以下のサブセクションはすべての利用可能なセレクタを網羅しているわけではありませんが、断然最もよく使われるものであり、あなたが最初に使いこなせるようになっておくべきものです。</p>
+<p>それぞれの例を進めながら、HTMLとCSSの両方をそれぞれのファイルに追加して結果を確認し、いろいろ試してみてください。</p>
+<h4>ユニバーサルセレクタ</h4>
+<p>ユニバーサルセレクタは(ドキュメント全体にあるような)あらゆるタイプの要素を選択します。「ユニバーサル(万能)」という名前の由来もそこにあり、その構文は単純なアスタリスクです。以下の例では、すべての要素に<code>color: purple;</code>スタイルが適用されます。</p>
+<pre class="highlight"><code class="language-css">* {
+    color: purple;
+}</code></pre>
+<h4 id="type-selectors">タイプセレクタ</h4>
+<p>タイプセレクタ(または要素セレクタ)は、指定された要素タイプのすべての要素を選択します。構文は単にその要素の名前です:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- index.html --&gt;
+
+&lt;div&gt;Hello, World!&lt;/div&gt;
+&lt;div&gt;Hello again!&lt;/div&gt;
+&lt;p&gt;Hi...&lt;/p&gt;
+&lt;div&gt;Okay, bye.&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-css">/* styles.css */
+
+div {
+  color: white;
+}</code></pre>
+<p>ここでは、3つの<code>&lt;div&gt;</code>要素すべてが選択されますが、<code>&lt;p&gt;</code>要素は選択されません。</p>
+<h4 id="class-selectors">クラスセレクタ</h4>
+<p>クラスセレクタは、指定されたクラスを持つすべての要素を選択します。クラスとは、HTML要素に付ける単なる属性です。HTMLタグにクラスを追加し、CSSでそれを選択する方法は次の通りです:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- index.html --&gt;
+
+&lt;div class="alert-text"&gt;Please agree to our terms of service.&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-css">/* styles.css */
+
+.alert-text {
+  color: red;
+}</code></pre>
+<p>クラスセレクタの構文に注目してください。ピリオドの直後に、大文字小文字を区別するclass属性の値が続きます。クラスは特定の要素に固有である必要はないため、同じクラスをいくつでも好きなだけ多くの要素に使用できます。</p>
+<div class="lesson-note">
+<h4>先頭が数字のクラス</h4>
+<p>クラス名が数字から始まる場合、クラスセレクタは機能しません。例えば、要素に<code>4lert-text</code>というクラス名を付けた場合、セレクタとして<code>.4lert-text</code>を使っても一致しません。</p>
+</div>
+<p>class属性でできるもう一つのことは、<code>class="alert-text severe-alert"</code>のように、1つの要素にスペース区切りのリストとして複数のクラスを追加することです。このように空白がクラス名の区切りとして使われるため、複数の単語からなる名前にスペースを使ってはならず、代わりにハイフンを使うべきです。</p>
+<h4>IDセレクタ</h4>
+<p>IDセレクタはクラスセレクタと似ています。指定されたIDを持つ要素を選択します。IDも、HTML要素に付けるもう一つの属性です。クラスとIDの大きな違いは、1つの要素は<strong>1つ</strong>のIDしか持てないということです。同じページ内でIDを繰り返すことはできず、空白を含めるべきではありません:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- index.html --&gt;
+
+&lt;div id="title"&gt;My Awesome 90's Page&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-css">/* styles.css */
+
+#title {
+  background-color: red;
+}</code></pre>
+<p>IDの場合、ピリオドの代わりにハッシュ記号を使い、その直後に大文字小文字を区別するid属性の値が続きます。よくある落とし穴は、必ずしも必要でなく、クラスで十分な場合でもid属性を使いすぎてしまうことです。詳細度を活用したり、現在のページ内のセクションにリンクをリダイレクトさせたりする場合など、IDを使うのが理にかなっている、あるいは必要なケースもありますが、IDの使用は<strong>控えめに</strong>(できれば使わないように)すべきです。</p>
+<div class="lesson-note">
+<h4>先頭が数字のID</h4>
+<p>クラスセレクタと同様に、IDセレクタも数字から始めることはできません。例えば、要素に<code>7itle</code>というIDを付けた場合、セレクタ<code>#7itle</code>は機能しません---これは有効なCSSセレクタではないためです。</p>
+</div>
+<h4 id="the-grouping-selector">グルーピングセレクタ</h4>
+<p>スタイル宣言の一部を共有する2つの要素グループがある場合はどうすればよいでしょうか?</p>
+<pre class="highlight"><code class="language-css">.read {
+  color: white;
+  background-color: black;
+  /* several unique declarations */
+}
+
+.unread {
+  color: white;
+  background-color: black;
+  /* several unique declarations */
+}</code></pre>
+<p><code>.read</code>セレクタと<code>.unread</code>セレクタは、どちらも<code>color: white;</code>と<code>background-color: black;</code>という宣言を共有していますが、それ以外にはそれぞれ独自の宣言をいくつか持っています。この繰り返しを減らすために、これら2つのセレクタをカンマ区切りのリストとしてグループ化できます:</p>
+<pre class="highlight"><code class="language-css">.read,
+.unread {
+  color: white;
+  background-color: black;
+}
+
+.read {
+  /* several unique declarations */
+}
+
+.unread {
+  /* several unique declarations */
+}</code></pre>
+<p>上記の両方の例(グループ化ありとなし)は同じ結果になりますが、2つ目の例は宣言の繰り返しを減らし、両方のクラスの<code>color</code>や<code>background-color</code>を一度に編集しやすくしてくれます。</p>
+<h4 id="chaining-selectors">セレクタのチェイン</h4>
+<p>セレクタを使うもう一つの方法は、区切りなしのリストとしてチェイン(連結)することです。次のようなHTMLがあるとしましょう:</p>
+<pre class="highlight"><code class="language-html">&lt;div&gt;
+  &lt;div class="subsection header"&gt;Latest Posts&lt;/div&gt;
+  &lt;p class="subsection preview"&gt;This is where a preview for a post might go.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p>何らかの独自のスタイルを持つ、<code>subsection</code>クラスを持つ2つの要素があります。しかし、<code>header</code>を2番目のクラスとしても持つ要素にだけ、別のルールを適用したい場合はどうすればよいでしょうか?その場合、CSSで両方のクラスセレクタを次のようにチェインさせることができます:</p>
+<pre class="highlight"><code class="language-css">.subsection.header {
+  color: red;
+}</code></pre>
+<p><code>.subsection.header</code>が行うのは、<code>subsection</code><em>と</em><code>header</code>の両方のクラスを持つ要素を選択することです。<code>.subsection</code>と<code>.header</code>のクラスセレクタの間にスペースがないことに注目してください。この構文は、基本的にどのようなセレクタの組み合わせをチェインする場合にも機能しますが、複数の<a href="#type-selectors">タイプセレクタ</a>をチェインする場合は例外です。</p>
+<p>これは、以下のようにクラスとIDをチェインするためにも使用できます:</p>
+<pre class="highlight"><code class="language-html">&lt;div&gt;
+  &lt;div class="subsection header"&gt;Latest Posts&lt;/div&gt;
+  &lt;p class="subsection" id="preview"&gt;
+    This is where a preview for a post might go.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p>上記の2つの要素を、以下のようにして組み合わせることができます:</p>
+<pre class="highlight"><code class="language-css">.subsection.header {
+  color: red;
+}
+
+.subsection#preview {
+  color: blue;
+}</code></pre>
+<p>一般的に、1つの要素は同時に2つの異なるタイプになることはできないため、複数のタイプセレクタをチェインすることはできません。例えば、<code>div</code>と<code>p</code>のような2つのタイプセレクタをチェインすると、<code>divp</code>というセレクタになってしまいますが、これは存在しない文字通りの<code>&lt;divp&gt;</code>要素を探そうとしてしまうため、機能しません。</p>
+<h4>子孫結合子</h4>
+<p>結合子(コンビネータ)を使うと、グループ化やチェインとは異なる形で複数のセレクタを組み合わせることができます。セレクタ間の関係を示すことができるからです。結合子には全部で4種類ありますが、今のところは<strong>子孫結合子</strong>だけを紹介します。これはCSSではセレクタ間の1つのスペースで表されます。<span id="descendant-combinator-description">子孫結合子は、直前のセレクタに一致する祖先(親、祖父母など)を持つ場合に限り、最後のセレクタに一致する要素を選択します。</span></p>
+<p>つまり、<code>.ancestor .child</code>のようなセレクタは、<code>ancestor</code>クラスを持つ祖先がある場合に、<code>child</code>クラスを持つ要素を選択します。別の考え方をすると、<code>child</code>は、そのネストがどれだけ深くても、<code>ancestor</code>の中にネストされている場合にのみ選択されるということです。以下の例をざっと見て、与えられたCSSルールに基づいてどの要素が選択されるか分かるか試してみてください:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- index.html --&gt;
+
+&lt;div class="ancestor"&gt;
+  &lt;div class="contents"&gt;
+    &lt;div class="contents"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="contents"&gt;&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-css">/* styles.css */
+
+.ancestor .contents {
+  /* some declarations */
+}</code></pre>
+<p>上記の例では、<code>contents</code>クラスを持つ最初の2つの要素(4行目と5行目)が選択されますが、最後の要素(9行目)は選択されません。あなたの予想は合っていましたか?</p>
+<p>1つのルールに追加できる結合子の数には、実際のところ制限がありません。したがって<code>.one .two .three .four</code>も完全に有効です。これは単に、<code>three</code>クラスを持つ祖先があり、さらにその祖先自身が<code>two</code>クラスを持つ祖先を持つ、といった具合の場合に、<code>four</code>クラスを持つ要素を選択するというだけのことです。しかし、このレベルのネストを必要とする要素を選択しようとするのは、一般的には避けたいところです。かなり分かりにくく長くなりがちですし、詳細度に関して問題を引き起こすこともあるからです。</p>
+<h3>最初に押さえておくべきプロパティ</h3>
+<p>常に使うことになる、あるいは少なくとも使うことの方が多いCSSプロパティがいくつかあります。これから、そうしたプロパティのいくつかを紹介しますが、これは決して完全なリストではありません。以下のプロパティを学べば、始めるのに十分です。すべてのプロパティにはデフォルトの初期値があり、あなたもブラウザも別の値を設定していない場合はその値が使われることに注意してください(各CSSプロパティのMDNドキュメントに詳細が記載されています)。</p>
+<h4>colorとbackground-color</h4>
+<p><code>color</code>プロパティは要素のテキストの色を設定し、<code>background-color</code>は、まあ、要素の背景色を設定します。これでもう終わりでしょうか?</p>
+<p>ほぼそうですが、まだあります。これらのプロパティはどちらも、いくつかの種類の値のうちの一つを受け付けます。よくあるのはキーワードで、<code>red</code>のような実際の色名や、<code>transparent</code>キーワードなどです。また、HEX、RGB、HSLの値も受け付けます。これらは、Photoshopのようなプログラムや、プロフィールの色をカスタマイズできるサイトを使ったことがあれば、馴染みがあるかもしれません。</p>
+<pre class="highlight"><code class="language-css">p {
+  /* hex example: */
+  color: #1100ff;
+}
+
+p {
+  /* rgb example: */
+  color: rgb(100, 0, 127);
+}
+
+p {
+  /* hsl example: */
+  color: hsl(15, 82%, 56%);
+}</code></pre>
+<p>アルファ値を追加することでこれらの色の不透明度をどう調整できるかを知るために、<a href="https://www.w3schools.com/cssref/css_colors_legal.asp">CSS Legal Color Values</a>をざっと見てみてください。</p>
+<h4>タイポグラフィの基本とtext-align</h4>
+<p><code>font-family</code>は、要素がどのフォントを使うかを決める、単一の値、あるいはカンマ区切りの値のリストです。各フォントは2つのカテゴリのいずれかに分類されます。<code>"Times New Roman"</code>のような「フォントファミリー名」(単語間に空白があるため引用符を使用します)か、<code>serif</code>のような「ジェネリックファミリー名」(ジェネリックファミリー名には引用符を使いません)です。</p>
+<p>ブラウザがリストの最初のフォントを見つけられない、あるいはサポートしていない場合、次のフォント、さらにその次のフォントというように、サポートされている有効なフォントが見つかるまで使用していきます。そのため、このプロパティには、最も使いたいフォントから始めて、フォールバックとしてジェネリックフォントファミリーで終わる値のリストを含めるのがベストプラクティスです。例:<code>font-family: "Times New Roman", serif;</code></p>
+<p><code>font-size</code>は、プロパティ名が示す通り、フォントのサイズを設定します。このプロパティに値を指定する際、その値に空白を含めてはいけません。例えば<code>font-size: 22px</code>では、「22」と「px」の間にスペースがありません。</p>
+<p><code>font-weight</code>は、フォントが指定されたウェイトをサポートしていることを前提に、テキストの太さに影響します。この値はキーワード、例えば<code>font-weight: bold</code>、あるいは1から1000までの数値、例えば<code>font-weight: 700</code>(<code>bold</code>と同等)にすることができます。通常、数値は100刻みで900までですが、これはフォントによって異なります。</p>
+<p><code>text-align</code>は、要素内でテキストを水平方向に揃えます。このプロパティの値には、ワープロソフトで見かけたことがあるかもしれない一般的なキーワードを使用できます。例:<code>text-align: center</code>。</p>
+<h4>画像のheightとwidth</h4>
+<p>heightとwidthを調整できる要素は画像だけではありませんが、今回は特に画像に焦点を当てたいと思います。</p>
+<p>デフォルトでは、<code>&lt;img&gt;</code>要素の<code>height</code>と<code>width</code>の値は、実際の画像ファイルのheightとwidthと同じになります。画像の縦横比を崩さずにサイズを調整したい場合は、<code>height</code>または<code>width</code>プロパティのどちらかを特定の値に設定し、もう一方のプロパティを<code>auto</code>に設定します。例えば:</p>
+<pre class="highlight"><code class="language-css">img {
+  height: auto;
+  width: 500px;
+}</code></pre>
+<p>例えば、ある画像の元のサイズがheight 500px、width 1000pxだった場合、上記のCSSを使用するとheightは250pxになります。</p>
+<p>これらのプロパティは、HTML内のheight属性とwidth属性と連携して機能します。画像ファイルの元の値からサイズを調整するつもりがない場合でも、画像要素にはこれらのプロパティとHTML属性の両方を含めるのが最善です。これらの値が含まれていないと、画像がページの他のコンテンツより読み込みに時間がかかる場合、最初はページ上のスペースをまったく占有しませんが、読み込みが完了した瞬間に他のページコンテンツが突然大きくずれてしまいます。<code>height</code>と<code>width</code>を明示的に指定しておくことで、これを防げます。画像が読み込まれるまでの間、ページ上にスペースが「予約」され、空白として表示されるからです。</p>
+<h3 id="additional-methods-for-adding-css-to-html">HTMLにCSSを追加するその他の方法</h3>
+<p>基本的な構文を学んだところで、(このレッスンの前半で学んだ外部の方法に加えて)HTMLにCSSを追加するさらに2つの方法があります。</p>
+<h4>内部CSS</h4>
+<p>内部CSS(または埋め込みCSS)は、完全に別のファイルを作成する代わりに、HTMLファイル自体の中にCSSを追加することを伴います。内部の方法では、すべてのルールを開始タグと終了タグの<code>&lt;style&gt;</code>タグのペアの中に置き、それをHTMLファイルの開始<code>&lt;head&gt;</code>タグと終了<code>&lt;head&gt;</code>タグの中に置きます。スタイルが<code>&lt;head&gt;</code>タグの中に直接置かれるため、外部の方法で必要だった<code>&lt;link&gt;</code>要素はもう必要ありません。</p>
+<p>これらの違いを除けば、構文は外部の方法とまったく同じです(セレクタ、波括弧、宣言)。</p>
+<pre class="highlight"><code class="language-html">&lt;head&gt;
+  &lt;style&gt;
+    div {
+      color: white;
+      background-color: black;
+    }
+
+    p {
+      color: red;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+&lt;/body&gt;</code></pre>
+<p>この方法は、ウェブサイトの<em>単一のページ</em>に独自のスタイルを追加するのに役立ちますが、外部の方法のようにものごとを分離した状態には保てず、ルールや宣言の数によっては、HTMLファイルがかなり大きくなってしまうことがあります。</p>
+<h4>インラインCSS</h4>
+<p>インラインCSSを使うと、HTML要素に直接スタイルを追加できますが、この方法はあまりお勧めできません:</p>
+<pre class="highlight"><code class="language-html">&lt;body&gt;
+  &lt;div style="color: white; background-color: black;"&gt;...&lt;/div&gt;
+&lt;/body&gt;</code></pre>
+<p>まず注目すべきは、スタイルが開始<code>&lt;div&gt;</code>タグ自体に直接追加されているため、ここでは実際にはセレクタを一切使用していないということです。次に、<code>style</code>属性があり、引用符のペアの中にある値が宣言となります。</p>
+<p><em>単一</em>の要素に<em>固有</em>のスタイルを追加する必要がある場合、この方法は問題なく機能します。しかし一般的には、いくつかの理由から、これはHTMLにCSSを追加する方法としてあまりお勧めできません:</p>
+<ul>
+<li>1つの要素に<em>大量</em>の宣言を追加し始めると、あっという間にかなり乱雑になり、HTMLファイルが不必要に肥大化してしまいます。</li>
+<li>多くの要素に同じスタイルを持たせたい場合、それぞれの要素に同じスタイルをコピー&amp;ペーストしなければならず、不必要な繰り返しとさらなる肥大化を招きます。</li>
+<li>インラインCSSは他の2つの方法を上書きしてしまうため、予期しない結果を招くことがあります。(ここでは深く掘り下げませんが、これは実は逆手に取って活用することもできます。)</li>
+</ul>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://github.com/TheOdinProject/css-exercises">CSS演習リポジトリ</a>にアクセスし、READMEファイルを読んでください。</li>
+<li>
+<p>演習の使い方が分かったら、<a href="https://github.com/TheOdinProject/css-exercises/tree/main/foundations/intro-to-css">CSS演習リポジトリの<code>foundations/intro-to-css</code>ディレクトリ</a>に移動してください。以下の演習に順番に取り組む前に、それぞれのREADMEファイルを確認してください:</p>
+<ul>
+<li><code>01-css-methods</code></li>
+<li><code>02-class-id-selectors</code></li>
+<li><code>03-grouping-selectors</code></li>
+<li><code>04-chaining-selectors</code></li>
+<li><code>05-descendant-combinator</code></li>
+</ul>
+<p>注:これらの演習の解答は、各演習の<code>solution</code>フォルダにあります。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#class-selectors">クラスセレクタとIDセレクタの構文は何ですか?</a></li>
+<li><a href="#the-grouping-selector">1つのルールを2つの異なるセレクタに適用するにはどうすればよいですか?</a></li>
+<li><a href="#chaining-selectors">idが<code>title</code>でclassが<code>primary</code>である要素があるとき、1つのルールで両方の属性をどのように使いますか?</a></li>
+<li><a href="#descendant-combinator-description">子孫結合子は何をしますか?</a></li>
+<li><a href="#adding-css-to-html">HTMLにCSSを追加する3つの方法の名前は何ですか?</a></li>
+<li><a href="#additional-methods-for-adding-css-to-html">HTMLにCSSを追加する3つの方法の主な違いは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

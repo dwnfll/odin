@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>npm</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">npm <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">npm</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>前のレッスンでは、ES6モジュールと、モジュール間で何かをインポート・エクスポートするために使われる構文について学びました。より大きく、より複雑なアプリケーションを構築していく中で、<em>すべて</em>を自分自身で書きたいとは思わないかもしれません。他の人が書いたヘルパー関数から、アプリケーションを構築するための完全なフレームワークまで、さまざまな範囲の、何かを私たちの代わりに処理してくれるサードパーティのコードをインポートしたいと思うかもしれません。これらのサードパーティのパッケージを簡単に見つけてインポートするには、npmのようなパッケージマネージャの助けが必要です!</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>npmとは何かを理解します。</li>
+<li><code>package.json</code>ファイルの目的を理解します。</li>
+</ul>
+<h3 id="npm">npm</h3>
+<p><strong>npm</strong>(大文字はありません!)はパッケージマネージャです - プラグイン、ライブラリ、その他のツールの巨大なリポジトリであり、これらのツール(私たちが「パッケージ」と呼ぶもの)をアプリケーションにインストールするために使えるコマンドラインツールを提供してくれます。それから、インストールしたすべてのパッケージのコードがローカルにあり、それを自分自身のファイルにインポートできるようになります。自分自身のコードをnpmに公開することさえできます!</p>
+<p>Foundationsコースで、JavaScriptの演習を行うためにJestテストフレームワークをインストールする際に、npmをインストールしたことを覚えているかもしれません。おかしなことに、<a href="https://www.npmjs.com/package/npm#is-npm-an-acronym-for-node-package-manager">npmは「Node Package Manager」の略ではありません</a>。よくそう呼ばれているのを見かけるとしてもです。</p>
+<p>もしFull Stack Ruby on Railsパスウェイにいるなら、すでに別のJavaScriptパッケージマネージャであるYarnを紹介されているはずです。このコースでは、npmを使っていきます。</p>
+<p>私たちのアプリケーションがより複雑になり、ますます多くのファイルが必要になるにつれて(それが私たち自身のファイルであれ、インストールしてインポートしたパッケージからのファイルであれ)、これらの依存関係の多くを管理することは、特にパッケージが更新されたときに、かなり面倒になることがあります。これは、ブラウザにダウンロードさせるためにたくさんのJavaScriptファイルを送ることになるかもしれないと考えると、さらに面倒になることがあります。次のレッスンでは、バンドラーを紹介します。これは、私たちが作業しやすい複数のファイルを書いてから、それらを、最終的にブラウザに代わりに送られる、より少ない小さなファイルにまとめる(バンドルする)ことを可能にしてくれるツールです。</p>
+<h3>package.json</h3>
+<p>npmは<code>package.json</code>と呼ばれるファイルを中心に回っています。これは、プロジェクトの名前や、依存関係とそのバージョン番号などの情報を含むJSONファイルです。npmはこのファイルを読み取り、リストされたすべての依存関係を正しいバージョンでインストールしたり、npmスクリプトとして設定したコマンドを実行したりといったことを行うことができます(npmスクリプトについては後のレッスンで扱います)。</p>
+<p>例えば、これは、(あなたが今まさに取り組んでいるこのレッスンを含む)すべてのレッスンファイルを収めている、The Odin Projectのカリキュラムリポジトリの<code>package.json</code>ファイルです:</p>
+<pre class="highlight"><code class="language-json">{
+  "name": "curriculum",
+  "version": "1.0.0",
+  "description": "[The Odin Project](https://www.theodinproject.com/) (TOP) is an open-source curriculum for learning full-stack web development. Our curriculum is divided into distinct courses, each covering the subject language in depth. Each course contains a listing of lessons interspersed with multiple projects. These projects give users the opportunity to practice what they are learning, thereby reinforcing and solidifying the theoretical knowledge learned in the lessons. Completed projects may then be included in the user's portfolio.",
+  "scripts": {
+    "lint": "markdownlint-cli2",
+    "fix": "markdownlint-cli2 --fix"
+  },
+  "license": "CC BY-NC-SA 4.0",
+  "devDependencies": {
+    "markdownlint-cli2": "^0.12.1"
+  }
+}</code></pre>
+<p>ここにはたくさんの内容がありますが、今はまだそのすべてを理解する必要はありません。ポイントは、もしカリキュラムのリポジトリをクローンして<code>npm install</code>を実行したら、npmはこの<code>package.json</code>ファイルを読み取り、<code>markdownlint-cli2</code>パッケージをインストールする必要があると分かるということです。このパッケージがインストールされれば、そのパッケージを使うどちらのスクリプトも実行できるようになります。カリキュラムのリポジトリ自体には、実際には<code>markdownlint-cli2</code>パッケージのコードは含まれていません。リポジトリをクローンする人は誰でも、<code>npm install</code>を実行するだけで、npmに代わりにそのコードを取得させることができるからです。</p>
+<p>私たち自身のプロジェクトでは、npmを使って新しいパッケージをインストールする(あるいはアンインストールする!)につれて、それは自動的に<code>package.json</code>を新しい詳細情報で更新してくれます。次のレッスンで、Webpackというパッケージを使ってモジュールバンドリングを紹介するときに、これが実際に動作するのを見ることになります。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>npm、パッケージ、依存関係についてもう少し読んでみてください:</li>
+<li><a href="https://docs.npmjs.com/downloading-and-installing-packages-locally">npmでパッケージをインストールする</a>。</li>
+<li>私たちのアプリケーションの情報の多くを保存するファイルである、<a href="https://docs.npmjs.com/creating-a-package-json-file"><code>package.json</code>ファイル</a>について読んでください。</li>
+<li>インストールするパッケージはすべて「依存関係(dependencies)」と呼ばれますが、もしあるパッケージが開発プロセス中にのみ使われ、そのコードがユーザー向けのアプリには必要ない場合(Jestテストフレームワークのように)、それらは<a href="https://dev.to/mshertzberg/demystifying-devdependencies-and-dependencies-5ege">開発時の依存関係(development dependencies)</a>と呼ばれます。</li>
+<li>こちらは、<a href="https://peterxjang.com/blog/modern-javascript-explained-for-dinosaurs.html">JavaScriptと複数のファイルにまたがるパッケージ管理についての、素晴らしい小さな歴史のレッスン</a>です。「Using a JavaScript module bundler (webpack)」までだけ読んでください。バンドラーとwebpackについては次のレッスンで扱います。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#npm">npmとは何ですか?</a></li>
+<li><a href="https://docs.npmjs.com/creating-a-package-json-file">依存関係についてのすべての情報を含む、npmが使うファイルは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

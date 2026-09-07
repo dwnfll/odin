@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rendering Techniques</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Rendering Techniques <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Rendering Techniques</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Now that we have learned about components, props and JSX, this lesson will cover how we can render multiple elements and conditionally render UI in JSX.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Rendering list of components in JSX.</li>
+<li>Conditionally rendering UI.</li>
+</ul>
+<h3>Rendering a list of elements in JSX</h3>
+<p>Let us say we want to create a component that lists multiple animals:</p>
+<pre class="highlight"><code class="language-jsx">function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Animals: &lt;/h1&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Lion&lt;/li&gt;
+        &lt;li&gt;Cow&lt;/li&gt;
+        &lt;li&gt;Snake&lt;/li&gt;
+        &lt;li&gt;Lizard&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>It is perfectly acceptable, but what if we want to render more than just four? It can be tedious and long, and most of the time, we will be dealing with a data structure (like an array) rather than hard-coding each animal. You have previously learned that we can embed expressions inside JSX with curly braces. So let us do just that:</p>
+<pre class="highlight"><code class="language-jsx">function App() {
+  const animals = ["Lion", "Cow", "Snake", "Lizard"];
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Animals: &lt;/h1&gt;
+      &lt;ul&gt;
+        {animals.map((animal) =&gt; {
+          return &lt;li key={animal}&gt;{animal}&lt;/li&gt;;
+        })}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>We define an array called <code>animals</code>. Now inside our JSX, we use <code>map</code> to return a new array of <code>li</code> elements, adding <code>animal</code> as its text. It should now render the same as the previous snippet we wrote. This is because JSX has the ability to automatically render arrays. The following code is identical:</p>
+<pre class="highlight"><code class="language-jsx">function App() {
+  const animals = ["Lion", "Cow", "Snake", "Lizard"];
+  const animalsList = animals.map((animal) =&gt; &lt;li key={animal}&gt;{animal}&lt;/li&gt;)
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Animals: &lt;/h1&gt;
+      &lt;ul&gt;
+        {animalsList}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>You may be curious as to what the <code>key</code> prop is in our <code>&lt;li&gt;</code> element. When we dynamically render lists of components, we must give the top-level component a key, which you can think of for now as an ID for the component. For this lesson, you do not need to know why we need this key or how it works, as we will explore keys in the next lesson.</p>
+<h3>Rendering a list of components in JSX</h3>
+<pre class="highlight"><code class="language-jsx">function ListItem(props) {
+  return &lt;li&gt;{props.animal}&lt;/li&gt;
+}
+
+function List(props) {
+  return (
+    &lt;ul&gt;
+      {props.animals.map((animal) =&gt; {
+        return &lt;ListItem key={animal} animal={animal} /&gt;;
+      })}
+    &lt;/ul&gt;
+  );
+}
+
+function App() {
+  const animals = ["Lion", "Cow", "Snake", "Lizard"];
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Animals: &lt;/h1&gt;
+      &lt;List animals={animals} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>We have moved our <code>&lt;ul&gt;</code> element to a different component called <code>List</code>. It still returns the <code>&lt;ul&gt;</code> element, but we can do a lot more with it as its own component. <code>List</code> accepts the array of animals as a prop, and passes each individual animal as a prop to a <code>ListItem</code> component.</p>
+<p>We're of course not restricted to just <code>&lt;li&gt;</code>. When we say "list", we mean that very generally. You could dynamically render multiple <code>&lt;option&gt;</code> elements within a <code>&lt;select&gt;</code>, or multiple <code>&lt;div&gt;</code> as part of a grid.</p>
+<div class="lesson-note lesson-note--tip">
+<h4>"Missing in props validation"</h4>
+<p>You may notice squiggly lines under your props, for example, under <code>animal</code> inside the <code>&lt;ListItem /&gt;</code> component above.</p>
+<p>Hovering over these will tell you they are <code>missing in props validation</code>. For now, this can safely be ignored as it is just a default ESLint rule warning about prop types, something that will be covered later in the course.</p>
+<p>You may want to turn off this rule by adding the following to your <code>eslint.config.js</code> file:</p>
+<pre class="highlight"><code class="language-javascript">  rules: {
+    // Your other rules
+    "react/prop-types": "off"
+  }</code></pre>
+</div>
+<h3>Conditionally rendering UI</h3>
+<p>Let us make some decisions within our component. What if we only want to render an animal that starts with the letter L? To make these decisions, we would use some sort of conditional expression. Let us continue using the code above, but for brevity's sake, we will be removing the <code>&lt;ListItem /&gt;</code> component.</p>
+<h4>Using the ternary operator</h4>
+<p>One way to conditionally render an element is with a ternary operator, using a boolean value to decide what to render:</p>
+<pre class="highlight"><code class="language-jsx">function List(props) {
+  return (
+    &lt;ul&gt;
+      {props.animals.map((animal) =&gt; {
+        return animal.startsWith("L") ? &lt;li key={animal}&gt;{animal}&lt;/li&gt; : null;
+      })}
+    &lt;/ul&gt;
+  );
+}
+
+function App() {
+  const animals = ["Lion", "Cow", "Snake", "Lizard"];
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Animals: &lt;/h1&gt;
+      &lt;List animals={animals} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>We are using the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith">String method <code>startsWith</code></a> to check if the <code>animal</code> starts with the letter L. This method either returns true or false.</p>
+<p>If the animal starts with the letter L, then we return the <code>&lt;li&gt;</code> element, which renders the particular animal. Otherwise, we return <code>null</code> to indicate that no element will be rendered.</p>
+<h4>Using the &amp;&amp; operator</h4>
+<p>Another quick way of conditionally rendering an element is by using the <code>&amp;&amp;</code> operator.</p>
+<pre class="highlight"><code class="language-jsx">function List(props) {
+  return (
+    &lt;ul&gt;
+      {props.animals.map((animal) =&gt; {
+        return animal.startsWith("L") &amp;&amp; &lt;li key={animal}&gt;{animal}&lt;/li&gt;;
+      })}
+    &lt;/ul&gt;
+  );
+}
+
+function App() {
+  const animals = ["Lion", "Cow", "Snake", "Lizard"];
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Animals: &lt;/h1&gt;
+      &lt;List animals={animals} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>We will leverage the return value of <code>startsWith</code> with the <code>&amp;&amp;</code> operator. If the result of the <code>startsWith</code> function is <code>true</code>, then it returns the second operand, which is the <code>&lt;li&gt;</code> element, and renders it. Otherwise, if the condition is <code>false</code>, then <code>false</code> gets returned and JSX will render nothing in its place.</p>
+<div class="lesson-note lesson-note--warning">
+<h4>Numbers with Logical AND (&amp;&amp;) - a common pitfall</h4>
+<p>When using <code>&amp;&amp;</code> for conditional rendering, don't put numbers on the left side. The React docs on <a href="https://react.dev/learn/conditional-rendering#logical-and-operator-">conditional rendering</a> provide more details about this in the <code>Pitfall</code> box in the section about <code>&amp;&amp;</code>.</p>
+</div>
+<h4>Other ways to render conditionally</h4>
+<p>We can also use <code>if</code>, <code>if/else</code>, and <code>switch</code> to conditionally render something.</p>
+<p>This time we will have two conditions:</p>
+<ol>
+<li>Check if the <code>animals</code> property is provided</li>
+<li>Check if the <code>animals</code> length is greater than 0</li>
+</ol>
+<p>We will frequently be dealing with lists in the future, and we also need to consider what to render if the list is empty or does not exist at all. You certainly would not want to see a blank page, would you? Let us try to implement that:</p>
+<pre class="highlight"><code class="language-jsx">function List(props) {
+  if (!props.animals) {
+    return &lt;div&gt;Loading...&lt;/div&gt;;
+  }
+
+  if (props.animals.length === 0) {
+    return &lt;div&gt;There are no animals in the list!&lt;/div&gt;;
+  }
+
+  return (
+    &lt;ul&gt;
+      {props.animals.map((animal) =&gt; {
+        return &lt;li key={animal}&gt;{animal}&lt;/li&gt;;
+      })}
+    &lt;/ul&gt;
+  );
+}
+
+function App() {
+  const animals = [];
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Animals: &lt;/h1&gt;
+      &lt;List animals={animals} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>In our <code>&lt;List /&gt;</code> component, we have two <code>if</code> statements acting as a guard that immediately returns an element based on the condition.</p>
+<p>One is to check if the property <code>animals</code> exists, and the other is to check if the length of the list is greater than 0. In this case, our list is empty, so the second if statement executes, which immediately returns the <code>&lt;div&gt;</code> element that contains the text "There are no animals in the list".</p>
+<p>If we remove the <code>animals</code> property:</p>
+<pre class="highlight"><code class="language-jsx">function App() {
+  const animals = [];
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Animals: &lt;/h1&gt;
+      &lt;List /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>The first <code>if</code> statement will now execute and return a <code>&lt;div&gt;</code> with the text "Loading..." This is often the case when you are fetching from an API, since it might take some time to actually retrieve the data, it is good practice to show an indicator for that.</p>
+<p>If none of those checks passed, then we have the data we need to render the list successfully. Try it out by adding items to the <code>animals</code> list and adding the property back.</p>
+<p>You can, of course, also accomplish this with just the ternary and <code>&amp;&amp;</code> operators.</p>
+<pre class="highlight"><code class="language-jsx">function List(props) {
+  return (
+    &lt;&gt;
+      {!props.animals ? (
+        &lt;div&gt;Loading...&lt;/div&gt;
+      ) : props.animals.length &gt; 0 ? (
+        &lt;ul&gt;
+          {props.animals.map((animal) =&gt; {
+            return &lt;li key={animal}&gt;{animal}&lt;/li&gt;;
+          })}
+        &lt;/ul&gt;
+      ) : (
+        &lt;div&gt;There are no animals in the list!&lt;/div&gt;
+      )}
+    &lt;/&gt;
+  );
+}
+
+// or
+function List(props) {
+  return (
+    &lt;&gt;
+      {!props.animals &amp;&amp; &lt;div&gt;Loading...&lt;/div&gt;}
+      {props.animals &amp;&amp; props.animals.length &gt; 0 &amp;&amp; (
+        &lt;ul&gt;
+          {props.animals.map((animal) =&gt; {
+            return &lt;li key={animal}&gt;{animal}&lt;/li&gt;;
+          })}
+        &lt;/ul&gt;
+      )}
+      {props.animals &amp;&amp; props.animals.length === 0 &amp;&amp; &lt;div&gt;There are no animals in the list!&lt;/div&gt;}
+    &lt;/&gt;
+  );
+}
+
+function App() {
+  const animals = [];
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Animals: &lt;/h1&gt;
+      &lt;List animals={animals} /&gt;
+    &lt;/div&gt;
+  );
+} </code></pre>
+<p>Nested ternaries and multiple <code>&amp;&amp;</code> operators can be intimidating to look at, so be sure to test things out!</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>The React documentation has an excellent guide to <a href="https://react.dev/learn/conditional-rendering">conditional rendering</a>. Strengthen your understanding by reading through it and tackling all of the examples!</li>
+<li>From the same docs, explore more on what you can do with lists by working through the <a href="https://react.dev/learn/rendering-lists">Rendering Lists article</a>. You don't have to worry about the last part on keys, since we will be learning about them in the next lesson.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#rendering-a-list-of-elements-in-jsx">How do you render a list of elements/components in JSX?</a></li>
+<li><a href="#conditionally-rendering-ui">What are the ways you could render UI conditionally?</a></li>
+<li><a href="https://beta.reactjs.org/learn/conditional-rendering#conditionally-returning-jsx">How would you conditionally return JSX?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

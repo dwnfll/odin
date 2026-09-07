@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linked Lists</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Linked Lists <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Build one of the most fundamental data structures.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>In Computer Science, one of the most basic and fundamental data structures is the
+linked list, which functions similarly to an array. The principal benefit of a linked
+list over a conventional array is that the list elements can easily be inserted or
+removed without reallocation of any other elements.</p>
+<p>In some programming languages, the size of an array is a concern and one of the ways
+to overcome that problem and allow dynamically allocated data is using linked lists.</p>
+<p>Luckily in <strong>JavaScript</strong>, arrays aren't limited to a certain size, and both insertion and deletion can be done trivially at any index using the appropriate built in array method, so you don't have to think about overcoming those limitations.</p>
+<p>So if array size, array insertion and array deletion are not limitations in JavaScript, are linked lists really necessary?
+The short answer to that is <em>it depends</em>; however, it's the simplest of the dynamic data
+structures and it will give you a solid foundation, so you can understand more
+complex data structures like graphs and binary trees with more ease.</p>
+<h3>Structure of a linked list</h3>
+<p>A <em>linked list</em> is a linear collection of data elements called nodes that "point"
+to the next node by means of a pointer.</p>
+<p>Each node holds a single element of data and a link or pointer to the next node in the list.</p>
+<p>A head node is the first node in the list, a tail node is the last node in the list. Below is a basic representation of a linked list:</p>
+<p><code>[ NODE(head) ] -&gt; [ NODE ] -&gt; [ NODE(tail) ] -&gt; null</code></p>
+<p>For a more thorough explanation, use these resources:</p>
+<ol>
+<li><a href="https://www.youtube.com/watch?v=oiW79L8VYXk">Linked Lists in Plain English</a></li>
+<li><a href="https://dev.to/vaidehijoshi/whats-a-linked-list-anyway">What's a Linked List, Anyway?</a></li>
+<li><a href="https://web.archive.org/web/20200217010131/http://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked%20Lists/linked%20lists.html">A more verbose explanation with plenty of diagrams</a></li>
+<li><a href="https://dev.to/karimdevelops/are-linked-lists-necessary-2ckl">Are Linked Lists necessary?</a></li>
+</ol>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<div class="lesson-note">
+<h4>Running ES6 modules in Node</h4>
+<p>Node v22 (which became LTS in October 2024) can now automatically detect ES6 modules and run them without any further configuration. If you are using ES6 modules and run into errors due to Node not recognizing the syntax, make sure you <a href="https://www.theodinproject.com/lessons/foundations-installing-node-js#installing-node">update Node to the latest LTS version</a>.</p>
+</div>
+<p>You will need two classes or factories:</p>
+<ol>
+<li><code>LinkedList</code> class / factory, which will represent the full list.</li>
+<li><code>Node</code> class / factory, containing a <code>value</code> property and a <code>nextNode</code> property, set both as <code>null</code> by default.</li>
+</ol>
+<p>Build the following functions in your linked list class / factory:</p>
+<ol>
+<li><code>append(value)</code> adds a new node containing <code>value</code> to the end of the list.</li>
+<li><code>prepend(value)</code> adds a new node containing <code>value</code> to the start of the list.</li>
+<li><code>size()</code> returns the total number of nodes in the list.</li>
+<li><code>head()</code> should return the value of the first node in the list. If the list is empty, it should return <code>undefined</code>.</li>
+<li><code>tail()</code> should return the value of the final node in the list. If the list is empty, it should return <code>undefined</code>.</li>
+<li><code>at(index)</code> should return the value of the node at the given index. If there's no node at the given index, it should return <code>undefined</code>.</li>
+<li><code>pop()</code> should remove the head node from the list and return its value. If it's used on an empty list, it should just return <code>undefined</code>.</li>
+<li><code>contains(value)</code> returns true if the passed in value is in the list and otherwise returns false.</li>
+<li><code>findIndex(value)</code> returns the index of the node containing the given value. If the value can't be found in the list, it should return <code>-1</code>. If more than one node has a value matching the given <code>value</code>, it should return the index of the first node with the matching value.</li>
+<li><code>toString()</code> represents your LinkedList objects as strings, so you can print them out and preview them in the console. If the list is empty, it should return an empty string. The format should be: <code>( value ) -&gt; ( value ) -&gt; ( value ) -&gt; null</code>.</li>
+</ol>
+<h4>Extra credit</h4>
+<ol>
+<li>
+<p><code>insertAt(index, ...values)</code> should insert new nodes with the given values at the given <code>index</code>. For example:</p>
+<pre class="highlight"><code class="language-javascript">// list that's already set up
+console.log(list.toString());
+//=&gt; "( 1 ) -&gt; ( 2 ) -&gt; ( 3 ) -&gt; null"
+
+list.insertAt(1, 10, 11)
+console.log(list.toString());
+//=&gt; "( 1 ) -&gt; ( 10 ) -&gt; ( 11 ) -&gt; ( 2 ) -&gt; ( 3 ) -&gt; null"</code></pre>
+<p>If the method is called with an index that is out of bounds (below 0 or above the list's size), throw a <code>RangeError</code>.</p>
+</li>
+<li>
+<p><code>removeAt(index)</code> that removes the node at the given <code>index</code>. If the given index is out of bounds (below 0 or greater than or equal to the list's size), throw a <code>RangeError</code></p>
+</li>
+</ol>
+<p><strong>Extra Credit Tip:</strong> When you insert or remove a node, consider how it will affect the existing nodes. Some of the nodes will need their <code>nextNode</code> link updated.</p>
+<h4>Test it out</h4>
+<p>Let's test out the Linked List you made!</p>
+<ol>
+<li>Create a <code>main.js</code> file and make sure it imports your <code>LinkedList</code> class or factory. This is where we'll test the list.</li>
+<li>
+<p>Create an instance of your <code>LinkedList</code> and populate it with nodes:</p>
+<pre class="highlight"><code class="language-javascript">// example uses class syntax - adjust as necessary
+const list = new LinkedList();
+
+list.append("dog");
+list.append("cat");
+list.append("parrot");
+list.append("hamster");
+list.append("snake");
+list.append("turtle");</code></pre>
+</li>
+<li>
+<p>Add <code>console.log(list.toString());</code> to the end of the file and run it.</p>
+</li>
+<li>
+<p>If everything is working, the output should be:</p>
+<pre class="highlight"><code class="language-text">( dog ) -&gt; ( cat ) -&gt; ( parrot ) -&gt; ( hamster ) -&gt; ( snake ) -&gt; ( turtle ) -&gt; null</code></pre>
+<p>Feel free to use different values to test if you like.</p>
+</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

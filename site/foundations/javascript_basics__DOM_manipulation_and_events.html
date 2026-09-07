@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOM Manipulation and Events</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">DOM Manipulation and Events <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Finally, let\&#x27;s learn how to make our webpages move.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>JavaScriptの最もユニークで便利な能力の一つが、DOMを操作する能力です。しかし、DOMとは<em>何</em>であり、どうやってそれを変更していくのでしょうか?早速始めましょう……</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>ウェブページとの関係においてDOMとは何かを説明する。</li>
+<li>「ノード」と「要素」の違いを説明する。</li>
+<li>「セレクタ」を使ってノードを対象にする方法を説明する。</li>
+<li>DOMノードを見つけ、追加し、削除し、変更するための基本的なメソッドを説明する。</li>
+<li>「NodeList」と「ノードの配列」の違いを説明する。</li>
+<li>「バブリング」とは何か、どのように機能するかを説明する。</li>
+</ul>
+<h3 id="document-object-model">ドキュメントオブジェクトモデル</h3>
+<p>DOM(ドキュメントオブジェクトモデル)とは、ウェブページのコンテンツを木構造で表現したもの、つまり、HTMLドキュメント内でどのように配置されているかに応じてさまざまな関係を持つ「ノード」の木です。ノードには多くの種類がありますが、そのほとんどは一般的には使われません。このレッスンでは、DOMの操作に主に使われる「要素」ノードに焦点を当てます。</p>
+<pre class="highlight"><code class="language-html">&lt;div id="container"&gt;
+  &lt;div class="display"&gt;&lt;/div&gt;
+  &lt;div class="controls"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>上記の例では、<code>&lt;div class="display"&gt;&lt;/div&gt;</code>は<code>&lt;div id="container"&gt;&lt;/div&gt;</code>の「子」であり、<code>&lt;div class="controls"&gt;&lt;/div&gt;</code>の「兄弟」です。家系図のようなものだと考えてください。<code>&lt;div id="container"&gt;&lt;/div&gt;</code>が<strong>親</strong>であり、その<strong>子</strong>が次のレベルにいて、それぞれが自分自身の「枝」にいます。</p>
+<h3 id="targeting-nodes-with-selectors">セレクタでノードを対象にする</h3>
+<p>DOMを扱う際は、「セレクタ」を使って作業したいノードを対象にします。CSSスタイルのセレクタと関係性プロパティを組み合わせて、目的のノードを対象にできます。まずはCSSスタイルのセレクタから始めましょう。上記の例では、<code>&lt;div class="display"&gt;&lt;/div&gt;</code>を参照するために以下のセレクタを使用できます:</p>
+<ul>
+<li><code>div.display</code></li>
+<li><code>.display</code></li>
+<li><code>#container &gt; .display</code></li>
+<li><code>div#container &gt; div.display</code></li>
+</ul>
+<p>ノードが持つ特別なプロパティを使って、リレーショナルセレクタ(つまり<code>firstElementChild</code>や<code>lastElementChild</code>など)を使用することもできます。</p>
+<pre class="highlight"><code class="language-javascript">// selects the #container div (don't worry about the syntax, we'll get there)
+const container = document.querySelector("#container");
+
+// selects the first child of #container =&gt; .display
+const display = container.firstElementChild;
+console.log(display);  // &lt;div class="display"&gt;&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">// selects the .controls div
+const controls = document.querySelector(".controls");
+
+// selects the prior sibling =&gt; .display
+const display = controls.previousElementSibling;
+console.log(display); // &lt;div class="display"&gt;&lt;/div&gt;</code></pre>
+<p>つまり、周囲のノードとの関係性に基づいて、特定のノードを特定しているのです。</p>
+<div class="lesson-note">
+<h4>JavaScriptのオブジェクト</h4>
+<p>変数の後にドット(<code>.</code>)記法が続いているのはなぜだろうと疑問に思っているかもしれません。例えば、<code>container.firstElementChild</code>のようにです。</p>
+<p>これは、JavaScriptでオブジェクトにアクセスする方法です。JavaScriptにおけるオブジェクトとは、プロパティを保持するデータ型です。プロパティとは「キー:値」のペアです。例えば、私たちの<code>container</code>は多くのプロパティを含んでおり、<code>firstElementChild</code>キーにアクセスすることで、その最初の子要素にアクセスし、値を取得できます。この場合、その値は<code>display</code>クラスを持つ<code>&lt;div&gt;</code>要素です。</p>
+<p>今のところ、JavaScriptのオブジェクトについて知っておく必要があるのはこれだけです。詳しくはObjects Basicsのレッスンをお楽しみに!</p>
+</div>
+<h3>DOMメソッド</h3>
+<p>あなたのHTMLコードがウェブブラウザによってパースされると、上記で述べた通りDOMに変換されます。主な違いの一つは、これらのノードが、多くのプロパティやメソッドが付随したJavaScriptオブジェクトであるということです。これらのプロパティやメソッドが、JavaScriptを使ってウェブページを操作するために私たちが使用する主要なツールです。</p>
+<h4 id="query-selectors">クエリセレクタ</h4>
+<ul>
+<li><code>element.querySelector(selector)</code> - <em>selector</em>に最初に一致するものへの参照を返します。</li>
+<li><code>element.querySelectorAll(selectors)</code> - <em>selectors</em>に一致するすべてのものへの参照を含む「NodeList」を返します。</li>
+</ul>
+<div class="lesson-note">
+<h4>パフォーマンスに関する考慮事項</h4>
+<p>他にも、潜在的な(わずかな)パフォーマンス上の利点をもたらす、より具体的なクエリがいくつかありますが、今はそれらについて扱いません。</p>
+</div>
+<p>querySelectorAllを使用する場合、戻り値は配列では<strong>ない</strong>ことを覚えておくのが重要です。配列のように見え、いくらか配列のように振る舞いますが、実際には「NodeList」です。大きな違いは、いくつかの配列メソッドがNodeListには存在しないことです。問題が発生した場合の一つの解決策は、NodeListを配列に変換することです。これは<code>Array.from()</code>または<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator">スプレッド演算子</a>を使って行えます。</p>
+<h4 id="element-creation">要素の作成</h4>
+<ul>
+<li><code>document.createElement(tagName, [options])</code> - タグタイプtagNameの新しい要素を作成します。この場合の<code>[options]</code>は、関数にいくつかの任意のパラメータを追加できることを意味します。この時点では、これらについて気にしなくて構いません。</li>
+</ul>
+<pre class="highlight"><code class="language-javascript">const div = document.createElement("div");</code></pre>
+<p>この関数は、新しい要素をDOMに配置する「わけではありません」---メモリ内にそれを作成するだけです。これは、ページに配置する前に、その要素を(スタイル、クラス、id、テキストなどを追加して)操作できるようにするためです。以下のいずれかのメソッドを使って、要素をDOMに配置できます。</p>
+<h4 id="append-elements">要素の追加</h4>
+<ul>
+<li><code>parentNode.appendChild(childNode)</code> - <em>childNode</em>を<em>parentNode</em>の最後の子として追加します。</li>
+<li><code>parentNode.insertBefore(newNode, referenceNode)</code> - <em>newNode</em>を<em>parentNode</em>の中の<em>referenceNode</em>の前に挿入します。</li>
+</ul>
+<h4 id="remove-elements">要素の削除</h4>
+<ul>
+<li><code>parentNode.removeChild(child)</code> - DOM上の<em>parentNode</em>から<em>child</em>を削除し、<em>child</em>への参照を返します。</li>
+</ul>
+<h4 id="altering-elements">要素の変更</h4>
+<p>要素への参照を持っている場合、その参照を使ってその要素自身のプロパティを変更できます。これにより、属性の追加・削除・変更、クラスの変更、インラインスタイル情報の追加など、多くの便利な変更を行うことができます。</p>
+<pre class="highlight"><code class="language-javascript">// creates a new div referenced in the variable 'div'
+const div = document.createElement("div");</code></pre>
+<h4>インラインスタイルの追加</h4>
+<pre class="highlight"><code class="language-javascript">// sets the indicated style rule to the element in the div variable
+div.style.color = "blue";
+
+// set the entire inline style
+div.setAttribute("style", "color: blue; background: white;");</code></pre>
+<p><code>background-color</code>のようなケバブケースのCSSプロパティにJSでアクセスする場合、ドット記法ではcamelCaseを使うか、あるいはブラケット記法を使う必要があります。ブラケット記法を使う場合は、camelCaseとkebab-caseのどちらも使用できますが、プロパティ名は文字列でなければなりません。</p>
+<pre class="highlight"><code class="language-javascript">// dot notation with kebab case: doesn't work as it attempts to subtract color from div.style.background
+// equivalent to: div.style.background - color
+div.style.background-color;
+
+// dot notation with camelCase: works, accesses the div's background-color style
+div.style.backgroundColor;
+
+// bracket notation with kebab-case: also works
+div.style["background-color"];
+
+// bracket notation with camelCase: also works
+div.style["backgroundColor"];</code></pre>
+<h4>属性の編集</h4>
+<pre class="highlight"><code class="language-javascript">// if id exists, update it to 'theDiv', else create an id with value "theDiv"
+div.setAttribute("id", "theDiv");
+
+// returns value of specified attribute, in this case "theDiv"
+div.getAttribute("id");
+
+// removes specified attribute
+div.removeAttribute("id");</code></pre>
+<p>利用可能な属性についての詳細は、MDNの<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes">HTML Attributes</a>のセクションを参照してください。</p>
+<h4>クラスを扱う</h4>
+<pre class="highlight"><code class="language-javascript">// adds class "new" to your new div
+div.classList.add("new");
+
+// removes "new" class from div
+div.classList.remove("new");
+
+// if div doesn't have class "active" then add it, or if it does, then remove it
+div.classList.toggle("active");</code></pre>
+<p>インラインCSSを追加・削除するよりも、CSSスタイルをトグルする方が一般的(かつよりクリーン)であることがよくあります。</p>
+<h4>テキストコンテンツの追加</h4>
+<pre class="highlight"><code class="language-javascript">// creates a text node containing "Hello World!" and inserts it in div
+div.textContent = "Hello World!";</code></pre>
+<h4>HTMLコンテンツの追加</h4>
+<pre class="highlight"><code class="language-javascript">// renders the HTML inside div
+div.innerHTML = "&lt;span&gt;Hello World!&lt;/span&gt;";</code></pre>
+<div class="lesson-note lesson-note--tip">
+<h4>innerHTMLのセキュリティリスク</h4>
+<p>テキストを追加する際は、innerHTMLよりもtextContentを使う方が好ましいです。潜在的なセキュリティリスクを避けるため、innerHTMLは控えめに使うべきだからです。
+innerHTMLを使うことの危険性を理解するために、<a href="https://youtube.com/watch?v=ns1LX6mEvyM">最も一般的なクロスサイトスクリプティング攻撃を防ぐことについての動画</a>を見てみてください。</p>
+</div>
+<p>少し時間を取って、これまで扱ってきたことを復習し、先に進む前にこれらのことを練習する機会を持ちましょう。ウェブページにDOM要素を作成して追加する、以下の例を見てみてください。</p>
+<pre class="highlight"><code class="language-html">&lt;!-- your HTML file: --&gt;
+&lt;body&gt;
+  &lt;h1&gt;THE TITLE OF YOUR WEBPAGE&lt;/h1&gt;
+  &lt;div id="container"&gt;&lt;/div&gt;
+&lt;/body&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">// your JavaScript file
+const container = document.querySelector("#container");
+
+const content = document.createElement("div");
+content.classList.add("content");
+content.textContent = "This is the glorious text-content!";
+
+container.appendChild(content);</code></pre>
+<p>JavaScriptファイルでは、まず私たちのHTMLにすでに存在する<code>container</code>divへの参照を取得します。それから新しいdivを作成し、<code>content</code>という変数に保存します。<code>content</code>divにクラスといくつかのテキストを追加し、最後にそのdivを<code>container</code>に追加します。JavaScriptコードが実行された後、私たちのDOMツリーは次のようになります:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- The DOM --&gt;
+&lt;body&gt;
+  &lt;h1&gt;THE TITLE OF YOUR WEBPAGE&lt;/h1&gt;
+  &lt;div id="container"&gt;
+    &lt;div class="content"&gt;This is the glorious text-content!&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+<p>JavaScriptはあなたのHTMLを変更する「のではなく」、DOMを変更するということを心に留めておいてください---あなたのHTMLファイルは同じままですが、JavaScriptはブラウザがレンダリングするものを変更します。</p>
+<div class="lesson-note" id="important-note">
+<h4>JavaScriptのタイミング</h4>
+<p>あなたのJavaScriptは、ほとんどの場合、JSファイルが実行されるとき、あるいはHTML内でscriptタグに出くわしたときに実行されます。JavaScriptをファイルの先頭に含めている場合、ノードがDOMに作成される「前に」JSコードが実行されてしまうため、これらのDOM操作メソッドの多くは機能しません。これを修正する最も簡単な方法は、HTMLファイルの下部にJavaScriptを含めることで、DOMノードがパースされ作成された後に実行されるようにすることです。</p>
+<p>あるいは、HTMLドキュメントの<code>&lt;head&gt;</code>内でJavaScriptファイルをリンクすることもできます。JSファイルへのパスを含む<code>src</code>属性を持つ<code>&lt;script&gt;</code>タグを使用し、HTMLがパースされた「後で」ファイルを読み込むために<code>defer</code>キーワードを含めます。次のようにです:</p>
+<pre class="highlight"><code class="language-html">&lt;head&gt;
+  &lt;script src="js-file.js" defer&gt;&lt;/script&gt;
+&lt;/head&gt;</code></pre>
+<p>scriptタグの<a href="https://javascript.info/script-async-defer#defer"><code>defer</code>属性</a>について詳しく知ってみましょう。</p>
+</div>
+<h3>演習</h3>
+<p>上記の例を自分のコンピューター上のファイルにコピーしてください。動くようにするには、残りのHTMLの骨組みを用意し、JavaScriptファイルをリンクするか、ページ上のscriptタグにJavaScriptを入れる必要があります。先に進む前に、すべてが動作していることを確認してください!</p>
+<p>JavaScriptと上記で示したDOMメソッドのみを使って、以下の要素をcontainerに追加してください:</p>
+<ol>
+<li>「Hey I'm red!」と表示される赤いテキストの<code>&lt;p&gt;</code>。</li>
+<li>「I'm a blue h3!」と表示される青いテキストの<code>&lt;h3&gt;</code>。</li>
+<li>黒いborderとピンクの背景色を持ち、中に以下の要素が入った<code>&lt;div&gt;</code>:
+   - 「I'm in a div」と表示される別の<code>&lt;h1&gt;</code>。
+   - 「ME TOO!」と表示される<code>&lt;p&gt;</code>。
+   - これについてのヒント:createElementで<code>&lt;div&gt;</code>を作成した後、containerに追加する前に、その中に<code>&lt;h1&gt;</code>と<code>&lt;p&gt;</code>を追加してください。</li>
+</ol>
+<h3 id="events">イベント</h3>
+<p>JavaScriptでDOMを操作するコツをつかんだところで、次のステップは、それを動的に、あるいは必要に応じて起こす方法を学ぶことです!イベントは、あなたのページでその魔法を起こす方法です。イベントとは、マウスクリックやキー押下のような、ウェブページ上で発生する動作のことです。JavaScriptを使うことで、私たちのウェブページにこれらのイベントを監視させ、反応させることができます。</p>
+<p>これを行うための主な方法は3つあります:</p>
+<ul>
+<li>HTML要素に直接、関数属性を指定できます。</li>
+<li>JavaScriptの中で、DOMノードに<code>onclick</code>や<code>onmousedown</code>のような<code>on&lt;eventType&gt;</code>という形式のプロパティを設定できます。</li>
+<li>JavaScriptの中で、DOMノードにイベントリスナーを取り付けることができます。</li>
+</ul>
+<p>イベントリスナーは間違いなく望ましい方法ですが、他の方法も定期的に使われているのを見ることになるので、3つすべてを扱います。</p>
+<p>クリックするとすべて「Hello World」とアラートを表示する3つのボタンを作成します。自分のHTMLファイルを使うか、<a href="https://codepen.io/">CodePen</a>のようなものを使って、すべて試してみてください。</p>
+<h4>方法1</h4>
+<pre class="highlight"><code class="language-html">&lt;button onclick="alert('Hello World')"&gt;Click Me&lt;/button&gt;</code></pre>
+<p>この解決策は理想的とは言えません。私たちのHTMLをJavaScriptで散らかしてしまっているからです。また、1つのDOM要素に設定できる「onclick」プロパティは1つだけなので、この方法ではクリックイベントに応じて複数の別々の関数を実行することはできません。</p>
+<h4>方法2</h4>
+<pre class="highlight"><code class="language-html">&lt;!-- the HTML file --&gt;
+&lt;button id="btn"&gt;Click Me&lt;/button&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">// the JavaScript file
+const btn = document.querySelector("#btn");
+btn.onclick = () =&gt; alert("Hello World");</code></pre>
+<div class="lesson-note lesson-note--tip">
+<h4>アロー関数の構文の復習</h4>
+<p>アロー構文<code>() =&gt;</code>を復習する必要がある場合は、この<a href="http://javascript.info/arrow-functions-basics">アロー関数についての記事</a>を確認してください。</p>
+</div>
+<p>これは少し良くなりました。JSをHTMLから取り出してJSファイルに移しましたが、それでもDOM要素は「onclick」プロパティを1つしか持てないという問題が残っています。</p>
+<h4 id="method-3">方法3</h4>
+<pre class="highlight"><code class="language-html">&lt;!-- the HTML file --&gt;
+&lt;button id="btn"&gt;Click Me Too&lt;/button&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">// the JavaScript file
+const btn = document.querySelector("#btn");
+btn.addEventListener("click", () =&gt; {
+  alert("Hello World");
+});</code></pre>
+<p>これで、関心の分離が保たれ、必要であれば複数のイベントリスナーも許可されます。方法3は、セットアップが少し複雑にはなりますが、はるかに柔軟で強力です。</p>
+<p>これら3つの方法はすべて、次のように名前付き関数と一緒に使用できることに注意してください:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- the HTML file --&gt;
+&lt;!-- METHOD 1 --&gt;
+&lt;button onclick="alertFunction()"&gt;CLICK ME BABY&lt;/button&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">// the JavaScript file
+// METHOD 1
+function alertFunction() {
+  alert("YAY! YOU DID IT!");
+}</code></pre>
+<pre class="highlight"><code class="language-html">&lt;!-- the HTML file --&gt;
+&lt;!-- METHODS 2 &amp; 3 --&gt;
+&lt;button id="btn"&gt;CLICK ME BABY&lt;/button&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">// the JavaScript file
+// METHODS 2 &amp; 3
+function alertFunction() {
+  alert("YAY! YOU DID IT!");
+}
+const btn = document.querySelector("#btn");
+
+// METHOD 2
+btn.onclick = alertFunction;
+
+// METHOD 3
+btn.addEventListener("click", alertFunction);</code></pre>
+<p>名前付き関数を使うことで、コードをかなりきれいにでき、複数の場所で行いたい処理であれば<em>本当に</em>良い考えです。</p>
+<p>これら3つの方法すべてにおいて、呼び出している関数にパラメータを渡すことで、イベントについてのより多くの情報にアクセスできます。自分のマシンで試してみてください:</p>
+<pre class="highlight"><code class="language-javascript">btn.addEventListener("click", function (e) {
+  console.log(e);
+});</code></pre>
+<div class="lesson-note lesson-note--tip">
+<h4>コールバックを理解する</h4>
+<p><code>alertFunction</code>や<code>function (e) {...}</code>を<code>addEventListener</code>の引数として渡すとき、これを<code>callback</code>(コールバック)と呼びます。コールバックとは、単に別の関数に引数として渡される関数のことです。</p>
+</div>
+<p>そのコールバック関数の<code>e</code>パラメータには、<strong>イベント</strong>自体を参照するオブジェクトが含まれています。そのオブジェクトの中では、どのマウスボタンやキーが押されたか、あるいはイベントの<strong>target</strong>(クリックされたDOMノード)についての情報など、多くの便利なプロパティやメソッド(オブジェクトの中に存在する関数)にアクセスできます。<code>e</code>という名前や、それがどこから来ているかについて、魔法のようなことは何もありません。JavaScriptがそのパラメータをイベントだと分かるのは、イベントリスナーのコールバックが定義上<code>Event</code>オブジェクトを受け取るからです。コールバックが実行されると、イベントハンドラが自身のイベントへの参照を渡します。イベントオブジェクトについては<a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Events#event_objects">MDNのイベント入門</a>でさらに詳しく読むことができます。</p>
+<p>これを試してみましょう:</p>
+<pre class="highlight"><code class="language-javascript">btn.addEventListener("click", function (e) {
+  console.log(e.target);
+});</code></pre>
+<p>そして次にこれを:</p>
+<pre class="highlight"><code class="language-javascript">btn.addEventListener("click", function (e) {
+  e.target.style.background = "blue";
+});</code></pre>
+<p>なかなかクールでしょう?</p>
+<h4 id="attaching-listeners-to-groups-of-nodes">ノードのグループにリスナーを取り付ける</h4>
+<p>多くの要素に似たようなイベントリスナーをたくさん取り付ける場合、これはかなりの量のコードのように思えるかもしれません。それをより効率的に行う方法がいくつかあります。上記で、<code>querySelectorAll('selector')</code>を使って、特定のセレクタに一致するすべての項目のNodeListを取得できることを学びました。それぞれにリスナーを追加するには、リスト全体を反復処理する必要があります。次のようにです:</p>
+<pre class="highlight"><code class="language-html">&lt;div id="container"&gt;
+  &lt;button id="one"&gt;Click Me&lt;/button&gt;
+  &lt;button id="two"&gt;Click Me&lt;/button&gt;
+  &lt;button id="three"&gt;Click Me&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">// buttons is a node list. It looks and acts much like an array.
+const buttons = document.querySelectorAll("button");
+
+// we use the .forEach method to iterate through each button
+buttons.forEach((button) =&gt; {
+  // and for each one we add a 'click' listener
+  button.addEventListener("click", () =&gt; {
+    alert(button.id);
+  });
+});</code></pre>
+<p>これはDOM操作とイベント処理に関しては氷山の一角にすぎませんが、いくつかの演習を始めるには十分です。ここまでの例では、もっぱら「click」イベントを使ってきましたが、他にも<em>たくさん</em>のイベントが利用できます。</p>
+<p>役立つイベントには以下のようなものがあります:</p>
+<ul>
+<li>click</li>
+<li>dblclick</li>
+<li>keydown</li>
+<li>keyup</li>
+</ul>
+<p>各イベントの説明付きのより完全なリストは、<a href="https://www.w3schools.com/jsref/dom_obj_event.asp">W3SchoolsのJavaScript Event Referenceページ</a>にあります。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<p>ウェブページを操作することは、JavaScript言語の主要な利点です!これらのテクニックは、フロントエンド開発者として<em>毎日</em>触れることになりそうなものなので、練習しましょう!</p>
+<ol>
+<li>
+<p>JavaScript Tutorialのシリーズから、DOMについての以下のセクションを読んで、イベントがあなたのページでどう使えるかについてより広いイメージをつかみましょう。</p>
+<p>読み進める中で、一般的な考え方は、例で使われているものだけでなく、あらゆるイベントに適用できることを覚えておいてください---しかし特定のイベントタイプに固有の情報は、常にドキュメントを確認することで見つけられます。ここでの目標は、これらの概念を深く理解し、すぐに応用できるようになることではないということを覚えておいてください。代わりに、イベントに関連して利用できるさまざまなツールについての認識を築いていくべきです。</p>
+</li>
+</ol>
+<ul>
+<li><a href="https://www.javascripttutorial.net/javascript-dom/javascript-events/">JavaScript events</a></li>
+<li><a href="https://www.javascripttutorial.net/javascript-dom/javascript-mouse-events/">Mouse events</a></li>
+<li><a href="https://www.javascripttutorial.net/javascript-dom/javascript-keyboard-events/">Keyboard events</a></li>
+<li><a href="https://www.javascripttutorial.net/javascript-dom/javascript-event-delegation/">Event delegation</a></li>
+<li><a href="https://www.javascripttutorial.net/javascript-dom/javascript-dispatchevent/">The dispatchEvent method</a></li>
+<li><a href="https://www.javascripttutorial.net/javascript-dom/javascript-custom-events/">Custom events</a></li>
+</ul>
+<ol>
+<li>
+<p>コールバックについてより深く理解するために、<a href="https://dev.to/i3uckwheat/understanding-callbacks-2o9e">Understanding Callbacks in JavaScript</a>を読み通してください。</p>
+</li>
+<li>
+<p>スキルを試すために、MDNの以下のセクションに取り組んでください:
+   - <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/DOM_scripting#doing_some_basic_dom_manipulation">Doing some basic DOM manipulation</a>
+   - <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/DOM_scripting#creating_a_dynamic_shopping_list">Creating a dynamic shopping list</a></p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#document-object-model">DOMとは何ですか?</a></li>
+<li><a href="#targeting-nodes-with-selectors">作業したいノードを対象にするにはどうすればよいですか?</a></li>
+<li><a href="#element-creation">DOMに要素を作成するにはどうすればよいですか?</a></li>
+<li><a href="#append-elements">DOMに要素を追加するにはどうすればよいですか?</a></li>
+<li><a href="#remove-elements">DOMから要素を削除するにはどうすればよいですか?</a></li>
+<li><a href="#altering-elements">DOM内の要素を変更するにはどうすればよいですか?</a></li>
+<li><a href="https://www.youtube.com/watch?v=ns1LX6mEvyM">DOM要素にテキストを追加する際、textContentとinnerHTMLのどちらを使うべきですか?なぜですか?</a></li>
+<li><a href="#important-note">DOMノードを扱う際、HTMLファイルのどこにJavaScriptタグを含めるべきですか?</a></li>
+<li><a href="#events">「イベント」と「リスナー」はどのように機能しますか?</a></li>
+<li><a href="#events">コード内でイベントを使う3つの方法は何ですか?</a></li>
+<li><a href="#attaching-listeners-to-groups-of-nodes">なぜイベントリスナーがイベントを処理する上で望ましい方法なのですか?</a></li>
+<li><a href="#method-3">リスナーに名前付き関数を使うことの利点は何ですか?</a></li>
+<li><a href="#attaching-listeners-to-groups-of-nodes">ノードのグループにリスナーを取り付けるにはどうすればよいですか?</a></li>
+<li><a href="#query-selectors"><code>querySelector</code>と<code>querySelectorAll</code>の戻り値の違いは何ですか?</a></li>
+<li><a href="#query-selectors">「NodeList」には何が含まれますか?</a></li>
+<li><a href="https://www.javascripttutorial.net/javascript-dom/javascript-events/#:~:text=DOM%20Level%202%20Event%20flow">「キャプチャリングフェーズ」と「バブリングフェーズ」の違いは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installations</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Installations <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Operating system and browser requirements for The Odin Project</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ウェブサイトを構築する上での最初のステップは、適切なツールを揃えることです。私たちにとってそれは、良いコードを書くための開発環境をセットアップすることを意味します。</p>
+<p>多くのオンライン開発コースでは、ブラウザ内のコードエディタ、いわゆる「サンドボックス」を使用します。これらは、目の前のタスクを達成するために必要なツールとプログラムだけを提供してくれるものです。The Odin Projectの初期段階では、こうしたサンドボックスのいくつかを使用します。素早く始めるのに最適だからです。しかし、長期的な成功のために自分を準備する最良の方法は、本物の開発環境で作業することです。</p>
+<p>正直に言いましょう。パッケージやエディタ、さらにはオペレーティングシステム(OS)全体をインストールすることは、非常にもどかしいものになることがあります。しかし、自分が書くコードを実行するための開発環境をセットアップする経験は、これからのキャリアを通じて持ち続けることになる、かけがえのない実務的なスキルです。</p>
+<p><strong>すでにmacOS、Ubuntu、または<a href="https://ubuntu.com/desktop/flavours">Ubuntuの公式フレーバー</a>をオペレーティングシステムとして使用しており、Google Chromeもインストール済みであれば、このレッスンは飛ばして構いません。そうでない場合は、以下のインストール手順に従って開発環境をセットアップしてください。</strong></p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>The Odin Projectのカリキュラムに取り組むための適切な環境をセットアップする方法。</li>
+<li>環境にGoogle Chromeをインストールすること。</li>
+</ul>
+<h3 id="supported-operating-systems">サポートされているオペレーティングシステム</h3>
+<h4>macOS</h4>
+<p>Macを使っているなら、絶好の状態です。The Odin Projectの手順はUnix系システムを前提としています。ほんのいくつかのプログラムをインストールするだけで、あっという間に学習を始められるようになります!</p>
+<h4>Linux(Ubuntuおよび公式フレーバー)</h4>
+<p><a href="https://en.wikipedia.org/wiki/Linux">Linux</a>は、無料でオープンソースのオペレーティングシステムであり、あらゆるプログラミング言語とうまく連携します。ほとんどの開発ツールは、Linux上でネイティブに動作するように書かれています。あなたのツールはより頻繁に更新され、トラブルシューティングのための情報もより多く入手でき、Linux上では単純により良く動作するでしょう。</p>
+<p>私たちのコミュニティで助けを得やすくするために、サポート対象のLinuxディストリビューションをUbuntuおよびUbuntuの公式フレーバーのみに限定しています。つまり、「UbuntuやDebianをベースにした」もの(MintやPop!_OSなど)を含め、それ以外のディストリビューションはサポートしていません。</p>
+<p>私たちは、以下の方法でLinuxを実行することをサポートしています(それぞれの手順は下の課題セクションにあります):</p>
+<ul>
+<li>VirtualBox仮想マシン</li>
+<li>デュアルブート</li>
+<li>Windows Subsystem for Linux version 2 (WSL2)</li>
+</ul>
+<h4>Chromebook</h4>
+<p>Chromebookユーザーの場合、お使いのデバイスでLinuxターミナルを実行できることがあります。詳細は、下の課題セクションにあるChromeOS Linuxガイドで説明します。</p>
+<h3>新しいOSをインストールすることに不安がありますか?</h3>
+<p>「ちょっと待って、待って!Windowsをサポートしていないの?でも今のOSのままで十分気に入っているんだけど!」</p>
+<p>Appleのコンピューターを持っていない場合、おそらくWindowsを使用しているでしょう。<strong>Windows単体は、The Odin ProjectでもDiscordサーバーでも、ネイティブにはサポートされていません。</strong>あなたが使うことになるツールの多くはUnix系環境を前提として書かれているため、将来Windowsを開発用OSとして使うつもりであっても、Unix系環境を用意する必要があります。</p>
+<p>心配しないでください!上記の選択肢は、Windowsを手放す必要があることを意味するわけではありませんし、The Odin Project以外の用途でWindowsを使うのをやめるよう求めているわけでもありません。LinuxはWindowsと快くハードドライブを共有してくれます。あなたはおそらく、お気に入りのOSについて多くのコツや裏技を学んでおり、コンピューター上のすべてを失いたくないと思っていることでしょう。しかし、ほとんどのOSは非技術者を念頭に開発されているため、私たちがインストールする必要のある多くの言語やフレームワークを隠したり、使いにくくしたりしています。こうした困難を回避しなければならないことが原因で、多くの新人開発者がフルスタックの境地へ向かう旅を始める前に諦めてしまいます。</p>
+<p>必要なツールに合わせてコンピューターを変更したり、デュアルブートにしたりすることで、プログラミングを始めるのがはるかに簡単になり、気を散らされない環境を作る助けになります。Windowsユーザーは、The Odin ProjectのためにサポートされているLinuxの選択肢のいずれかを使用できます。</p>
+<p>まだ納得がいきませんか?Linuxをインストールする素晴らしい理由をいくつか紹介します:</p>
+<ul>
+<li><strong>検証済み</strong> - 私たちはmacOS、Ubuntu(および公式Ubuntuフレーバー)、WSL2で手順を検証しています。できるだけ問題を少なく、より早くコーディングにたどり着けるよう、私たちが代わりに調査を行いました。オペレーティングシステムと格闘する時間は、コーディングを学ぶ時間を奪ってしまいます。</li>
+<li><strong>コミュニティサポート</strong> - 私たちが推奨するツールを使うことで、問題が起きたときに私たちが助けやすくなります。</li>
+<li><strong>開発ツールはLinux向けに作られている</strong> - The Odin Projectで扱う人気のバックエンド技術であり、より広いウェブ開発コミュニティでも広く使われているRuby(on Rails)やNode.jsは、Linuxのようなオープンソース(UNIX系)プラットフォーム上で動作することを明確に<em>前提としている</em>オープンソースプロジェクトです。</li>
+<li><strong>プロと同じように働く</strong> - 多くの開発者がUnix系オペレーティングシステムを使用しています。</li>
+<li><strong>パフォーマンス</strong> - マシンが遅かったり古かったりして容量が限られているために、Linuxのインストールを不安に思っていますか?パフォーマンスを重視するなら、Linuxは優れた選択肢です。Windowsよりも使用するシステムリソースが少なく、占有するハードドライブの容量も少なくて済みます。</li>
+</ul>
+<div class="lesson-note lesson-note--warning">
+<h4>コミュニティサポート</h4>
+<p><strong>私たちがサポートできるのは、カリキュラムの範囲内で提供されているものだけです。Windowsをネイティブの開発環境としてはサポートしていません。</strong>Windowsを使うことについてはこれまで何度も議論されてきましたが、現時点では実現可能ではありません。Windowsのサポートを求めたり、<strong>Discordでこの話題を持ち出したりしないでください</strong>。私たちは、コンテンツをできる限り新鮮でアクセスしやすいものに保つために、カリキュラムを常に見直していますが、Windowsが抵抗の少ない道であるとは分かっていません。The Odin ProjectとWindowsについての詳細は、<a href="https://github.com/TheOdinProject/blog/wiki/Why-We-Do-Not-Support-Windows">The Odin ProjectでWindowsがサポート対象OSでない理由の一覧</a>をご覧ください。</p>
+<p>多くの学習者が、このページの指示に本当に従う必要があるのかを尋ねるために、私たちのDiscordチャンネルにやってきます。Discordサーバーも運営しているチームが、あなたが今読んだインストール計画についてのすべてを書きました。私たちのDiscordサーバーで学習者をサポートしている人たちは、このページのガイダンスに同意しており、ここで読んだのと同じ推奨事項を伝えることになります。</p>
+</div>
+<p>それでは本題に入り、適切な開発環境をセットアップしていきましょう!</p>
+<h3>セットアップを選ぶ</h3>
+<p>すでにmacOS、Ubuntu、または公式Ubuntuフレーバーを使用していない場合は、開発環境をセットアップする必要があります。それぞれの選択肢が提供するものは以下の通りです:</p>
+<h4>VirtualBox仮想マシン(推奨)</h4>
+<p><a href="https://youtu.be/yIVXjl4SwVo">仮想マシン</a>(VM)は、既存のOSの中で動作するコンピューターのエミュレーションです。これにより、現在のオペレーティングシステム上のプログラムの中で、別のオペレーティングシステムを使用できます(例:Windowsの中でLinuxを実行する)。仮想マシンは他のどんなプログラムと同じくらい簡単にインストールでき、リスクもありません。Linuxが気に入らなければ、仮想マシンを簡単に削除できます。仮想マシンは、新人開発者がすばやく始めるための優れた方法です。</p>
+<p>そのため、この選択肢を初心者にお勧めします。特に、ここまで読んでもどれを選べばよいか分からない場合はなおさらです。セットアップを助けるための、とても分かりやすいステップバイステップの手順を用意しています。</p>
+<h4>デュアルブート</h4>
+<p>デュアルブートとは、コンピューターに2つのオペレーティングシステムをインストールし、起動時にLinuxかWindowsのどちらかを選んで起動できるようにすることです。VMに対するデュアルブートの利点は、OSがコンピューターのリソースをすべて使用できるため、動作がはるかに高速になることです。(Linux専用の別のハードドライブを持っていない限り)ハードドライブのパーティションを変更することになるため、デュアルブートシステムのインストールには多少のリスクがありますが、時間をかけて手順を注意深く守れば、まったく問題ありません。他の情報源の手順を混ぜて使おうとしないでください。</p>
+<h4>ChromeOS/ChromeOS Flex</h4>
+<p>これは、Chromebookを持っているユーザー、または古いハードウェアにChromeOS Flexをインストールしたいユーザー向けです。多くのChromebookには、開発にうまく使える組み込みのLinuxサポートがあります。</p>
+<h4>WSL2(上級者向け)</h4>
+<p>WSL2は、Windowsの中で直接Linuxを実行できる特殊な種類のVMです。強力ではありますが、視覚的な区別があまりないまま2つのオペレーティングシステムを同時に扱うことになるため、新しい学習者にとっては混乱の原因になることがあります。つまり、VirtualBoxのVMやデュアルブートのようによりはっきりと分離された方法に比べて、誤ったOSを操作してしまいやすいということです。そのため、私たちはこれを上級者向けと位置づけており、OSについてあまり詳しくない初心者にはお勧めしていません。(VirtualBoxのVMやデュアルブートのような)より明確に分離されたLinux体験の方が、はるかに直感的で、気づかないうちに間違った操作をしてしまう可能性が低くなります。</p>
+<p>WSL2はWSL1とは異なることに注意してください。The Odin ProjectではWSL2のみをサポートしています。</p>
+<h3 id="browser-support">ブラウザのサポート</h3>
+<p>The Odin ProjectではGoogle Chromeの使用のみをサポートしています。私たちのレッスンはGoogle Chromeを使用しており、それは開発者や一般ユーザーの間で圧倒的に使われているものです。私たちが行う推奨は非常に意図的なものです。<a href="https://en.wikipedia.org/wiki/Usage_share_of_web_browsers#Summary_tables">ウェブブラウザの利用シェア</a>を見て、他の人々が最もよく使っているものを確認してみてください。</p>
+<p>Google Chromeには、このカリキュラムを通してウェブアプリケーションを検証・デバッグ・テストするために使用する強力な開発者ツールが含まれています。他のブラウザにも同様のツールはありますが、私たちの手順やスクリーンショットはChromeを使用していることを前提としています。OSのサポートと同様に、他のブラウザを使用することによる問題や違いについてはサポートできません。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>すでにサポートされている環境で動作していない場合は、以下の<span id="os-installation">インストールガイド</span>のいずれかに従ってください:
+   - <a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/linux/virtual_machine.md" title="Linux仮想マシンのインストール手順(推奨オプション)">仮想マシン(推奨)</a> - 始めるための最も簡単で信頼できる方法です。VMはWindowsのような現在のOSの中で動作します。
+   - <a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/linux/dual_boot.md" title="Ubuntuデュアルブート手順">Ubuntu/Windowsデュアルブート</a> - コンピューター上にWindowsと並べて、別のOSとしてUbuntuをインストールします。仮想化が不要なため、性能の低いシステムに最適です。
+   - <a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/linux/chromeos.md" title="ChromeOS向けLinuxインストール手順">ChromeOS/ChromeOS Flex</a> - Chromebookユーザー向けの手順です。
+   - <a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/linux/wsl2.md" title="WSL2インストール手順(上級オプション)">WSL2(上級者向け)</a> - Windowsの中からLinuxを実行します。オペレーティングシステム間の区別がはっきりしないため、新しい学習者を混乱させることがあります。</p>
+<div class="lesson-note lesson-note--warning" markdown="1">
+<h4>サポートされていないハードウェアとソフトウェア</h4>
+<p>このカリキュラムは、ノートパソコン、デスクトップパソコン、またはサポートされているChromebookの使用のみをサポートしています。RaspberryPiやその他のデバイスに開発環境をセットアップする手助けはできません。すでにオペレーティングシステムとして<strong>macOS</strong>、<strong>Ubuntu</strong>、または<a href="https://ubuntu.com/desktop/flavours">Ubuntuの公式フレーバー</a>を使用していない場合に<strong>限り</strong>、これらの手順のいずれかに従う必要があります。</p>
+<p>すでにサポートされているハードウェアとソフトウェアを使用している場合は、下のステップ2に直接進んで構いません。</p>
+</li>
+</ol>
+</div>
+<ol>
+<li>
+<p>私たちのレッスンはGoogle Chromeを使用しており、Chrome/Chromiumは開発者や一般ユーザーの間で圧倒的に使われているため、私たちが行う推奨は非常に意図的なものです。<a href="https://en.wikipedia.org/wiki/Usage_share_of_web_browsers#Summary_tables">ウェブブラウザの利用シェア</a>を見て、他の人々が最もよく使っているものを確認してみてください。</p>
+<p>お使いのオペレーティングシステムに<span id="google-chrome-installation">Google Chromeをインストール</span>してください:
+- <a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/chrome/linux.md" title="LinuxへのGoogle Chromeのインストール">Linux</a> - VMまたはデュアルブートのユーザー向けで、WSL2ユーザーは<strong>対象外</strong>です。
+- <a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/chrome/macos.md" title="macOSへのGoogle Chromeのインストール">macOS</a>
+- <a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/chrome/wsl2.md" title="WSL2へのGoogle Chromeのインストール">WSL2</a></p>
+<div class="lesson-note lesson-note--tip" markdown="1">
+<h4>Chromeのショートカット</h4>
+<p>Google Chromeは、このカリキュラムを通して使用する最も重要なツールの一つです。このリファレンスには、<a href="https://support.google.com/chrome/answer/157179?hl=en&amp;co=GENIE.Platform%3DDesktop#zippy=%2Ctab-window-shortcuts">Chromeを使う際に役立つ一般的なショートカット</a>が数多く掲載されています。</p>
+</div>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#supported-operating-systems">The Odin Projectはどのオペレーティングシステムをサポートしていますか?</a></li>
+<li><a href="#browser-support">The Odin Projectはどのブラウザをサポートしていますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

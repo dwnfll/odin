@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Positioning Grid Elements</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">Positioning Grid Elements <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn how to manipulate elements within a grid.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>このレッスンでは、グリッドのさまざまな部分を調べ、グリッドアイテムを位置指定するために使える一般的なプロパティを探っていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>トラック、ライン、セルの違いを説明します。</li>
+<li>開始ラインと終了ラインを定義してアイテムを位置指定します。</li>
+<li>ショートハンド記法を使います。</li>
+</ul>
+<h3 id="reviewing-tracks">トラックの振り返り</h3>
+<p>位置指定にまっすぐ飛び込む前に、グリッドのさまざまな部分をよりよく理解するために、いくつかの用語を確立しておきましょう。前のレッスンで、<code>grid-template</code>を使ってグリッドを定義するとき、グリッドが持つことになる<em>トラック</em>を定義しているのだと学びました。グリッドトラックとは、グリッド上の任意の単一の行または列だと考えることができます。</p>
+<p>例を挙げると、100ピクセルの行と100ピクセルの列を持つ3x3のグリッドを作りたい場合、高さ100ピクセルの水平トラックを3つ、幅100ピクセルの垂直トラックを3つ定義する必要があります:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="poWvJXQ" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/poWvJXQ">
+  3x3 Layout | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>このCodePenでは、2つのCSSの行がコメントアウトされていることに気づくでしょう。<code>.first-row</code>クラスセレクタのプロパティのコメントを外して、1行目と2行目のグリッドライン間のグリッドトラックを見てみてください。</p>
+<p>次に、<code>.last-column</code>クラスセレクタのプロパティのコメントを外して、3列目と4列目のグリッドライン間のグリッドトラックを見てみてください。</p>
+<h3>ライン</h3>
+<p>グリッドトラックを作成すると、グリッドラインは<em>暗黙的に</em>作成されます。これは重要なことです。グリッドラインは、グリッドトラックが定義された後にのみ作成されます。グリッドラインを明示的に作成することはできません。</p>
+<p>すべてのトラックには開始ラインと終了ラインがあります。ラインは1から始まり、左から右、上から下に番号が振られます。ですので、上記の私たちの3x3グリッドには、列については1から4までの垂直ラインがあり、行については1から4までの水平ラインがあります。</p>
+<p>グリッドラインは、グリッドアイテムを位置指定するために使うものです。それについてはすぐ後で扱いますが、まずは開発者ツールを使ってグリッドラインをより深く見てみましょう。</p>
+<p>Chromeで開発者ツールを開くと、Layoutペインに移動して、Gridオーバーレイの表示設定を見つけることができます。<em>ラインの番号を表示する</em>が有効になっていることを確認してください。Gridオーバーレイから正しい要素を選択してください(例えば、私たちのCodePenを検証しているなら、これは私たちの<code>div.container</code>かもしれません)。これで、グリッドラインのオーバーレイが表示されるはずです。</p>
+<p>開発者ツールは、正のラインとは反対側に負のラインも表示することに注目してください。今のところ負のラインについて心配する必要はありませんが、これがグリッドアイテムを位置指定する際に使えるもう一つの選択肢を与えてくれるということは知っておいてください。</p>
+<h3 id="cells">セル</h3>
+<p>単一の行トラックと単一の列トラックが共有するグリッド上のスペースは、グリッド<em>セル</em>と呼ばれます。グリッドセルは、スプレッドシートのセルのようなもの、つまり<em>行、列</em>の座標によって定義されるスペースだと考えることができます。</p>
+<p>デフォルトでは、グリッドコンテナの各子要素は一つのセルを占有します。上記の例では、グリッドに9個のセル(3行x3列)があり、それぞれに自動的に位置指定された子要素が一つ入っています。「A」の文字が付いた要素は、行トラック1(行グリッドライン1と2の間)と列トラック1(列グリッドライン1と2の間)にあるセルを占有しています。「H」の文字が付いたアイテムは、行トラック3(行グリッドライン3と4の間)と列トラック2(列グリッドライン2と3の間)にあるセルにあります。</p>
+<p>しかし、グリッドアイテムの順序を変えたい場合はどうなるでしょうか?あるいは、アイテムに複数のセルを占有させたい場合はどうでしょうか?</p>
+<h3 id="positioning">位置指定</h3>
+<p>アイテムがどう位置指定できるかの感覚をつかむために、あるアパートの間取り図の模型を作ってみましょう。まず、アパートの総面積(グリッドコンテナ)を5x5のグリッドに分割することから始めましょう。この例をもう少し分かりやすくするために、背景色を使ってコンテナのスペースを区別します。ここでは、コンテナがブロックレベルのボックスのようにスペースを取って広がってしまわないように、<code>display: inline-grid</code>も使っていることに注意してください。これは、スペースをよりよく視覚化するのに役立つだけです。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="rNGaOxB" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/rNGaOxB">
+  Positioning 1 | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>今のところは、かなり寂しい部屋です。空っぽの箱というよりもっと家らしくするために、さまざまな部屋を表すいくつかのアイテムをグリッドコンテナに追加していきましょう。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="poWvjgY" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/poWvjgY">
+  Positioning 2 | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>ほとんどの部屋は単一のグリッドセルを表しています。しかし、私たちは自分たちに広いリビングルームを与えました(やった!)。このアイテムは<code>grid-column-start</code>と<code>grid-column-end</code>を使って位置指定しました。それらのプロパティの値は、開始・終了させたい列グリッドラインを表しています。</p>
+<p>このアイテムの行の位置指定のためのプロパティ値もコメントアウトされていることに気づくでしょう。<code>grid-row-start</code>と<code>grid-row-end</code>プロパティのコメントを外して、1行目と3行目のグリッドライン間のグリッドトラックを占有することでリビングルームがさらに大きくなる様子を見てみてください。</p>
+<p>これらのプロパティを使うと、既存のグリッドラインを利用して、それぞれのアイテムが何行・何列にまたがるべきかをアイテムに伝えることができます。少し時間を取って、ここでプロパティの値をいろいろ試してみてください。ライン番号がややこしい場合は、開発者ツールでコンテナを検証してグリッドオーバーレイを表示してください。</p>
+<p>次に、スペースをもっと効率的に使う必要があります。残りの部屋を複数のグリッドセルにまたがるようにして、アパートの残りの部分を埋めていきます。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="jOGEbrX" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/jOGEbrX">
+  Positioning 3 | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>これでアパート全体の設計図ができました。<code>#kitchen</code>セレクタを見てみると、ここでショートハンドプロパティを使ったことが分かるでしょう。<code>grid-column</code>は、単に<code>grid-column-start</code>と<code>grid-column-end</code>をスラッシュで区切って組み合わせたものです。そして<code>grid-row</code>は、アイテムの行の位置指定を設定するためのショートハンド版です。</p>
+<p>私たちの間取り図の一つの問題は、バスルームとキッチンがアパートの反対側の端にあることです。この2つの部屋を隣り合わせに配置すれば、配管の費用を節約できるでしょう。少し時間を取って、バスルームがキッチンのすぐ隣に来るように、バスルーム、ベッドルーム、クローゼットの開始・終了位置を変えられるか試してみてください。ここでは、長い方のプロパティでもショートハンドのプロパティでも、どちらを使っても構いません。</p>
+<h3 id="grid-area">grid-area</h3>
+<p>これで、行と列のラインを使ってグリッドアイテムを位置指定する方法が分かりました。しかし、アイテムを位置指定する方法は他にもあり、ここで少しややこしくなることがあります。</p>
+<p>開始・終了ラインでグリッドアイテムを位置指定するための、さらに短いショートハンドがあります。<code>grid-row-start</code>/<code>grid-column-start</code>/<code>grid-row-end</code>/<code>grid-column-end</code>を、<code>grid-area</code>を使って一行に組み合わせることができます。</p>
+<p>上記の私たちのリビングルームは、次のように書くことができます:</p>
+<pre class="highlight"><code class="language-css">/* styles.css */
+
+#living-room {
+  grid-area: 1 / 1 / 3 / 6;
+}</code></pre>
+<p>しかし、<code>grid-area</code>はいくつかの異なるものを指すこともできます。</p>
+<p>グリッド上のすべてのアイテムを位置指定するのにグリッドラインを使う代わりに、グリッドの視覚的なレイアウトを言葉で作ることができます。これを行うには、<code>grid-area</code>を使ってグリッド上の各アイテムに名前を付けます。</p>
+<p>ですので、私たちのリビングルームは次のように書くこともできます:</p>
+<pre class="highlight"><code class="language-css">/* styles.css */
+
+#living-room {
+  grid-area: living-room;
+}</code></pre>
+<p>これをすべてのグリッドアイテムに行い、それぞれの部屋に名前として<code>grid-area</code>の値を与えることができます。そして、<code>grid-template-areas</code>を使ってグリッドコンテナで構造全体をマッピングすることができます。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="dyVPYpv" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/dyVPYpv">
+  grid-template-areas 1 | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>すごいですね!CodePenのブラウザを開いて大きくし、<code>grid-template-areas</code>のレイアウトを1行ずつじっくり読んでみたくなるかもしれません。しかし、このツールはアイテムを位置指定するまったく異なる方法を私たちに与えてくれます。</p>
+<p>空のセルを示すために<code>.</code>を使うこともできます。私たちのアパートに給湯器と洗濯機・乾燥機が追加されるかもしれないとしましょう。正確なレイアウトはまだ分かりませんが、バスルームとキッチンにもう少しスペースを空けることで、簡単にそのスペースを視覚化できます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="ZEXYbpg" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/ZEXYbpg">
+  grid-template-areas 2 | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>これで、グリッドアイテムに<code>grid-area</code>を使う、まったく異なる2つの方法が分かりました。「grid area」という用語がセルのグループを指すのを目にすることもあるかもしれません。例えば、リビングルームのグリッドセルすべてを合わせたものが一つのグリッドエリアです。このアパートのたとえが役立つはずです。グリッドアイテムは、アパートの中の4つの壁で囲まれた部屋のように、複数のセルを占有してグリッドの一つの領域を形成することができます。</p>
+<h3>まとめ</h3>
+<p>課題に取り組んでいく中で、グリッドアイテムをトラックにまたがって位置指定する際の、<code>span</code>や<code>auto</code>のようなさらなる用語に出会うことになります。Flexboxと同様に、グリッドアイテムを整列・配置するためのプロパティもあります。この用語すべてとアイテムの位置指定の仕方を学ぶ一番の方法は、たくさん練習することです!</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>MDNの<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Line-based_Placement_with_CSS_Grid">Line-based Placement with CSS Grid</a>を読んでください。</li>
+<li><a href="https://cssgridgarden.com/">CSS Grid Garden</a>のレベル1から17まで進めて、アイテムの位置指定を練習してください。残りのレベルは、このレッスンの範囲を超えていることに注意してください。</li>
+<li>
+<p>私たちの<a href="https://github.com/TheOdinProject/css-exercises/tree/main/intermediate-html-css/positioning-grid">CSS演習リポジトリの<code>intermediate-html-css/positioning-grid</code>ディレクトリ</a>にある演習に取り組んでください(READMEに指示があることを忘れないでください):
+   - <code>01-basic-holy-grail</code></p>
+<p>注意: この演習に取り組む際は、必要なすべてのドキュメントとリソースを自由に使ってください。この段階でこれらのことをすべて暗記していることは<em>期待されていません</em>。ドキュメントを確認し、Googleを使い、それを終わらせるために必要なことを(解答を確認すること以外は)何でもしてください。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#reviewing-tracks">トラックとラインの違いを説明してください。</a></li>
+<li><a href="#cells">グリッド上の最小の単位は何ですか?</a></li>
+<li><a href="#positioning"><code>grid-column-start</code>や<code>grid-column-end</code>プロパティにはどんな種類の値を与えますか?</a></li>
+<li><a href="#grid-area">グリッドアイテムのすべての開始値と終了値を組み合わせるのに使えるプロパティはどれですか?</a></li>
+<li><a href="#grid-area">グリッドアイテムの視覚的な構造をマッピングできるグリッドコンテナのプロパティはどれですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

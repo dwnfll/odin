@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Command Line Basics</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Command Line Basics <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">The command line: loved, hated, and feared... but no longer by you.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>コマンドラインが怖いと感じていますか?あなただけではありません。開発者といえば、黒い画面をじっと見つめ、白や緑の文字が点滅する中、企業のメインフレームをハッキングするために意味不明なコマンドを猛烈に打ち込んでいる(その間もソーダをがぶ飲みし、キーボードについたネオンオレンジ色のチートスの粉を拭いているに違いない)というイメージがありますよね。</p>
+<p>プロンプトと点滅するカーソルが表示されたあの何もない画面やウィンドウが、<span id="command-line">コマンドラインインターフェース(CLI)</span>です。ここでは、コンピューターに実行してほしいコマンドを入力できます。上で描写したようなシーンを再現する必要はありませんが、コマンドラインを扱うことは、開発者として学ぶべき重要なスキルです。コマンドラインは私たちの作戦基地のようなもので、そこから他のプログラムを起動し、やり取りすることができます。学ぶべき独自の構文がありますが、同じコマンドを何十回も入力することになるため、最もよく使うコマンドはすぐに身につくでしょう。</p>
+<p>このコマンドラインの入門レッスンでは、コマンドラインを快適に使いながら、コンピューター内を移動し、ファイルやディレクトリ(フォルダとも呼ばれます)を操作する方法を学びます。思っているほど難しくないことがすぐに分かるでしょう。このレッスンで学ぶコマンドは非常に単純明快なので、初めてコマンドラインを使うことに気後れする必要はありません。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>コマンドラインとは何かを説明する。</li>
+<li>コンピューターでコマンドラインを開く。</li>
+<li>コマンドラインを使ってディレクトリを移動し、ディレクトリの内容を表示する。</li>
+<li>コマンドラインを使って新しいディレクトリと新しいファイルを作成する。</li>
+<li>コマンドラインを使ってディレクトリやファイルの名前を変更したり削除したりする。</li>
+<li>コマンドラインを使ってプログラムでファイルやフォルダを開く。</li>
+</ul>
+<h3>ターミナルを試してみる</h3>
+<p>コンピューターで<span id="open-command-line">ターミナルを開いて</span>みましょう。</p>
+<ul>
+<li>
+<p><strong>Linux</strong>: プログラムメニューを開いて「Terminal」を検索してください。キーボードで<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>を押してターミナルを開くこともできます。</p>
+</li>
+<li>
+<p><strong>macOS</strong>: 「アプリケーション」&gt;「ユーティリティ」フォルダを開いて「ターミナル」を探してください。Spotlight検索を使ってターミナルを開くこともできます。<kbd>Cmd</kbd> + <kbd>Space</kbd>を押してSpotlightを開き、「ターミナル」を検索してください。<kbd>Enter</kbd>を押して開きます。</p>
+</li>
+</ul>
+<p>開いたウィンドウはほとんど何もない状態で、オペレーティングシステムによって異なる多少のテキストがあるだけです。Linuxや古いMacでは行の末尾が<code>$</code>になり、新しいMacでは<code>%</code>になります。この記号は「プロンプト」と呼ばれ、ターミナルがあなたのコマンド入力を待っていることを示します。実際に試してみましょう。<code>whoami</code>と入力して<kbd>Enter</kbd>を押してください。</p>
+<p>あなたのユーザー名が返されます。クールですね!</p>
+<p>ターミナルの使い方についてのガイドや説明では、<code>$ whoami</code>のように、記号を先頭に付けてコマンドを示すことがよくあります。これは、そのコマンドをターミナルに入力すべきだということを示していますが、<code>$</code>自体は入力しないでください。また、新しいMacを使っている場合、<code>%</code>は<code>$</code>と同じものであることを覚えておいてください。</p>
+<h4>なぜ今これを学ぶのか?</h4>
+<p>このカリキュラムを通じて、あなたはコマンドラインを盛んに使うことになります。この後のインストールプロジェクトでは、コマンドラインを使ってさまざまなソフトウェアプログラムをインストールする必要があります。さらに、Gitも主にコマンドライン内で使うことになります(詳しくは後述します)。より大きな視点で見れば、ソフトウェア開発者としてのキャリアの中で日常的にコマンドラインを使うことになる可能性が高く、それはあなたのツールセットに欠かせないスキルとなります。</p>
+<div class="lesson-note lesson-note--tip">
+<h4>ターミナルでパスワードを入力する</h4>
+<p>ターミナルで(sudoのような)認証のためにパスワードの入力が必要なコマンドを使うとき、入力している文字が表示されないことに気づくでしょう。ターミナルが反応していないように見えるかもしれませんが、心配いりません!</p>
+<p>これは、ウェブサイトのパスワード入力欄がアスタリスクやドットを使うのと同じように、機密情報を保護するためのセキュリティ機能です。入力した文字を表示しないことで、ターミナルはあなたのパスワードを安全に保っています。</p>
+<p>パスワードは通常通り入力でき、Enterキーを押せば送信できます。</p>
+</div>
+<h3>プロのようにコマンドラインを使う</h3>
+<p>プログラマーについて知っておくべき重要なことがあります。プログラマーは怠け者です。それも、本当に怠け者なのです。何かを何度も繰り返し行わなければならないとき、代わりにそれを自動化する方法を見つけ出す可能性が高いのです。良いニュースは、彼らがこれまでに作り出してきた数々のショートカットを、あなたも活用できるということです。それでは、プロのようにコマンドラインを使う方法(つまり、本当に怠惰なやり方)を学んでいきましょう。</p>
+<p>まず、コマンドライン内でのコピー&amp;ペーストが思っていたようには動作しないことに、すでに気づいているかもしれません。コマンドライン内では、コピーには<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>(Mac: <kbd>Cmd</kbd> + <kbd>C</kbd>)を、ペーストには<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>(Mac: <kbd>Cmd</kbd> + <kbd>V</kbd>)を使います。例えば、ブラウザからコマンドラインにコマンドをコピー&amp;ペーストするには、コマンドのテキストを選択していつも通り<kbd>Ctrl</kbd> + <kbd>C</kbd>を使い、それから<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>を使ってターミナルにペーストします。試してみましょう!</p>
+<p>次に、<a href="https://en.wikipedia.org/wiki/Command-line_completion">タブ補完</a>について学ぶ必要があります。本当に、このコツはあなたの時間ともどかしさを大きく節約してくれます。コマンドラインの中にいて、<code>~/Documents/Odin-Project/foundations/javascript/calculator/</code>のような、遠く離れたフォルダに移動する必要があるとしましょう。これは打ち込むには長いコマンドで、動作させるためにはすべてを正確に入力する必要があります。いいえ、私たちはそんなことをするには<em>あまりにも</em>怠け者です!基本的に、<kbd>Tab</kbd>を押すことで、選択肢が一つしかなくなった時点で、コマンドラインはあなたが入力し始めたコマンドを自動的に補完してくれます。例えば、ホームディレクトリに<code>Documents</code>フォルダと<code>Downloads</code>フォルダの両方があるのはごく一般的です。<code>cd D</code>と入力してから<kbd>Tab</kbd>を押すと、コマンドラインはどちらを指しているのか分からないことを、ここまで入力した内容に一致する異なる選択肢を示すことで知らせてくれます:</p>
+<pre class="highlight"><code class="language-bash">$ cd D
+Documents/ Downloads/
+$ cd D</code></pre>
+<p>しかし、もう少し多く入力すれば、コマンドラインが名前を補完してくれるので、上記のフルパスを<code>cd Doc[tab]O[tab]f[tab]j[tab]cal[tab]</code>(コンピューター内にある他のフォルダによって異なります)というごくわずかな入力だけで書き出せるようになります。実際に試してみて、これがどう機能するかに慣れてください。きっと気に入るはずです。</p>
+<p>3つ目に、プロジェクトディレクトリ内のすべてを開くための、とても便利なショートカットがあります: <code>.</code>です。テキストエディタをインストールしたら、このショートカットを使ってプロジェクト全体とそのすべてのファイルを一度に開くことができます。このショートカットは、ディレクトリ内のすべてのファイルをGitのステージングエリアに追加する<code>git add .</code>のようなコマンドで、Git(後で詳しく扱います)でもよく使われます。例えば、VS Codeがインストールされている場合、プロジェクトディレクトリに<code>cd</code>で移動してから<code>code .</code>(ピリオド付き)と入力できます。これによりVS Codeが起動し、サイドバーにプロジェクトフォルダが開かれます。より詳しい例は、このレッスンの次のセクションを参照してください。</p>
+<h3>コマンドラインからVSCodeでファイルを開く</h3>
+<ul>
+<li>
+<p><strong>Linux</strong>: <code>code</code>と入力することでコマンドラインからVSCodeを開くことができ、その後に場所の名前を付け加えることでフォルダやファイルを開くことができます: <code>code my_awesome_project/</code>。</p>
+</li>
+<li>
+<p><strong>macOS</strong>: いくつかのセットアップが必要です。VSCodeをインストールしたら、好きな方法で起動してください。起動したら、<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>でコマンドパレットを開きます。表示される小さなダイアログに<code>shell command</code>と入力します。表示される選択肢の一つに<code>Shell Command: Install 'code' command in PATH</code>があります。そのオプションを選択し、ターミナルを開いている場合は再起動してください。</p>
+</li>
+<li>
+<p><strong>WSL2</strong>: WSL2のコマンドラインからVSCodeを開くのは、Linuxの場合と同じくらい簡単です。<code>code</code>と入力するだけで、WSL2でVSCodeが開きます。</p>
+</li>
+</ul>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<div class="lesson-note lesson-note--warning">
+<h4>Desktopフォルダを作成する</h4>
+<p>これ以降のリソースの一部は、あなたのシステムにDesktopフォルダが存在することを前提としています。しかし、システム内のどこにもそれが見当たらない場合は、次のことを行ってください。ターミナルを開き、コマンドラインに<code>cd ~</code>と入力してホームディレクトリにいることを確認します。次に、<code>mkdir Desktop</code>と入力して<code>enter</code>を押します。コマンドがうまくいったことを確認するには、<code>ls</code>と入力して、他のディレクトリの中にDesktopフォルダが表示されているか確認してください。</p>
+</div>
+<div class="lesson-note lesson-note--warning">
+<h4>正しいOSを使う</h4>
+<p>これらのリソースの多くは、あなたがMacまたはLinux環境を使用していることを前提としています。前のインストールレッスンをすでに終えていれば、デュアルブートまたは仮想マシンにLinuxがインストール済みのはずです。あるいは、macOSを使用しているかもしれません。macOSも公式Ubuntuフレーバーもインストールしていない場合は、<a href="https://www.theodinproject.com/lessons/foundations-installations">インストールのレッスン</a>に戻ってください。</p>
+</div>
+<ol>
+<li>
+<p>Software Carpentry Foundationが設計した<a href="https://swcarpentry.github.io/shell-novice/">The Unix Shell</a>コースを訪れてみましょう。そこには、CLIの使い方についての一通りのレッスンが揃っていますが、今はまず以下のレッスンを終えることだけに集中してください:</p>
+<div class="lesson-note" markdown="1">
+<h4>WSL2でSWCarpentryコースを行う</h4>
+<p><code>Download files</code>セクションに記載されているリンクと<code>wget</code>コマンドを使って、WSL2環境にzipファイルを取得してください(<code>wget https://swcarpentry.github.io/shell-novice/data/shell-lesson-data.zip</code>)。また、<code>sudo apt install unzip</code>コマンドでunzipをインストールし、<code>unzip shell-lesson-data.zip</code>でファイルを解凍する必要もあります。このコース全体を通して、あなたのターミナルの出力はレッスンで示されているものと多少異なって見えるかもしれないことを覚えておいてください。コースがDesktopに移動するよう指示している場合は、代わりにホームディレクトリに移動してください。これはcdコマンド(<code>cd ~</code>)を使って行えます。</p>
+</li>
+</ol>
+</div>
+<ul>
+<li><a href="https://swcarpentry.github.io/shell-novice/#download-files">Download files</a> - このセクションの指示にのみ従ってください。ソフトウェアをインストールする必要はなく、このリストの次の項目に進んで構いません。</li>
+<li><a href="https://swcarpentry.github.io/shell-novice/01-intro.html">Introducing the Shell</a></li>
+<li><a href="https://swcarpentry.github.io/shell-novice/02-filedir.html">Navigating Files and Directories</a></li>
+<li><a href="https://swcarpentry.github.io/shell-novice/03-create.html">Working With Files and Directories</a></li>
+</ul>
+<ol>
+<li>
+<p>新たに発見したCLIの超能力を使って、前のステップで紹介した<code>mkdir</code>、<code>touch</code>、<code>cd</code>コマンドを使ってフォルダといくつかのファイルを作成する練習をしましょう。例えば、基本的なウェブサイトには、メインの<code>index.html</code>ファイル、<code>style.css</code>という名前のCSSスタイルシートファイル、そして<code>images</code>用のフォルダがあるかもしれません。これらのファイルをコマンドでどう作成できるかを考え、実際にやってみましょう!</p>
+</li>
+<li>
+<p>ファイルやディレクトリを作成し、削除する練習をしてみましょう!以下のステップのコマンドをターミナルに入力する必要があります。ターミナルの開き方を思い出せない場合は、上にスクロールして確認してください。</p>
+<ol>
+<li>ホームディレクトリに<code>test</code>という名前の新しいディレクトリを作成する。</li>
+<li><code>test</code>ディレクトリに移動する。</li>
+<li><code>test.txt</code>という名前の新しいファイルを作成する。<em>ヒント: <code>touch</code>コマンドを使いましょう。</em></li>
+<li>新しく作成したファイルをVSCodeで開き、何か変更を加え、保存して閉じる。</li>
+<li><code>test</code>ディレクトリから元のディレクトリに戻る。</li>
+<li><code>test</code>ディレクトリを削除する。</li>
+</ol>
+<p>以上です---練習は完了です!これから先、ほとんどのタスクをコマンドラインから行うことに徹すれば、これらのコマンドは自然と身についていきます。ファイルの移動やコピーは、今の時点では少し面倒に感じられても、コマンドラインを使う方がはるかに効率的です。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#command-line">コマンドラインとは何ですか?</a></li>
+<li><a href="#open-command-line">コンピューターでコマンドラインを開くにはどうすればよいですか?</a></li>
+<li><a href="https://www.softcover.io/read/fc6c09de/unix_commands/basics#sec-basics-cd">特定のディレクトリに移動するにはどうすればよいですか?</a></li>
+<li><a href="https://www.softcover.io/read/fc6c09de/unix_commands/basics#uid31"><code>cd</code>だけを実行すると、どこに移動しますか?</a></li>
+<li><a href="https://www.softcover.io/read/fc6c09de/unix_commands/basics#uid30"><code>cd ..</code>はどこに移動しますか?</a></li>
+<li><a href="https://www.softcover.io/read/fc6c09de/unix_commands/basics#sec-basics-pwd">現在いるディレクトリの名前を表示するにはどうすればよいですか?</a></li>
+<li><a href="https://www.softcover.io/read/fc6c09de/unix_commands/basics#sec-basics-ls">現在いるディレクトリの内容を表示するにはどうすればよいですか?</a></li>
+<li><a href="https://www.softcover.io/read/fc6c09de/unix_commands/basics#cid7">新しいディレクトリを作成するにはどうすればよいですか?</a></li>
+<li><a href="https://swcarpentry.github.io/shell-novice/03-create.html#create-a-text-file">新しいファイルを作成するにはどうすればよいですか?</a></li>
+<li><a href="https://www.softcover.io/read/fc6c09de/unix_commands/basics#cid9">ディレクトリやファイルを削除するにはどうすればよいですか?</a></li>
+<li><a href="https://www.softcover.io/read/fc6c09de/unix_commands/basics#cid10">ディレクトリやファイルの名前を変更するにはどうすればよいですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installing PostgreSQL</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
+    <h1 class="lesson-header__title">Installing PostgreSQL <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">How to install PostgreSQL on a local machine.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Data persistence is integral to the vast majority of web applications. Data persistence is achieved through databases. Being able to understand how to structure, build, and query your own database are important skills for any full-stack developer to have.</p>
+<p>For example, consider The Odin Project. Where is your username stored? Where are project submissions stored? Where does this lesson content, the one you're reading right now, get stored? Yes, a database!</p>
+<p>We've chosen <a href="https://www.postgresql.org/">PostgreSQL</a> as our database of choice for the curriculum. All SQL knowledge that you've learned in the earlier course should be transferable to PostgreSQL. We'll also learn new PostgreSQL specific things. Watch through this <a href="https://www.youtube.com/watch?v=n2Fluyr3lbc">fun and short introduction video to PostgreSQL by Fireship</a>.</p>
+<p>In this lesson, we'll install PostgreSQL and in the next lesson we'll learn how to use it in our Express application.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>The PostgreSQL shell.</li>
+<li>How to install PostgreSQL.</li>
+</ul>
+<h3>PostgreSQL shell</h3>
+<div class="lesson-note lesson-note--critical">
+<h4>Complete the SQL course</h4>
+<p>Make sure you've completed the <a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/databases">SQL course</a>.</p>
+<p>This lesson and all subsequent lessons will assume you understand SQL syntax and concepts.</p>
+</div>
+<p>The PostgreSQL shell, also known as psql, is a terminal-based front end to PostgreSQL that allows users to interactively execute SQL queries and manage the database.</p>
+<p>It is typically included with the PostgreSQL installation and can be accessed through the command line. Its scope includes running queries, creating and modifying database structures, and interacting with the database in a command-line environment, psql provides a number of meta-commands and various shell-like features to facilitate writing scripts and automating a wide variety of tasks.</p>
+<p>The database using the psql terminal is located inside the file system or local machine, as PostgreSQL stores databases in ordinary files within the filesystem. The default location of the data directory may vary between different operating systems.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Depending on the OS you are running, follow the appropriate PostgreSQL installation guide below:
+   - <a href="https://github.com/TheOdinProject/curriculum/tree/main/nodeJS/express/installation_guides/postgresql/linux.md" title="PostgreSQL installation for Linux">Linux</a>
+   - <a href="https://github.com/TheOdinProject/curriculum/tree/main/nodeJS/express/installation_guides/postgresql/macos.md" title="PostgreSQL installation for macOS">macOS</a></li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#introduction">Why is data persistence important in web applications?</a></li>
+<li><a href="#postgresql-shell">What is the PostgreSQL shell?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

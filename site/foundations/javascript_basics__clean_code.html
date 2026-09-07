@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clean Code</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Clean Code <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">tips for writing better looking and easier to maintain code.</p>
+  </div>
+  <div class="lesson-content">
+    <h3 id="introduction">イントロダクション</h3>
+<p>開発者の仕事の大部分はコードを書くことだと思うかもしれません。しかし実際には、かなりの時間が<em>コードを読む</em>ことに費やされます。これには、他のチームメンバーが書いたコード、もうチームにいない人が書いたコード、そして2週間前に自分が書いたのにあまり覚えていないコードなどが含まれます。</p>
+<p>これらの原則を、今すぐ習得しなければならないものだと考えないでください。誰でも時には乱雑なコードを書きます。プロでもそうです。ここで私たちがしたいのは、進めていく中であなたのコードの読みやすさを改善するのに役立つガイドラインをいくつか提供することです。コードを書けば書くほど、読みやすさをはじめとするさまざまな面で、より良くなっていきます。</p>
+<p>これらの考え方を試してみて、コードを書く際の思考プロセスに取り入れてみてください。しかし、エレガントで完璧に明快なコードを書けないからといって自分を責めないでください。完璧さではなく、段階的な改善に焦点を当てましょう。</p>
+<p>それでは早速始めましょう!</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>読みにくいコードと読みやすいコードを見分ける方法を知る。</li>
+<li>プログラミングの原則を使って、コードをよりクリーンにする。</li>
+<li>良いコメントを書く。</li>
+</ul>
+<h3>クリーンなコードとは何か?</h3>
+<p>以下の例を考えてみてください:</p>
+<p>例A:</p>
+<pre class="highlight"><code class="language-javascript">const x= function (z){
+   const w = "Hello ";
+return w +  z
+
+ }
+
+x("John");</code></pre>
+<p>例B:</p>
+<pre class="highlight"><code class="language-javascript">const generateUserGreeting = function (name) {
+  const greeting = "Hello ";
+  return greeting + name;
+};
+
+generateUserGreeting("John");</code></pre>
+<p>これらの例のうち、どちらが読みやすいと感じますか?後者の方がより意味のあるものであることは、すぐに分かります。驚くべきことに、これらの関数はどちらもまったく同じタスクを(まったく同じ方法で!)実行しており、どちらも有効なコードです。しかし、2つ目の方がはるかに読みやすいです。なぜでしょうか?</p>
+<p>最初の例では、1文字の変数が使われており、インデントとスペースの取り方が一貫していません。その結果、混乱を招く、乱雑なコードになっています。</p>
+<p>最初の関数を書いた誰かとプロジェクトで協力していると想像してください。作業を続けるために、何が起きているのかを解読するのにどれくらい時間がかかるでしょうか?あるいは、以前に自分自身がそれを書いたのに、その存在すら完全に忘れてしまっているかもしれません。どちらの状況でも、最終的には何が起きているのかを理解できるでしょうが、楽しいものにはならないでしょう。</p>
+<p>例Bはよりクリーンなコードを表しています。それぞれの部分が何をしているかは分からなくても、関数と変数が明確に名付けられているため、何が起きているかをはるかに推測しやすくなっています。インデントとスペースの取り方は、一貫した論理的なパターンに従っています。</p>
+<p>1文字の変数名は、ループやコールバック関数の文脈では使用できますが、それ以外の場所では避けてください。</p>
+<h4>camelCaseについて</h4>
+<p>camelCaseとは、スペースや句読点なしで複数の単語をつなげて書けるようにする命名規則です。camelCaseでは、<code>setTimeout</code>の例のように変数名が複数の単語で構成される場合、最初の単語は完全に小文字で書かれ、2番目の単語(以降の単語も同様)の最初の文字は大文字になります。</p>
+<p>このレッスンを通して、私たちの変数や関数のほとんどはcamelCaseを使って名付けられます。すべての言語がこの規則を使うわけではありませんが、JavaScriptでは非常に一般的なので、従うべき良い例になります。</p>
+<div class="lesson-note">
+<h4>規約はあくまで規約</h4>
+<p>このレッスンではコードをきれいにする方法の例をいくつか紹介していますが、実際には、どの組織も異なる具体的なアプローチを持っており、その中にはこのレッスンの例と多少異なるものもあるでしょう。絶対的なものは何もありません。</p>
+<p>最も重要なのは、これらのアプローチがすべて同じ全体的な目的、つまりコードの可読性と保守性を向上させるという目的に役立っているということです。特定の一連の規約に従う必要が出てくるまでは、何らかの規約に従い、それに一貫性を持たせるのが賢明です。</p>
+</div>
+<h3>関数と変数に名前を付ける</h3>
+<p>最初の例で、私たちはすでに物事に<em>意味のある</em>名前を付けることの重要性に触れました。良い変数名や関数名を作るものについて、さらに詳しく分解してみましょう。</p>
+<h4>良い名前は説明的である</h4>
+<p>私たちの良い例では、<code>greeting</code>という変数があり、そこに<code>name</code>パラメータが連結されています。関数は<code>generateUserGreeting</code>という名前で、その名前が示す通りのことを行います。すっきりしていて、クリーンで、理解しやすいものです。</p>
+<p>では、悪い例について誰かと会話しているところを想像してみてください。関数は<code>x</code>という名前で、変数は<code>z</code>や<code>w</code>のようなものです。うーん、良くないですね。</p>
+<h4>一貫した語彙を使う</h4>
+<p>同じ種類の変数は、理想的には一貫した命名システムに従うべきです。あるゲームからの以下の例を考えてみてください:</p>
+<pre class="highlight"><code class="language-javascript">// Consistent naming
+function getPlayerScore();
+function getPlayerName();
+function getPlayerTag();</code></pre>
+<p>これらはすべて「何かをget(取得)する」という同じ命名システムに従っています。では、次のものを考えてみてください:</p>
+<pre class="highlight"><code class="language-javascript">// Inconsistent naming
+function getUserScore();
+function fetchPlayerName();
+function retrievePlayer1Tag();</code></pre>
+<p>一貫性のない例では、関数に3つの異なる動詞が使われています。それらはすべて似たようなことを意味していますが、一目見ただけでは、特定の理由があって異なる動詞が使われたのではないかと思うかもしれません(例えば、「getする」ことは、文脈によっては「fetchする」こととは<em>まったく</em>同じではないかもしれません)。さらに、<code>User</code>、<code>Player</code>、<code>Player1</code>の違いは何でしょうか?違いがないのであれば、理想的には<code>Player</code>のように同じ名前を使うべきです。一貫性があれば予測可能性が生まれます。</p>
+<p>変数は、それが文字列であれ数値であれ、通常「もの」を表すため、できれば名詞や形容詞(つまり名詞句)から始めるべきです。関数は動作を表すため、理想的には動詞から始めるべきです。</p>
+<pre class="highlight"><code class="language-javascript">// Preferable
+const numberOfThings = 10;
+const myName = "Thor";
+const selected = true;
+
+// Not preferable (these start with verbs, could be confused for functions)
+const getCount = 10;
+const showNorseGods = ["Odin", "Thor", "Loki"];
+
+// Preferable
+function getCount() {
+  return numberOfThings;
+}
+
+// Not preferable (myName doesn't represent some kind of action)
+function myName() {
+  return "Thor";
+}</code></pre>
+<h3>検索可能で即座に理解できる名前を使う</h3>
+<p>時には、「マジックバリュー」、つまり生の数値や文字列のような明示的な値を使いたくなることがあります。もう一度例を見てみましょう:</p>
+<pre class="highlight"><code class="language-javascript">setTimeout(stopTimer, 3600000);</code></pre>
+<p>問題は明白です。マジックナンバー<code>3600000</code>は何を意味していて、<code>stopTimer</code>が実行されるまでこのタイムアウトはどれくらいカウントダウンするのでしょうか?JavaScriptがミリ秒単位で時間を理解していることを知っていたとしても、それが何秒、あるいは何分を表すのかを把握するには、おそらく電卓かGoogleが必要になるでしょう。</p>
+<p>では、説明的な変数を導入することで、このコードをより意味のあるものにしてみましょう:</p>
+<pre class="highlight"><code class="language-javascript">const ONE_HOUR = 3600000; // Can even write as 60 * 60 * 1000;
+
+setTimeout(stopTimer, ONE_HOUR);</code></pre>
+<p>ずっと良くなりましたよね?変数は説明的な名前で宣言されており、このコードを読むときに計算を行う必要がありません。</p>
+<p>先ほどcamelCaseをお勧めしたのに、なぜこの変数がすべて大文字で宣言されているのか疑問に思うかもしれません。これは、プログラマーがその変数が<em>本当に</em>定数であると絶対的に確信している場合、特に特定の時間の長さのような何らかの概念を表している場合に使われる規約です。1時間のミリ秒数は決して変わらないと分かっているので、ここでは適切です。これはあくまで規約にすぎないことを覚えておいてください。誰もが必ずしも同じやり方をするわけではありません。</p>
+<h3>インデントと行の長さ</h3>
+<p>さあ、もっと「議論を呼ぶ」トピックに向かう時です(<a href="https://www.reddit.com/r/programming/comments/p1j1c/tabs_vs_spaces_vs_both/">スペースでインデントする派とタブでインデントする派の間の戦争</a>についてのジョークもあります)。</p>
+<p>実際に重要なのは<em>一貫性</em>です。インデントの方法を選んだら、それを貫いてください。さまざまなJavaScriptのスタイルガイドが異なる選択肢を推奨していますが、どちらかが本当に優れているというわけではありません。スタイルガイドと関連ツールについては、カリキュラムの後半でさらに詳しく見ていきます。</p>
+<h4>行の長さ</h4>
+<p>これについても、異なるスタイルガイドは異なる選択肢を推奨しますが、ほぼ<em>すべて</em>のガイドが、各コード行の長さを制限することを勧めています。</p>
+<p>一般的に、約80文字より長い行を手動で改行すると、コードが読みやすくなります。多くのコードエディタには、この閾値を超えたことを示す線が表示に含まれています。手動で改行する際は、演算子やカンマの直<em>後</em>で改行するようにしてください。</p>
+<p>そして、継続行をフォーマットするいくつかの方法があります。例えば、次のようにできます:</p>
+<pre class="highlight"><code class="language-javascript">// This line is a bit too long
+let reallyReallyLongLine = something + somethingElse + anotherThing + howManyTacos + oneMoreReallyLongThing;
+
+// You could format it like this
+let reallyReallyLongLine =
+  something +
+  somethingElse +
+  anotherThing +
+  howManyTacos +
+  oneMoreReallyLongThing;
+
+// Or maybe like this
+let anotherReallyReallyLongLine = something + somethingElse + anotherThing +
+                                  howManyTacos + oneMoreReallyLongThing;</code></pre>
+<p>異なるフォーマットが必ずしも正しい、間違っているというわけではなく、人によって好みが異なることもあります。自分にとって理にかなったやり方で行い、それに一貫性を持たせてください。</p>
+<h3>セミコロン</h3>
+<p>JavaScriptでは、セミコロンは<em>ほとんど</em>の場合任意です。省略された場合、JavaScriptのインタープリタが自動的にそれを挿入してくれるからです。この機能は特定の状況で壊れることが<em>あり</em>、コードにバグを引き起こすことがあるため、セミコロンを付ける習慣をつけることをお勧めします。</p>
+<p>付けるにしても付けないにしても、繰り返しになりますが、一貫性が重要なことです。</p>
+<h3>コメントについて</h3>
+<p>コメントは優れたツールですが、どんな優れたツールでもそうであるように、誤用されることがあります。特にコーディングの旅を始めたばかりの人にとっては、コードが行っていることを<em>すべて</em>説明するコメントを付けたくなるかもしれません。これは一般的に良い習慣ではありません。コメントを付ける際によくある落とし穴と、それが<em>なぜ</em>落とし穴なのかを見ていきましょう。</p>
+<h4>gitを使うべき時にコメントしない</h4>
+<p>自分が行った変更や追加を説明するコメントをコードに付けたくなるかもしれません。例えば:</p>
+<pre class="highlight"><code class="language-javascript">/**
+ * 2023-01-10: Removed unnecessary code that was causing confusion (RM)
+ * 2023-03-05: Simplified the code (JP)
+ * 2023-05-15: Removed functions that were causing bugs in production (LI)
+ * 2023-06-22: Added a new function to combine values (JR)
+ */</code></pre>
+<p>問題は、変更を追跡するためのツールがすでにあるということです---gitです!これらのコメントを管理するのは面倒な作業になり、何が起きたのかについて不完全な把握しか得られなくなります。また、ファイルには本来そこにあるべきではない余計なものが含まれることになります。</p>
+<p>gitを使えば、これらの情報はすべてリポジトリ内できちんと整理され、<code>git log</code>ですぐにアクセスできるようになります。</p>
+<p>これは、もう使われていないコードにも当てはまります。将来また必要になった場合は、gitのコミットを見返すだけで済みます。何かを他のものをテストしている間コメントアウトしておくのは、もちろん構いませんが、あるコードが不要になったら、それを削除してください。以下のようなものをファイルの中に残しておかないでください:</p>
+<pre class="highlight"><code class="language-javascript">theFunctionInUse();
+// oldFunction();
+// evenOlderUselessFunction();
+// whyAmIEvenHereImAncient();</code></pre>
+<h4>どのように(how)ではなく、なぜ(why)を伝える</h4>
+<p>理想的には、コメントはあなたのコードを複製するような疑似コードを提供するべきではありません。良いコメントは、あるコードの背後にある<em>理由</em>を説明します。時にはコメントがまったく必要ないこともあります!</p>
+<p>テキストの一部が角かっこの中にある文字列があり、そのかっこの中のテキストを抽出したいとしましょう。</p>
+<pre class="highlight"><code class="language-javascript">// Function to extract text
+function extractText(s) {
+  // Return the string starting after the "[" and ending at "]"
+  return s.substring(s.indexOf("[") + 1, s.indexOf("]"));
+}</code></pre>
+<p>これらのコメントは、コード自体から分かることを説明しているだけです。もう少し役立つコメントであれば、コードの背後にある理由を説明できるでしょう。</p>
+<pre class="highlight"><code class="language-javascript">// Extracts text inside square brackets (excluding the brackets)
+function extractText(s) {
+  return s.substring(s.indexOf("[") + 1, s.indexOf("]"));
+}</code></pre>
+<p>しかし多くの場合、コメントなしでコード自体に語らせることができます。</p>
+<pre class="highlight"><code class="language-javascript">function extractTextWithinBrackets(text) {
+  const bracketTextStart = text.indexOf("[") + 1;
+  const bracketTextEnd = text.indexOf("]");
+  return text.substring(bracketTextStart, bracketTextEnd);
+}</code></pre>
+<p>最初の例では、コメントがコードの行っていることを2回繰り返しています。しかしこれについては、単にコードを読めば済むので、コメントは冗長です。</p>
+<p>2つ目の例では、コメントが関数の目的、つまり単に「テキストを抽出する」のではなく、文字列から角かっこの間のテキストを抽出することを明確にしています。これは便利ですが、私たちは<em>さらに</em>良くすることができます。</p>
+<p>最後の例では、コメントはまったく必要ありません。説明的な関数名や変数名を使うことで、追加の説明の必要がなくなります。なかなかすっきりしていますよね?</p>
+<p><strong>これは、良いコードにコメントがあってはいけないという意味ではありません。</strong>コメントが役立つ目的を果たす例を見てみましょう:</p>
+<pre class="highlight"><code class="language-javascript">function calculateBMI(height, weight) {
+  // The formula for BMI is weight in kilograms divided by height in meters squared
+  const heightInMeters = height / 100;
+  const bmi = weight / (heightInMeters * heightInMeters);
+  return bmi;
+}</code></pre>
+<p>このコメントは、BMIがどのように計算されるかを平易な言葉で読者に思い出させる助けとなり、なぜ身長を変換する必要があるのか、そして続く計算が何をしているのかを読者が理解する助けになります。命名だけでもほぼ十分ですが、コメントによってさらに明確さが加わっています。</p>
+<p>多くの状況で、適切に配置されたコメントは非常に貴重です。それらは、直感に反するコードがなぜ必要なのかを説明したり、あるいは、ある関数がなぜあそこではなくここで呼び出されることが<em>特に</em>重要なのかというより大きな全体像を説明したりすることがあります。課題セクションにリンクされている記事は、これについてさらに詳しく掘り下げています。</p>
+<h3>結論として</h3>
+<p>これらの考え方を扱ってきたところで、最初に共有した注意点に戻るのも良いでしょう。完璧にクリーンなコードを書こうとしないでください。それはもどかしさにしかつながりません。「スパゲッティコード」を書くことは避けられません。誰もが時にはそうします。ただこれらの考え方を心に留めておけば、時間と忍耐とともに、あなたのコードは次第にクリーンになっていくでしょう。</p>
+<p>クリーンなコードを書くことを学ぶのは、絶え間ない改善のプロセスです。それは、あなたがThe Odin Projectを<em>完了する</em>その先まで続くものです。このレッスンは、その旅への入門とスタート地点として役立つことを意図しています。</p>
+<blockquote>
+<p>優れたコードは経験から生まれる。経験は、あまり優れていないコードから生まれる。</p>
+</blockquote>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://onextrapixel.com/10-principles-for-keeping-your-programming-code-clean/">10 Principles for Keeping Your Programming Code Clean</a>を読んで、クリーンなコードのための素晴らしいヒントを得ましょう。</li>
+<li>良いコメントの実践方法をより深く理解するために、<a href="https://blog.codinghorror.com/code-tells-you-how-comments-tell-you-why/">コメントがコードがなぜ機能するかを教えてくれること</a>や、<a href="https://blog.codinghorror.com/coding-without-comments/">コメントなしでコーディングする方法</a>についても読んでみましょう。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#introduction">なぜクリーンなコードを書くことが重要なのですか?</a></li>
+<li><a href="https://onextrapixel.com/10-principles-for-keeping-your-programming-code-clean/">コードをクリーンに保つための良い原則にはどのようなものがありますか?</a></li>
+<li><a href="https://onextrapixel.com/10-principles-for-keeping-your-programming-code-clean/">良いコメントと悪いコメントの違いは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>React Router</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">React Router <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">React Router</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Up until this point in the curriculum, we have been building one-page applications. However, for any larger scale application, we are going to have multiple pages. Thankfully, the browser allows client-side JavaScript to manage the way a user can navigate, with the <a href="https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API">History API</a>. We can leverage the power of this to manage routing in React with the help of a package like React Router.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Understand what client-side routing is.</li>
+<li>Learn how to use React Router for client-side routing.</li>
+<li>Explore how to create nested and dynamic paths in React Router.</li>
+<li>Discover how to add a 'catch-all' route in React Router.</li>
+<li>Learn how to pass data from a parent component to any child components rendered via an outlet.</li>
+<li>Understand how to implement protected routes in React Router.</li>
+<li>Get an introduction to testing components that use React Router.</li>
+</ul>
+<h3>Client-side routing</h3>
+<p>Client-side routing is the type of routing where JavaScript takes over the duty of handling the routes in an application. Client-side routing helps in building single-page applications (SPAs) without refreshing as the user navigates. For example, when a user clicks a navbar element, the URL changes and the view of the page is modified accordingly, within the client.</p>
+<p>Say you are cooking some chicken. If you want to cook it well and nice, you will have to:</p>
+<ol>
+<li>Put the chicken in the oven and set it to cook with appropriate time and heating</li>
+<li>Wait till the dish gives out that satisfying smell</li>
+<li>Start munching!</li>
+</ol>
+<p>This is common to all websites, you set the oven up for what you want (visit any URL, like <a href="https://theodinproject.com/">https://theodinproject.com/</a>), wait for the oven to be done with the cooking (the loading screen), and tada, enjoy your delicious food (your page is ready for use). But what if you forgot to add some spices before you cooked it up? You have to repeat this flow again:</p>
+<ol>
+<li>Get up from your seat</li>
+<li>Add the spices to the chicken</li>
+<li>Go back to the oven, put the chicken back in and set it up to be reheated</li>
+<li>Wait for it to be nice and warm</li>
+<li>Now you can eat it!</li>
+</ol>
+<p>Here is where we reiterate, <strong>you need to get up from your seat</strong>. In a general multi-page application (MPAs), the browser reloads every time you click on a link to navigate. With client-side routing, <strong>you never leave the page you are on</strong> - you bring a microwave to the table to ensure that you don't have to get up from your seat should you ever run into the "missing spices" issue. The link requests are intercepted by the JavaScript that you write, instead of letting them go directly to the server.</p>
+<h3>A Reactive solution</h3>
+<p>While client-side routing allows for nicer, app-like interactions (since you are controlling the routes, you can make fancy CSS animations across route changes), a lot of caveats can be missed. When a browser reloads, it notifies screen-readers of new content to read, but in the case of client-side routing, you will need to notify screen-readers of route updates manually. However, with the help of a robust library, you can often address these concerns!</p>
+<p>React Router is a standard routing library for React applications. By using React Router, we can specify React components, that can be rendered based on the route, and so much more. Let's dive in!</p>
+<h3>Adding a router</h3>
+<p>Let's make a small app to understand how this router is implemented. Create a new React project and let's start by adding some mock pages as an example. Create a new <code>Profile.jsx</code> file with the following component:</p>
+<pre class="highlight"><code class="language-jsx">const Profile = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Hello from profile page!&lt;/h1&gt;
+      &lt;p&gt;So, how are you?&lt;/p&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default Profile;</code></pre>
+<p>Replace the <code>App.jsx</code> file with some basic content too:</p>
+<pre class="highlight"><code class="language-jsx">const App = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Hello from the main page of the app!&lt;/h1&gt;
+      &lt;p&gt;Here are some examples of links to other pages&lt;/p&gt;
+      &lt;nav&gt;
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;a href="profile"&gt;Profile page&lt;/a&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default App;</code></pre>
+<p>Now it's time to add the router! There's a couple of ways of defining our app's routes, we will follow the object-based approach.</p>
+<p>Let us install the React Router package:</p>
+<p><code>npm install react-router</code></p>
+<p>Add the following to <code>main.jsx</code>, we will talk about what is happening in a little bit.</p>
+<pre class="highlight"><code class="language-jsx">import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import App from "./App";
+import Profile from "./Profile";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: &lt;App /&gt;,
+  },
+  {
+    path: "profile",
+    element: &lt;Profile /&gt;,
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
+  &lt;StrictMode&gt;
+    &lt;RouterProvider router={router} /&gt;
+  &lt;/StrictMode&gt;
+);</code></pre>
+<p>Once this is done, go ahead and run <code>npm run dev</code> and check out both routes: the home route <code>/</code> and the profile route <code>/profile</code>. It works! But what is happening here?</p>
+<ol>
+<li>We import <code>createBrowserRouter</code> and <code>RouterProvider</code> from React Router.</li>
+<li><code>createBrowserRouter</code> is used to create the configuration for a router by passing arguments in the form of an array of routes.</li>
+<li>The configuration array contains objects with two mandatory keys, the path and the corresponding element to be rendered.</li>
+<li>This generated configuration is then rendered in, by passing it to the <code>RouterProvider</code> component.</li>
+</ol>
+<h3>The link element</h3>
+<p>But you may notice, when we click the links in the navbar, the browser is reloading for the next URL instead of using React Router. This isn't what was promised! To help with this, React Router exports a custom <a href="https://reactrouter.com/api/components/Link">Link component</a> to be used instead of the regular <code>a</code> tag. We can replace the <code>a</code> tag in our navbar with the <code>Link</code> element.</p>
+<pre class="highlight"><code class="language-jsx">import { Link } from "react-router";
+
+const App = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Hello from the main page of the app!&lt;/h1&gt;
+      &lt;p&gt;Here are some examples of links to other pages&lt;/p&gt;
+      &lt;nav&gt;
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;Link to="profile"&gt;Profile page&lt;/Link&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default App;</code></pre>
+<p>And now, we don't get the browser reloading every time we click the link on the navbar!</p>
+<h3>Nested routes, outlets and dynamic segments</h3>
+<p>Now, what if you want to render a section of a page differently, based on different URLs? This is where nested routes come into play! We can add routes nested as the children of one another to ensure that the child gets rendered alongside the parent. Create a couple of components, <code>Popeye.jsx</code> and <code>Spinach.jsx</code>.</p>
+<pre class="highlight"><code class="language-jsx">import { Link } from "react-router";
+
+const Popeye = () =&gt; {
+  return (
+    &lt;&gt;
+      &lt;p&gt;Hi, I am Popeye! I love to eat Spinach!&lt;/p&gt;
+      &lt;Link to="/"&gt;Click here to go back&lt;/Link&gt;
+    &lt;/&gt;
+  );
+};
+
+export default Popeye;</code></pre>
+<pre class="highlight"><code class="language-jsx">import { Link } from "react-router";
+
+const Spinach = () =&gt; {
+  return (
+    &lt;&gt;
+      &lt;p&gt;Hi, I am Spinach! Popeye loves to eat me!&lt;/p&gt;
+      &lt;Link to="/"&gt;Click here to go back&lt;/Link&gt;
+    &lt;/&gt;
+  );
+};
+
+export default Spinach;</code></pre>
+<p>Now, we can rewrite the routes as given:</p>
+<pre class="highlight"><code class="language-jsx">import { StrictMode } from "react"
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import App from "./App";
+import Profile from "./Profile";
+import Spinach from "./Spinach";
+import Popeye from "./Popeye";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: &lt;App /&gt;,
+  },
+  {
+    path: "profile",
+    element: &lt;Profile /&gt;,
+    children: [
+      { path: "spinach", element: &lt;Spinach /&gt; },
+      { path: "popeye", element: &lt;Popeye /&gt; },
+    ],
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
+  &lt;StrictMode&gt;
+    &lt;RouterProvider router={router} /&gt;
+  &lt;/StrictMode&gt;,
+);</code></pre>
+<p>This allows us to render the child component alongside the parent, through an <a href="https://reactrouter.com/api/components/Outlet">Outlet component</a>! We can rewrite the Profile component to add an <code>Outlet</code> which will get replaced by the various profiles when that route is visited!</p>
+<pre class="highlight"><code class="language-jsx">import { Outlet } from "react-router";
+
+const Profile = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Hello from profile page!&lt;/h1&gt;
+      &lt;p&gt;So, how are you?&lt;/p&gt;
+      &lt;hr /&gt;
+      &lt;h2&gt;The profile visited is here:&lt;/h2&gt;
+      &lt;Outlet /&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default Profile;</code></pre>
+<p>Check out the <code>/profile</code> page. To visit <code>/profile/popeye</code> or <code>/profile/spinach</code> pages, manually add <code>/popeye</code> or <code>/spinach</code> to the end of the current URL. The <code>&lt;Outlet /&gt;</code> component gets replaced with the children component when their paths are visited.</p>
+<p>If you want to render something as a default component when no path is added to Profile, you can add an index route to the children!</p>
+<p>Create a DefaultProfile component:</p>
+<pre class="highlight"><code class="language-jsx">const DefaultProfile = () =&gt; {
+  return &lt;p&gt;Oh, nothing to see here!&lt;/p&gt;;
+};
+
+export default DefaultProfile;</code></pre>
+<p>Now, add an index property with the DefaultProfile as a child to the <code>/profile</code> route.</p>
+<pre class="highlight"><code class="language-jsx">import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import App from "./App";
+import Profile from "./Profile";
+import DefaultProfile from "./DefaultProfile";
+import Spinach from "./Spinach";
+import Popeye from "./Popeye";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: &lt;App /&gt;,
+  },
+  {
+    path: "profile",
+    element: &lt;Profile /&gt;,
+    children: [
+      { index: true, element: &lt;DefaultProfile /&gt; },
+      { path: "spinach", element: &lt;Spinach /&gt; },
+      { path: "popeye", element: &lt;Popeye /&gt; },
+    ],
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
+  &lt;StrictMode&gt;
+    &lt;RouterProvider router={router} /&gt;
+  &lt;/StrictMode&gt;,
+);</code></pre>
+<p>If you visit the <code>/profile</code> path now, you should be able to see some default content where the <code>Outlet</code> is rendered when the index path is rendered!</p>
+<p>But this example brings another dilemma. Sometimes, we want to render content according to the URLs. That, here, would mean that we should be able to render content dynamically, from the component itself. Thankfully, you can do so with dynamic segments! Change the routes to be the following:</p>
+<pre class="highlight"><code class="language-jsx">import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import App from "./App";
+import Profile from "./Profile";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: &lt;App /&gt;,
+  },
+  {
+    path: "profile/:name",
+    element: &lt;Profile /&gt;,
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
+  &lt;StrictMode&gt;
+    &lt;RouterProvider router={router} /&gt;
+  &lt;/StrictMode&gt;,
+);</code></pre>
+<p>The colon (:) turns the path section after it into a <span id="dynamic-segments">"dynamic segment"</span>. Dynamic segments will match dynamic (changing) values in that position of the URL, like the <code>name</code>. These can also be called "URL params" or "params" in short. These can be used with the help of the <code>useParams</code> hook. We can thus rewrite the Profile component as the following:</p>
+<pre class="highlight"><code class="language-jsx">import { useParams } from "react-router";
+import DefaultProfile from "./DefaultProfile";
+import Spinach from "./Spinach";
+import Popeye from "./Popeye";
+
+const Profile = () =&gt; {
+  const { name } = useParams();
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Hello from profile page!&lt;/h1&gt;
+      &lt;p&gt;So, how are you?&lt;/p&gt;
+      &lt;hr /&gt;
+      &lt;h2&gt;The profile visited is here:&lt;/h2&gt;
+      {name === "popeye" ? (
+        &lt;Popeye /&gt;
+      ) : name === "spinach" ? (
+        &lt;Spinach /&gt;
+      ) : (
+        &lt;DefaultProfile /&gt;
+      )}
+    &lt;/div&gt;
+  );
+};
+
+export default Profile;</code></pre>
+<h3>Handling bad urls</h3>
+<p>But alas, the index path doesn't work with this anymore, as in the <code>/profile</code> path, no params are actually passed. Actually, the <code>/profile</code> path doesn't make much sense without an actual name, else whose profile is it supposed to show, right? So, the application shows an error! This can't be good, so how do you show a default page in case the user visits a wrong or unused path? You can pass in an <code>errorElement</code> argument here! Create a basic "Not Found" page:</p>
+<pre class="highlight"><code class="language-jsx">import { Link } from "react-router";
+
+const ErrorPage = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Oh no, this route doesn't exist!&lt;/h1&gt;
+      &lt;Link to="/"&gt;
+        You can go back to the home page by clicking here, though!
+      &lt;/Link&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default ErrorPage;</code></pre>
+<p>Add the <code>errorElement</code> to the configuration, and verify that it renders an error page by going to the <code>/profile</code> path or any unmentioned paths.</p>
+<pre class="highlight"><code class="language-jsx">import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import App from "./App";
+import Profile from "./Profile";
+import ErrorPage from "./ErrorPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: &lt;App /&gt;,
+    errorElement: &lt;ErrorPage /&gt;,
+  },
+  {
+    path: "profile/:name",
+    element: &lt;Profile /&gt;,
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
+  &lt;StrictMode&gt;
+    &lt;RouterProvider router={router} /&gt;
+  &lt;/StrictMode&gt;,
+);</code></pre>
+<h3>Refactoring the routes</h3>
+<p>Let's refactor our array of routes into its own file. By refactoring, we can import the routes into <code>main.jsx</code> and create a browser router from it, as in the above example. What's convenient about this is that we can also import the routes array into any test files, which may need to use a test-specific router instead of a browser router (more on that later).</p>
+<p>Create a new <code>routes.jsx</code> file and move the routes array to it:</p>
+<pre class="highlight"><code class="language-jsx">import App from "./App";
+import Profile from "./Profile";
+import ErrorPage from "./ErrorPage";
+
+const routes = [
+  {
+    path: "/",
+    element: &lt;App /&gt;,
+    errorElement: &lt;ErrorPage /&gt;,
+  },
+  {
+    path: "profile/:name",
+    element: &lt;Profile /&gt;,
+  },
+];
+
+export default routes;</code></pre>
+<p>Import the routes to your <code>main.jsx</code> file:</p>
+<pre class="highlight"><code class="language-jsx">import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import routes from "./routes";
+
+const router = createBrowserRouter(routes);
+
+createRoot(document.getElementById("root")).render(
+  &lt;StrictMode&gt;
+    &lt;RouterProvider router={router} /&gt;
+  &lt;/StrictMode&gt;
+);</code></pre>
+<p>Much nicer!</p>
+<h3>Outlets and state</h3>
+<p>As we learned earlier, you can nest routes as children of a parent route, allowing you to use an <code>&lt;Outlet /&gt;</code> in the parent to render the appropriate element based on the rest of the path.</p>
+<p>If we had data in the parent element, such as a state, that we wanted to pass to any components rendered by that outlet, we would have to use something called <code>context</code>. For now, we will focus on context with outlets, but in a later lesson, we will learn more about how to use context without outlets.</p>
+<p>Outlets have a <code>context</code> prop built in. We can pass any value we want into this prop, even an array or object. Inside <em>any</em> component that would be rendered within that outlet (even "grandchild" components), we can call the <code>useOutletContext()</code> hook which will return whatever we passed into that context prop. If we passed in an array or object, we could even destructure it!</p>
+<p>Take a look at React Router's <a href="https://reactrouter.com/api/hooks/useOutletContext">documentation on <code>useOutletContext</code></a> to learn more about how to pass context through an outlet and access that context in child components.</p>
+<h3>Protected routes and navigation</h3>
+<p>Often, you will need to decide whether a certain route should be rendered or not. One example is authentication, where you render certain routes based on if the user is logged in or not. If they are logged in, you show some information about the user like here at <a href="https://www.theodinproject.com/dashboard">The Odin Project dashboard page</a>. Otherwise, they are redirected to the sign-in page (this could be any page). While there are many ways to do so, one of the easiest ways is to conditionally create a config for the router.</p>
+<p>You will often come across the need to reroute the user to a different URL programmatically. This is where we can use <a href="https://reactrouter.com/api/hooks/useNavigate">the useNavigate hook</a> which lets you navigate to URLs or even go back down the user's history.</p>
+<h3>React Router testing</h3>
+<p>When testing components that use React Router, it’s important to remember that your app never renders those components directly. Instead, it renders them through a router (for example, via <code>&lt;RouterProvider&gt;</code>). Because of this, tests that render these components also need to render them inside a routing context - otherwise hooks like <code>useNavigate</code> or <code>useParams</code>, or a <code>&lt;Link&gt;</code> component, will throw errors.</p>
+<p>If you’re just rendering a component that happens to include something like a <code>&lt;Link&gt;</code> (and you’re not testing navigation or relying on other router features), wrapping it in a lightweight <a href="https://reactrouter.com/api/declarative-routers/MemoryRouter">MemoryRouter</a> may be enough. But if the component depends on <strong>router behavior</strong>, like using outlet context, matching params, error elements, or redirects, it would make more sense to render a <code>&lt;RouterProvider&gt;</code> like your app does. Since your tests don't run in a browser, you can use <a href="https://reactrouter.com/api/data-routers/createMemoryRouter">createMemoryRouter</a> to create routers in your tests with the same route configuration from <code>routes.jsx</code>.</p>
+<h3>Conclusion</h3>
+<p>You should now have enough basics to get started with React routing. There are a lot more features to react-router which are extremely useful, but out of the scope of this lesson. We're confident that the concepts covered above should be enough to get you through the React course. If you are interested in learning some more, we recommend you look into the history or match object. Definitely go and check out more advanced concepts once you are familiar with the basics.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>This article on <a href="https://bholmes.dev/blog/spas-clientside-routing/">SPAs and client-side routing by Ben Holmes</a> goes through a lot of the routing concepts concisely.</li>
+<li>Add a few new routes to the application we created above. This was a dense lesson, so take some time to play with the new tools you've learned. Consider deleting it completely and rewriting it using what you know.</li>
+<li>Browse through the <a href="https://reactrouter.com/home">React Router documentation</a>. Again, you don't need to read through all of it, nor understand all of it. Just browse through the concepts we discussed here and re-read them. Look into the other features that React Router offers. This is a great resource to refer back to.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#client-side-routing">What does client-side routing mean?</a></li>
+<li><a href="#adding-a-router">How do you set up a basic router?</a></li>
+<li><a href="#the-link-element">What should be used in place of "a" tags to enable client-side routing?</a></li>
+<li><a href="#nested-routes-outlets-and-dynamic-segments">How do you create nested routes?</a></li>
+<li><a href="#nested-routes-outlets-and-dynamic-segments">What do you mean by dynamic segments or URL params?</a></li>
+<li><a href="#handling-bad-urls">How do you handle errors from bad URLs?</a></li>
+<li><a href="#outlets-and-state">How do you pass data from parent to child through an <code>&lt;Outlet /&gt;</code> component?</a></li>
+<li><a href="#protected-routes-and-navigation">How do you create protected routes?</a></li>
+<li><a href="#react-router-testing">How do you test components that use React Router?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

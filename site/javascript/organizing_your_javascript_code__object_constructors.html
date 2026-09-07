@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Object Constructors</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Object Constructors <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Covers object constructors and prototypal inheritance</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>データや機能を整理するために<em>なぜ</em>、<em>どのように</em>オブジェクトを使うことがあるのかについての基本的な理解ができたところで、次はオブジェクトの複製(しばしば<strong>インスタンス</strong>と呼ばれます)を作成するための基本的な戦略と、<strong>継承</strong>を通して既存の種類のオブジェクトを新しいものを作るための基盤として使う方法を学ぶことが重要です。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>コンストラクタを使ってオブジェクトをインスタンス化します。</li>
+<li>プロトタイプとは何で、どう使えるか。</li>
+<li>プロトタイプ継承。</li>
+<li>プロトタイプ継承の基本的なdoとdon't。</li>
+<li>状況によって<code>this</code>キーワードがどう振る舞うか。</li>
+</ul>
+<h3 id="object-constructors">オブジェクトコンストラクタ</h3>
+<p>すべてのオブジェクトの内容をオブジェクトリテラルで手動で書き出すことは、必ずしも現実的ではありません。複数作る必要のある特定の種類のオブジェクトがある場合、それらを作成するより良い方法は、オブジェクトコンストラクタを使うことです。これは実は単なる関数です:</p>
+<pre class="highlight"><code class="language-javascript">function Player(name, marker) {
+  this.name = name;
+  this.marker = marker;
+}</code></pre>
+<p>唯一の違いは、<code>new</code>キーワードを使って関数を呼び出すことでそれを使うということです:</p>
+<pre class="highlight"><code class="language-javascript">const player = new Player("steve", "X");
+console.log(player.name); // "steve"</code></pre>
+<p>これは、(<code>new</code>キーワードなしで)<code>Player("steve", "X")</code>を呼び出すのとは同じではありません。<span id="new-keyword"><code>new</code>と共に関数を呼び出すと、新しいオブジェクトが作られ、その関数の中の<code>this</code>がそのオブジェクトを指すようになり、そのオブジェクトが関数の<code>.prototype</code>プロパティから継承するようになります(これについては後ほど詳しく説明します)。それから、新しいオブジェクトが返されます(コンストラクタ関数の中で<code>return</code>の値を指定していなくても)。</span></p>
+<p>オブジェクトリテラルの方法で作成されたオブジェクトと同様に、オブジェクトに関数を追加することができます:</p>
+<pre class="highlight"><code class="language-javascript">function Player(name, marker) {
+  this.name = name;
+  this.marker = marker;
+  this.sayName = function() {
+    console.log(this.name);
+  };
+}
+
+const player1 = new Player("steve", "X");
+const player2 = new Player("also steve", "O");
+player1.sayName(); // logs "steve"
+player2.sayName(); // logs "also steve"</code></pre>
+<div class="lesson-note lesson-note--warning">
+<h4 id="safeguarding-constructors">コンストラクタを保護する</h4>
+<p>コンストラクタは間違って<code>new</code>を使わずに呼び出されてしまうことがあり、それは新しいオブジェクトや<code>this</code>のバインディングに関することを何も行わないため、追跡しづらいエラーを引き起こしてしまいます。そのため、コンストラクタを保護すべきです。次のように<code>new.target</code>メタプロパティを使うことができ、これは<code>Player</code>が<code>new</code>なしで呼び出されるとエラーを投げます:</p>
+<pre class="highlight"><code class="language-javascript">function Player(name, marker) {
+  if (!new.target) {
+    throw Error("You must use the 'new' operator to call the constructor");
+  }
+  this.name = name;
+  this.marker = marker;
+  this.sayName = function() {
+    console.log(this.name);
+  };
+}</code></pre>
+</div>
+<h3>演習</h3>
+<p>「Book」オブジェクトを作るためのコンストラクタを書いてください。これは次のプロジェクトで再び扱います。あなたのbookオブジェクトは、本の<code>title</code>、<code>author</code>、<code>pages</code>の数、そしてその本を<code>read</code>(読んだ)かどうかを持つべきです。</p>
+<p>コンストラクタの中に、次のように本の情報を報告できる<code>info()</code>関数を入れてください:</p>
+<pre class="highlight"><code class="language-javascript">console.log(theHobbit.info()); // "The Hobbit by J.R.R. Tolkien, 295 pages, not read yet"</code></pre>
+<div class="lesson-note lesson-note--tip">
+<h4>console.log vs return</h4>
+<p>デモのために<code>console.log()</code>を呼び出す関数の例を使っていますが、関数に直接ものをログ出力させるよりも、一般的には<code>return</code>で値を返すようにする方が賢明です。そうすることで、その関数が何をするかに縛られることなく、値を好きなところに渡すことができます。常に値をログ出力したいとは限らないからです。</p>
+</div>
+<h3 id="the-prototype">プロトタイプ</h3>
+<p>JavaScriptでは、すべてのオブジェクトは別のオブジェクトにリンクすることができ、これはそのオブジェクトの<strong>プロトタイプ</strong>(その<code>[[Prototype]]</code>としても知られています)と呼ばれます。あるプロパティやメソッドがオブジェクト自体に見つからない場合、JavaScriptはそれを<code>[[Prototype]]</code>の中で探します。</p>
+<p>これを分解してみましょう。</p>
+<h4>1. JavaScriptのすべてのオブジェクトは[[Prototype]]を持っている</h4>
+<p>ここはかなり単純な文ですね!JavaScriptのすべてのオブジェクトは<code>[[Prototype]]</code>を持っています。ですので、例えば、前に出てきた<code>player1</code>と<code>player2</code>オブジェクト(<code>Player(name, marker)</code>オブジェクトコンストラクタで作成されたもの)も<code>[[Prototype]]</code>を持っています。さて、<code>[[Prototype]]</code>を持つとはどういうことでしょうか?そもそも、あるオブジェクトの<code>[[Prototype]]</code>とは何なのでしょうか?</p>
+<h4>2. [[Prototype]]は別のオブジェクトである</h4>
+<p>この文もかなり単純に見えますね!<code>[[Prototype]]</code>は<em>単なる別のオブジェクト</em>です - 繰り返しになりますが、<code>player1</code>や<code>player2</code>オブジェクトのようなものです。<code>[[Prototype]]</code>オブジェクトはプロパティや関数を持つことができ、それはちょうど<code>Player</code>オブジェクトが<code>.name</code>、<code>.marker</code>のようなプロパティや<code>.sayName()</code>のような関数を持っているのと同じです。</p>
+<h4>3. …そして元のオブジェクトはそれから継承し、その[[Prototype]]のすべてのメソッドとプロパティにアクセスできる</h4>
+<p>ここで「元のオブジェクト」とは、<code>player1</code>や<code>player2</code>のようなオブジェクトを指します。これらのオブジェクトは「継承する」、つまり言い換えると、これらのオブジェクトは、それらが定義されている場合、<code>[[Prototype]]</code>のプロパティや関数にアクセスできると言われます。例えば、もし<code>[[Prototype]]</code>に<code>.sayHello()</code>関数が定義されていれば、<code>player1</code>はまるでそれが自分自身の関数であるかのように、その関数にアクセスできます - <code>player1.sayHello()</code>というようにです。しかし、<code>.sayHello()</code>関数を呼び出せるのは<code>player1</code>だけではありません。<code>player2</code>もそれを呼び出すことができます。なぜなら、それは<code>player2</code>の<code>[[Prototype]]</code>にも定義されているからです!それがどう機能するか、そしてあなた自身でどうやってこれを行えるかの詳細を知るために、読み進めてください!</p>
+<h4>オブジェクトの[[Prototype]]にアクセスする</h4>
+<p>概念的には、オブジェクトの<code>[[Prototype]]</code>が何であるかを知った、あるいは少なくともイメージできるようになったと感じているかもしれません。しかし、あるオブジェクトのプロトタイプが何であるかを、どうやって<em>知る</em>、あるいは実際に<em>見る</em>のでしょうか?見てみましょう。以下のコードをブラウザの開発者コンソールで実行してみることができます。(前に出てきた<code>player1</code>と<code>player2</code>オブジェクトを作成しておいてください!)</p>
+<pre class="highlight"><code class="language-javascript">Object.getPrototypeOf(player1) === Player.prototype; // returns true
+Object.getPrototypeOf(player2) === Player.prototype; // returns true</code></pre>
+<p>さて、このコードを理解するために、先ほどの3つのポイントを使ってみましょう:</p>
+<ol>
+<li><strong>JavaScriptのすべてのオブジェクトは<code>[[Prototype]]</code>を持っている</strong>:
+   - オブジェクトに対して<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf"><code>Object.getPrototypeOf()</code></a>関数を使うことで、そのオブジェクトの<code>[[Prototype]]</code>をチェックできます。例えば<code>Object.getPrototypeOf(player1)</code>のようにです。
+   - <code>Object.getPrototypeOf(player1)</code>は、<code>Player</code>コンストラクタの<code>.prototype</code>プロパティにあるオブジェクト(つまり<code>Player.prototype</code>)を返します。</li>
+<li><strong><code>[[Prototype]]</code>は別のオブジェクトである…</strong>
+   - <code>Player.prototype</code>の<em>値</em>にはオブジェクトが含まれています。
+   - <code>Player.prototype</code>への<em>参照</em>は、<code>Player</code>オブジェクトのすべてのインスタンスに、その<code>[[Prototype]]</code>として保存されています。
+   - したがって、<code>player1</code>の<code>[[Prototype]]</code>を取得し、<code>Player.prototype</code>にあるオブジェクトとの参照の等価性をチェックすると、<code>true</code>が返されます。</li>
+<li><strong>…そして元のオブジェクトはそれから<em>継承</em>し、その<code>[[Prototype]]</code>のすべてのメソッドとプロパティにアクセスできる</strong>:
+   - ですので、<code>Player.prototype</code>に定義されたどんなプロパティやメソッドも、作成された<code>Player</code>オブジェクトで利用可能になります!</li>
+</ol>
+<p>最後のサブ項目には、もう少し説明が必要です。「プロトタイプに」定義するとはどういうことでしょうか?次のコードを考えてみてください:</p>
+<pre class="highlight"><code class="language-javascript">Player.prototype.sayHello = function() {
+  console.log("Hello, I'm a player!");
+};
+
+player1.sayHello(); // logs "Hello, I'm a player!"
+player2.sayHello(); // logs "Hello, I'm a player!"</code></pre>
+<p>ここでは、<code>Player.prototype</code>オブジェクトに「対して」<code>.sayHello</code>関数を定義しました。すると、それが<code>player1</code>と<code>player2</code>オブジェクトが使えるようになりました!同様に、オブジェクトの<code>[[Prototype]]</code>(これは<code>Player.prototype</code>です)に定義することで、すべての<code>Player</code>オブジェクトで使いたい他のプロパティや関数を付け加えることができます。</p>
+<div class="lesson-note">
+<h4>.__proto__</h4>
+<p>一部のドキュメントやコードベースでは、<code>Object.getPrototypeOf()</code>や<code>Object.setPrototypeOf()</code>を使う代わりに、オブジェクトの<code>[[Prototype]]</code>を取得・設定するために<code>.__proto__</code>が使われているのを見かけるかもしれません。これは歴史的な理由によるもので、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto"><code>.__proto__</code>は非標準で非推奨のアプローチ</a>であるため、オブジェクトの<code>[[Prototype]]</code>にアクセスするためにこれを使うことは推奨されません。</p>
+</div>
+<div class="lesson-note">
+<h4>Object.getPrototypeOf() と .prototype の違い</h4>
+<p>よくある混乱の原因の一つは、コンストラクタ関数の<code>.prototype</code>プロパティを扱うことから来ます。</p>
+<p><code>.prototype</code>は関数のプロパティで、その関数が<code>new</code>と共に呼び出されたときに、新しいオブジェクトインスタンスの<code>[[Prototype]]</code>が何に設定されるかを決定します。<code>.prototype</code>は、オブジェクトの<code>[[Prototype]]</code>にアクセスするためのもの<em>ではありません</em> - それは<code>Object.getPrototypeOf()</code>のためのものです。</p>
+<p><img alt="prototypal inheritance diagram" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/cffc199a8cfbfcd61160b00c4cf61e1d6bb6ff2e/javascript/organizing_your_javascript_code/object_constructors/imgs/00.png" /></p>
+</div>
+<h4>プロトタイプ継承</h4>
+<p>さて、あなたにも疑問があるかもしれません - オブジェクトの<code>[[Prototype]]</code>にはどんな用途があるのでしょうか?プロトタイプにプロパティや関数を定義する目的は何なのでしょうか?</p>
+<p>これは2つの理由に絞り込むことができます:</p>
+<ol>
+<li>メモリを節約するために、すべてのオブジェクトに共通するプロパティや関数をプロトタイプに定義することができます。すべてのプロパティや関数を定義することは、特に多くの共通のプロパティや関数があり、多くのオブジェクトが作成される場合、多くのメモリを消費します。オブジェクトがアクセスできる、一元化された共有オブジェクトにそれらを定義することで、メモリを節約できます。</li>
+<li>2つ目の理由は、JavaScriptのプロトタイプ継承の仕組みを通して、複数のオブジェクトが振る舞いを共有・再利用できるようにすることです。例えば、<code>player1</code>や<code>player2</code>が<code>Player.prototype</code>に定義された<code>.sayHello</code>のような関数にアクセスできるようにすることです。</li>
+</ol>
+<p>では、次のことを試してみましょう:</p>
+<pre class="highlight"><code class="language-javascript">// Player.prototype.__proto__
+Object.getPrototypeOf(Player.prototype) === Object.prototype; // true
+
+// Output may slightly differ based on the browser
+player1.valueOf(); // Output: Object { name: "steve", marker: "X", sayName: sayName() }</code></pre>
+<p>この<code>.valueOf</code>関数は何で、私たちが定義していないのにどこから来たのでしょうか?これは、<code>Object.getPrototypeOf(Player.prototype)</code>が<code>Object.prototype</code>という値を持っていることの結果として現れます!これはつまり、<code>Player.prototype</code>が<code>Object.prototype</code>から継承しているということです。この<code>.valueOf</code>関数は、<code>.sayHello</code>が<code>Player.prototype</code>に定義されているのとちょうど同じように、<code>Object.prototype</code>に定義されています。</p>
+<p>この<code>.valueOf</code>関数が<code>Object.prototype</code>に定義されているということを、どうやって知るのでしょうか?<code>.hasOwnProperty</code>という別の関数を利用します:</p>
+<pre class="highlight"><code class="language-javascript">player1.hasOwnProperty("valueOf"); // false
+Object.prototype.hasOwnProperty("valueOf"); // true</code></pre>
+<p>では、この<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty"><code>.hasOwnProperty</code>関数</a>はどこから来たのでしょうか?素早いチェックが助けになります:</p>
+<pre class="highlight"><code class="language-javascript">Object.prototype.hasOwnProperty("hasOwnProperty"); // true</code></pre>
+<p>基本的に、これがJavaScriptがプロトタイプを利用する仕組みです。あるオブジェクトはその<code>[[Prototype]]</code>オブジェクトから継承し、それはさらに自分自身の<code>[[Prototype]]</code>から継承する、というように続いていき、こうしてチェーンが形成されます。プロトタイプを使ったこの種の継承は、そのためプロトタイプ継承と名付けられています。JavaScriptは、あるオブジェクトにどのプロパティが存在する(あるいは存在しない)かを把握し、そのプロパティや関数を見つけるためにチェーンを次のようにたどり始めます:</p>
+<ol>
+<li><code>.valueOf</code>関数は<code>player1</code>オブジェクトの一部でしょうか?いいえ、違います。(覚えていますか、<code>Player</code>オブジェクトの一部なのは<code>name</code>、<code>marker</code>、<code>sayName</code>プロパティだけです。)</li>
+<li>その関数は<code>player1</code>の<code>[[Prototype]]</code>(つまり<code>Object.getPrototypeOf(player1)</code>の値、すなわち<code>Player.prototype</code>)の一部でしょうか?いいえ、その一部なのは<code>.sayHello</code>関数だけです。</li>
+<li>では、それは<code>Object.getPrototypeOf(Player.prototype)</code>(=== <code>Object.prototype</code>)の一部でしょうか?はい、<code>.valueOf</code>は<code>Object.prototype</code>に定義されています!</li>
+</ol>
+<p>しかし、このチェーンは永遠に続くわけではなく、もしすでに<code>Object.getPrototypeOf(Object.prototype)</code>の値をログ出力してみたことがあれば、それが<code>null</code>であることに気づいたはずです。これがチェーンの終わりを示しています。そして、このチェーンの終わりで、特定のプロパティや関数が見つからない場合、<code>undefined</code>が返されます。</p>
+<p>注意:</p>
+<ol>
+<li>すべてのプロトタイプオブジェクトは、直接的にであれ間接的にであれ、デフォルトで<code>Object.prototype</code>から継承します。</li>
+<li>あるオブジェクトの<code>Object.getPrototypeOf()</code>の値は<em>一つ</em>の値しか持てません(オブジェクトは複数の<code>[[Prototype]]</code>を持つことはできません)。</li>
+</ol>
+<h4 id="recommended-method-for-prototypal-inheritance">プロトタイプ継承のための推奨される方法</h4>
+<p>さて、プロトタイプ継承をどう利用すればよいでしょうか?それを使うために何をする必要があるでしょうか?<code>Object.getPrototypeOf()</code>を使ってオブジェクトの<code>[[Prototype]]</code>を「取得」あるいは表示するのと同じように、<code>Object.setPrototypeOf()</code>を使ってそれを「設定」、あるいは変更することができます。<code>Player</code>の例に<code>Person</code>オブジェクトコンストラクタを追加し、<code>Player</code>が<code>Person</code>から継承するようにすることで、これがどう機能するか見てみましょう!</p>
+<pre class="highlight"><code class="language-javascript">function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.sayName = function() {
+  console.log(`Hello, I'm ${this.name}!`);
+};
+
+function Player(name, marker) {
+  this.name = name;
+  this.marker = marker;
+}
+
+Player.prototype.getMarker = function() {
+  console.log(`My marker is "${this.marker}"`);
+};
+
+Object.getPrototypeOf(Player.prototype); // returns Object.prototype
+
+// Now make `Player` objects inherit from `Person`
+Object.setPrototypeOf(Player.prototype, Person.prototype);
+Object.getPrototypeOf(Player.prototype); // returns Person.prototype
+
+const player1 = new Player("steve", "X");
+const player2 = new Player("also steve", "O");
+
+player1.sayName(); // Hello, I'm steve!
+player2.sayName(); // Hello, I'm also steve!
+
+player1.getMarker(); // My marker is "X"
+player2.getMarker(); // My marker is "O"</code></pre>
+<p>このコードから、<code>Player</code>が継承する元となる<code>Person</code>を定義したこと、そして作成された<code>Player</code>オブジェクトが、2つの別々の<code>.prototype</code>オブジェクトに定義されているにもかかわらず、<code>.sayName</code>と<code>.getMarker</code>の両方の関数にアクセスできることが分かります!これは<code>Object.setPrototypeOf()</code>関数の使用によって可能になっています。これは2つの引数を取ります - 1つ目は継承する側、2つ目は1つ目の引数に継承させたい相手です。これにより、作成された<code>Player</code>オブジェクトが、プロトタイプチェーンを通して<code>.sayName</code>と<code>.getMarker</code>関数にアクセスできるようになります。</p>
+<p>注意:</p>
+<p><code>Object.setPrototypeOf()</code>を使ってプロトタイプ継承をセットアップするのは簡単な方法に思えますが、プロトタイプチェーンは、どんなオブジェクトも作成する<em>前に</em>この関数を使ってセットアップされなければなりません。オブジェクトがすでに作成された後で<code>setPrototypeOf()</code>を使うと、パフォーマンスの問題を引き起こす可能性があります。</p>
+<p>一つ警告です…これは機能しません:</p>
+<pre class="highlight"><code class="language-javascript">Player.prototype = Person.prototype;</code></pre>
+<p><code>Player.prototype</code>と<code>Person.prototype</code>の両方が、メモリ上でまったく同じオブジェクトになってしまいます。これはつまり、<code>Player.prototype</code>に加えられた変更は<code>Person.prototype</code>にも影響してしまうということで、これは意図した振る舞いではありません。その代わり、私たちは<code>Player.prototype</code>と<code>Person.prototype</code>を同じオブジェクトにするのではなく、<code>Player.prototype</code>が<code>Person.prototype</code>から継承するようにすべきです。もう一つ例を考えてみましょう:</p>
+<pre class="highlight"><code class="language-javascript">function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.sayName = function() {
+  console.log(`Hello, I'm ${this.name}!`);
+};
+
+function Player(name, marker) {
+  this.name = name;
+  this.marker = marker;
+}
+
+// Don't do this!
+// Use Object.setPrototypeOf(Player.prototype, Person.prototype)
+Player.prototype = Person.prototype;
+
+function Enemy(name) {
+  this.name = name;
+  this.marker = "^";
+}
+
+// Not again!
+// Use Object.setPrototypeOf(Enemy.prototype, Person.prototype)
+Enemy.prototype = Person.prototype;
+
+Enemy.prototype.sayName = function() {
+  console.log("HAHAHAHAHAHA");
+};
+
+const carl = new Player("carl", "X");
+carl.sayName(); // Uh oh! this logs "HAHAHAHAHAHA" because we edited the sayName function!</code></pre>
+<p>もしこの例で<code>Object.setPrototypeOf()</code>を使っていれば、<code>Player</code>の関数を変更することなく、安全に<code>Enemy.prototype.sayName</code>関数を編集できていたでしょう。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>以下の記事から、プロトタイプの概念について読んでください。</li>
+<li>Digital Oceanの記事<a href="https://www.digitalocean.com/community/tutorials/understanding-prototypes-and-inheritance-in-javascript">Understanding Prototypes and Inheritance in JavaScript</a>を読んでください。これは、いくつかの例を交えた、プロトタイプ継承とコンストラクタ関数の良い復習になります。</li>
+<li>チェーンと継承の両方についてもう少し深く掘り下げるために、<a href="http://javascript.info/prototype-inheritance">JavaScript.Infoのプロトタイプ継承についての記事</a>に時間をかけて取り組んでください。いつも通り、最後にある演習を行うことが、この知識をあなたの頭に定着させるのに役立ちます。飛ばさないでください!重要な注意: この記事は<code>__proto__</code>を多用していますが、これは一般的には推奨されません。ここでの概念こそが、今私たちが求めているものです。すぐに、プロトタイプを設定するための別の方法を1つか2つ学びます。</li>
+<li>上記の例で、オブジェクトコンストラクタとプロトタイプメソッドの中で<code>this</code>キーワードを使っていることに気づいたかもしれません。<a href="https://www.javascripttutorial.net/javascript-this/"><code>this</code>キーワードについてのJavaScript Tutorialの記事</a>は、さまざまな状況で<code>this</code>がどう変化するかを扱っています。各セクションで言及されている落とし穴に特に注意を払ってください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#object-constructors">オブジェクトコンストラクタをどう書き、オブジェクトをどうインスタンス化しますか?</a></li>
+<li><a href="#safeguarding-constructors">オブジェクトコンストラクタが<code>new</code>キーワードを使わずに呼び出されるのをどう防げますか?</a></li>
+<li><a href="#the-prototype">プロトタイプとは何で、どう使うことができますか?</a></li>
+<li><a href="https://javascript.info/prototype-inheritance">プロトタイプ継承とは何ですか?</a></li>
+<li><a href="#recommended-method-for-prototypal-inheritance">プロトタイプ継承の基本的なdoとdon'tは何ですか?</a></li>
+<li><a href="https://www.javascripttutorial.net/javascript-this/">状況によって<code>this</code>はどう振る舞いますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

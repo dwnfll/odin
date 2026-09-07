@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alignment</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Alignment <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn how to get flex-items where they need to be on your page.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>これまでflexboxで扱ってきたものはすべて、すべてのフレックスアイテムに<code>flex: 1</code>というルールを使用しており、これによりアイテムは利用可能なスペースをすべて埋めるように均等に伸び縮みします。しかし、これが望む効果ではないこともよくあります。Flexは、特定のサイズを持つアイテムを配置するのにも非常に役立ちます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>フレックスコンテナ内でアイテムを垂直方向と水平方向の両方で揃える方法を学びます。</li>
+</ul>
+<h3>配置</h3>
+<p>例を見てみましょう。</p>
+<p class="codepen" data-height="400" data-default-tab="html,result" data-slug-hash="MWoyBzR" data-editable="true" data-user="TheOdinProjectExamples" style="height: 400px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/MWoyBzR">
+  flex-alignment example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>ここまで来れば、<code>.item</code>に<code>flex: 1</code>を設定したらどうなるか予測できるはずです。先に進む前に試してみてください!</p>
+<p><code>.item</code>に<code>flex: 1</code>を追加すると、各アイテムは利用可能なスペースを埋めるように成長しますが、幅は同じまま、コンテナ内での分布のさせ方だけを変えたい場合はどうすればよいでしょうか?それも可能です!</p>
+<p><code>.item</code>から<code>flex: 1</code>を削除し、<code>.container</code>に<code>justify-content: space-between</code>を追加してください。そうすると、次のようになるはずです:</p>
+<p><img alt="space-between" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/495704c6eb6bf33bc927534f231533a82b27b2ac/html_css/v2/foundations/flexbox/imgs/07.png" /></p>
+<p><code>justify-content</code>は<strong>メイン軸</strong>に沿ってアイテムを整列させます。ここで使用できる値はいくつかあります。残りについては課題の読み物で学びますが、今のところは<code>center</code>に変更してみてください。これによりボックスがメイン軸に沿って中央揃えになるはずです。</p>
+<p><strong>クロス軸</strong>に沿ったアイテムの配置を変更するには<code>align-items</code>を使用します。<code>.container</code>に<code>align-items: center</code>を追加して、ボックスをコンテナの中央に持ってきてみましょう。望ましい結果は次のようになります:</p>
+<p><img alt="中央揃え" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/495704c6eb6bf33bc927534f231533a82b27b2ac/html_css/v2/foundations/flexbox/imgs/08.png" /></p>
+<p><code>justify-content</code>と<code>align-items</code>はコンテナのメイン軸とクロス軸に基づいているため、フレックスコンテナのflex-directionを変更すると、それらの動作も変わります。例えば、<code>flex-direction</code>を<code>column</code>に変更すると、<code>justify-content</code>は垂直方向に整列し、<code>align-items</code>は水平方向に整列するようになります。しかし、最も一般的な動作はデフォルトのもの、つまり<code>justify-content</code>がアイテムを水平方向に整列させ(メイン軸はデフォルトで水平だからです)、<code>align-items</code>が垂直方向に整列させるというものです。初心者がflexboxでつまずく最大のポイントの一つが、この動作が変わったときの混乱です。</p>
+<h4>gap</h4>
+<p>flexの非常に便利な機能の一つが<code>gap</code>プロパティです。フレックスコンテナに<code>gap</code>を設定すると、アイテム自体にmarginを追加するのと似た形で、フレックスアイテム間に指定したスペースが追加されます。<code>gap</code>は<em>新しい</em>プロパティなので、まだ多くのリソースには載っていませんが、すべてのモダンブラウザで確実に動作するため、安心して使える非常に便利なものです!上記の中央揃えの例に<code>gap: 8px</code>を追加すると、以下のような結果になります。</p>
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="qBjZyea" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/qBjZyea">
+  flex-alignment example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>以下の読み物で学ぶべきことはまだありますが、この時点で、flexboxがどれほど計り知れないほど便利であるかはきっと分かってきたはずです。すでに扱ったプロパティだけでも、印象的なレイアウトを組み立てられるようになっています!</p>
+<p>時間をかけて読み物に取り組んでください。ここですでに扱った項目の復習も含まれていますが、さらに深く掘り下げ、まだ触れていないいくつかのことにも触れています。今のところ、細かいことをすべて暗記しようとしてストレスを感じすぎないでください。ただ例と一緒にコードを書き、flexboxで<em>可能な</em>ことをすべて自分の中に取り込むよう最善を尽くしてください。練習問題に取り組む際には、これらのリソースに再び頼る必要が出てきますが、それはまったく問題ありません。これを使えば使うほど、頭の中により定着していきます……そしてあなたはこれを<em>常に</em>使うことになります。楽しんでください!</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>この美しい<a href="https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/">Interactive Guide to Flexbox</a>は、知っておくべきことをすべて網羅しています。すでに触れた概念を、本当に楽しく創造的な例で強化する助けになります。ここに時間をかけてください。この時点では復習になる部分もあるはずですが、ここにある基礎は重要です!</li>
+<li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">CSS Tricksの「Guide to Flexbox」</a>は定番です。画像と例が非常に役立ちます。パート1〜3とパート5を復習し(メディアクエリの部分はコースの後半で扱うので気にしなくて構いません)、それから今後の参照のための優れたチートシートとしてブックマークしておくとよいでしょう(練習問題のためにすぐ使えるようにしておいてください)。</li>
+<li><a href="https://flexboxfroggy.com/">Flexbox Froggy</a>をクリアしましょう。これはflexboxで物を動かす練習をするための、ちょっと面白いゲームです。</li>
+<li>
+<p><a href="https://github.com/TheOdinProject/css-exercises/tree/main/foundations/flex">CSS演習リポジトリの<code>foundations/flex</code>ディレクトリ</a>にある演習を(指示はREADMEに書かれていることを忘れずに)以下の順番で行ってください:</p>
+<ul>
+<li><code>01-flex-center</code></li>
+<li><code>02-flex-header</code></li>
+<li><code>03-flex-header-2</code></li>
+<li><code>04-flex-information</code></li>
+<li><code>05-flex-modal</code></li>
+<li><code>06-flex-layout</code></li>
+<li><code>07-flex-layout-2</code></li>
+</ul>
+<p>注:これらの演習の解答は、各演習の<code>solution</code>フォルダにあります。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Aligning_Items_in_a_Flex_Container"><code>justify-content</code>と<code>align-items</code>の違いは何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Aligning_Items_in_a_Flex_Container">flexboxを使ってフレックスコンテナ内のdivを完全に中央揃えするにはどうすればよいですか?</a></li>
+<li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/"><code>justify-content: space-between</code>と<code>justify-content: space-around</code>の違いは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

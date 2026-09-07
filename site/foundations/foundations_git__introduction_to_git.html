@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to Git</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Introduction to Git <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">A high level overview of what Git is and why it&#x27;s so useful</p>
+  </div>
+  <div class="lesson-content">
+    <h3 id="introduction">イントロダクション</h3>
+<p>Gitは、あなたのファイルやディレクトリのための、まさに<strong>壮大な保存ボタン</strong>のようなものです。正式には、Gitはバージョン管理システムです。</p>
+<p><span id="text-editor-and-git"></span>テキストエディタでの<em>保存</em>は、ドキュメント内のすべての単語を1つのファイルとして記録します。複製を作らない限り(これは作成や管理を忘れがちです)、<code>essay.doc</code>のようなファイルの記録は一つしか持てません:</p>
+<p><code>essay-draft1.doc</code>、<code>essay-draft2.doc</code>、<code>essay-final.doc</code></p>
+<p>しかし、Gitでの<em>保存</em>は、ファイルやフォルダの差分を記録し、<strong>それぞれの保存の履歴記録</strong>を保持します。この機能はゲームチェンジャーです。個人の開発者として、Gitはプロジェクトがどのように成長していくかを振り返ったり、過去のファイルの状態を簡単に確認したり復元したりすることを可能にしてくれます。ネットワークに接続すれば、Gitを使ってプロジェクトをGitHubや、Bitbucket、Beanstalk、GitLabといった他の選択肢にプッシュし、他の開発者と共有・協力できるようになります。</p>
+<p>なお、私たちのカリキュラムでサポートしているのはGitHub<strong>のみ</strong>であり、他の選択肢のトラブルシューティングは手伝いません。</p>
+<p><span id="git-local"></span>Gitがあなたの<em>ローカル</em>マシン上で動作する一方、<span id="github-remote"></span>GitHubはあなたのすべてのコーディングプロジェクトのための、ウェブ上の<em>リモート</em>ストレージ施設です。つまり、Gitを学ぶことで、GitHub上で自分のポートフォリオを披露できるようになるということです!これは本当に重要なことです。なぜなら、ほとんどすべてのソフトウェア開発企業が、Gitを使えることを現代のウェブ開発者にとって<strong>不可欠なスキル</strong>とみなしているからです。GitHubのポートフォリオを持つことは、将来の雇用主候補にあなたが何をできるかの証拠を提供してくれます。</p>
+<p>このレッスンでは、Gitの歴史、それが何であるか、そして何に役立つのかを簡単に見ていきます。</p>
+<p>次のレッスンでは、Gitを使う際の基本的なワークフローを見ていきます。これにより理解が深まり、Gitがなぜそれほど便利なのかが分かるようになるはずです。</p>
+<p>最後に、今後のプロジェクトのテンプレートとなる、Gitを使ったプロジェクトをセットアップします。</p>
+<p>それでは、Gitとは何か、そしてなぜそれほど強力なのかを学んでいきましょう!</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>GitとGitHubとは何か、そして両者の違いを説明する。</li>
+<li>保存内容と記録の管理という観点から、Gitとテキストエディタの違いを説明する。</li>
+<li>なぜGitが個人の開発者や開発者チームにとって役立つのかを説明する。</li>
+</ul>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control">Pro GitのGetting Startedセクション</a>の1.1章から1.4章を読んで、ローカル型、集中型、分散型のバージョン管理システムの違いを学びましょう。</li>
+<li><a href="https://www.youtube.com/watch?v=2ReR1YJrNOM">「Gitとは何か?」を2分で解説</a>という、Gitとは何か、そしてそれが個人と開発者チームの両方のワークフローをどう改善できるかについての動画を見てみましょう。</li>
+<li>GitHubとは何か、そしてGitとGitHubがどのように連携するかについての簡単な紹介として<a href="https://docs.github.com/en/get-started/start-your-journey/about-github-and-git">「About GitHub and Git」</a>を読んでみましょう。末尾の「Where do I start?」セクションは飛ばして構いません。</li>
+<li>まだGitをインストールしていない場合は、<a href="https://www.theodinproject.com/lessons/foundations-setting-up-git">Setting Up Git</a>のレッスンを参照してください。</li>
+<li><a href="https://github.com/TheOdinProject/curriculum">The Odin ProjectのGitHubリポジトリ</a>を見てみましょう。ここにすべてのレッスンが保管されています!ついでに、<a href="https://github.com/TheOdinProject/curriculum/graphs/contributors">私たちのコントリビューター一覧</a>を見て、Gitがすべての共同作業をどのように記録し、GitHubがそれをどのように視覚的に表現しているかを実感してみましょう。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#introduction">Gitはどのような種類のプログラムですか?</a></li>
+<li><a href="#text-editor-and-git">保存内容と記録の管理という観点から、Gitとテキストエディタの違いは何ですか?</a></li>
+<li><a href="#git-local">Gitはローカルとリモートのどちらのレベルで動作しますか?</a></li>
+<li><a href="#github-remote">GitHubはローカルとリモートのどちらのレベルで動作しますか?</a></li>
+<li><a href="https://www.youtube.com/watch?v=2ReR1YJrNOM">Gitはなぜ開発者にとって役立つのですか?</a></li>
+<li><a href="https://docs.github.com/en/get-started/start-your-journey/about-github-and-git">GitとGitHubはなぜ開発者チームにとって役立つのですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

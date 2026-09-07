@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction To State</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Introduction To State <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Introduction To State</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Any exciting application you build is likely to change over the time the user is exploring it. The changes could be as basic as toggling a dropdown menu or as complex as fetching data from an API. React provides primitives to manipulate the state of your apps, more specifically components, to make them dynamic. In this lesson, we will learn how to use state in React.</p>
+<p>Read  <a href="https://academind.com/tutorials/what-is-state">What is State? by Academind</a> before we get started.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>What state in React is.</li>
+<li>How to use state in React.</li>
+<li>What happens in React when state is changed.</li>
+</ul>
+<h3>What is state in React?</h3>
+<p>We write components in React, A LOT of components, and many times we want them to undergo visual changes as a result of user or computer interactions. For this purpose, a component needs to "remember" things about itself. This is where state comes in. <strong>State is a component's memory.</strong></p>
+<p>Let's take a look at how we can use state in our code. Go to our <a href="https://github.com/TheOdinProject/react-examples">react-examples repo</a> then fork and clone it. Once you've cloned it, <code>cd</code> into the <code>state/</code> directory, where you can then run <code>npm install</code> to get everything set up, then <code>npm run dev</code> to start the dev server.</p>
+<p>Once opened, you'll see we have an app that changes its background color based on the clicked button. Take your time reading the code as we'll jump right in and look at the code within <code>src/App.jsx</code>.</p>
+<h4>The useState hook</h4>
+<p><span id="useState-hook">The <code>useState</code> hook is a built-in hook (we'll talk about hooks later) in React that allows you to define state in a functional component. It takes an initial value as a parameter and returns an array with two elements that we can destructure to get:</span></p>
+<ol>
+<li>The current state value</li>
+<li>A function to update the state value</li>
+</ol>
+<p>State definition with <code>useState</code> commonly follows this pattern:</p>
+<pre class="highlight"><code class="language-javascript">const [stateValue, setStateValue] = useState(initialValue);
+
+// adapted for our use case:
+const [backgroundColor, setBackgroundColor] = useState(COLORS[0]);</code></pre>
+<p>Even without much knowledge of React, you can, to some extent, understand what's going on. The <code>backgroundColor</code> state is defined with the hook. Then on every button, we set up a <em>click</em> event handler that calls the <code>setBackgroundColor</code> function with the corresponding value. Then, magically the new color is applied to the background.</p>
+<p>Adding more state variables should be as easy as adding more <code>useState</code> calls.</p>
+<p>Great, you can now use state! But, what's going on under the hood?</p>
+<h3>How does state work in React?</h3>
+<p>Let's hit you with some theory.</p>
+<p>In React, when a component's state or props change, React runs your component function again from the beginning to figure out what should be displayed based on the freshly-set state and props. All the calculated changes are then applied to the DOM (committed).
+That is, the entire component is recreated, in a sense, but this time the latest state value will be returned from <code>useState</code>. This process is called rerendering. Rerendering is a key feature of React that enables it to efficiently update the user interface in response to changes in the underlying data.</p>
+<div class="lesson-note">
+<h4>React reconciliation algorithm</h4>
+<p>The process of rerendering generates a new virtual DOM (Document Object Model) tree. The virtual DOM is a lightweight representation of the actual DOM that React uses to keep track of the current state of the UI. React then compares the new virtual DOM tree to the previous one and calculates the minimal set of changes needed to update the actual DOM. This is the reconciliation algorithm.</p>
+</div>
+<h4>Explaining rerendering with the example above</h4>
+<p>Whenever <code>setBackgroundColor</code> is called, our <code>App</code> component is rerendered. Essentially, the component is recreated which means the <code>onButtonClick</code> function and our <code>div</code> and <code>button</code>s are recreated as well. You might wonder, shouldn't the <code>backgroundColor</code> state be recreated as well? Well, React takes the responsibility of keeping track of the latest state and providing it to the component. The initial state value is only used for the component's first render and is ignored on subsequent renders.</p>
+<p><img alt="code illustration of rerendering" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/abf5962ab36c951bab907a9952d09400651eab10/react/states_and_effects/introduction_to_state/imgs/00.png" /></p>
+<p>What we covered in this section is just a brief overview of a portion of React internals. You may be curious to learn more, but be advised, this is a deep rabbit hole. What we covered above is enough to get you through the React course.</p>
+<h3>Hooks</h3>
+<p>Hooks are functions that let you use React features. All hooks are recognizable by the <code>use</code> prefix. For example, <code>useState</code> is a hook. We'll use more of these as we get further into the course. For now, remember that hooks have rules that we need to abide by:</p>
+<ol>
+<li>Hooks can only be called from the top level of a functional component.</li>
+<li>Hooks can't be called from inside loops or conditions.</li>
+</ol>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Read the following articles from the React docs:<ol>
+<li><a href="https://react.dev/learn/state-a-components-memory">State: A Component's Memory</a></li>
+<li><a href="https://react.dev/learn/render-and-commit">Render and Commit</a></li>
+</ol>
+</li>
+<li>Read this <a href="https://www.geeksforgeeks.org/reactjs-reconciliation/">article on React Reconciliation Algorithm</a> for a great explanation.</li>
+<li>Head back to the state example app from our <code>react-examples</code> repo earlier in the lesson. Add a new state variable to keep track of the number of times the background color has been changed. Display the number of times the background color has been changed on the page.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#what-is-state-in-react">What is state?</a></li>
+<li><a href="#useState-hook">What is the <code>useState</code> hook and how would you use it?</a></li>
+<li><a href="#how-does-state-work-in-react">What happens to a component when one of its states is changed?</a></li>
+<li><a href="#hooks">What are some of the rules of hooks?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

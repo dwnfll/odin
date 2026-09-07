@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webpack</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Webpack <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Webpack</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>前のレッスンでは、ES6モジュール(ESM)とnpmを紹介しました。ESMの導入により、個々のスクリプトファイルと依存関係を管理することに関する問題の一部は大きく緩和されました。しかし、特にサードパーティのファイルがさらに多くインポートされるにつれて、大量のモジュールファイルを個別にダウンロードすることはパフォーマンスを低下させる可能性があります。</p>
+<p>幸いなことに、より最近のウェブ技術はこれらの側面を大きく改善してきましたが、バンドラーは今でも、私たちのコードをさまざまな方法で処理・最適化するための大きな力を提供してくれます。しかし、この力には、バンドラーを設定する必要があるという小さなコストが伴います。今のところ、私たちのニーズは少なくシンプルなので、基本的なことを一つずつ見ていくことができます。</p>
+<p>バンドラーについての認識と基本的な経験は価値があります。近年、私たちのために多くの基本的な設定を処理してくれる新しいビルドツールが登場していますが、実際の現場では、これらの目新しいツールを使う機会が常にあるとは限りません。より手動の設定を必要とするツールを使っているコードベースで作業することになるのは、非常にありそうなことです。あなたのために多くのことを処理してくれるツールを使うときでさえ、それらのツールが実際にあなたのために何をしているのかを理解しておくことは役立ちます。</p>
+<p>先に進む前に、最新のLTSバージョンのNode.jsを実行していることを確認してください。必要であれば、<a href="https://www.theodinproject.com/lessons/foundations-installing-node-js#installing-node">Node.jsのインストール</a>のレッスンに従って、NVMを使って最新のLTSバージョンをインストールできます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>バンドラーの目的とその仕組みを説明します。</li>
+<li>JavaScriptモジュールをバンドルするようWebpackを設定します。</li>
+<li>HtmlWebpackPluginの使用を含め、バンドリング中にJavaScript以外のファイルを扱うようWebpackを設定します。</li>
+<li>Webpackの開発サーバーをセットアップします。</li>
+</ul>
+<h3 id="bundling">バンドリング</h3>
+<p>ES6モジュールのレッスンでは、<strong>エントリーポイント</strong>とは何か、<strong>依存関係グラフ</strong>とは何か、そしてエントリーポイントファイルをモジュールスクリプトとしてHTMLに追加する方法を学びました。バンドリングでも、エントリーポイントと依存関係グラフの同じ概念が当てはまります。私たちはバンドラーにエントリーポイントを提供します。それから、そのファイルから依存関係グラフを構築し、関連するすべてのファイルを組み合わせ、必要なコードがすべて含まれた単一のファイルを出力します。</p>
+<p>これを行っている間に、<a href="https://en.wikipedia.org/wiki/Minification_(programming)">コードのミニファイ化</a>、画像の最適化、あるいは<a href="https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking">「ツリーシェイキング」</a>といった、他のさまざまなことも行わせることができます。これらの追加の最適化のほとんどはこのコースの範囲を超えていますが、代わりにJavaScriptの基本的なバンドリングと、HTML、CSS、画像の扱いに焦点を当てていきます。</p>
+<h3 id="webpack">Webpack</h3>
+<p>Webpackは、最も人気があるとは言わないまでも、最も人気のあるJavaScriptバンドラーの一つであり、長い間そうであり続けています。バンドリングを始めてみましょう!</p>
+<p>まず、練習用アプリのために新しいディレクトリを作り、それから(Webpackのような)使用するパッケージについての情報をnpmが記録するための<code>package.json</code>ファイルをその中に作成する必要があります。ターミナルで以下を実行してください:</p>
+<pre class="highlight"><code class="language-bash">mkdir webpack-practice &amp;&amp;
+cd webpack-practice &amp;&amp;
+npm init -y --init-type=module</code></pre>
+<p>これにより、あなたが今作って入った<code>webpack-practice</code>ディレクトリの中に<code>package.json</code>ファイルが作成されるはずです。さあ、これでWebpackをインストールできます:</p>
+<pre class="highlight"><code class="language-bash">npm install --save-dev webpack webpack-cli</code></pre>
+<div class="lesson-note">
+<h4>npm auditの脆弱性</h4>
+<p>npmでパッケージをインストールした後、出力にいくつかの脆弱性と<code>npm audit fix</code>の実行について何か書かれているかもしれません。これらは技術的には脆弱性ではありますが、非常に特定のニッチなものである可能性が高く、TOPに関する限り、カリキュラムであなたが行うどんなことにも実際に危険を及ぼす可能性は非常に低いので、それらを見かけても無視して構いません。</p>
+<p>これらは、より大きな利害が絡む本番アプリを作っている場合に、それらの脆弱性自体を調べて実質的な害を及ぼし得るかどうかを確認する必要がある、という場合に、より関連性があります。</p>
+</div>
+<p><code>--save-dev</code>フラグ(ショートカットとして<code>-D</code>も使えます)を含めたことに注意してください。これは、npmに、私たちの2つのパッケージを開発時の依存関係として記録するよう伝えます。私たちは開発中にのみWebpackを使うことになります。Webpackを実際に動かすコードは、ブラウザが実行するコードの一部にはなりません。</p>
+<p>また、これらのインストールが完了すると、npmが私たちのために<code>node_modules</code>ディレクトリと<code>package-lock.json</code>ファイルを作成したことにも気づくでしょう。<code>node_modules</code>はWebpackの実際のコード(その他たくさんのもの)が置かれる場所で、<code>package-lock.json</code>は、npmがより具体的なパッケージ情報を追跡するために使う、単なる別のファイルです。</p>
+<h3>srcとdist</h3>
+<p>Webpackを扱うとき(そしてしばしば他のどんなバンドラーやビルドツールを扱うときも)、非常に重要な2つのディレクトリがあります: <code>src</code>(「source」の略)と<code>dist</code>(「distribution」の略)です。技術的にはこれらのディレクトリを好きなように呼ぶこともできますが、これらの名前は慣習です。</p>
+<p><code>src</code>は、私たちのウェブサイトのソースコードすべてを保管する場所であり、基本的に私たちのすべての作業が行われる場所です(例外は、プロジェクトのルートにある設定ファイルを変更することです)。私たちがコードをバンドルするためにWebpackを実行すると、バンドルされたファイルは<code>dist</code>ディレクトリに出力されます。この考え方は、もし誰かがプロジェクトをフォークあるいはクローンしたとしても、<code>dist</code>ディレクトリは必要ない、というものです。なぜなら、彼らはただWebpackを実行して<code>src</code>から自分自身の<code>dist</code>にビルドできるからです。同様に、私たちのウェブサイトをデプロイするには、<code>dist</code>のコードだけがあればよく、他には何も必要ありません。それを覚えておいてください!<code>src</code>の中で作業し、<code>dist</code>にビルドし、それからそこからデプロイするのです!</p>
+<h3 id="bundling-javascript">JavaScriptをバンドルする</h3>
+<div class="lesson-note">
+<h4>インポートのファイル拡張子</h4>
+<p>通常、ESMでは、他のファイルからインポートする際にファイル拡張子を指定する必要があります(例えば<code>"./greeting.js"</code>)。Webpackや他の多くのバンドラーでは、<code>.js</code>のような一部のファイル拡張子はオプションです。なぜなら、Webpackはデフォルトで、拡張子のないファイルパスに対して自動的に<code>.js</code>ファイルをチェックするからです(例えば<code>"./greeting"</code>)。</p>
+<p>これはESMではなくWebpackの機能です。</p>
+<p>このレッスンでは、インポートの例は、明示的にするために、適切な場合は常にファイル拡張子を含めます。</p>
+</div>
+<p>さて、プロジェクトディレクトリにWebpackをインストールしたので、その中に2つのJavaScriptファイルを含む<code>src</code>ディレクトリを作成しましょう: <code>index.js</code>と<code>greeting.js</code>です。</p>
+<pre class="highlight"><code class="language-bash">mkdir src &amp;&amp; touch src/index.js src/greeting.js</code></pre>
+<p>2つのJavaScriptファイルの中に、次のものを入れます:</p>
+<pre class="highlight"><code class="language-javascript">// index.js
+import { greeting } from "./greeting.js";
+
+console.log(greeting);</code></pre>
+<pre class="highlight"><code class="language-javascript">// greeting.js
+export const greeting = "Hello, Odinite!";</code></pre>
+<p>素晴らしい、これで<code>greeting.js</code>からインポートし、それに依存する<code>index.js</code>ができました。これをバンドルするには、Webpackの設定ファイルも必要になります。これには、エントリーポイント、出力先、そしてプラグインやローダー(これについてはすぐ後で扱います)のようなものなど、バンドリングに必要なすべての詳細が含まれます。</p>
+<p>プロジェクトのルート(つまり<code>src</code>の外)に戻り、次の内容を含む<code>webpack.config.js</code>ファイルを作成してください:</p>
+<pre class="highlight"><code class="language-javascript">// webpack.config.js
+import path from "node:path";
+
+export default {
+  mode: "development",
+  entry: "./src/index.js",
+  output: {
+    filename: "main.js",
+    path: path.resolve(import.meta.dirname, "dist"),
+    clean: true,
+  },
+};</code></pre>
+<p>エクスポートされたオブジェクトには、いくつかの重要なセクションが含まれていることに気づくでしょう:</p>
+<ul>
+<li><code>mode</code>: 今のところ、これは開発モードのままにしておきます。その方が私たちにとってより役立つからです。これとproductionモードについては、後のレッスンで再訪します。</li>
+<li><code>entry</code>: 設定ファイルから、私たちのエントリーポイントであるファイルへのファイルパスで、この場合は<code>src/index.js</code>です。</li>
+<li><code>output</code>: 出力バンドルについての情報を含むオブジェクトです。</li>
+<li><code>filename</code>: 出力バンドルの名前です - 好きなものにできます。</li>
+<li><code>path</code>: 出力ディレクトリへのパスで、この場合は<code>dist</code>です。Webpackを実行したときにこのディレクトリがまだ存在しない場合、自動的に作成してくれます。<code>path.resolve</code>の部分がなぜあるのかについては、あまり気にしすぎないでください - これは単に、Webpackが出力ディレクトリを指定することを推奨している方法です。</li>
+<li><code>clean</code>: このオプションを含めて<code>true</code>に設定すると、バンドルするためにWebpackを実行するたびに、ファイルをバンドルする前にまず出力ディレクトリを空にします。これにより、<code>dist</code>をきれいに保つことができ、最も最近のバンドリングによって生成されたファイルだけが含まれるようになります。</li>
+</ul>
+<p>これらすべてのファイルが揃ったら、Webpackを実行して何が起こるか見てみましょう!</p>
+<pre class="highlight"><code class="language-bash">npx webpack</code></pre>
+<p>Webpackが私たちのために、<code>main.js</code>ファイルを含む<code>dist</code>ディレクトリを作成したのが見えるはずです!このファイルの中には…たくさんのものが…あります。心配いりません、これらのもののほとんどは、後で使う開発ツールのためだけのものです。もしこのファイルを<code>node dist/main.js</code>で実行してみると、ターミナルに<code>Hello, Odinite!</code>がログ出力されるのが見えるはずです。</p>
+<p>おめでとうございます!あなたはたった今、Webpackで最初のバンドルを作りました!</p>
+<h3 id="handling-html">HTMLを扱う</h3>
+<p>実際にいくつかのHTMLを含めてみましょう。結局のところ、私たちが興味を持っているのはウェブサイトを作ることですから!HTMLはJavaScriptではないため、Webpackはそれをそのままバンドルすることはできませんが、私たちにぴったりの、<code>HtmlWebpackPlugin</code>と呼ばれる便利なツールがあります。</p>
+<p>以下のコマンドを実行して、HtmlWebpackPluginを(こちらも開発時の依存関係として)インストールしてください:</p>
+<pre class="highlight"><code class="language-bash">npm install --save-dev html-webpack-plugin</code></pre>
+<p>また、<code>src</code>の中に<code>template.html</code>を作成し(このファイルは好きな名前にできます)、いつものHTMLボイラープレートで埋めるべきです。<strong>このファイルにscriptタグを入れる必要はありません!</strong>HtmlWebpackPluginが自動的に、出力バンドルをscriptタグとして追加してくれます。自分自身のものも含めることで二重にしたくはありませんよね!<code>webpack.config.js</code>の中に、いくつか小さな部分を追加できます。</p>
+<pre class="highlight"><code class="language-javascript">// webpack.config.js
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+
+export default {
+  mode: "development",
+  entry: "./src/index.js",
+  output: {
+    filename: "main.js",
+    path: path.resolve(import.meta.dirname, "dist"),
+    clean: true,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/template.html",
+    }),
+  ],
+};</code></pre>
+<p>ここで行っているのは、私たちのWebpackの設定がHtmlWebpackPluginにアクセスできるようにし、それから設定オブジェクトにプラグインとして追加することだけです。HtmlWebpackPluginのコンストラクタ呼び出しの中に、オプションを渡します。今のところ、私たちが関心があるのは<code>template</code>オプションだけです。</p>
+<p>もし<code>src/template.html</code>ファイルへのパスをテンプレートとして提供すると、再び<code>npx webpack</code>を実行したときに、<code>dist</code>ディレクトリに<code>main.js</code>ファイルだけでなく<code>index.html</code>ファイルも含まれていることに気づくでしょう(それらを一つのファイルにまとめることはできません)。また、HtmlWebpackPluginが自動的に<code>index.html</code>ファイルに遅延読み込みのscriptタグを追加してくれたことにも気づくでしょう - なんて愛らしいのでしょう!このファイルをブラウザで開いてブラウザのコンソールを確認すると、私たちの素敵な<code>"Hello, Odinite!"</code>という文字列がログ出力されているのが見えるはずです。</p>
+<p>これで、HTMLファイルを扱い、適切なscriptタグを注入するようにWebpackをうまく設定できました。HTMLに何か変更を加えるたびに、Webpackを再実行するだけで、新しい<code>dist</code>のコードを生成できます。</p>
+<p>CSSをどう扱うか見てみましょう。</p>
+<h3 id="loading-css">CSSを読み込む</h3>
+<p>CSSのために新しいパッケージが一つだけ必要なわけではなく、<em>2つ</em>必要です。まったく、なんて欲張りな…インストールしましょう。</p>
+<pre class="highlight"><code class="language-bash">npm install --save-dev style-loader css-loader</code></pre>
+<p><code>css-loader</code>は、JavaScriptファイルでインポートするあらゆるCSSファイルを読み取り、その結果を文字列として保存します。<code>style-loader</code>はそれから、その文字列を受け取り、それらのスタイルをページに適用する実際のJavaScriptコードを追加します。ですので、両方が必要です。</p>
+<p><code>webpack.config.js</code>に戻って、Webpackに何をすべきか分からせるために、これらのローダーを追加する必要があります。これらはプラグインではないため、別のセクションに入ります:</p>
+<pre class="highlight"><code class="language-javascript">// webpack.config.js
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+
+export default {
+  mode: "development",
+  entry: "./src/index.js",
+  output: {
+    filename: "main.js",
+    path: path.resolve(import.meta.dirname, "dist"),
+    clean: true,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/template.html",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
+};</code></pre>
+<p>これがすることは、<code>.css</code>で終わるインポートされたファイルに出会ったら、リストされたローダーを使ってそのCSSファイルを処理すべきだとWebpackに伝えることだけです。</p>
+<div class="lesson-note lesson-note--warning">
+<h4>CSSではローダーの順序が重要!</h4>
+<p>配列の<strong>末尾</strong>に<code>css-loader</code>を置いていることに注目してください。この順序を設定<strong>しなければならず</strong>、逆にしてはいけません。</p>
+<p>Webpackは末尾からローダーを実行していくので、まず<code>css-loader</code>でCSSファイルを文字列に読み込み、それから<code>style-loader</code>を使ってその文字列内のCSSをページに適用するJavaScriptを注入してほしいのです。逆の順序では同じようには機能しません。</p>
+</div>
+<p>これで、Webpackはインポートされたcssファイルをどう扱えばよいか分かるようになったので、いくつかCSSを追加してみましょう!次の内容で<code>src/styles.css</code>を作成してください:</p>
+<pre class="highlight"><code class="language-css">/* styles.css */
+body {
+  background-color: rebeccapurple;
+}</code></pre>
+<p>これで、自分のJavaScriptファイルの一つにCSSファイルをインポートできます。<code>src/index.js</code>が理にかなっています。インポートされたCSSファイル自体からは何も必要ありません。CSSとstyleのローダーがそのすべてを私たちの代わりに処理してくれるので、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#import_a_module_for_its_side_effects_only">副作用のためのインポート</a>を使うだけで構いません。</p>
+<pre class="highlight"><code class="language-javascript">// src/index.js
+import "./styles.css";
+import { greeting } from "./greeting.js";
+
+console.log(greeting);</code></pre>
+<p>もう一度、<code>npx webpack</code>を使ってWebpackでバンドルし、それから<code>dist/index.html</code>を開いて、美しい紫の画面を楽しんでください!</p>
+<h4>linkタグはどうなったのか?</h4>
+<p>以前していたように、HTMLテンプレートでCSSファイルをリンクしていないことに気づいたでしょう。次のセクションのローダーの一つを使ってこれを行うこともできますが、実際の現場では、プロジェクトはしばしば多くの可動部分と多くのモジュールを含みます。結局のところ、それらが必要とされるモジュールでインポートする、複数のより小さなCSSファイルを扱う方が簡単になっていきます。それらのファイルを、グローバルにではなくそれらのモジュールだけにスコープする方法さえあります!</p>
+<p>私たちは、CSSをJavaScriptにインポートできるようにするための最小限のものだけを紹介していますが、多くのビルドツールやより洗練されたバンドラーの設定は、ここで示したものよりもインポートされたCSSに対してずっと多くのことを行います。</p>
+<h3 id="loading-images">画像を読み込む</h3>
+<p>主要なWebpackの設定はほぼ終わりです!ウェブサイトに含めたいローカルの画像ファイルがある場合、それらもJavaScriptファイルではないため、少し追加の設定が必要になります。</p>
+<p>ローカルの画像ファイルを扱う可能性のある方法は3つあります:</p>
+<ol>
+<li>
+<p><strong><code>url()</code>の中でCSSで使われる画像ファイル</strong></p>
+<p>幸運なことに!<code>css-loader</code>がすでにこれを私たちの代わりに処理してくれるので、CSS内の画像パスについては追加ですることは何もありません!</p>
+</li>
+<li>
+<p><strong>HTMLテンプレートで参照する画像ファイル、例えば<code>&lt;img&gt;</code>の<code>src</code>として</strong></p>
+<p><code>html-loader</code>と呼ばれるものをインストールし、それを使うようWebpackに伝える必要があります。これは、HTMLテンプレート内の画像ファイルパスを検出し、正しい画像ファイルを私たちの代わりに読み込んでくれます。これがないと、<code>./odin.png</code>のような<code>src</code>は、Webpackを実行して<code>dist</code>にビルドすると、もう正しいファイルを参照しなくなる、単なるテキストの断片になってしまいます。インストールしましょう:</p>
+<pre class="highlight"><code class="language-bash">npm install --save-dev html-loader</code></pre>
+<p>それから、<code>webpack.config.js</code>内の<code>module.rules</code>配列に次のオブジェクトを追加してください:</p>
+<pre class="highlight"><code class="language-javascript">// webpack.config.js
+{
+  test: /\.html$/i,
+  use: ["html-loader"],
+}</code></pre>
+</li>
+<li>
+<p><strong>JavaScriptで使う画像で、ファイルをインポートする必要があるもの</strong></p>
+<p>もしローカルの画像ファイルをJavaScriptで使う必要がある場合(例えば<code>img</code>要素を作成・編集して<code>src</code>属性を設定するためにDOMを操作するときなど)、画像をJavaScriptモジュールにインポートする必要があります。画像はJavaScriptではないため、<code>asset/resource</code>ルールを追加することで、これらのファイルがアセットであることをWebpackに伝える必要があります。ここでは何もインストールする必要はありません。<code>webpack.config.js</code>内の<code>module.rules</code>配列に、次のオブジェクトを追加するだけです:</p>
+<pre class="highlight"><code class="language-javascript">// webpack.config.js
+{
+  test: /\.(png|svg|jpg|jpeg|gif)$/i,
+  type: "asset/resource",
+}</code></pre>
+<p><code>test</code>プロパティの正規表現は、必要のないファイル拡張子を取り除いたり、必要な拡張子を追加したりして、いつでも編集できます。上記に示されているものは、<a href="https://webpack.js.org/guides/asset-management/#loading-images">Webpackのアセット管理ガイド</a>そのままのもので、最も一般的な画像ファイルの拡張子のほとんどを認識してくれます。</p>
+<p>それから、その画像を使いたいどのJavaScriptモジュールでも、デフォルトインポートするだけで構いません。</p>
+<pre class="highlight"><code class="language-javascript">// src/index.js
+import odinImage from "./odin.png";
+
+const image = document.createElement("img");
+image.src = odinImage;
+
+document.body.appendChild(image);</code></pre>
+<p><code>dist</code>にバンドルするときでも<code>odinImage</code>変数が正しいファイルパスを含むように、これをインポートする必要があります。もし単に<code>image.src = "./odin.png";</code>と書いていたら、その「ファイルパス」は単なるプレーンな文字列になってしまいます。<code>dist</code>にバンドルするとき、Webpackは私たちのJavaScript内のこの文字列がファイルを参照しているとは魔法のように認識してくれないため、バンドルにそれを含めません。それをインポートし、正しい<code>asset/resource</code>ルールを設定すると、Webpackはそのインポートを認識し、バンドル時に画像ファイルを含め、さらにインポートされた変数が最終的に正しいファイルパスを含むようにしてくれます。</p>
+</li>
+</ol>
+<p>これらすべてを終えて、<code>html-loader</code>と画像の<code>asset/resource</code>ルールの両方を追加すると、私たちの<code>webpack.config.js</code>は次のようなものになるでしょう:</p>
+<pre class="highlight"><code class="language-javascript">// webpack.config.js
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+
+export default {
+  mode: "development",
+  entry: "./src/index.js",
+  output: {
+    filename: "main.js",
+    path: path.resolve(import.meta.dirname, "dist"),
+    clean: true,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/template.html",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.html$/i,
+        use: ["html-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+    ],
+  },
+};</code></pre>
+<p>画像がバンドリング時に含まれると、<code>dist</code>内の出力画像ファイルは異なるファイル名を持つことに気づくかもしれません(おそらく数字と文字のごちゃまぜのようなものになるでしょう)。デフォルトでは、Webpackはバンドルされた画像ファイルに、その内容をハッシュ化することで新しい名前を付けます。これがどう機能するかを知る必要はありませんし、なぜそうなるのか、あるいはそれをどう変更するかについて深掘りする必要もありません。これが期待される振る舞いだということだけ知っておいてください(これはブラウザのキャッシュやファイル名の一致に関する問題を防ぐためのものです)。</p>
+<div class="lesson-note lesson-note--tip">
+<h4>必要なものだけを設定すればよい</h4>
+<p>私たちが言及したことすべてが必要というわけではないかもしれません。もしあなたのプロジェクトがHTMLテンプレートにローカルファイルパスのソースを持つ画像を持っていないなら、<code>html-loader</code>をセットアップする必要はありません。JavaScriptでローカルの画像を一切使っていないなら、画像の<code>asset/resource</code>ルールをセットアップする必要はありません。</p>
+<p>同様に、将来的には、カスタムフォントやプリプロセッサのような、特別なローダーやプラグインを必要とするものを扱うことになるかもしれません。その時が来たら、Googleを使うか、Webpackのドキュメントを参照して、何が必要かの手順を確認することができます。</p>
+</div>
+<h3 id="webpack-dev-server">Webpackの開発サーバー</h3>
+<p>このレッスンの間、変更のたびに<code>npx webpack</code>を実行して再バンドルしなければならないことに少しイライラしましたか?幸いなことに、これにはいくつかの解決策があり、私たちが最も便利だと考えるオプション、<code>webpack-dev-server</code>に焦点を当てていきます。次のようにインストールしてください:</p>
+<pre class="highlight"><code class="language-bash">npm install --save-dev webpack-dev-server</code></pre>
+<p>以前、変更を保存するたびにウェブページを自動的にリフレッシュしてくれる、Live Preview VSCode拡張機能のようなものを使ったことがあるかもしれません。<code>webpack-dev-server</code>はそれと非常によく似ており、つまり、変更を加えるたびに<code>npx webpack</code>を実行し続ける必要がなくなるということです。</p>
+<p>これは、あなたのコードを裏側でバンドルすることによって機能します(<code>npx webpack</code>を実行したかのようですが、ファイルを<code>dist</code>に保存することはありません)。そして、バンドルで使われるファイルを保存するたびにこれを行います。エラーメッセージが、単一のバンドルされた<code>.js</code>ファイル内のごちゃごちゃした内容ではなく、私たちの開発コードのファイルと行を参照するように、<strong>source map</strong>と呼ばれるものを使うこともできます!</p>
+<p>インストールしたら、私たちの<code>webpack.config.js</code>の中で、設定オブジェクトのどこかにさらにいくつかのプロパティを追加するだけで済みます(これらのプロパティの順序は重要ではありません):</p>
+<pre class="highlight"><code class="language-javascript">// webpack.config.js
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+
+export default {
+  mode: "development",
+  entry: "./src/index.js",
+  output: {
+    filename: "main.js",
+    path: path.resolve(import.meta.dirname, "dist"),
+    clean: true,
+  },
+  devtool: "eval-source-map",
+  devServer: {
+    watchFiles: ["./src/template.html"],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/template.html",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.html$/i,
+        use: ["html-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+    ],
+  },
+};</code></pre>
+<p><span id="source-maps"></span></p>
+<p>まず、<code>devtool</code>オプションとして<code>eval-source-map</code>を設定することで、<a href="https://webpack.js.org/configuration/devtool/">source map</a>を追加します。これを行わないと、得られるエラーメッセージが、私たちの開発コードの正しいファイルや行番号と必ずしも一致しなくなります。開発者ツールの「Sources」タブでも、元の手を加えていないコードを見つけることができなくなり、Chromeのデバッガーが使いにくくなります。このsource mapを追加することで、これらの両方の問題が解決されます。</p>
+<p>次に、デフォルトでは、<code>webpack-dev-server</code>は、私たちのJavaScriptバンドルにインポートしているファイルへの変更を検出したときにのみ自動的に再起動するため、私たちのHTMLテンプレートは無視されてしまいます!必要なのは、それを開発サーバーの監視対象ファイルの配列に追加することだけです - 簡単でシンプルですね!</p>
+<p>セットアップが終わったら、次のコマンドを使って開発サーバーを起動できます:</p>
+<pre class="highlight"><code class="language-bash">npx webpack serve</code></pre>
+<p>私たちのサイトは、デフォルトで<a href="http://localhost:8080/">http://localhost:8080/</a>から利用可能になります。</p>
+<div class="lesson-note">
+<h4>設定変更時には開発サーバーを再起動する</h4>
+<p>webpack-dev-serverは、起動時にのみあなたのwebpack設定を読み取ることに注意してください。開発サーバーが実行されている間にwebpackの設定ファイルを変更しても、その設定の変更は反映されません。ターミナルで<kbd>Ctrl</kbd> + <kbd>C</kbd>を使ってそれを終了させ、それから<code>npx webpack serve</code>を再実行して新しい設定を適用してください。</p>
+</div>
+<h3>まとめ</h3>
+<p>そうです、そうです、これはすべてかなり多く感じるかもしれません。あなたは、いくつかの基本的なHTML、CSS、JSファイルを持っているだけで、他にはそれほど必要ないという状態から、突然、あのローダー、このプラグイン、あの設定ファイルなどが必要な状態へと移ってきました。実際の現場では、アプリがより複雑になるにつれて、本番環境で物事を最適化しながら開発体験を向上させることができるツールが必要になります。今すぐ利用可能な機能をすべて使っているわけではないとしても、これらの種類のツールが私たちのために何をしているのかについての一般的な理解は価値があります。カリキュラムの後の方で、これらの根底にある仕組みの多くを私たちから抽象化してくれる、別のツールを使うことになります。それらを使いながら、それらが実際にあなたのために何をしているのかまったく分からない状態だと、実際に何らかの手動の設定を必要とする状況に最終的に出くわしたときに、物事がより難しくなってしまう可能性があります。</p>
+<p>後のレッスンで、Webpackのセットアップと作業をずっと素早く、より簡単にしてくれる、いくつかの追加のことを紹介します。しかし今のところは、少し手動での練習を積んでおくのが良いでしょう。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>まず、<a href="https://webpack.js.org/concepts/">Webpackの概念</a>のページを読んで、いくつかの主要な用語についての一般的な理解を得てください。</li>
+<li><a href="https://webpack.js.org/guides/asset-management/">Webpackのアセット管理ガイド</a>は、CSS、画像、フォントのようなさまざまな種類のアセットをどう扱うかについて、いくつかの例を扱っています。その例では<code>npm run build</code>を使ってファイルをバンドルしていることに気づくでしょう。これらの例では、それは<code>npx webpack</code>と同等です。npmスクリプトについては後のレッスンで扱います。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#bundling">バンドラーとは何ですか?</a></li>
+<li><a href="#webpack">Webpackとは何ですか?</a></li>
+<li><a href="#bundling-javascript">JavaScriptをどうバンドルしますか?</a></li>
+<li><a href="#loading-css">Webpackを使ってCSSをどう読み込みますか?</a></li>
+<li><a href="#handling-html">Webpackを使って<code>dist</code>にHTMLファイルを自動的にビルドするにはどうすればよいですか?</a></li>
+<li><a href="#loading-images">ローカルの画像ファイルのようなアセットをどう扱いますか?</a></li>
+<li><a href="#webpack-dev-server">開発中に、ウェブサイトの変更をライブで見るために使えるWebpackのツールは何ですか?</a></li>
+<li><a href="#source-maps">source mapを使うことは、開発にどう役立ちますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

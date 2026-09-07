@@ -1,0 +1,6 @@
+# The two content repos are cloned as siblings, not tracked inside this repo.
+/curriculum_ja/
+/theodinproject_ja/
+
+__pycache__/
+*.pyc

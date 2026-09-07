@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Message Board</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
+    <h1 class="lesson-header__title">Mini Message Board <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">We take a break from the main tutorial and create a simple message board.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>At this point you should know enough to use Express to make some fun interactive web apps! We're going to create a message board.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Set up a basic Express app by installing Express and EJS. Set up a basic index route and run your server. Create the required folders and files as discussed in the previous lessons.</li>
+<li>We are going to have 2 routes, the index (<code>"/"</code>) and a "new message" form (<code>"/new"</code>).</li>
+<li>
+<p>Create an array at the top of your index router called <code>messages</code> and put a couple of sample messages inside of it like this:</p>
+<pre class="highlight"><code class="language-javascript">const messages = [
+  {
+    text: "Hi there!",
+    user: "Amando",
+    added: new Date()
+  },
+  {
+    text: "Hello World!",
+    user: "Charles",
+    added: new Date()
+  }
+];</code></pre>
+</li>
+<li>
+<p>Next, in your index template (in the <code>"views"</code> folder) loop through the messages array and for each one, display the user, text and the date the message was added. Don't forget to make your messages available to your template by including it in the <code>res.render</code> 'locals' object (e.g. <code>res.render("index", { title: "Mini Messageboard", messages: messages })</code>).</p>
+</li>
+<li>
+<p>Next let's set up the new message form.  In the router add a <code>router.get()</code> for the <code>"/new"</code> route and point it to a template named <code>"form"</code>. In the views directory create your <code>form</code> template. Add a heading, 2 inputs (one for the author's name and one for the message text) and a submit button. To have the form make a network request you will need to define it with both a method and an action like so (we will learn how to handle forms in a later lesson):</p>
+<pre class="highlight"><code class="language-html">&lt;form method="POST" action="/new"&gt;
+   put your inputs and buttons in here!
+&lt;/form&gt;</code></pre>
+</li>
+<li>
+<p>With your form set up like this, when you click on the submit button it should send a POST request to the url specified by the action attribute, so go back to your index router and add a <code>router.post()</code> for <code>"/new"</code>.</p>
+</li>
+<li>
+<p>In order to get and use the data from your form, you will need to access the contents of your form inside <code>router.post()</code> as an object called <code>req.body</code>. The individual fields inside the body object are named according to the <code>name</code> attribute on your inputs (the value of <code>&lt;input name="messageText"&gt;</code> will show up as <code>req.body.messageText</code> inside the <code>router.post</code> function). For this to work as intended, you'll need to use an app level Express middleware called <code>express.urlencoded()</code> to parse the form data into <code>req.body</code>. You can set this up by adding the following line to your app setup:</p>
+<pre class="highlight"><code class="language-javascript">app.use(express.urlencoded({ extended: true }));</code></pre>
+</li>
+<li>
+<p>In your <code>router.post()</code> take the contents of the form submission and push them into the messages array as an object that looks something like this:</p>
+<pre class="highlight"><code class="language-javascript">messages.push({ text: messageText, user: messageUser, added: new Date() });</code></pre>
+</li>
+<li>
+<p>At the end of the <code>router.post()</code> function use <code>res.redirect("/")</code> to send users back to the index page after submitting a new message.</p>
+</li>
+<li>At this point, you should be able to visit <code>/new</code> (it might be a good idea to add a link to that route on your index page), fill out the form, submit it and then see it show up on the index page!</li>
+<li>Add an "open" button or link next to every message to open a new page with the message details.</li>
+<li>Push your project to GitHub.</li>
+<li>You'll learn how to deploy your app to the web in the next lesson, don't forget to come back and submit it to the submissions below once you're done!</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

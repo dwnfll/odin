@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semantic HTML</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Semantic HTML <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn the importance of using the right elements in the right places.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p><code>&lt;div&gt;</code>や<code>&lt;span&gt;</code>要素は汎用のコンテナとして便利ですが、必ずしも最もa11yフレンドリーな要素というわけではありません。コンテナからインタラクティブな領域まで、すべてにそれらを使うのは魅力的、あるいは簡単に思えるかもしれませんが、特定の状況でより適切な要素があるかどうかだけでなく、要素を正しく使えているかどうかもチェックすべきです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>なぜセマンティックHTMLがアクセシビリティにとって重要かを説明します。</li>
+<li>ページ上のランドマークを定義する7つのHTML要素を挙げます。</li>
+</ul>
+<h3 id="the-importance-of-semantics">セマンティクスの重要性</h3>
+<p>ウェブアクセシビリティの観点では、セマンティックHTMLを使うことは意味とコンテキストを提供するため重要です。一部の要素は<code>&lt;p&gt;</code>要素のように<em>セマンティックな意味</em>を持っていますが、支援技術によってアナウンスされる際に実際には<em>コンテキスト</em>をあまり提供しません。それから、<code>&lt;button&gt;</code>のように、セマンティックな意味を持ち<em>かつ</em>、ユーザーがそれを知覚したり操作したりするのを助けるための何らかのコンテキストと共にアナウンスされる要素もあります。</p>
+<p><code>&lt;div&gt;</code>と<code>&lt;span&gt;</code>要素は、おそらくあなたが使うより一般的な2つの要素ですが、意味的に中立です。つまり、それら自体には意味がなく、支援技術に対して単独ではコンテキストを提供しません。これにより、そのような技術のユーザーがそれらを知覚し、操作し、理解することがより難しくなる可能性があります。しかし、この意味とコンテキストの欠如のせいで、<code>&lt;div&gt;</code>や<code>&lt;span&gt;</code>を二度と使えないと感じる必要はありません。レイアウトのためや汎用のテキストのためなど、汎用のコンテナとしての用途は依然としてあります。</p>
+<p>さて、このセマンティクスとコンテキストというもの全体をよりよく理解するために、実際の例を見てみましょう。これまでに完了させたことのあるプロジェクトで、ユーザーが何かをクリックする必要があったものを思い浮かべてみてください: Rock, Paper, Scissors、Calculator、Tic-Tac-Toeなどです。クリック可能なエリアに<code>&lt;div&gt;</code>や<code>&lt;span&gt;</code>要素を使ったなら、おそらく意図した通りに動作していたことでしょう。例えば、Foundationsの頃、Rock, Paper, ScissorsのUIに以下のような似たHTMLを使っていたかもしれません:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- These are buttons... right? --&gt;
+&lt;div class="button-container"&gt;
+  &lt;div class="rock"&gt;Rock&lt;/div&gt;
+  &lt;div class="paper"&gt;Paper&lt;/div&gt;
+  &lt;div class="scissors"&gt;Scissors&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>要素がインタラクトできる何かのように見えていれば、目の見えるユーザーはおそらくこのゲームを問題なくプレイできるでしょう。しかし、スクリーンリーダーのユーザーは、これらの要素が何を意味するのかまったく分からないでしょう。スクリーンリーダーは要素のテキストコンテンツ("Rock"、"Paper"、"Scissors")をアナウンスし、ユーザーはそれがページ上の単なるプレーンテキストだと思って先に進んでしまうかもしれません。これらの要素とインタラクトすべきである、あるいはそもそもインタラクト<em>できる</em>ということを伝えるコンテキストがないのです。</p>
+<p>この問題は、セマンティックHTMLを使うことで簡単に修正できます:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- Okay, these are *definitely* buttons --&gt;
+&lt;div class="button-container"&gt;
+  &lt;button class="rock"&gt;Rock&lt;/button&gt;
+  &lt;button class="paper"&gt;Paper&lt;/button&gt;
+  &lt;button class="scissors"&gt;Scissors&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+<p><code>&lt;button&gt;</code>要素は意味を持ちコンテキストを提供するため、スクリーンリーダーはテキストコンテンツだけでなく要素の役割もアナウンスします: 「Rock, button」というようにです。</p>
+<h4>セマンティックHTMLを正しく使う</h4>
+<p>セマンティックHTMLを正しく使うことに関しては、ユーザーに対するあなたの意図が何であるか、そして彼らにどんなコンテキストを提供したいか(あるいは提供する必要があるか)を考える必要があります。これは状況によって異なりますが、今後絶対にチェックすべきことがいくつかあります:</p>
+<ul>
+<li>ユーザーが何かをクリックすることを意図しているなら、それが実際のボタンであるかどうかに関わらず、通常は<code>&lt;button&gt;</code>要素を使いたいところです。これにより、ユーザーはその要素をクリックすることでインタラクトできることを知ることができます。</li>
+<li>何らかの表形式のデータをユーザーに提供したい場合は、<code>&lt;table&gt;</code>要素をそれに関連する要素と共に使ってください。これにより、ユーザーは提示されているデータをより簡単にナビゲートし理解できるようになります。</li>
+<li>
+<p>input要素を使うときは、常にそれと<code>&lt;label&gt;</code>要素との関係を作るべきです。<code>&lt;label&gt;</code>は、支援技術に対してinputが実際に何を意味するかのコンテキストを提供し、inputがアナウンスされるたびにラベルの内容もアナウンスします。それだけでなく、適切な<code>&lt;label&gt;</code>はinput自体のクリック可能な領域を広げてくれるため、小さな項目をクリックするのに苦労するユーザーにとって役立ちます。この関係を作る方法は2つあります:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- Useful when you need the input itself to have an ID --&gt;
+&lt;label for="name"&gt;Name&lt;/label&gt;
+&lt;input type="text" id="name"&gt;
+
+&lt;!-- Look, Ma, no ID! --&gt;
+&lt;label&gt;
+  Name
+  &lt;input type="text"&gt;
+&lt;/label&gt;</code></pre>
+</li>
+<li>
+<p>inputについて続けると、意図された用途にとって最も理にかなった<code>type</code>を常に使うべきです。<code>type="text"</code>は名前や住所のフィールドにより理にかなっていますが、<code>type="email"</code>や<code>type="tel"</code>は当然、それぞれメールアドレスや電話番号のフィールドにより理にかなっています。特定のデバイスでは、正しい<code>type</code>を使うことで、キーボードに必要な文字や追加の文字だけが表示されることがあります。例えば<code>type="tel"</code>のinputは、モバイルやタブレットデバイスで、より大きな数字専用のキーを提供することで、ユーザーが電話番号を入力するのをずっと簡単にしてくれるかもしれません。</p>
+</li>
+<li>何らかのリストをユーザーに提示したい場合は、適切なリスト要素(<code>&lt;ol&gt;</code>、<code>&lt;ul&gt;</code>、<code>&lt;dl&gt;</code>)とそれに関連するリストアイテム要素を使うべきです。これにより、ユーザーはリストに入ったり出たりするタイミングだけでなく、リストにいくつのアイテムがあるかも知ることができます。</li>
+</ul>
+<h3 id="headings-and-landmarks">見出しとランドマーク</h3>
+<p>見出しは<code>&lt;h1&gt;</code>から<code>&lt;h6&gt;</code>までの要素であり、名前が示す通り、これらの要素はページのセクションに対する見出しとして機能します。一方でランドマークとは、ページの領域として機能するHTML要素です。これらのランドマーク領域を定義するネイティブなHTML要素は7つあります:</p>
+<ul>
+<li><code>&lt;aside&gt;</code></li>
+<li><code>&lt;footer&gt;</code></li>
+<li><code>&lt;form&gt;</code></li>
+<li><code>&lt;header&gt;</code></li>
+<li><code>&lt;main&gt;</code></li>
+<li><code>&lt;nav&gt;</code></li>
+<li><code>&lt;section&gt;</code></li>
+</ul>
+<p>例として、このレッスン自体がページ内のさまざまな領域に対してセマンティックHTMLをどう使っているかを示す、以下の画像を考えてみてください。ページをより詳しく調べたい場合は、遠慮なく開発者ツールを使ってみてください。</p>
+<p><img alt="nav、header、main、section、aside、footer要素を含めることで、典型的なOdinのレッスンがセマンティックHTMLをどう使っているかを示す図" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/b71f39e8c0934cc6cc80daaae9ed375f00753b09/advanced_html_css/accessibility/semantic_html/imgs/semantic_html_example.png" /></p>
+<p>ランドマークと見出しを適切に使うことで、支援技術のユーザーに、より操作しやすく理解しやすいページを提供できます。スクリーンリーダーのユーザーは、ナビゲーションのキーボードコマンドを使う(あるいはスクリーンリーダーでメニューを開く)ことでランドマークや見出しを通してページをナビゲートできるだけでなく、これらの要素はさらなるコンテキストを提供するために、その役割もアナウンスされます。</p>
+<p>もしこれらのランドマークや見出しの役割を果たすために<code>&lt;div&gt;</code>要素だけを使い、視覚的にスタイリングするためにいくらかのCSSを加えただけだとしたら、スクリーンリーダーのユーザーは特定のセクションにたどり着くためだけにページ全体を通り抜けなければならず、ページ上の何が見出しでランドマークなのかを実際には判別できないかもしれません。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>スクリーンリーダーがどう機能するかを理解する最良の方法は、実際に使ってみることです!少し時間を取って、関連するガイドやドキュメントを調べ、いろいろ試してみてください!さらに多くのアクセシビリティの概念や機能を紹介していく中で、そのいくつかをスクリーンリーダーで実際に体験することは非常に貴重であり、アクセシビリティのありがたみを実感するのに本当に役立ちます。もしかしたら、サイトの作り方が変わることさえあるかもしれません!</p>
+<p>多くのスクリーンリーダーがあり、無料のものもあれば有料のものもありますが、どのスクリーンリーダーにアクセスできるかはあなたのOSによります(それらの間には機能やコントロールに多少の違いがありますが、概ね同じです):</p>
+</li>
+</ol>
+<ul>
+<li>Windowsユーザー(WSL2を使っている場合にも当てはまります)は、<a href="https://www.nvaccess.org/download/">NVDA</a>を無料でインストールできます。</li>
+<li>macOSには<a href="https://support.apple.com/en-gb/guide/voiceover/welcome/mac">VoiceOver</a>が組み込まれています。</li>
+<li>Linuxには<a href="https://gnome.pages.gitlab.gnome.org/orca/help/">Orca</a>が組み込まれています。</li>
+<li>ChromeOSには<a href="https://support.google.com/chromebook/answer/7031755">ChromeVox</a>が組み込まれています。</li>
+</ul>
+<ol>
+<li><a href="https://tink.uk/how-screen-readers-navigate-data-tables/">スクリーンリーダーがデータテーブルをどうナビゲートするか</a>を読んで、適切な<code>&lt;table&gt;</code>要素がどれほど多くのコンテキストを提供するかの素晴らしい例を見てみてください。</li>
+<li><a href="https://youtu.be/ACmYzyN0b3U?si=o5PptrjVGJGj2OT7&amp;t=83">アクセシブルなテーブルの紹介とスクリーンリーダーのデモ</a>を見て、スクリーンリーダーがテーブルをどうアナウンスするか見てみてください。</li>
+<li><a href="https://www.youtube.com/watch?v=vAAzdi1xuUY&amp;list=PLNYkxOF6rcICWx0C9LVWWVqvHlYJyqw7g&amp;index=19">見出しとランドマークがなぜそれほど重要なのか</a>を見て、スクリーンリーダーが見出しやランドマーク要素とどうインタラクトするか見てみてください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#the-importance-of-semantics">なぜセマンティックHTMLはアクセシビリティにとって重要なのですか?</a></li>
+<li><a href="#headings-and-landmarks">ページ上のランドマークを定義する7つのHTML要素は何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

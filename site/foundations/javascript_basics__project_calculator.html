@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculator</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Calculator <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Calculator</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>やりましたね!ここまでで、JavaScriptの基礎について<em>本当に</em>しっかりとした理解ができているはずです。もちろん学ぶべきことはまだたくさんありますが、この時点でかなりのものを作れるようになっているはずです。最後のプロジェクトでは、これまでに学んだすべてを組み合わせます。JavaScript、HTML、CSSを使って、画面上の電卓を作ります。</p>
+<p>いつものことですが、このプロジェクトにはあなたにとって簡単ではない要素がいくつかありますが、ここまでコースについてきていれば、それを完成させるために必要なものは間違いなくすべて揃っています。取れるさまざまなステップを案内していきますが、繰り返しになりますが、実際にそれらをどう実装するかはあなた次第です!</p>
+<div class="lesson-note lesson-note--warning">
+<h4>eval()とnew Function()についての警告</h4>
+<p>プロジェクトを始める前に、一言警告を伝えておく必要があります。JavaScriptで複雑な数式を評価する方法を調べていると、おそらく魅力的な<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval"><code>eval()</code></a>関数に出くわすでしょう。しかし、この関数は非常に危険なものになり得て、MDNは<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_direct_eval!">なぜevalを絶対に使うべきではないか</a>について、うまく文書化してくれています!このプロジェクトの一環として、式を評価するための独自の関数を構築する必要があります。同様に、式の計算方法を調べていると、文字列を評価する<code>new Function()</code>を返すことを提案する解決策に出くわすことがあります。<code>eval()</code>と同様に、これも<a href="https://stackoverflow.com/questions/4599857/are-eval-and-new-function-the-same-thing">安全でないデータを評価することの潜在的な落とし穴</a>のため、使用すべきではありません。それに、すべての作業をやってくれる解決策には、どんな面白みがあるでしょうか?では、始めましょう!</p>
+</div>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<p>早めに、こまめにコミットするのを忘れないでください!ここで<a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/commit-messages">Commit Messagesのレッスン</a>を参照できます!</p>
+<p>以下はいくつかのユースケース(プロジェクトについての期待事項)です:</p>
+<ol>
+<li>あなたの電卓には、一般的に電卓で見られるすべての基本的な算術演算子のための関数が含まれることになります。まずは以下の項目の関数を作成し、ブラウザのコンソールでテストすることから始めてください:
+   - add(足し算)
+   - subtract(引き算)
+   - multiply(掛け算)
+   - divide(割り算)</li>
+<li>電卓の演算は、数値、演算子、そして別の数値で構成されます。例えば、3 + 5のようにです。演算の各部分に対応する3つの変数を作成してください。これらの変数は、後でディスプレイを更新するために使用します。</li>
+<li>演算子と2つの数値を受け取り、それらの数値に対して上記の関数のいずれかを呼び出す、新しい<code>operate</code>関数を作成してください。</li>
+<li>各数字と演算子(<code>=</code>を含む)のボタンを持つ、基本的なHTML電卓を作成してください。
+   - まだそれらを機能させることは気にしなくて構いません。
+   - 電卓用のディスプレイもあるべきです。正しく見えるように、ダミーの数字で埋めてみてください。
+   - 「clear」ボタンを追加してください。</li>
+<li>電卓の数字ボタンがクリックされたときに、あなたの数値変数の一つを更新する関数を作成してください。電卓のディスプレイも、その数値変数の値を反映するように更新されるべきです。</li>
+<li>電卓を機能させましょう!ユーザーが入力した1番目と2番目の数値を保存し、ユーザーが<code>=</code>ボタンを押したときに、数値の間で選択された演算子に従ってそれらに対して<code>operate()</code>を行う必要があります。
+   - ディスプレイに値を反映させるコードはすでにあるはずなので、<code>operate</code>が呼び出されたら、演算の結果でディスプレイを更新してください。
+   - これはプロジェクトの中で最も難しい部分です。すべての値をどう保存し、それらを使って<code>operate</code>関数をどう呼び出すかを考え出す必要があります。ロジックを考え出すのに時間がかかっても、気に病まないでください。</li>
+<li>
+<p>注意点:以下のバグがコードに現れたら、注意して修正してください:
+   - <strong>あなたの電卓は、一度に1組の数値ペアより多くを評価すべきではありません。</strong>例えば、あなたの電卓は次のように機能すべきです:</p>
+<ol>
+<li>数値(<code>12</code>)を入力する。</li>
+<li>演算子(<code>+</code>)を入力する。</li>
+<li>2番目の数値(<code>7</code>)を入力する。</li>
+<li>2番目の演算子(<code>-</code>)を入力する。この時点で、最初の数値のペア(<code>12 + 7</code>)を評価し、結果(<code>19</code>)を表示すべきです。</li>
+<li>別の数値(<code>1</code>)を入力する。</li>
+<li>別の演算子、あるいはイコール記号(<code>=</code>)を入力する。この時点で、前の結果(<code>19</code>)を最初の数値として、演算子(<code>-</code>)、そして新しい数値(<code>1</code>)を使って、新しい式<code>19 - 1</code>を計算すべきです。ディスプレイには結果(<code>18</code>)が表示されるはずです。</li>
+</ol>
+<ul>
+<li>これが実際にどう動くかを見るために、遠慮なく、たった今説明した式<code>12 + 7 - 1 =</code>をこの<a href="https://www.calculatorsoup.com/calculators/math/basic.php">オンライン電卓</a>に入力してみてください。</li>
+<li>長い小数の答えは、ディスプレイからはみ出さないように丸めるべきです。</li>
+<li>すべての数値や演算子を入力する前に<code>=</code>を押すと、問題を引き起こす可能性があります!</li>
+<li>「clear」を押すと、既存のデータがすべて消去されるべきです。「clear」を押した後、ユーザーが本当にまっさらな状態から始められることを確認してください。</li>
+<li>ユーザーが0で割ろうとした場合、皮肉の効いたエラーメッセージを表示してください……そして電卓をクラッシュさせないでください!</li>
+<li>あなたの電卓が、ユーザーによって2つの数値と1つの演算子が与えられたときにのみ演算を実行するようにしてください。例:数値(<code>2</code>)を入力し、続けて演算子ボタン(<code>+</code>)を入力します。演算子ボタン(<code>+</code>)を2回連続して押します。あなたの電卓はこれを(<code>2 + 2</code>)として評価すべきではなく、結果(<code>4</code>)を表示すべきではありません。演算子ボタンが連続して押された場合、電卓は何の評価も実行すべきではなく、次の演算に使用するために最後に入力された演算子だけを取るべきです。</li>
+<li>結果が表示されているとき、新しい数字を押すと、既存の結果に数字を追加するのではなく、結果をクリアして新しい計算を始めるべきです。あなたの電卓でこれが当てはまるか確認してください!</li>
+</ul>
+</li>
+</ol>
+<h4>追加課題</h4>
+<ul>
+<li>ユーザーは、浮動小数点数を得るために必要な計算を行えば浮動小数点数を得ることができますが、まだそれを直接入力することはできません。<code>.</code>ボタンを追加して、ユーザーが小数を入力できるようにしましょう!ただし、<code>12.3.56.5</code>のように複数入力させないようにしてください。ディスプレイにすでに小数点区切りがある場合は、<code>.</code>ボタンを無効にしてください。</li>
+<li>「backspace」ボタンを追加し、ユーザーが間違った数字をクリックした場合に最後の入力を取り消せるようにしてください。</li>
+<li>キーボード対応を追加しましょう!</li>
+</ul>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

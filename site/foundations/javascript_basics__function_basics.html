@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Function Basics</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Function Basics <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">In this lesson we will explore the basics of functions.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>いよいよ<em>本当に</em>ワクワクすることになります。ここまで、あなたはさまざまな問題を解決するために印象的な量のコードを書いてきましたが、そのコードは本来あり得るほど便利なものにはなっていませんでした。</p>
+<p>自分のスクリプトの一つを取り出し、コードを書き直したり変更したりすることなく何度も使える小さなパッケージにまとめることを想像してみてください。それこそが関数の力であり、JavaScriptでは<em>常に</em>使われています。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>さまざまな種類の関数を定義し呼び出す方法。</li>
+<li>戻り値の使い方。</li>
+<li>関数スコープとは何か。</li>
+</ul>
+<h3>関数</h3>
+<p>以下の例の関数を通して、パラメータと引数について説明しましょう:</p>
+<pre class="highlight"><code class="language-javascript">function favoriteAnimal(animal) {
+    return animal + " is my favorite animal!"
+}
+
+const message = favoriteAnimal('Goat')
+console.log(message)</code></pre>
+<p>JavaScriptでは、パラメータとは関数宣言のかっこ<code>()</code>の間に列挙される項目のことです。関数の引数とは、私たちがその関数に渡すことに決めた実際の値のことです。</p>
+<p>上記の例では、関数の定義は最初の行に書かれています:<code>function favoriteAnimal(animal)</code>。パラメータ<code>animal</code>は、かっこの中にあります。<code>animal</code>を<code>pet</code>、<code>x</code>、<code>blah</code>などに置き換えることも同じくらい簡単にできます。しかしこの場合、パラメータに<code>animal</code>という名前を付けることで、コードを読む人に多少の文脈が与えられ、<code>animal</code>が最終的に何を含むことになるのかを推測する必要がなくなります。</p>
+<p><code>favoriteAnimal</code>関数宣言のかっこの中に<code>animal</code>を入れることで、私たちは<code>favoriteAnimal</code>関数に<em>何らかの</em>値を送ることをJavaScriptに伝えています。つまり、<code>animal</code>は将来のある値のための単なる<strong>プレースホルダー</strong>にすぎないということです。では、どんな値を送っているのでしょうか?</p>
+<p>5行目の<code>favoriteAnimal('Goat')</code>は、私たちが<code>favoriteAnimal</code>関数を呼び出し、その関数呼び出しの中に値<code>'Goat'</code>を渡している箇所です。ここでは<code>'Goat'</code>が私たちの引数です。私たちは<code>favoriteAnimal</code>関数に「<code>'Goat'</code>を<code>favoriteAnimal</code>関数に送り、<code>animal</code>というプレースホルダーがあるところではどこでも<code>'Goat'</code>を使ってください」と伝えているのです。パラメータを使うことで得られる柔軟性のおかげで、どんな動物でも自分のお気に入りとして宣言できます。</p>
+<p>以下は、パラメータが関数にどう渡され、値がそこからどう返されるかを視覚的に理解するのに役立つ図です。</p>
+<p><img alt="パラメータが関数にどのように渡され、値がそこからどのように返されるか" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/c53dd9a12f0c9afde0d9229f82a176170f12e120/foundations/javascript_basics/function_basics/imgs/00.png" /></p>
+<p>私たちは<code>favoriteAnimal('Goat')</code>の結果を<code>message</code>変数に保存し、後で<code>message</code>を<code>log()</code>の引数として渡していますが、関数呼び出しを別の関数呼び出しの引数として渡すことも可能であることに注意してください。</p>
+<pre class="highlight"><code class="language-javascript">function favoriteAnimal(animal) {
+    return animal + " is my favorite animal!"
+}
+
+console.log(favoriteAnimal('Goat'))</code></pre>
+<p>上記の例では、<code>log()</code>の引数として<code>favoriteAnimal('Goat')</code>を渡しています。そうすると、<code>favoriteAnimal('Goat')</code>関数呼び出しの戻り値(文字列<code>"Goat is my favorite animal!"</code>)が、別の変数に先に保存することなく、<code>log()</code>の引数として使用されます。</p>
+<p>関数呼び出しを引数として渡すことは今後わりとよくあるので、この可能性を心に留めておいてください。もし<code>favoriteAnimal('Goat')</code>を単体で呼び出し、それを<code>console.log</code>の引数として渡してその戻り値を出力させなかった場合、それでもその文字列は返されます……しかし、どこにも行き着きません。コンソールには何も表示されず、その文字列が変数に保存されることもありません。</p>
+<p>自由にコードを自分でいろいろ試して、<code>'Goat'</code>をあなたの好きな動物に置き換えてみてください。引数を好きなように変えられることに気づきましたか?関数宣言と関数の本体の中の<code>animal</code>も変えてみてください。そうするとどうなりますか?</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<div class="lesson-note lesson-note--warning">
+<h4>MDNの演習</h4>
+<p>課題として指定されたMDNの記事には、それ自体の演習も付いていますが、まだ触れていない知識を必要とするため、それらは<strong>行わない</strong>でください。</p>
+</div>
+<ol>
+<li>JavaScript.infoの<a href="http://javascript.info/function-basics">function basics</a>の記事を読んでください。以前にも述べましたが、JavaScriptは長年の間に少しずつ変化しており、関数も最近いくつかの革新を受けています。この記事は、より便利な新機能の一つである「デフォルトパラメータ」を扱っています。(注:「Functions == Comments」セクションと、このレッスンの最後にある最後の「task」はループを使用していますが、これは次のレッスンで学びます。それらについては気にしなくて構いません。)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Functions">関数についてのこのMDNの記事</a>を読んでください。このレッスンの範囲を超える関数もあるかもしれませんが、心配いりません。しかし、「Function Scope」についてのセクションには特に注意を払ってください。スコープは初心者にも中級者にもよくつまずかせるトピックなので、最初にある程度時間をかけておく価値があります。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Return_values">戻り値</a>についてのこの記事を読んでください。</li>
+<li>次に、JavaScriptの関数についてもう少し文脈をつかむために<a href="http://javascript.info/function-expressions">function expressions</a>の記事を読み、アロー関数への入門として<a href="http://javascript.info/arrow-functions-basics">arrow functions</a>についての記事も読んでください。アロー関数は便利ですが必須ではないので、まだあまり気にしすぎなくて構いません。ここに含めているのは、この先進んでいく中で出会う可能性が高いためであり、それが出てきたときに何を見ているのか少なくとも<em>ある程度</em>分かっている方がよいからです。</li>
+<li>最後に、<a href="https://www.javascripttutorial.net/javascript-call-stack/">JavaScriptのコールスタック</a>について学んでください。この記事は、コールスタックと、連鎖する関数呼び出しの文脈で<code>return</code>がどう機能するかについて深く掘り下げています。まだ完全に理解できなくても心配いりませんが、あなたが<code>return</code>した値がどこへ向かっているのかを意識しておくことは重要です。これは、ちょっとした初期のコンピューターサイエンスの学習も兼ねています。</li>
+</ol>
+<p>いくつか関数を書いてみましょう!これらを、骨組みだけのHTMLファイルの<code>script</code>タグの中に書いてください。セットアップの仕方を忘れてしまった場合は、<a href="https://www.theodinproject.com/lessons/foundations-fundamentals-part-1#how-to-run-javascript-code">JavaScriptコードを実行する方法</a>についての私たちの説明を見返してください。</p>
+<p>今のところは、それぞれの関数を書いて、<code>console.log</code>で出力をテストするだけにしてください。</p>
+<ol>
+<li>1つの数値を受け取り、その数値+7を返す<code>add7</code>という関数を書いてください。<ul>
+<li><code>add7(10)</code>は<code>17</code>を返すべきです。</li>
+</ul>
+</li>
+<li>2つの数値を受け取り、それらの積を返す<code>multiply</code>という関数を書いてください。<ul>
+<li><code>multiply(3, 2)</code>は<code>6</code>を返すべきです。</li>
+</ul>
+</li>
+<li>文字列を受け取り、<em>最初</em>の文字だけを大文字にしたその文字列を返す<code>capitalize</code>という関数を書いてください。小文字、大文字、あるいはその両方が混ざった文字列を受け取れるようにしてください。<ul>
+<li><code>capitalize("abcd")</code>は<code>"Abcd"</code>を返すべきです。</li>
+<li><code>capitalize("ABCD")</code>は<code>"Abcd"</code>を返すべきです。</li>
+<li><code>capitalize("aBcD")</code>は<code>"Abcd"</code>を返すべきです。</li>
+</ul>
+</li>
+<li>文字列を受け取り、その文字列の一番最後の文字を返す<code>lastLetter</code>という関数を書いてください:<ul>
+<li><code>lastLetter("abcd")</code>は<code>"d"</code>を返すべきです。</li>
+</ul>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Functions">関数は何に役立ちますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Functions#invoking_functions">関数を呼び出すにはどうすればよいですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Functions#anonymous_functions_and_arrow_functions">無名関数とは何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Functions#function_scope_and_conflicts">関数スコープとは何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Return_values#what_are_return_values">戻り値とは何ですか?</a></li>
+<li><a href="https://javascript.info/arrow-functions-basics">アロー関数とは何ですか?</a></li>
+<li><a href="https://javascript.info/function-expressions#function-expression-vs-function-declaration">関数宣言と関数式の違いは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

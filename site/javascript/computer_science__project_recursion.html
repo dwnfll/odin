@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recursion</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Recursion <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Take your newfound knowledge and apply it to a couple of classic recursive problems</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ここまでに再帰について学んだことを使って、再帰を活用できる2つの古典的な問題、フィボナッチとマージソートに取り組んでみましょう。</p>
+<h4>フィボナッチ</h4>
+<p><a href="http://en.wikipedia.org/wiki/Fibonacci_number">フィボナッチ数列</a>とは、それぞれの数がその前の2つの数の合計になっている数列です。例えば、0、1、1、2、3、5、8、13は、この数列の最初の8桁です。</p>
+<p>おそらく、これは再帰的にではなく反復的に解決できるのではないかとすでに考えているでしょうし、その通りです。それでも、この数列を再帰的に生成することは、再帰をよりよく理解するための優れた方法です。</p>
+<p>これをさらに理解するために、この<a href="https://www.youtube.com/watch?v=zg-ddPbzcKM">Khan Academyの再帰的フィボナッチについての動画</a>を見ることができます。</p>
+<h4>マージソート</h4>
+<p>コンピューターサイエンスの重要な部分は、データのソートに費やされています。再帰の「分割統治」アプローチを使うアルゴリズムは、ソートの問題をどんどん小さな部分問題に減らしていくことができます。</p>
+<p>マージソートはそのようなソートアルゴリズムの一つであり、適切なデータセットにおいてはバブルソートのような他のアルゴリズムよりもずっと速くなり得ます。基本的に、マージソートは、未ソートのデータの配列を、その最小の部分集合、つまり単一のアイテムに達するまで再帰していきます。もちろん、単一のアイテムを持つ配列はソート済みとみなされます。それからマージソートは、ソートされた順序で単一のアイテムを再び結合していきます。かなり賢いですね!</p>
+<p>マージソートアルゴリズムが何をしているかを理解するために、これらのリソースをチェックしてみてください:</p>
+<ol>
+<li><a href="https://youtu.be/Ns7tGNbtvV4">ハーバード大学のCS50xコースからのマージソート</a>についてのこの導入動画を見てください。</li>
+<li>今度はハーバード大学CS50xの講義の一部から、<a href="https://www.youtube.com/live/iCx3zwK8Ms8?si=t7z6bEv_ZXIJDoHU&amp;t=6550">マージソートがどう機能するか</a>についての別の説明を見てください(2:04:05までだけ見てください)。</li>
+<li>まだよく分からない場合、YouTubeの<a href="https://youtu.be/6pV2IF0fgKY">マージの概念</a>と<a href="https://youtu.be/mB5HXBb_HY8">Merge Sort -- How it Works part</a>が、この問題について、よりフォーマルな見方を与えてくれます。</li>
+<li>(オプション)マージソートの間に正確に何が起こっているかの感覚をよりよくつかむために、この<a href="https://www.hackerearth.com/practice/algorithms/sorting/merge-sort/visualize/">Merge Sort Visualizer</a>でいろいろ試してみてください。</li>
+</ol>
+<div class="lesson-note lesson-note--tip">
+<h4>プロジェクトのコードを実行する</h4>
+<p>このプロジェクトのために作成するスクリプトを実行する方法が必要です。このプロジェクトにはGUIのコンポーネントがないため、ブラウザではなくコマンドラインで実行すべきです。</p>
+<p>JavaScriptファイルは、nodejsと一緒にインストールされるnodeコマンドを使って、コマンドラインから直接実行できます。これを行う一般的な方法については、<a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/command-line/node-run-cli.en.md">Node CLIについてのドキュメント</a>を読むことで学ぶことができます。</p>
+</div>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<p>まず、ファイルを作成し、フィボナッチ数列に取り組みましょう:</p>
+<ol>
+<li>反復を使って、数値を受け取り、フィボナッチ数列からその数だけの数値を含む配列を返す<code>fibs</code>関数を書いてください。入力の例として<code>8</code>を使うと、この関数は配列<code>[0, 1, 1, 2, 3, 5, 8, 13]</code>を返すべきです。</li>
+<li>今度は、同じ問題を再帰的に解く別の関数<code>fibsRec</code>を書いてください。</li>
+<li>さまざまな長さを引数として渡すことで、両方のバージョンの関数をテストしてください。</li>
+</ol>
+<p>うまくいけば、再帰でこの問題を解くことができたはずです!この関数で何が起きているかを理解するのに助けが必要な場合は、以下の「Test it out」セクションが役立ちます。</p>
+<p>再帰でフィボナッチを解くことをしっかり把握できたら、新しいファイルを作成し、マージソートに取り組んでください:</p>
+<ol>
+<li>配列を受け取り、再帰的なマージソートの手法を使って、ソートされた配列を返す関数<code>mergeSort</code>を構築してください。</li>
+</ol>
+<p>テストの例:</p>
+<ul>
+<li><code>mergeSort([])</code> → <code>[]</code></li>
+<li><code>mergeSort([73])</code> → <code>[73]</code></li>
+<li><code>mergeSort([1, 2, 3, 4, 5])</code> → <code>[1, 2, 3, 4, 5]</code></li>
+<li><code>mergeSort([3, 2, 1, 13, 8, 5, 0, 1])</code> → <code>[0, 1, 1, 2, 3, 5, 8, 13]</code></li>
+<li><code>mergeSort([105, 79, 100, 110])</code> → <code>[79, 100, 105, 110]</code></li>
+</ul>
+<p>ヒント:</p>
+<ul>
+<li>ベースケースが何で、何度も繰り返し起きている振る舞いは何で、それが実際に他の誰か(例えば同じ関数!)に委譲できるかどうかを考えてみてください。</li>
+<li>何が起こるべきかがよく分からない場合は、背景の動画をもう一度チェックしてみると役立つかもしれません。</li>
+</ul>
+<h4>試してみよう</h4>
+<p>フィボナッチ関数に実装した再帰的な効果を披露するために、次のことを行ってください:</p>
+<ol>
+<li>
+<p>関数の先頭に次を追加してください:</p>
+<pre class="highlight"><code class="language-javascript">console.log("This was printed recursively");</code></pre>
+</li>
+<li>
+<p><code>8</code>を引数として関数を呼び出してください。</p>
+</li>
+<li>関数が正しく実装されていれば、その文がおよそ8回出力されるのが見えるはずです(関数をどう実装したかによっては、8回ではなく7回になることがあることに注意してください。これはバグではありません!これは単に、その関数が<em>実際に</em>何回繰り返されるかによります)。</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

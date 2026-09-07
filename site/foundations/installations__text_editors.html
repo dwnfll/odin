@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text Editors</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Text Editors <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">The hottest debate in programming, VSCode or Sublime?</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>テキストエディタは、どのような種類の開発者であっても、断トツで最もよく使われる開発ツールです。優れたテキストエディタは、リアルタイムのコードチェック、シンタックスハイライト、自動整形によって、より良いコードを書く助けとなります。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>コードエディタとは何か。</li>
+<li>なぜコードエディタが開発においてそれほど役立つのか。</li>
+<li>Visual Studio Code(VSCode)をインストールすること。</li>
+</ul>
+<h3>なぜMicrosoft Wordは使えないのですか?</h3>
+<p>Microsoft WordやLibreOffice Writerのようなリッチテキストエディタは、論文を書くのには最適ですが、見栄えの良い整形されたドキュメントを作るのに優れているという特徴こそが、コードを書くのには不向きにしています。これらのリッチテキストエディタで作成したドキュメントには、単なるテキスト以上のものがファイルに埋め込まれています。これらのファイルには、画面上でテキストをどう表示するかについての情報や、ドキュメントに埋め込まれたグラフィックをどう表示するかについてのデータも含まれています。対照的に、VSCodeやSublimeのようなプレーンテキストエディタは、余計な情報を一切保存しません。テキストだけを保存することで、Rubyのインタープリタのような他のプログラムが、そのファイルをコードとして読み取り、実行できるようになります。</p>
+<h3 id="code-editors">コードエディタ</h3>
+<p>コードエディタは、ウェブ開発に特化したツールだと考えることができます。高度にカスタマイズ可能で、あなたの生活を楽にしてくれる多くの機能を提供してくれます。プログラムが動かない理由を突き止めようと2時間も費やした挙句、閉じ括弧を書き忘れていただけだったと気づく---これほど嫌なことはありません。プラグイン、シンタックスハイライト、括弧やブレースの自動補完、リンティングは、コードエディタを使うことの利点のほんの一部です。世の中には選べるテキストエディタがたくさんありますが、私たちはVisual Studio Codeから始めることをお勧めします。</p>
+<p><strong>Visual Studio Code</strong>、一般にはVSCodeと呼ばれているものですが、これは優れた無料のコードエディタです。卓越したアドオンサポートと優れたGit統合機能を備えています。VSCodeはOdinの学習者やモデレーターの間で最も人気のあるコードエディタであるため、コミュニティ内でサポートを見つけやすくなっています。</p>
+<p>どのエディタを使うかは基本的に好みの問題ですが、このコースでは、無料で使いやすく、どのオペレーティングシステムでもほぼ同じように動作するという理由から、VSCodeを使用していることを前提とします。つまり、カリキュラムでVSCode以外のテキストエディタを使用している場合、助けを得られない可能性があるということを心に留めておいてください。</p>
+<p>念のためもう一度お伝えしますが、<strong>仮想マシン</strong>を使用している場合は、<strong>VM内に</strong>VSCodeをインストールする必要があります。ホスト側(つまりWindowsのメインOS)にもインストールして構いませんが、この重要なツールをVM内に必ず用意してください。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>お使いのOSに応じて、以下の該当するVSCodeインストールガイドに従ってください:</li>
+</ol>
+<ul>
+<li><a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/text_editors/linux.md" title="LinuxへのVSCodeインストール">Linux</a></li>
+<li><a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/text_editors/macos.md" title="macOSへのVSCodeインストール">macOS</a></li>
+<li>
+<p><a href="https://github.com/TheOdinProject/curriculum/blob/main/foundations/installations/installation_guides/text_editors/wsl2.md" title="WSL2へのVSCodeインストール">WSL2</a></p>
+<p>今後、VSCodeで何か問題が発生したり、特定の機能についてもっと知りたくなったりした場合は、<a href="https://code.visualstudio.com/docs">VSCodeのドキュメント</a>を確認してください。VSCode内で使えるキーボードショートカットもたくさんあり、その一部はOSに固有のものかもしれませんが、必要になったときに調べれば大丈夫です。
+1. VSCodeに慣れ親しんでおくことで、時間を節約し、より生産的になれます。この<a href="https://youtu.be/ORrELERGIHs?t=103">初心者向けVSCodeチュートリアル動画</a>を見ることで、VSCodeが提供するすべての機能について把握できます。実際に一緒にコーディングする必要はなく、動画全体を通してVSCodeがどのように使われているかを見ておくだけで構いません。
+1. Visual Studio Codeでデフォルトで有効になっているCopilotのAIコード補完機能を無効にしましょう。VSCodeで設定(<code>File &gt; Preferences &gt; Settings</code>)を開き、「Disable AI Features」を検索して、同じ名前のチェックボックスにチェックを入れてください。The Odin Projectがなぜこの機能を無効にすべきだと考えているのかを理解するために、Motivation and Mindsetレッスンの<a href="https://www.theodinproject.com/lessons/foundations-motivation-and-mindset#a-note-on-ai-code-generation">AIによるコード生成についての注意</a>のセクションを読み返してみてください。</p>
+</li>
+</ul>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#code-editors">コードエディタとは何ですか?</a></li>
+<li><a href="#code-editors">The Odin Projectはどのコードエディタをサポートしていますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

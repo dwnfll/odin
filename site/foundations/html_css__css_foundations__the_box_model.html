@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Box Model</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">The Box Model <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn about the box model, a foundational CSS concept.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>HTMLとCSSの基本構文を理解したところで、いよいよ本格的に取り組んでいきます。CSSで習得すべき最も重要なスキルは、<em>配置(ポジショニング)</em>と<em>レイアウト</em>です。フォントや色を変更することも重要なスキルですが、ウェブページ上で物事を思い通りの場所に正確に配置できることは、さらに重要です。結局のところ、すべての要素がただ次々と積み重なっているだけのウェブページなど、いくつ見つけられるでしょうか?</p>
+<p>ウェブページ上で要素を配置する方法を学ぶことは、いくつかの重要な概念さえ理解すれば、それほど難しくありません。残念ながら、多くの学習者はJavaScriptにたどり着くためにHTMLとCSSの学習を急ぎすぎて、こうした基本的な概念を見落としてしまいます。これはもどかしさと苦痛(<a href="https://giphy.com/gifs/css-13FrpeVH09Zrb2">そして面白いgif</a>)につながります。なぜなら、要素を必要な場所にきちんと配置できなければ、世の中のあらゆるJavaScriptのスキルも無意味になってしまうからです。それでは、そのことを念頭に置いて始めましょう。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li><em>ボックスモデル</em>について詳しく学びます。</li>
+<li><code>margin</code>、<code>padding</code>、<code>borders</code>を使って、要素をちょうど良いサイズにする方法を学びます。</li>
+</ul>
+<h3 id="the-box-model">ボックスモデル</h3>
+<p>CSSで成功するために理解しておくべき最初の重要な概念は、ボックスモデルです。複雑なものではありませんが、今これを読み飛ばしてしまうと、後々大きなもどかしさを招くことになります。</p>
+<p>ウェブページ上のあらゆるものは長方形のボックスです。これらのボックスは、その中に他のボックスを持つことができ、また互いに並んで配置されることもできます。次のようにページ上のすべての要素にoutlineを適用することで、これがどのように機能するかをおおまかに把握できます:</p>
+<pre class="highlight"><code class="language-css">* {
+    outline: 2px solid red;
+}</code></pre>
+<p><img alt="ボックス" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/c547923a86efaccb0fc71adf70fda2ea340b4cb1/foundations/html_css/css_foundations/the_box_model/imgs/boxes.png" /></p>
+<p>「Elements」タブ内の「Styles」パネルの右上にある<code>+</code>ボタンをクリックすることで、ブラウザのインスペクターを使って、このウェブページに上記のCSSを追加してみることもできます。ボックスの中にボックス!</p>
+<p><img alt="線" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/c547923a86efaccb0fc71adf70fda2ea340b4cb1/foundations/html_css/css_foundations/the_box_model/imgs/odin-lined.png" /></p>
+<p>まあ、上の画像には円のようなものもあるかもしれません……しかし、レイアウトに関して言えば、それらは円ではなく長方形のボックスのように組み合わさります。結局のところ、ウェブページをレイアウトし、そのすべての要素を配置するということは、これらのボックスをどのようにネストし、積み重ねていくかを決めることなのです。</p>
+<p>ここで唯一本当にややこしいのは、<code>padding</code>、<code>border</code>、<code>margin</code>を使って、これらのボックスのサイズやボックス間のスペースを操作する方法がたくさんあるということです。課題の記事ではこの概念についてさらに詳しく扱いますが、簡単にまとめると:</p>
+<ul>
+<li><code>padding</code>は、ボックスのborder(境界線)とボックスのコンテンツとの間のスペースを広げます。</li>
+<li><code>border</code>は、marginとpaddingの間に(たとえ1〜2ピクセルであっても)スペースを追加します。</li>
+<li><code>margin</code>は、ボックスのborderと隣接するボックスのborderとの間のスペースを広げます。</li>
+</ul>
+<p>図をしっかりと注意深く確認してください。</p>
+<p><img alt="ボックスモデル" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/c547923a86efaccb0fc71adf70fda2ea340b4cb1/foundations/html_css/css_foundations/the_box_model/imgs/box-model.png" /></p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://www.youtube.com/watch?v=rIO5326FgPE">Learn CSS Box Model In 8 Minutes</a>は、ボックスモデル、padding、marginについての分かりやすい概要です。今すぐ見てみてください。他のすべての内容の土台になります。</li>
+<li><a href="https://www.youtube.com/watch?v=HdZHcFWcAd8">box-sizing: border-box (EASY!)</a>は、上記のリソースに追加する形で、「box-sizing」についてより良い説明を提供してくれます。</li>
+<li>
+<p>ボックスモデルの概念は非常に基本的なものなので、<a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model">MDNのボックスモデルのレッスン</a>でもう少し深く掘り下げてみましょう。上記の動画と同じ内容を扱っており、次のレッスンで探っていくインラインボックスについても紹介してくれます。この記事はまた、要素がどのようにレンダリングされるかを説明する際に、内側と外側のディスプレイタイプについても触れています。</p>
+<p>それらの詳細をまだ完全に理解したり暗記したりする必要はありません。例に注意深く目を通し、時間をかけて記事内のブラウザ内エディタで実験してみてください!
+1. <a href="https://css-tricks.com/almanac/properties/m/margin/">marginについてのCSS Tricksのページ</a>には、<code>margin</code>プロパティについて役立つさらなる情報があります。特に、<code>auto</code>とマージンの相殺(margin collapsing)についてのセクションには、知っておきたい内容が含まれています。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#the-box-model">内側から外側に向かって、ボックスモデルのプロパティの順序はどうなっていますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model#the_alternative_css_box_model"><code>box-sizing</code>というCSSプロパティは何をしますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model#the_alternative_css_box_model">標準のボックスモデルと代替のボックスモデルの違いは何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model#margins_padding_and_borders">2つの要素の間にスペースを増やしたい場合、<code>margin</code>と<code>padding</code>のどちらを使いますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model#margins_padding_and_borders">要素のコンテンツとそのborderの間にスペースを増やしたい場合、<code>margin</code>と<code>padding</code>のどちらを使いますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model#margins_padding_and_borders">2つの要素を互いに重ねたい場合、<code>margin</code>と<code>padding</code>のどちらを使いますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model#the_alternative_css_box_model">すべての要素に代替のボックスモデルを設定するにはどうすればよいですか?</a></li>
+<li><a href="https://css-tricks.com/almanac/properties/m/margin/#aa-auto-and-centering">要素を水平方向に中央揃えするにはどうすればよいですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

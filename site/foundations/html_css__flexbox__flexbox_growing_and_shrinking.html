@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Growing and Shrinking</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Growing and Shrinking <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn about growing and shrinking in flexbox.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>前回のレッスンで、それらのフレックスアイテムに<code>flex: 1</code>を設定したとき、実際に何が起きていたのかをもう少し詳しく見てみましょう。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li><code>flex</code>ショートハンドによって定義される3つのプロパティと、それらを個別に使う方法を学びます。</li>
+</ul>
+<h3 id="the-flex-shorthand">flexショートハンド</h3>
+<p><code>flex</code>宣言は、実はフレックスアイテムに設定できる3つのプロパティのショートハンドです。これらのプロパティは、フレックスアイテムがコンテナ内で自身のサイズをどう決めるかに影響します。以前にもいくつかのショートハンドプロパティを見てきましたが、まだ正式には定義していませんでした。</p>
+<blockquote>
+<p>ショートハンドプロパティとは、他の複数のCSSプロパティの値を同時に設定できるCSSプロパティのことです。ショートハンドプロパティを使うことで、より簡潔な(そして多くの場合より読みやすい)スタイルシートを書くことができ、時間と労力を節約できます。</p>
+<p>出典: <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties">MDNのShorthand properties</a></p>
+</blockquote>
+<p>この場合、<code>flex</code>は実際には<code>flex-grow</code>、<code>flex-shrink</code>、<code>flex-basis</code>のショートハンドです。</p>
+<p><img alt="flexショートハンド" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/0cc6b26bb0c4b94524369d327c97a8fb11e83b6b/foundations/html_css/flexbox/imgs/10.png" /></p>
+<p>上記のスクリーンショットでは、<code>flex: 1</code>は次と同等です: <code>flex-grow: 1</code>、<code>flex-shrink: 1</code>、<code>flex-basis: 0</code>。</p>
+<h4>flex-grow</h4>
+<p><code>flex-grow</code>は値として単一の数値を受け取り、その数値はフレックスアイテムの「成長係数」として使用されます。コンテナ内のすべてのdivに<code>flex: 1</code>を適用したとき、私たちはすべてのdivに同じ量だけ成長するよう指示していました。この結果、すべてのdivはまったく同じサイズになります。代わりに1つのdivだけに<code>flex: 2</code>を追加すると、そのdivは他のものの2倍のサイズに成長します。</p>
+<p>以下の例では、<code>flex</code>ショートハンドの<code>flex-shrink</code>と<code>flex-basis</code>の値は、それぞれのデフォルト値で指定されています。</p>
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="YzQqvgK" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/YzQqvgK">
+  flex-grow example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4>flex-shrink</h4>
+<p><code>flex-shrink</code>は<code>flex-grow</code>と似ていますが、フレックスアイテムの「収縮係数」を設定します。<code>flex-shrink</code>は、すべてのフレックスアイテムのサイズの合計が親コンテナより大きい場合にのみ適用されます。例えば、上記の3つのdivに<code>width: 100px</code>のような幅の宣言があり、<code>.flex-container</code>が<code>300px</code>より小さい場合、divは収まるように縮小しなければなりません。</p>
+<p>デフォルトの収縮係数は<code>flex-shrink: 1</code>であり、これはすべてのアイテムが均等に縮小することを意味します。あるアイテムを縮小させたく<em>ない</em>場合は、<code>flex-shrink: 0;</code>を指定できます。また、より大きな数値を指定することで、特定のアイテムを通常より高い割合で縮小させることもできます。</p>
+<p>以下は例です。すぐ後で説明する理由により、<code>flex-basis</code>も変更していることに注意してください。ブラウザウィンドウを縮小すると、<code>flex-grow</code>ルールが本来であれば各要素を等しいサイズにするよう指定しているにもかかわらず、<code>.two</code>が与えられた250pxという幅より小さくならないことに気づくでしょう。</p>
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="JjJXZVz" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/JjJXZVz">
+  flex-shrink example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>ここで気づくべき重要な意味合いは、<code>flex-grow</code>や<code>flex-shrink</code>を指定すると、フレックスアイテムは必ずしも指定した<code>width</code>の値を尊重するわけではないということです。上記の例では、3つのdivすべてに250pxの幅が与えられていますが、親が十分に大きい場合、それらは親を満たすように成長します。同様に、親が小さすぎる場合、デフォルトの動作としてそれらは収まるように縮小します。これはバグではありませんが、予期していないと分かりにくい挙動に感じられるかもしれません。</p>
+<h4>flex-basis</h4>
+<p><code>flex-basis</code>はフレックスアイテムの初期サイズを設定するもので、あらゆる種類の<code>flex-grow</code>や<code>flex-shrink</code>はこの基準サイズから始まります。ショートハンドの値はデフォルトで<code>flex-basis: 0%</code>になります。<code>flex-shrink</code>の例でこれを<code>auto</code>に変更する必要があったのは、basisが<code>0</code>に設定されていると、それらのアイテムはアイテムの幅を無視してしまい、すべてが均等に縮小してしまうためです。flex-basisとして<code>auto</code>を使用すると、アイテムは幅の宣言(<code>width: 250px</code>)を確認するようになります。</p>
+<div class="lesson-note">
+<h4>flex-basisについての重要な注意</h4>
+<p><code>flex-basis</code>のデフォルト値と、<code>flex-basis</code>が与えられなかった場合に<code>flex</code>ショートハンドがそれをどう定義するかとの間には違いがあります。<code>flex-basis</code>の実際のデフォルト値は<code>auto</code>ですが、ある要素に<code>flex: 1</code>を指定すると、それは<code>flex: 1 1 0</code>として解釈されます。アイテムの<code>flex-grow</code><em>だけ</em>を調整したい場合は、ショートハンドを使わずに直接そうすることができます。あるいは、より冗長に、3つの値すべてを指定するショートハンド<code>flex: 1 1 auto</code>を使うこともでき、これは<code>flex: auto</code>を使うのと同等です。</p>
+</div>
+<h4 id="what-is-flex-auto">flex autoとは何か?</h4>
+<p>気づいたかもしれませんが、前の注意書きで新しいflexショートハンド<code>flex: auto</code>に触れました。しかし、それについて完全には紹介していませんでした。<code>flex: auto</code>はflexのショートハンドの一つです。<code>auto</code>がflexのキーワードとして定義されると、それは<code>flex-grow: 1</code>、<code>flex-shrink: 1</code>、<code>flex-basis: auto</code>という値、つまりflexショートハンドを使った<code>flex: 1 1 auto</code>と同等になります。<code>flex: auto</code>は、その名前が「auto」であるにもかかわらず、flexショートハンドを使用する際のデフォルト値ではないことに注意してください。これは最初は少し紛らわしく感じられるかもしれません。<code>flex: auto</code>とその潜在的な使用例については、課題セクションを読み進める中でさらに出会い、詳しく学ぶことになります。</p>
+<h4>実際には</h4>
+<p>実際には、<code>flex-grow</code>、<code>flex-shrink</code>、<code>flex-basis</code>に複雑な値を使うことはあまりないでしょう。一般的には、divを均等に成長させるための<code>flex: 1;</code>や、特定のdivが縮小しないようにするための<code>flex-shrink: 0</code>のような宣言を使うことが最も多いはずです。</p>
+<p>凝ったことをして、いくつかの列が特定の比率で互いに関連するようなレイアウトを設定することも<em>確かに</em>可能なので、他の値を使えることを知っておくのは有用ですが、そうしたケースは比較的まれです。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://www.w3.org/TR/css-flexbox-1/#flex-common">W3Cの「7.1.1 Basic Values of 'flex'」</a>を読んで、一般的なflexショートハンド値の基本的な値を理解しましょう。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/flex">flexについてのMDNのドキュメント</a>は、flexショートハンド値の全体をまとめており、前の記事では扱われていなかったいくつかの新しい構文も紹介しています。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#the-flex-shorthand">ショートハンドの<code>flex</code>プロパティ(例:<code>flex: 1 1 auto</code>)で定義されている3つの値は何ですか?</a></li>
+<li><a href="#what-is-flex-auto">flexショートハンド<code>flex:auto</code>で定義されている3つの値は何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

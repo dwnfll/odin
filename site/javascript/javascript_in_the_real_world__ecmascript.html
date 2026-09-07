@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ECMAScript</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">ECMAScript <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">A brief overview of ECMAScript and the impact of versions in practice</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>私たちは最初のレッスンからずっと<strong>ES6</strong>という用語を使ってきましたが、それが何を意味するのか、あるいはそれが私たちのコードにどんな意味を持つのかを、きちんと説明する時間を取ってきませんでした。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>ECMAScriptのリリースの仕組み。</li>
+<li>新しいJavaScript機能へのブラウザサポートに関する、いくつかの潜在的な問題。</li>
+<li>Babel。</li>
+</ul>
+<h3 id="what-is-ecmascript">ECMAScriptとは何か?</h3>
+<p>JavaScriptは単に、Ecma Internationalによって作られたECMAScript標準に準拠するプログラミング言語であり、ES6は2015年の夏に正式にリリースされたバージョンのJavaScriptです。これには、JavaScriptを書くことをずっと簡単で綺麗にしてくれる<em>たくさん</em>の新機能が含まれていました。このカリキュラムでは、あなたはすでにこれらの新機能の多くを学んできました。なぜなら、まあ、ES6は<em>単なるJavaScript</em>だからです。</p>
+<h4 id="release-schedule">リリーススケジュール</h4>
+<p>おそらく、ES7やES8、ES2015やES2017などの機能について語る記事にも出会ったことがあるでしょう。ここでの混乱の一部は、ES6のリリース直後に、これらの決定を行う委員会(TC39として知られています)が、命名スキームをバージョン番号(ES5、ES6、ES7など)からリリース年に変更したことです。ES6はES2015としても知られており、一部の記事がES7と呼んでいるものはES2016としても知られている、というようにです。(ES6以前がそうであったように)膨大な数の新機能を含む単一の新バージョンの代わりに、今ではバージョンごとに少しずつ追加を加えながら、毎年リリースされるようになっています。</p>
+<h3 id="browser-support">ブラウザサポート</h3>
+<p>JavaScriptが常に更新され機能を追加していくことの<em>問題</em>は、時にはウェブブラウザがそれに追いつき、新しい機能がリリースされた後にそれを実装するまでに、しばらく時間がかかるということです。新しい機能が「広く利用可能」になる(使われている大多数のモダンなブラウザとブラウザバージョンでサポートされる)までには、しばしば数年かかります。これはつまり、残念ながら、真新しい機能を使ってコードを書くと、それをサポートしていないブラウザでは<strong>実行されない</strong>ということです。</p>
+<p>私たちのほとんどにとって、これは問題になったことがありません。なぜなら、あなたはほぼ間違いなく、新しいバージョンがリリースされたときに自動的に更新される新しいブラウザを使っているからです。しかし実際の現場では、もし顧客に製品を販売しているなら、人々があなたのサイトに接続するためにどのブラウザを使うかをコントロールすることはできません。</p>
+<h4 id="babel">Babel</h4>
+<p>幸いなことに、この問題には解決策が<em>あります</em>。<a href="http://babeljs.io/">Babel</a>は、あなたのモダンなJavaScriptコードを受け取り、それを古いブラウザが理解できるコードに<strong>トランスパイル</strong>するツールです。さまざまなブラウザにわたる最小のブラウザバージョンなど、いくつものターゲットに合わせてトランスパイルするよう設定でき、必要なターゲットは、製品の目的やターゲットとなるユーザー層などによって異なります。一部の製品は、より新しいブラウザのサポートだけで問題ないかもしれませんが、他の製品はずっと厳格で、はるかに古いブラウザへのサポートを確実にする必要があるかもしれません。</p>
+<p>正直なところ、これはあなたが始めるすべてのプロジェクトで心配する必要があるものでは<em>ありません</em>。なぜなら、カリキュラムのプロジェクトの目的は、物事の実践的な経験を積むことであり、本番レベルの製品を顧客に届けることではないからです。それでも、この状況と、実際の現場で何が必要になり得るかを認識しておくことは役立ちます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>あなたの好奇心を満たすために、<a href="https://github.com/lukehoban/es6features">ES6(別名ES2015)に登場したすべての新機能</a>を見てみてください。すでにこれらの多くを使ってきたはずですが、まだ具体的には扱っていないものもいくつかあります(まだこれらを探る必要はありません)。</li>
+<li>ES6以降の毎年のバージョンの小さな要約を含む、<a href="https://en.wikipedia.org/wiki/ECMAScript_version_history#14th_Edition_%E2%80%93_ECMAScript_2023">さまざまなECMAScriptリリースのタイムライン</a>にざっと目を通してみてください。繰り返しになりますが、すでに使ったことのあるものもあれば、まだ見覚えがなく、探る必要もないものもあるでしょう。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#what-is-ecmascript">ES6とは何ですか?</a></li>
+<li><a href="#release-schedule">ES6以降、新しいECMAScriptバージョンにはどんなリリーススケジュールが使われてきましたか?</a></li>
+<li><a href="#browser-support">なぜ真新しいJavaScript機能を使う際に注意する必要があるかもしれないのですか?</a></li>
+<li><a href="#babel">古いブラウザのサポートのために、新しいJavaScriptをトランスパイルするのに使えるツールは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

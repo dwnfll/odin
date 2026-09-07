@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keyboard Navigation</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Keyboard Navigation <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn how to ensure all users are able to access your site using only a keyboard.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>一部のユーザーは、コンピューター、ひいては訪問するウェブサイトをナビゲート・操作するためにマウスを使うことができません。これらのユーザーは代わりに、キーボードや、音声認識ソフトウェアのようなキーボード入力をシミュレートできる別の支援技術に頼ることがあります。他のユーザーは、マウスよりもキーボードを使う方を単に好むかもしれませんし、両方を組み合わせて使うかもしれません。これらのユーザーには適切なキーボードナビゲーションが必要であり、これはウェブサイトを開発する際に見落とされがちなことの一つです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>キーボードユーザーのために、インタラクティブな要素が持っていなければならない2つのことを知ります。</li>
+<li>フォーカススタイルとは何か、そしてなぜそれを完全に取り除くべきではないかを理解します。</li>
+<li>タブオーダーとは何かを理解します。</li>
+<li>隠されたコンテンツを支援技術から適切に隠す方法を知ります。</li>
+</ul>
+<h3>フォーカス</h3>
+<p>セマンティックHTMLのレッスンで出てきた、セマンティックHTMLを<em>使わなかった</em>Rock, Paper, Scissorsの例を覚えていますか?<code>&lt;div&gt;</code>や<code>&lt;span&gt;</code>要素を使うことのもう一つの問題は、デフォルトではフォーカス可能ではなく、デフォルトでは何のイベントハンドリングも持たないということです。私たちの非セマンティックなRock, Paper, Scissorsの例をキーボードユーザーのために修正するには、以下のコードの断片のような、いくつかの追加のステップを踏む必要があります:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- The `tabindex` attribute makes the `&lt;div&gt;` elements focusable. --&gt;
+&lt;div class='button-container'&gt;
+  &lt;div class='rock button' tabindex='0'&gt;Rock&lt;/div&gt;
+  &lt;div class='paper button' tabindex='0'&gt;Paper&lt;/div&gt;
+  &lt;div class='scissors button' tabindex='0'&gt;Scissors&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">// We also need to manually add in event handling for both mouse and keyboard events.
+const buttons = document.querySelectorAll('.button');
+
+function nameAlerter(e) {
+  if (e.type === 'click' || e.key === ' ' || e.key === 'Enter') {
+    alert(e.target.textContent);
+  }
+}
+
+buttons.forEach(button =&gt; {
+  button.addEventListener('click', nameAlerter)
+  button.addEventListener('keydown', nameAlerter)
+})</code></pre>
+<p>もちろん、この例はスクリーンリーダーのユーザーにとって<em>より</em>理解しづらいものにしてしまいます(覚えていますか、これらの「ボタン」はコンテキストを何も提供してくれません)。<code>&lt;button&gt;</code>要素を使うことは、スクリーンリーダーのユーザーが必要とするコンテキストを提供するだけでなく、<em>デフォルトで</em>フォーカス可能でキーボードのイベントハンドリングも持っています: <code>&lt;button&gt;</code>がフォーカスを持っているときにキーボードで<kbd>Space</kbd>キーや<kbd>Enter</kbd>キーを押すと、「click」イベントがトリガーされます。</p>
+<p><span id="interactive-elements-keyboard">ポイントは、あらゆるインタラクティブな要素がキーボードによってフォーカス可能であり、キーボードのイベントハンドリングを持っていることを確実にする必要がある、ということです。正しいセマンティックHTMLを使うことで、この目標を達成するのがずっと簡単になりますが、もしデフォルトではフォーカス可能でない、あるいは何のイベントハンドリングも持たない要素を使う必要がある場合は、その両方の機能を手動で追加する必要があります。</span></p>
+<h3 id="focus-styles">フォーカススタイル</h3>
+<p>フォーカス可能な要素のもう一つの側面は、そのフォーカススタイルです。これは通常、要素がフォーカスを受け取ったときにそれを囲むアウトラインや枠線です。あなたがやったことがあるかもしれない、あるいは今もやっているかもしれないことの一つは、以下の例のようなCSSルールを使って、これらのフォーカススタイルを完全に取り除くことです:</p>
+<pre class="highlight"><code class="language-css">/* These are so ugh-ly! Let's get rid of them. */
+*:focus {
+  outline: none;
+  border: none;
+}</code></pre>
+<p>おそらくあなたは、これをしないようにと言われることを予想しているでしょう。ええ…<strong>フォーカススタイルを完全に取り除くべきでは決してありません</strong>。これらのデフォルトのフォーカススタイルをそのままにしておくか、自分自身のフォーカススタイルに置き換えるべきです。ボタンに<code>transform: scale()</code>というCSSプロパティを追加するにしても、リンクにアウトラインを追加するにしても、inputの枠線の幅と不透明度を増やすにしても、自分自身のフォーカススタイルを追加することが、デフォルトのフォーカススタイルに対して検討すべき唯一の代替策です。</p>
+<p><span id="focus-never-remove">なぜでしょうか?フォーカススタイルを完全に取り除いてしまうと、キーボードユーザーは実際にどの要素がフォーカスを持っているかについて視覚的な手がかりを一切得られなくなるため、ページをナビゲート・操作することが不可能になってしまう可能性があります。これは、彼らに、Tabキーを何回押したかを手動で追跡し続けながら、どの要素が<em>実際に</em>フォーカス可能なのかを推測させることを強いてしまいます。見えないカーソルで、しかもリンクやボタンのようなインタラクティブな要素の上にカーソルがホバーしているときの視覚的な手がかりが一切ない状態で、ウェブサイトを閲覧しようとすることを想像してみてください。あまり楽しそうには聞こえませんよね?</span></p>
+<h3 id="tab-order">タブオーダー</h3>
+<p>タブオーダーとは、<kbd>Tab</kbd>キーを押したときにページ上の要素がフォーカスを受け取る順序のことで、デフォルトではHTMLファイル内にリストされている要素の順序と同じです:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- This element is first in the tab order. --&gt;
+&lt;div tabindex='0'&gt;This is the first element listed in the HTML.&lt;/div&gt;
+
+&lt;!-- This element is second in the tab order. --&gt;
+&lt;div tabindex='0'&gt;This is the second element listed in the HTML.&lt;/div&gt;</code></pre>
+<p>時には、CSS(例えば<code>float</code>や<code>order</code>プロパティ)を使ってページ上の要素の視覚的な順序を変える必要があると感じたり、<code>tabindex</code>属性を使って要素自体のタブオーダーを変える必要があると感じたりするかもしれません。どちらの方法を使うにしても、タブオーダーが要素の視覚的な順序と一致していることを確認すべきです。もしタブオーダーが視覚的な順序と異なると、ユーザーはキーボードでページをナビゲートしようとする際に、視覚的なレイアウトに基づいてある要素がフォーカスを受け取ることを期待しているのに、代わりに別の要素がフォーカスを受け取ってしまい、混乱したり苛立ったりしてしまう可能性があります。</p>
+<p>この問題を避ける最良の方法は、HTMLファイル内で、実際にフォーカスを受け取ってほしい順序で要素を配置することです。</p>
+<h3>隠されたコンテンツ</h3>
+<p>時には、ユーザーがメニューやモーダルボックスを開くためにボタンをクリックするといった特定のイベントが発生するまで、一部のコンテンツを隠しておきたい場合があります。このような目的でコンテンツを隠したい場合は、そのコンテンツが視覚的に隠されているだけでなく、そのコンテンツが表示されるべきときまで、支援技術からも隠されていることを確実にする必要があります。</p>
+<p>そのようなコンテンツを適切に隠さないと、キーボードユーザーは、本来意図されたタイミングより前にそのコンテンツにタブで入り込めてしまいますが、そうすることでページ上の視覚的なフォーカスを見失ってしまいます。これらのユーザーは、ページをタブで移動しようとしているだけなのに、フォーカスインジケーターがその隠されたコンテンツの中に消えてしまい、混乱したり、苛立ったりすることさえあるでしょう。</p>
+<p>このイライラする振る舞いを防ぐ一つの方法は、その隠されたコンテンツ内の個々のアイテムそれぞれに<code>tabindex</code>の値として-1を与えることです。これにより、要素がキーボードを通してフォーカスを受け取ることを防げます(ただし、JavaScriptの<code>focus()</code>メソッドを使ってフォーカスを与えることは依然としてできます)。これはキーボードユーザーにとっての問題を修正しますが、他の支援技術は依然としてこの隠されたコンテンツにアクセスでき、それをアナウンスできてしまいます。</p>
+<p><span id="best-way-hide-content">より良い解決策は、隠されたコンテンツのコンテナ自体に、隠されているときは<code>display: none</code>または<code>visibility: hidden</code>というCSSプロパティを与え、表示されるべきときにそのプロパティを削除するか上書きすることです。これにより、メニューアイテムをタブオーダーから取り除くだけでなく、支援技術がそれらをアナウンスするのを防ぐこともできます。</span></p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://www.youtube.com/watch?v=EFv9ubbZLKw&amp;list=PLNYkxOF6rcICWx0C9LVWWVqvHlYJyqw7g&amp;index=3">What is Focus?</a>を見て、タブオーダーを変えようとするときに発生するいくつかの問題を確認し、それから<a href="https://www.youtube.com/watch?v=Pe0Ce1WtnUM&amp;list=PLNYkxOF6rcICWx0C9LVWWVqvHlYJyqw7g&amp;index=4">tabindexを使ってフォーカスをコントロールする</a>を見て、<code>tabindex</code>属性を使うことがタブオーダーにどう影響し得るか見てみてください。</li>
+<li>キーボードユーザーのためのもう一つの形式のアクセシビリティである<a href="https://webaim.org/techniques/skipnav/">スキップリンク</a>について読んでください。これは、ページのコンテンツをタブで移動するのにより多くの労力を必要とするユーザーにとって、特に役立ちます。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#interactive-elements-keyboard">キーボードユーザーのために、インタラクティブな要素が持っていなければならない2つのことは何ですか?</a></li>
+<li><a href="#focus-styles">フォーカススタイルとは何ですか?</a></li>
+<li><a href="#focus-never-remove">なぜ要素からフォーカススタイルを完全に取り除くべきではないのですか?</a></li>
+<li><a href="#tab-order">タブオーダーとは何ですか?</a></li>
+<li><a href="#best-way-hide-content">隠されたコンテンツを支援技術から隠す最良の方法は何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

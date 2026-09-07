@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Todo List</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Todo List <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Todo List</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>この時点で、あなたはすでに私たちが示してきたさまざまなテクニックをかなり練習してきました。しかし、私たちはあなたにたくさんの情報を投げかけてきたので、先に進む前に少し立ち止まって、これらのテクニックを結びつける、もう一つの素晴らしいプロジェクトに取り組む時間を取りましょう。あなたが新しく身につけたスキルのほとんど(もしすべてでなければ)を披露する機会になるはずです!</p>
+<h3>Todoリスト</h3>
+<p>Todoリストは初心者向けのウェブ開発チュートリアルの定番であり、実装は基本的なものにできます。しかし、改善の余地や追加できる機能はたくさんあります。</p>
+<p>コードに飛び込む前に、少し時間を取って、プロジェクトをどう整理したいか考えてみてください。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>あなたの「todo」は動的に作成したいオブジェクトになるので、それらを生成するにはファクトリーかコンストラクタ/クラスのどちらかを使うことになります。</li>
+<li>あなたのtodoアイテムがどんな種類のプロパティを持つべきか、ブレインストーミングしてみてください。最低限、<code>title</code>、<code>description</code>、<code>dueDate</code>、<code>priority</code>を持つべきです。<code>notes</code>や、<code>checklist</code>さえも含めたいと思うかもしれません。</li>
+<li>あなたのtodoリストは<code>projects</code>、つまり別々の<code>todos</code>のリストを持つべきです。ユーザーが最初にアプリを開いたとき、彼らのすべてのtodoが入る、何らかの「デフォルト」プロジェクトがあるべきです。ユーザーは新しいプロジェクトを作成でき、自分のtodoをどのプロジェクトに入れるか選べるべきです。</li>
+<li>アプリケーションロジック(つまり、新しいtodoの作成、todoを完了に設定すること、todoの優先度を変更することなど)をDOM関連のものから分離すべきなので、それらすべてを別々のモジュールに保ってください。</li>
+<li>ユーザーインターフェースの見た目はあなた次第ですが、次のことができるべきです:</li>
+<li>すべてのプロジェクトを表示する。</li>
+<li>それぞれのプロジェクト内のすべてのtodoを表示する(おそらくタイトルと期日だけ…もしかしたら優先度によって色を変えるのもいいかもしれません)。</li>
+<li>単一のtodoを展開して、その詳細を確認・編集する。</li>
+<li>todoを削除する。</li>
+<li>インスピレーションのために、次の素晴らしいtodoアプリをチェックしてみてください。(スクリーンショットを見たり、紹介動画を見たりしてみてください)</li>
+<li><a href="https://en.todoist.com/">Todoist</a></li>
+<li><a href="https://culturedcode.com/things/">Things</a></li>
+<li><a href="https://www.any.do/">any.do</a></li>
+<li>おそらくすでにwebpackを使っているので、npmから外部ライブラリを追加するのは朝飯前です!コードで次の便利なライブラリを使うことを検討したくなるかもしれません:</li>
+<li><a href="https://github.com/date-fns/date-fns">date-fns</a>は、日付や時間をフォーマット・操作するための便利な関数をたくさん与えてくれます。</li>
+<li>
+<p>私たちはまだ、実際にデータをどこかに保存するテクニックを学んでいないので、ユーザーがページをリフレッシュすると、彼らのすべてのtodoが消えてしまいます!Web Storage APIを使って、このtodoアプリに何らかの永続性を追加すべきです。</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API">localStorage</a>を使うと、ユーザーのコンピューターにデータを保存できます。ここでの欠点は、そのデータが作成されたコンピューター上でしかアクセスできないということです。それでも、かなり便利です!新しいプロジェクト(またはtodo)が作成されるたびにプロジェクト(とtodo)をlocalStorageに保存する関数と、アプリが最初に読み込まれたときにlocalStorageの中にそのデータを探す別の関数をセットアップしてください。さらに、つまずかないようにするための、いくつかの簡単なヒントをここに示します:
+- localStorageから取得したいデータが存在しない場合でも、あなたのアプリがクラッシュしないことを確認してください!
+- DevToolsを使って、localStorageに保存したデータを検査できます!これを行うには、DevToolsの<code>Application</code>タブを開き、<code>Storage</code>の下にある<code>Local Storage</code>タブをクリックしてください。アプリでlocalStorageのデータを追加、更新、削除するたびに、それらの変更はDevToolsに反映されます。
+- localStorageはデータの送受信・保存に<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON">JSON</a>を使い、データを取得するときも、それはJSON形式になります。<em>関数はJSONに保存できない</em>ということを心に留めておいてください。ですので、それらを取得した後、オブジェクトのプロパティにどうメソッドを戻すかを考える必要があります。頑張ってください!</p>
+</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

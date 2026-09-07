@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Natural Responsiveness</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Natural Responsiveness <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn the importance of making your sites naturally responsive.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>レスポンシブなウェブサイトを作るための最初のステップは、<em>自然に</em>柔軟なテクニックを使うことです。後のレッスンでは、画面サイズに基づいてページ上のアイテムを完全に並べ替える方法を学びますが、ほとんどの場合、まずはflexboxやgridのようなツールに頼って、幅広い画面でページが機能するようにする方が望ましいです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>あなたのサイトを自然にレスポンシブに保つためのいくつかのコツを学びます。</li>
+</ul>
+<h3>すべてにCSSが必要なわけではない</h3>
+<p><span id='natural-responsiveness'>CSSのないプレーンなHTMLはレスポンシブです</span>。この<a href="https://codyloyd.github.io/responsive-html/">CSSのないHTMLのみのページ</a>を訪れて、ブラウザを携帯電話のサイズまで縮小してみてください。完璧に機能します!Apple Watchでもそのサイトを読むことができるでしょう。</p>
+<p>あなたが作るすべてのウェブサイトが、ページ上のプレーンなテキストほどシンプルであるのは現実的ではありませんが、<strong>あなたが</strong>CSSでそれを変えるまでは、プロジェクトを構築するために使っている要素のほとんどがレスポンシブであるということを心に留めておくことは重要です。このマインドセットでプロジェクトに取り組み、その自然なレスポンシブ性を維持するよう最善を尽くせば、サイトを適切にレスポンシブにするために必要な追加作業が<em>それほど</em>多くないと気づくかもしれません。</p>
+<p>このレッスンの残りは、自然なレスポンシブ性を維持するために使えるコツのリストです。</p>
+<h3>viewport metaタグ</h3>
+<p>携帯電話が初めてウェブブラウザを搭載し始めた頃、ほとんどのウェブサイトはそのような小さな画面解像度に最適化されて<em>いません</em>でした。これを回避するために、ほとんどの携帯電話のブラウザは、より大きな画面をシミュレートし、ページのズームアウトされたバージョンを表示していました。しかし、最近ではその挙動はほとんど望まれないため、私たちのウェブサイトを実際の非ズーム状態の画面解像度で見てもらいたいということを指定する必要があります。</p>
+<p>このため、取り組むほぼすべてのプロジェクトで、HTMLファイルの<code>&lt;head&gt;</code>にこの断片を追加すべきです。</p>
+<pre class="highlight"><code class="language-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
+<p>これは、ウェブページの初期の幅を、実際にあなたがそれを見ている画面のサイズに設定し、拡大・縮小しないよう指示します。簡単ですね!</p>
+<p>もしEmmetを使ってHTMLボイラープレートを生成させてきたなら、おそらくすでにこのタグを使ってきたはずです。(<kbd>!</kbd> + <kbd>ENTER</kbd>)</p>
+<h3>固定の幅と高さを避ける</h3>
+<p>柔軟性の最大の敵は、要素に対する固定の幅です。もし何かに<code>width: 600px</code>を設定すると、それはその幅より小さくなることは決してできなくなり、それをほとんどの携帯電話の画面に収まるようにするチャンスが台無しになります。同様に、要素に固定の高さをくっつけると、その要素の中身がスペース不足になった場合に問題が発生する可能性があります。</p>
+<p>もちろん、どんな状況で何がうまくいくかは文脈によりますが、多くの場合の簡単な修正方法は、<code>width</code>や<code>height</code>を<code>max-width</code>や<code>min-height</code>に置き換えることです(<code>min-width</code>と<code>max-height</code>も有効で、文脈によっては役立つかもしれません)。</p>
+<p>以下の例では、<span id='fixed-width'>固定の幅</span>が私たちのdivを画面からはみ出させてしまっていることに注目してください!これを<code>max-width</code>に変えてみて、プレビュー画面に収まるように縮小されるのを見てみてください!「Fork on CodePen」をクリックし、それから「Save」をクリックして、下部にある「Open Live View in a New Window」アイコンに移動して、フルウィンドウサイズで見てみてください。ウィンドウのサイズを変えて、<code>max-width</code>がどう機能するか試してみてください。<code>max-width</code>が定義されている場合、要素はその幅を超えることはありませんが、それに収まるには画面が狭すぎる場合は縮小します。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="GRMpreM" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/GRMpreM">
+  max-width | CSS Responsiveness</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>以下に示す例は、<span id='fixed-height'>静的な高さ</span>の問題を示しています。フルサイズの画面では、テキストはピンクのボックス内にちゃんと収まりますが、この窮屈な埋め込みでは、はみ出してしまいます!ここで私たちが望んでいるのは、divがほとんどの場合は<code>300px</code>であってほしいが、テキストが窮屈になったときにはみ出しを引き起こす代わりに大きくなってほしい、ということです。この場合、<code>height: 300px</code>を<code>min-height: 300px</code>に変えることで、この問題が修正されます。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="qBjxVYg" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/qBjxVYg">
+  height | CSS Responsiveness</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4>高さの指定を完全に避ける</h4>
+<p><em>ほとんど</em>の場合、高さの設定は完全に避けるべきです。このルールにはいくつか例外があります(おそらくヘッダーやフッターなど)が、コンテンツの周りのスペースを増やすには、marginとpaddingを使う方を優先すべきです。marginとpaddingを使うことで、中のコンテンツが何をしていようとも、要素を柔軟に保つことができます。</p>
+<h4 id="when-fixed-widths-are-appropriate">固定の幅が適切な場合</h4>
+<p>固定の幅が適切な場合もあります。普遍的なルールを作るのは難しいですが、一般的には、幅が小さいほど、それを固定にすることがより許容されやすくなります。例えば、ページ上の<code>32px</code>のアイコンは、<code>max-width</code>を使うことから恩恵を受けることはないでしょう。なぜなら、おそらくそれが縮小することを望まないからです。同様に、<code>250px</code>のサイドバーはおそらく<em>常に</em><code>250px</code>である必要があります。何事もそうであるように、選択肢を検討し、最も適切だと思われるものを選ぶ必要があります。</p>
+<h3>flexとgridを使う</h3>
+<p>これは、冗談のように聞こえるほど明白な発言です: flexboxは柔軟なレイアウトの作成を可能にするために<em>作られました</em>。flexとgridを使うことは、必ずしも完璧なレスポンシブ性を保証するわけではありませんが、それらは本当に役立つツールです。あなたはすでにここでの関連するプロパティについて学びましたが、<code>flex-wrap</code>やgridの<code>minmax</code>、<code>auto-fill</code>などのプロパティを使うと、それほど余計な作業をすることなく、驚くほどレスポンシブなレイアウトを作ることができます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>MDNの<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag">「Using the viewport meta tag」</a>を読んで、viewport metaタグと画面解像度の性質について、もう少し背景知識と詳細を得てください。</li>
+<li><a href="https://web.archive.org/web/20251116005914/https://codyloyd.com/2021/percentages/">Using Percentages in CSS</a>は、もう一つのよくある落とし穴を扱った記事です。<code>@media</code>の部分にはあまり集中しなくて構いません。メディアクエリについてはすぐ後で扱います。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#natural-responsiveness">自然なレスポンシブ性とは何ですか?</a></li>
+<li><a href="#fixed-width">いつ固定の幅を使うのを避けるべきですか?</a></li>
+<li><a href="#fixed-height">いつ固定の高さを使うのを避けるべきですか?</a></li>
+<li><a href="#when-fixed-widths-are-appropriate">どんな状況で固定の高さや幅を使うのが適切かもしれませんか?</a></li>
+<li><a href="https://web.archive.org/web/20251116005914/https://codyloyd.com/2021/percentages/">パーセンテージがレスポンシブ性を妨げてしまうのはどんなときですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

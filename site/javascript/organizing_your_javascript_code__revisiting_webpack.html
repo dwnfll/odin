@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revisiting Webpack</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Revisiting Webpack <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Revisiting Webpack</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>Restaurant Pageに取り組んだ、よくできました!すべてのローダーとプラグインを使ってWebpackをセットアップして使うことは、面倒に感じたかもしれませんし、今でもそのすべてのポイントが何なのか疑問に思っているかもしれません。先に進んでいくにつれて、これらの多くはあなたにとってより自然なものになっていきますし、これらの基本的な概念が、まだ来ぬ問題に対処するのに役立つことを願っています!</p>
+<p>Webpackを少しいじってみたところで、セットアップの体験と開発のワークフローを改善するのに役立ういくつかのことを見ていきましょう。これらのいくつかは、Webpackだけに限定されるものではなく、進んでいく中で他のツールでも使い続けられるものです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>npmスクリプトの書き方と実行方法。</li>
+<li>Webpackのモードとは何で、必要に応じてモード間の切り替えを自動化する方法。</li>
+<li>テンプレートリポジトリの作成方法と使い方。</li>
+</ul>
+<h3 id="npm-scripts">npmスクリプト</h3>
+<p><code>npx webpack</code>と<code>npx webpack serve</code>は特に長いコマンドではありませんが、Restaurant Pageプロジェクトのデプロイ手順で<code>git subtree push --prefix dist origin gh-pages</code>に出会ったはずです。それを使う必要があるたびに毎回それを入力したいとは、きっと思わないでしょう。</p>
+<p>幸いなことに、<code>package.json</code>ファイルに、スクリプトのオブジェクトを含む<code>"scripts"</code>プロパティを追加することで、npmスクリプトを書くことができます。スクリプトは<code>"name": "command"</code>という形式で書くことができ、ターミナルで<code>npm run &lt;name&gt;</code>を実行することで実行されます。例えば:</p>
+<pre class="highlight"><code class="language-json">{
+  // ... other package.json stuff
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack serve",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
+  },
+  // ... other package.json stuff
+}</code></pre>
+<p>ここには3つのnpmスクリプトがあります。この場合、<code>npm run build</code>を実行するのは<code>npx webpack</code>を実行するのと同じ(これは前のWebpackのレッスンのWebpackガイドで見たかもしれません)であり、<code>npm run dev</code>は<code>npx webpack serve</code>と同じで、<code>npm run deploy</code>は私たちの代わりに<code>git subtree push --prefix dist origin gh-pages</code>を実行します。時間を節約できるだけでなく、コマンドに理にかなった、ある程度標準化された名前を付けられることも良い点です。<code>npm run build</code>には、しばしばツールのビルド/バンドル/コンパイルのためのコマンドが含まれています。<code>npm run dev</code>は、しばしば開発サーバーを起動するために使われます、などです。名前は常に同じとは限りませんが、<code>npx webpack</code>よりもその目的をよりよく説明してくれます。</p>
+<p><code>webpack</code>と<code>webpack serve</code>コマンドをスクリプトとして設定する際、先頭の<code>npx</code>を省いていることに注意してください。npmスクリプトなしでターミナルで直接それらを実行するためだけに<code>npx</code>が必要だったからです。</p>
+<h3 id="webpack-modes">Webpackのモード</h3>
+<p>ここまで、私たちは開発モードでWebpackを使い続けてきました。これは、開発作業をしているときに当然最も適しています。しかし、デプロイのためにプロジェクトをビルドする段階になると、専用のproductionモードが、私たちのためにいくつかの異なる最適化を行ってくれます。試してみましょう!Restaurant Pageプロジェクトに行き、<code>webpack.config.js</code>でモードを<code>"production"</code>に変更してから、ビルドコマンドを再び実行してみてください。<code>dist</code>内のJavaScriptバンドルを見て、さらに壮大な文字のごちゃまぜを見てみてください!</p>
+<p>私たちは、正確にどんな最適化が適用されたのかを知る<em>本当の</em>必要はありませんし、productionモードの他の詳細について知る必要もありませんが、この2つのモードが存在し、特定の目的のために設計されているということを知っておくのは良いことです。</p>
+<p><code>dist</code>にバンドルする前や開発サーバーを再び使う前など、モードを切り替えたいたびに設定ファイルを手動で編集する手間を省くために、2つの異なる設定ファイル(例えば<code>webpack.dev.js</code>と<code>webpack.prod.js</code>)を持ち、それからビルド用と開発用のnpmスクリプトに、どの設定ファイルを使うかを指定させることができます(<code>--config</code>オプションを省略すると、Webpackはデフォルトで<code>webpack.config.js</code>を探します):</p>
+<pre class="highlight"><code class="language-json">"build": "webpack --config webpack.prod.js",
+"dev": "webpack serve --config webpack.dev.js"</code></pre>
+<p>課題では、複数のWebpack設定ファイルを、重複を最小限にして扱いやすくしてくれる、<code>webpack-merge</code>と呼ばれるツールを紹介します。このようにするのは良いことです。一度セットアップすれば、それぞれのスクリプトが適切な設定ファイルとモードを使ってくれるので、あとは忘れてしまって構いません!</p>
+<h3>テンプレートリポジトリ</h3>
+<p>すでに気づいたかもしれない一つのことは、Webpackのセットアップには複数のファイルとディレクトリ、そしてかなりの量の設定が関わってくるということです。Webpackで新しいプロジェクトをセットアップするたびに、以前設定したものを見て、再利用したい設定をコピー&amp;ペーストする必要があるかもしれません。また、Githubで新しいリポジトリを作成するとき、上部近くに<code>Repository template</code>のオプションがあることにも気づいたかもしれません。</p>
+<p>これが、テンプレートリポジトリが本当に役立つ場面です。あなたの既存のリポジトリはどれでも、その設定でテンプレートに変換できます(リポジトリの名前を変更できる場所のすぐ下に、そのリポジトリがテンプレートかどうかのチェックボックスがあります)。このボックスにチェックを入れれば、おめでとうございます!それだけで十分です。今度、新しいリポジトリを作成するとき、<code>Repository template</code>のドロップダウンに、選択できるテンプレートがリストされます。一つを選ぶと、新しいリポジトリは空っぽのものではなく、選んだテンプレートのコピーになります!</p>
+<p>テンプレートに何が欲しいか、あるいは何が必要かを確実には分からないかもしれませんが、複数のプロジェクトで多くのセットアップコードを再利用していることに気づいたら、必要なすべてのセットアップコードを持つ新しいリポジトリを作成し、それをテンプレートとしてマークし、それから必要に応じて更新することができます。これで、新しいプロジェクトのリポジトリを作成する際にそのテンプレートを選択して時間を節約し、プロジェクト自体の作業により早く飛び込めるようになります!</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://webpack.js.org/guides/production/">Webpackの「Production」ガイド</a>を読んで、<code>webpack-merge</code>の使い方と設定ファイルの分割方法を見ていきましょう。そのガイドで使われている正確なコード例は、彼らが持っているより長いチュートリアルの前の部分から続いていますが、<code>webpack-merge</code>と設定ファイルの分割についての主な部分は、新しいプロジェクトでも十分に追っていけるはずですし、Restaurant Pageプロジェクトをこのやり方に変換してみることもできます!
+   - 「Specify the Mode」のセクションとその例は無視して構いません。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#npm-scripts">npmスクリプトはどこに置かれますか?</a></li>
+<li><a href="#npm-scripts">npmスクリプトをどう定義し、実行しますか?</a></li>
+<li><a href="#webpack-modes">Webpackの2つのモードは何ですか?</a></li>
+<li><a href="https://webpack.js.org/guides/production/">Webpackの設定ファイルを、重複を最小限にして分割できるツールは何ですか?</a></li>
+<li><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository">テンプレートリポジトリとは何で、どう作成しますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Git Basics</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Git Basics <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Now that you know what Git is it&#x27;s time to learn how to use it.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>このレッスンでは、プロジェクトを管理し、作業内容をGitHubにアップロードするために使う一般的なGitコマンドを扱います。これらのコマンドを<strong>基本的なGitワークフロー</strong>と呼びます。Gitを使うとき、これらは70〜80%の時間で使うことになるコマンドです。これらを身につけられれば、Gitの習得はもう半分以上終わったようなものです!</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>GitHub上でリポジトリを作成する方法。</li>
+<li>GitHubとの間でファイルをやり取りする方法。</li>
+<li>コードの「スナップショット」を取る方法。</li>
+</ul>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<h4>始める前に!</h4>
+<ul>
+<li>GitHubは最近、デフォルトブランチの命名方法を更新しました。つまり、最近のバージョンのgit(2.28以降)を使用していることを確認する必要があります。バージョンは以下を実行することで確認できます:
+    <code>git --version</code></li>
+<li>まだ設定していない場合は、<span id="main-push"></span>ローカルのデフォルトGitブランチを<code>main</code>に設定してください。以下を実行することで設定できます:
+    <code>git config --global init.defaultBranch main</code></li>
+<li><code>master</code>から<code>main</code>への変更についての詳細は、<a href="https://github.com/github/renaming">GitHub's Renaming Repository</a>を参照してください。</li>
+</ul>
+<h4>リポジトリを作成する</h4>
+<ol>
+<li>
+<p><span id="new-github-repo"></span><a href="https://www.theodinproject.com/lessons/foundations-setting-up-git">Setting Up Git</a>のレッスンで、すでにGitHubアカウントを作成しているはずです。</p>
+</li>
+<li>
+<p>GitHubのホームページから、右上の「+」ボタンをクリックし、「New repository」を選択して新しいリポジトリを作成してください。<em>小さいビューポートを使用している場合、そのボタンは隠れているかもしれません。その場合は右上のプロフィール画像をクリックすると、プロフィール名の隣にボタンが表示されます。</em></p>
+</li>
+<li>
+<p>リポジトリ名の入力欄に「git_test」という名前を入力してください。「Add README」オプションをオンにします(これにより、新しいリポジトリに<code>README.md</code>ファイルが自動的に作成されます)。それから、ページ下部の「Create repository」ボタンをクリックしてリポジトリを作成してください。</p>
+</li>
+<li>
+<p>これにより、GitHub上の新しいリポジトリにリダイレクトされます。このリポジトリをローカルマシンにコピー(クローン)する準備をするために、緑色の「Code」ボタンをクリックしてください。これは、現在のブランチを表示するボタン(通常は<em>main</em>ブランチが表示されます)の右側にあるはずです。それから「Clone」セクションでSSHオプションを選択し、その下の行をコピーしてください。<strong>注意: 正しいURLを取得するには、必ずSSHオプションをクリックする必要があります。</strong></p>
+</li>
+<li>
+<p>ローカルマシンのコマンドラインを使って、あなたのすべてのOdinプロジェクト用の新しいディレクトリを作成しましょう。ホームフォルダで<code>mkdir</code>コマンドを使って<code>repos</code>という名前のディレクトリを作成してください。あなたのホームフォルダは<code>~</code>で表されます。OSによっては、<a href="https://swcarpentry.github.io/shell-novice/02-filedir.html#home-directory-variation">ホームディレクトリの違い</a>があることに注意してください---<code>~</code>が<code>/Users/your_username</code>を表すこともあれば、<code>/home/your_username</code>を表すこともあります。自分がホームフォルダにいるか分からない場合は、<code>cd ~</code>と入力してください。作成できたら、<code>cd</code>コマンドでその中に移動しましょう。</p>
+<pre class="highlight"><code class="language-bash">mkdir repos
+cd repos/</code></pre>
+</li>
+<li>
+<p><span id="github-to-local"></span>さあ、<code>git clone</code>の後に前のステップでコピーしたURLを続けて入力し、GitHubから新しく作成した<code>repos</code>ディレクトリにリポジトリをクローンする時です。完全なコマンドは<code>git clone git@github.com:USER-NAME/REPOSITORY-NAME.git</code>のようになるはずです。もしURLが<code>https://github.com/USER-NAME/REPOSITORY-NAME.git</code>のようになっている場合、必要なSSHオプションではなくHTTPSオプションを選択してしまっています。</p>
+<pre class="highlight"><code class="language-bash">git clone git@github.com:USER-NAME/REPOSITORY-NAME.git</code></pre>
+</li>
+<li>
+<p><span id="origin-push"></span>これで完了です!GitHub上で作成したリポジトリとローカルマシンの接続に成功しました。これを確認するには、<code>cd git_test</code>を実行してダウンロードされた新しい<strong>git_test</strong>フォルダに移動し、コマンドラインで<code>git remote -v</code>と入力してください。以下のような出力が表示されるはずです。<code>USER-NAME</code>の部分はあなたのGitHubユーザー名です:</p>
+<pre class="highlight"><code class="language-bash">origin  git@github.com:USER-NAME/git_test.git (fetch)
+origin  git@github.com:USER-NAME/git_test.git (push)</code></pre>
+<p>これは、あなたがGitHub上で作成したリポジトリのURLを表示しており、それがあなたのローカルコピーのリモートです。<span id="default-remote"></span><code>git remote -v</code>の出力の先頭に<em>origin</em>という単語があることにも気づいたかもしれません。これはあなたのリモート接続の名前です。「origin」という名前は、リモートリポジトリのデフォルトであると同時に慣習でもありますが、「party-parrot」や「dancing-banana」という名前にすることも同じくらい簡単にできました(「origin」の詳細については今は気にしなくて大丈夫です。このチュートリアルの終盤で再び登場します)。</p>
+</li>
+</ol>
+<h4>Gitワークフローを使う</h4>
+<ol>
+<li>
+<p><code>touch hello_world.txt</code>コマンドを使って、<code>git_test</code>フォルダ内に「hello_world.txt」という新しいファイルを作成してください。</p>
+</li>
+<li>
+<p><span id="git-status"></span>ターミナルで<code>git status</code>と入力してください。出力の中で、あなたの<code>hello_world.txt</code>ファイルは赤色のテキストで表示され、「Untracked files」というタイトルのセクションにも記載されているはずです。これは、そのファイルがまだステージングされていないことを意味します。</p>
+</li>
+<li>
+<p><span id="git-add"></span><span id="two-stages"></span><code>git add hello_world.txt</code>と入力してください。このコマンドは、hello_world.txtファイルをGitのステージングエリアに追加します。ステージングエリアは、Gitでコミットを行うための2段階のプロセスの一部です。ステージングエリアを、コミットするまでの変更内容の「待合室」のようなものだと考えてください。では、もう一度<code>git status</code>と入力してください。出力の中で、あなたのファイルが緑色で表示され、「Changes to be committed」というタイトルのセクションにあることに注目してください。これは、このファイルが今やステージングエリアにあることを意味します。</p>
+</li>
+<li>
+<p><span id="git-commit"></span><code>git commit -m "Add hello_world.txt"</code>と入力し、それからもう一度<code>git status</code>と入力してください。出力は「<em>nothing to commit, working tree clean</em>」となり、変更がコミットされたことを示しているはずです。「<em>upstream is gone</em>」というメッセージが表示されても心配いりません。これは、クローンしたリポジトリに現在ブランチが存在しない場合にのみ表示される、正常なものです。このプロジェクトの残りのステップに従っていくと解消されます。</p>
+<p>「<em>Your branch is ahead of 'origin/main' by 1 commit</em>」というメッセージは、あなたが今、リモートリポジトリにあるものよりも新しいスナップショットを持っているということを意味しているにすぎません。このスナップショットは、このレッスンの後の方でアップロードすることになります。</p>
+</li>
+<li>
+<p><span id="git-log"></span><code>git log</code>と入力して出力を見てください。「<em>Add hello_world.txt</em>」コミットのエントリが表示されるはずです。また、コミットを行った作者やコミットが行われた日時など、他の詳細も表示されます。ターミナルの下部に(END)と表示された画面で止まってしまった場合は、「q」を押して抜け出してください。この設定は後で変更できますが、今はあまり気にしなくて大丈夫です。</p>
+</li>
+</ol>
+<h4>ファイルを1つか2つ変更する</h4>
+<ol>
+<li>
+<p>お好みのテキストエディタでREADME.mdを開いてください。この例では、リポジトリ内で<code>code .</code>コマンドを使ってVisual Studio Codeでディレクトリを開きます。</p>
+<p>macOSユーザーの方へ: ターミナルに<em>「command not found: code」</em>と表示される場合は、<a href="https://www.theodinproject.com/lessons/foundations-command-line-basics#opening-files-in-vscode-from-the-command-line">Command Line Basics</a>に戻り、記載されている手順に従ってこのコマンドが使えるようにする必要があります。</p>
+</li>
+<li>
+<p><code>README.md</code>の新しい行に「Hello Odin!」を追加し、VS Codeが自動保存になっていない場合は<kbd>Ctrl</kbd> + <kbd>S</kbd>(Mac: <kbd>Cmd</kbd> + <kbd>S</kbd>)でファイルを保存してください。</p>
+</li>
+<li>
+<p>ターミナルに戻るか、Visual Studio Codeを使用している場合は<kbd>Ctrl</kbd> + <kbd>&#96;</kbd>(バッククォート)を押して組み込みのターミナルを開いてください。それから<code>git status</code>と入力します。出力が、ステージングエリアに追加する前に<code>hello_world.txt</code>ファイルを作成したときと似ていることに気づくでしょう。ただし、<code>README.md</code>ファイルは「Changes not staged for commit」というタイトルのセクションに記載されています。これは、そのファイルがまだステージングエリアに追加されていないという点で、「Untracked files」セクションと似た意味です。</p>
+</li>
+<li>
+<p><code>git add README.md</code>でREADME.mdをステージングエリアに追加してください。</p>
+</li>
+<li>
+<p>今<code>git status</code>が何を出力するか予想できますか?<code>README.md</code>は「Changes to be committed」というタイトルのセクションに緑色のテキストで表示されます。つまり、<code>README.md</code>がステージングエリアに追加されたということです。<code>hello_world.txt</code>ファイルは、コミット以降変更されていないため表示されません。</p>
+</li>
+<li>
+<p>hello_world.txtを開き、何かテキストを追加して保存し、ステージングしてください。<code>git add .</code>を使うと、現在のディレクトリとそれ以下のすべてのディレクトリのファイルをステージングエリアに追加できます。それから、もう一度<code>git status</code>と入力すると、すべてがステージングエリアに入っているはずです。</p>
+</li>
+<li>
+<p>最後に、ステージングエリアにあるすべてのファイルをコミットし、分かりやすいコミットメッセージを追加しましょう。<code>git commit -m "Edit README.md and hello_world.txt"</code>。それから、もう一度<code>git status</code>と入力すると、先ほどコミットしたときと同じ「<em>nothing to commit</em>」というメッセージが出力されます。</p>
+</li>
+<li>
+<p><code>git log</code>と入力して、コミット履歴を最後にもう一度確認してみましょう。今度は3つのエントリが表示されるはずです。</p>
+</li>
+</ol>
+<h4>作業内容をGitHubにプッシュする</h4>
+<p>最後に、このチュートリアルの最初に作成したGitHubリポジトリに、あなたの作業内容をアップロードしましょう。</p>
+<ol>
+<li>
+<p><span id="git-push"></span><code>git push</code>と入力してください。より正確に言うと、<code>git push origin main</code>と入力します。(<em>main</em>以外の)別のブランチや、(上述したような)別のリモートを扱っているわけではないので、キー入力を少し省くために<code>git push</code>のままにしておいて構いません。<strong>注意: この時点で「Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.」というメッセージを受け取った場合、手順を誤って実行しており、SSHではなくHTTPSでクローンしてしまっています。<a href="https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories?platform=linux#switching-remote-urls-from-https-to-ssh">リモートURLをHTTPSからSSHに切り替える手順</a>に従ってリモートをSSHに変更してから、もう一度GitHubへのプッシュを試みてください。</strong></p>
+</li>
+<li>
+<p>最後にもう一度<code>git status</code>と入力してください。「<em>Your branch is up to date with 'origin/main'. nothing to commit, working tree clean</em>」と出力されるはずです。</p>
+</li>
+<li>
+<p>GitHub上のリポジトリページを更新すると、ローカルマシンからプッシュしたばかりのREADME.mdとhello_world.txtファイルが表示されるはずです。</p>
+</li>
+</ol>
+</div>
+<div class="lesson-note lesson-note--warning">
+<h4>GitHub上で直接編集するのは避ける</h4>
+<p>README.mdのタイプミスを直そうとするときのように、リポジトリ内のファイルにちょっとした変更を加えたくなったとき、GitHub上で直接その変更を行いたくなるかもしれません。しかし、これは避けるのが最善です。この段階で扱いたい以上に高度なGitの知識を必要とする問題を引き起こしてしまうからです(これは今後のレッスンで扱います)。今のところは、ローカルファイル経由ですべての変更を行い、準備ができたらターミナルでGitコマンドを使ってコミット・プッシュすることをお勧めします。</p>
+</div>
+<h4>チートシート</h4>
+<p>これは、最もよく使われるGitコマンドのリファレンスリストです。(この便利なページをブックマークしておくとよいでしょう。)最終的にすべて覚えられるように、これらのコマンドに慣れ親しんでおきましょう:</p>
+<ul>
+<li>リモートリポジトリに関連するコマンド:</li>
+<li><code>git clone git@github.com:USER-NAME/REPOSITORY-NAME.git</code></li>
+<li><code>git push</code>または<code>git push origin main</code>(この文脈ではどちらも同じ目的を達成します)</li>
+<li>ワークフローに関連するコマンド:</li>
+<li><code>git add .</code></li>
+<li><code>git commit -m "A message describing what you have done to make this snapshot different"</code></li>
+<li>ステータスやログ履歴の確認に関連するコマンド</li>
+<li><code>git status</code></li>
+<li><code>git log</code></li>
+</ul>
+<p>基本的なGitの構文は<code>program | action | destination</code>です。</p>
+<p>例えば、</p>
+<ul>
+<li><code>git add .</code>は<code>git | add | .</code>と読め、ピリオドは現在のディレクトリ内のすべてを表します。</li>
+<li><code>git commit -m "message"</code>は<code>git | commit -m | "message"</code>と読めます。</li>
+<li><code>git status</code>は<code>git | status | (no destination)</code>と読めます。</li>
+</ul>
+<h4>Gitのベストプラクティス</h4>
+<p>Gitの使い方について学ぶべきことはたくさんあります。しかし、より良い協力者になれるよう、いくつかのベストプラクティスを取り上げるために時間をかける価値があります。Gitは他の人と協力するときだけでなく、一人で作業するときにも役立ちます。今後、古いコードを見直す際に、あなた自身のコミット履歴にますます頼ることになります。</p>
+<p>考慮すべき2つの有用なベストプラクティスは、<strong>アトミックコミット</strong>と、それを活用して将来の協力者にとってより役立つコミットメッセージを作ることです。</p>
+<p>アトミックコミットとは、プログラムの1つの機能やタスクにのみ関連する変更を含むコミットのことです。これを行う主な理由は2つあります。1つ目は、変更した何かが問題を引き起こすことが判明した場合に、他の変更を失うことなくその特定の変更だけを簡単に元に戻せることです。2つ目は、より良いコミットメッセージを書けるようになることです。良いコミットメッセージがどのようなものかについては、今後のレッスンで詳しく学びます!</p>
+<h4>Gitのコミットメッセージエディタを変更する</h4>
+<p><em>Visual Studio Code</em>を使用している場合(このカリキュラムに従っているならそうしているはずです)、メッセージフラグ(<code>-m</code>)を付けずに<code>git commit</code>を使っても、<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim</a>でコミットメッセージを書く羽目にならないようにする方法があります。</p>
+<p>Vimを使いたいのでない限り、誤ってフラグを付け忘れた場合に備えて、デフォルトのメッセージエディタを変更しておくのは良い考えです。変更しても不利益はありません。なぜなら、ターミナルで書くか、快適なVS Code上で書くかを選べるようになるからです。</p>
+<p>以下のコマンドでこの設定を行います。このコマンドをターミナルに入力(またはコピー&amp;ペースト)し、<kbd>Enter</kbd>を押してください。</p>
+<pre class="highlight"><code class="language-bash">git config --global core.editor "code --wait"</code></pre>
+<p>このコマンドを入力した後、ターミナルには確認メッセージや出力は何も表示されません。</p>
+<p>これで、<code>git commit -m "your message here"</code>を使うか、<code>git commit</code>を使ってVisual Studio Codeでメッセージを入力するかを選べるようになりました!</p>
+<p>Visual Studio Codeをテキストエディタとしてコミットを行うには、<code>git commit</code>と入力するだけです。<kbd>Enter</kbd>を押すと、コミットメッセージを書くためのVS Codeの新しいタブが開きます。コミットメッセージの一部として、複数行にわたってより詳しい説明を記述することもできます。コミットメッセージを入力したら、<kbd>Ctrl</kbd> + <kbd>S</kbd>(Mac: <kbd>Cmd</kbd> + <kbd>S</kbd>)で保存し、タブを閉じてください。コマンドラインに戻ると、コミットメッセージと変更内容の概要が表示されます。</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#new-github-repo">GitHub上で新しいリポジトリを作成するにはどうすればよいですか?</a></li>
+<li><a href="#github-to-local">GitHubからリポジトリをローカルマシンにコピーするにはどうすればよいですか?</a></li>
+<li><a href="#default-remote">リモート接続のデフォルトの名前は何ですか?</a></li>
+<li><a href="#origin-push"><code>git push origin main</code>における<code>origin</code>が何かを説明してください。</a></li>
+<li><a href="#main-push"><code>git push origin main</code>における<code>main</code>が何かを説明してください。</a></li>
+<li><a href="#two-stages">Gitがファイルを保存するために使う2段階のシステムを説明してください。</a></li>
+<li><a href="#git-status">現在のリポジトリのステータスを確認するにはどうすればよいですか?</a></li>
+<li><a href="#git-add">ファイルをGitのステージングエリアに追加するにはどうすればよいですか?</a></li>
+<li><a href="#git-commit">ステージングエリアにあるファイルをコミットし、分かりやすいメッセージを追加するにはどうすればよいですか?</a></li>
+<li><a href="#git-push">変更内容をGitHub上のリポジトリにプッシュするにはどうすればよいですか?</a></li>
+<li><a href="#git-log">これまでのコミット履歴を確認するにはどうすればよいですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Links and Images</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Links and Images <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Work with links and images in HTML</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>リンクはHTMLの主要な機能の一つです。リンクによって、ウェブ上の他のHTMLページにリンクできます。実際、これこそが「ウェブ」と呼ばれる理由です。</p>
+<p>このレッスンでは、リンクの作り方と、画像を埋め込むことでウェブサイトに視覚的な華やかさを加える方法を学びます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>インターネット上の他のウェブサイトのページへのリンクを作成する方法。</li>
+<li>自分自身のウェブサイト内の他のページへのリンクを作成する方法。</li>
+<li>絶対リンクと相対リンクの違い。</li>
+<li>HTMLを使ってウェブページに画像を表示する方法。</li>
+</ul>
+<h3>準備</h3>
+<p>このレッスンを通してリンクと画像を使う練習をするために、作業対象となるHTMLプロジェクトが必要です。</p>
+<ol>
+<li><code>odin-links-and-images</code>という名前の新しいディレクトリを作成してください。</li>
+<li>そのディレクトリ内に、<code>index.html</code>という名前の新しいファイルを作成してください。</li>
+<li>VS Codeでそのファイルを開き、いつものHTMLボイラープレートを記述してください。</li>
+<li>最後に、以下のh1をbodyに追加してください:</li>
+</ol>
+<pre class="highlight"><code class="language-html">&lt;h1&gt;Homepage&lt;/h1&gt;</code></pre>
+<h3 id="anchor-elements">アンカー要素</h3>
+<p>HTMLでリンクを作成するには、アンカー要素を使用します。アンカー要素は、リンクにしたいテキストや他のHTML要素を<code>&lt;a&gt;</code>タグで囲むことで定義されます。</p>
+<p>先ほど作成した<code>index.html</code>ページのbodyに以下を追加し、ブラウザで開いてみてください:</p>
+<pre class="highlight"><code class="language-html">&lt;a&gt;About The Odin Project&lt;/a&gt;</code></pre>
+<p>このリンクをクリックしても何も起きないことに気づいたかもしれません。これは、アンカータグ単体では、私たちがどこにリンクしたいのかが分からないためです。リンク先を伝えてあげる必要があります。これはHTML属性を使うことで行います。</p>
+<p><span id="attribute"></span>HTML属性は、HTML要素に追加の情報を与えるもので、常に要素の開始タグの中に置かれます。属性は通常、名前と値の2つの部分で構成されますが、すべての属性が値を必要とするわけではありません。<span id="where-to-go"></span>今回の場合、開始アンカータグに<code>href</code>(ハイパーテキスト参照)属性を追加する必要があります。href属性の値が、私たちのリンクを送り届けたい行き先です。</p>
+<p>先ほど作成したアンカー要素に以下の<code>href</code>属性を追加し、もう一度クリックしてみてください。新しい変更が反映されるよう、ブラウザを更新するのを忘れないでください。</p>
+<pre class="highlight"><code class="language-html">&lt;a href="https://www.theodinproject.com/about"&gt;About The Odin Project&lt;/a&gt;</code></pre>
+<p>デフォルトでは、<code>href</code>属性のないアンカータグで囲まれたテキストは、プレーンテキストのように見えます。<code>href</code>属性が存在する場合、ブラウザはそれがリンクであることを示すために、テキストを青色にして下線を引きます。</p>
+<p>アンカータグは、他のHTMLドキュメントだけでなく、インターネット上のあらゆる種類のリソースへのリンクに使用できることは注目に値します。動画、pdfファイル、画像などにリンクすることもできますが、ほとんどの場合、あなたは他のHTMLドキュメントにリンクすることになるでしょう。</p>
+<h3>新しいタブでリンクを開く</h3>
+<p>上記で示した方法では、リンクはそれを含むウェブページと同じタブで開かれます。これはほとんどのブラウザのデフォルトの動作であり、比較的簡単に変更できます。必要なのは、もう一つの属性、<code>target</code>属性だけです。</p>
+<p><code>href</code>がリンク先を指定するのに対し、<code>target</code>はリンクされたリソースがどこで開かれるかを指定します。存在しない場合、デフォルトでは<code>_self</code>という値になり、現在のタブでリンクが開かれます。リンクを新しいタブまたはウィンドウ(ブラウザの設定によります)で開くには、以下のように<code>_blank</code>に設定できます:</p>
+<pre class="highlight"><code class="language-html">&lt;a href="https://www.theodinproject.com/about" target="_blank" rel="noreferrer"&gt;About The Odin Project&lt;/a&gt;</code></pre>
+<p><span id="target-security"></span>上記でこっそり<code>rel</code>属性を追加していたことに気づいたかもしれません。この属性は、現在のページとリンクされたドキュメントとの関係を説明するために使用され、複数の値を取ることができます。今ここで議論するのに最も関連性が高いのは以下のものです:</p>
+<ul>
+<li><code>noopener</code>: 新しいタブが元のページにアクセスすることを防ぎます。これにより、<a href="https://owasp.org/www-community/attacks/Reverse_Tabnabbing">タブナビング</a>のようなフィッシング攻撃の可能性が開かれてしまうところでした。最近のブラウザはすべて、<code>target="_blank"</code>を持つすべてのリンクに対してこれを自動的に設定しますが、古いブラウザとの互換性のために、手動で設定されているのを見かけることも今なおよくあります。</li>
+<li><code>noreferrer</code>: <code>noopener</code>と同じですが、さらに元のページについてのある種の詳細情報が新しいページに渡されるのを防ぎます。<a href="https://developer.mozilla.org/en-US/docs/Web/Privacy/Guides/Referer_header:_privacy_and_security_concerns#the_referrer_problem">リファラー情報は常に共有することが望ましいわけではありません</a>。</li>
+</ul>
+<h3 id="absolute-and-relative-links">絶対リンクと相対リンク</h3>
+<p>一般的に、私たちが作成するリンクには2種類あります:</p>
+<ul>
+<li>インターネット上の他のウェブサイトのページへのリンク。</li>
+<li>自分自身のウェブサイト内にあるページへのリンク。</li>
+</ul>
+<h4>絶対リンク</h4>
+<p>インターネット上の他のウェブサイトのページへのリンクは、絶対リンクと呼ばれます。典型的な絶対リンクは、<code>scheme://domain/path</code>という部分で構成されます。絶対リンクには、必ずリンク先の<a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_URL#basics_anatomy_of_a_url">スキームとドメイン</a>が含まれます。</p>
+<p>私たちはすでに実際に動作する絶対リンクを見てきました。先ほど作成したThe Odin ProjectのAboutページへのリンクは、スキームとドメインを含んでいたため、絶対リンクでした。</p>
+<p><code>https://www.theodinproject.com/about</code></p>
+<h4>相対リンク</h4>
+<p>自分自身のウェブサイト内の他のページへのリンクは、相対リンクと呼ばれます。相対リンクにはドメイン名が含まれません。同じサイト内の別のページであるため、ドメイン名はリンクを作成したページと同じであることが前提とされています。</p>
+<p>相対リンクには、リンクを作成しているページから見て<em>相対的な</em>、他のページへのファイルパスだけが含まれます。これはかなり抽象的なので、例を使って実際に見てみましょう。</p>
+<p><code>odin-links-and-images</code>ディレクトリ内に、<code>about.html</code>という名前の別のHTMLファイルを作成し、以下のコードを貼り付けてください:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Odin Links and Images&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;h1&gt;About Page&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>indexページに戻って、aboutページへのリンクを作成するために以下のアンカー要素を追加してください:</p>
+<pre class="highlight"><code class="language-html">&lt;body&gt;
+  &lt;h1&gt;Homepage&lt;/h1&gt;
+  &lt;a href="https://www.theodinproject.com/about"&gt;About The Odin Project&lt;/a&gt;
+
+  &lt;a href="about.html"&gt;About&lt;/a&gt;
+&lt;/body&gt;</code></pre>
+<p>ブラウザでindexファイルを開き、aboutリンクをクリックして、すべてが正しくつながっていることを確認してください。リンクをクリックすると、先ほど作成したaboutページに移動するはずです。</p>
+<p>これがうまくいくのは、indexページとaboutページが同じディレクトリにあるためです。つまり、リンクの<code>href</code>の値として、その名前(<code>about.html</code>)を使用できるということです。</p>
+<p>しかし、通常はウェブサイトのディレクトリをもう少しうまく整理したいと思うでしょう。通常、ルートディレクトリには<code>index.html</code>だけを置き、他のすべてのHTMLファイルはそれ専用のディレクトリに置きます。</p>
+<p><code>odin-links-and-images</code>ディレクトリ内に<code>pages</code>という名前のディレクトリを作成し、<code>about.html</code>ファイルをこの新しいディレクトリに移動してください。</p>
+<p>ブラウザでindexページを更新し、aboutリンクをクリックしてください。今度はリンクが壊れているはずです。これは、aboutページのファイルの場所が変わったためです。</p>
+<p>これを直すには、about用のリンクの<code>href</code>値に<code>pages/</code>ディレクトリを含めるように更新するだけで済みます。それが、indexファイルから見て<em>相対的な</em>、aboutファイルの新しい場所だからです。</p>
+<pre class="highlight"><code class="language-html">&lt;body&gt;
+  &lt;h1&gt;Homepage&lt;/h1&gt;
+  &lt;a href="pages/about.html"&gt;About&lt;/a&gt;
+&lt;/body&gt;</code></pre>
+<p>ブラウザでindexページを更新し、もう一度aboutリンクをクリックしてみてください。今度は正常に動作するはずです。</p>
+<p>多くの場合、これで問題なく動作しますが、このアプローチでも予期しない問題に遭遇することがあります。リンクの前に<code>./</code>を付けることで、多くの場合こうした問題を防げます。<code>./</code>を追加することで、<code>現在</code>のディレクトリから見て<em>相対的に</em>ファイル/ディレクトリを探し始めるべきだということを、コードに指定していることになります。</p>
+<pre class="highlight"><code class="language-html">&lt;body&gt;
+  &lt;h1&gt;Homepage&lt;/h1&gt;
+  &lt;a href="./pages/about.html"&gt;About&lt;/a&gt;
+&lt;/body&gt;</code></pre>
+<h4>たとえ話</h4>
+<p>絶対リンクと相対リンクは、うまく頭の中でイメージを作るのが難しい概念です。たとえ話が役立つかもしれません:</p>
+<p>あなたのドメイン名(<code>town.com</code>)を町、あなたのウェブサイトが置かれているディレクトリ(<code>/museum</code>)を博物館、あなたのウェブサイトの各ページを博物館内の部屋(<code>/museum/movie_room.html</code>や<code>/museum/shops/coffee_shop.html</code>)だと考えてみてください。<code>./shops/coffee_shop.html</code>のような相対リンクは、現在の部屋(博物館の映画室<code>/museum/movie_room.html</code>)から別の部屋(博物館のショップ)への道案内です。一方、絶対リンクは、プロトコル(<code>https</code>)、ドメイン名(<code>town.com</code>)、そしてそのドメイン名からのパス(<code>/museum/shops/coffee_shop.html</code>)を含む完全な道案内です: <code>https://town.com/museum/shops/coffee_shop.html</code>。</p>
+<h3 id="images">画像</h3>
+<p>ウェブサイトがテキストしか表示できないとしたら、かなり退屈なものになるでしょう。幸いなことに、HTMLはあらゆる種類の異なるメディアを表示するための多種多様な要素を提供しています。その中で最も広く使われているのが画像要素です。</p>
+<p>HTMLで画像を表示するには<code>&lt;img&gt;</code>要素を使用します。これまで出会ってきた他の要素とは異なり、<code>&lt;img&gt;</code>要素はボイド要素です。このコースの前半で見たように、ボイド要素は本質的に空であり、いかなるコンテンツも含まないため、終了タグを必要としません。</p>
+<p>開始タグと終了タグでコンテンツを囲む代わりに、画像ファイルがどこにあるかをブラウザに伝える<code>src</code>属性を使って、ページに画像を埋め込みます。<code>src</code>属性は、アンカータグの<code>href</code>属性とよく似た働きをします。絶対パスと相対パスの両方を使って画像を埋め込むことができます。</p>
+<p>例えば、絶対パスを使うことで、The Odin Projectのサイトにある画像を表示できます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="gORbExZ" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/gORbExZ">
+  absolute-path-image</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>自分自身のウェブサーバーでホストされている画像をウェブサイトに表示するには、相対パスを使用できます。</p>
+<details>
+<summary class="dropDown-header">Linux, macOS, ChromeOS</summary>
+<ol>
+<li><code>odin-links-and-images</code>プロジェクト内に<code>images</code>という名前の新しいディレクトリを作成してください。</li>
+<li>次に、<a href="https://unsplash.com/photos/Mv9hjnEUHR4/download?force=true&amp;w=640">練習用の画像をダウンロード</a>し、先ほど作成したimagesディレクトリに移動してください。</li>
+<li>画像の名前を<code>dog.jpg</code>に変更してください。</li>
+</ol>
+</details>
+<details>
+<summary class="dropDown-header">WSL2</summary>
+<p>インターネットからファイルをダウンロードすると、Windowsのセキュリティ機能により、ダウンロードしたファイルと同じ名前の隠しファイル<code>Zone.Identifier</code>が作成されます。これは<code>mypicture.jpg:Zone.Identifier</code>のような見た目になります。このファイルは無害ですが、それをコピーしてディレクトリを散らかしてしまうことは避けたいです。</p>
+<ol>
+<li>
+<p><code>odin-links-and-images</code>プロジェクト内に<code>images</code>という名前の新しいディレクトリを作成してください。</p>
+</li>
+<li>
+<p>次に、<a href="https://unsplash.com/photos/Mv9hjnEUHR4/download?force=true&amp;w=640">ストックの犬の画像をダウンロード</a>してください。</p>
+</li>
+<li>
+<p>Chromeウィンドウ下部にある新しいダウンロードを右クリックし、「Show in folder」を選択してください。</p>
+</li>
+<li>
+<p>あるいは、Chromeウィンドウの下部に何も表示されない場合は、「Customize and control Google Chrome」の三点リーダーメニューを開き、「Downloads」の項目を選択してください。これにより、すべてのダウンロードが表示され、それぞれに「Show in folder」ボタンが付いています。</p>
+</li>
+<li>
+<p>画像の名前を<code>dog.jpg</code>に変更してください。</p>
+</li>
+<li>
+<p>ダウンロードフォルダからVSCodeのファイルブラウザへ、新しい<code>images</code>ディレクトリの中にファイルをドラッグしてください。</p>
+</li>
+<li>
+<p>あるいは、Ubuntuターミナルを使って、画像をコピーしたいフォルダに移動してください(例:<code>cd ~/odin-links-and-images</code>)。</p>
+</li>
+<li>
+<p><code>cp &lt;space&gt;</code>と入力してください。</p>
+</li>
+<li>
+<p>Windowsエクスプローラーのウィンドウから<code>dog.jpg</code>画像をドラッグし、ターミナルウィンドウにドロップしてください。すると、<code>"/mnt/c/users/username/Downloads/dog.jpg"</code>のように表示されるはずです。</p>
+</li>
+<li>
+<p><code>&lt;space&gt; .</code>と入力して、現在の作業ディレクトリにファイルをコピーしたいことをcpに伝えます。完全なコマンドは次のようになります:</p>
+<pre class="highlight"><code class="language-bash">cp "/mnt/c/users/username/Downloads/dog.jpg" .</code></pre>
+</li>
+<li>
+<p><kbd>Enter</kbd>を押してコマンドを完了させ、<code>ls</code>を使ってファイルが存在することを確認してください。</p>
+</li>
+</ol>
+<p>WindowsからVSCodeのファイルブラウザにファイルをドラッグすることで、<code>Zone.Identifier</code>ファイルがコピーされてしまうのを防げます。今後、このような写真やその他のダウンロードしたファイルをWSL2にコピーする必要があるときは、いつでもこの方法で行うことができます。万が一これらの<code>Zone.Identifier</code>ファイルを誤ってWSL2にコピーしてしまっても、問題なく安全に削除できます。</p>
+</details>
+<p>最後に、<code>index.html</code>ファイルに画像を追加してください:</p>
+<pre class="highlight"><code class="language-html">&lt;body&gt;
+  &lt;h1&gt;Homepage&lt;/h1&gt;
+  &lt;a href="https://www.theodinproject.com/about"&gt;About The Odin Project&lt;/a&gt;
+
+  &lt;a href="./pages/about.html"&gt;About&lt;/a&gt;
+
+  &lt;img src="./images/dog.jpg"&gt;
+&lt;/body&gt;</code></pre>
+<p><code>index.html</code>ファイルを保存し、ブラウザで開いて、Charlesの雄姿をご覧ください。</p>
+<div class="lesson-note lesson-note--warning">
+<h4>使用する画像は、意図した用途に対して無料であるべき</h4>
+<p>無料で利用できる画像はたくさんありますが、プロジェクトの中で画像の制作者にクレジットを表記するようにしてください。</p>
+<p>クレジットを表記する簡単な方法は、リポジトリのREADMEファイルに制作者の名前と連絡先情報を含めるか、<a href="https://support.freepik.com/s/article/Attribution-How-when-and-where?language=en_US">アトリビューション</a>を行うことです。</p>
+<p>そうした画像を見つけるには---Google画像検索を使い、画像の検索結果で「ツール」→「使用権」→「クリエイティブ・コモンズ」を選択します。画像を選んでクリックし、ライセンスの詳細をクリックしてください。</p>
+<p>使用したい画像のライセンス要件は、常に確認することをお勧めします。</p>
+</div>
+<h3>親ディレクトリ</h3>
+<p>aboutページで犬の画像を使いたい場合はどうすればよいでしょうか?まず、pagesディレクトリから1つ上の階層、つまりその親ディレクトリに上がり、そこからimagesディレクトリにアクセスできるようにする必要があります。</p>
+<p><span id="parent-filepath"></span>親ディレクトリに移動するには、相対ファイルパスの中で<code>../</code>のようにドット2つを使う必要があります。実際に見てみましょう。<code>about.html</code>ファイルのbody内で、先ほど追加した見出しの下に以下の画像を追加してください:</p>
+<pre class="highlight"><code class="language-html">&lt;img src="../images/dog.jpg"&gt;</code></pre>
+<p>これを分解してみましょう:</p>
+<ol>
+<li>まず、<code>pages</code>ディレクトリの親ディレクトリである<code>odin-links-and-images</code>に移動します。</li>
+<li>次に、その親ディレクトリから<code>images</code>ディレクトリに入ります。</li>
+<li>最後に、<code>dog.jpg</code>ファイルにアクセスできます。</li>
+</ol>
+<p>先ほど使ったたとえ話を使うなら、ファイルパスの中で<code>../</code>を使うことは、現在いる部屋から出て、別の部屋に行けるように、メインの廊下に足を踏み出すようなものです。</p>
+<h3>alt属性</h3>
+<p><span id="two-attributes"></span><code>src</code>属性に加えて、すべての画像要素には<code>alt</code>(代替テキスト)属性も持たせるべきです。</p>
+<p><code>alt</code>属性は画像を説明するために使用されます。画像を読み込めなかった場合、その画像の代わりに使用されます。また、視覚障害のあるユーザーに対して、その画像が何であるかを説明するためにスクリーンリーダーでも使用されます。</p>
+<p>以下は、先ほど使用したThe Odin Projectのロゴの例に<code>alt</code>属性を含めた場合の見た目です:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="ExXjoEp" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/ExXjoEp">
+  image-alt-attribute</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>簡単な練習として、<code>odin-links-and-images</code>プロジェクトに追加した犬の画像に<code>alt</code>属性を追加してください。</p>
+<h3>画像のサイズ属性</h3>
+<p>厳密には必須ではありませんが、画像タグにheightとwidth属性を指定しておくことで、ブラウザがページのレイアウトを組む際に、ページがガタついたり点滅したりするのを防ぐ助けになります。</p>
+<p>画像がすでに正しいサイズであったり、CSSでそれを調整していたりする場合でも、常にすべての画像にこれらの属性を指定しておくことは良い習慣です。これは、画像の読み込み時にコンテンツがガタつくのを防ぐためです。サイズを指定する際は、画像の実際の寸法を使用してください。</p>
+<p>以下は、heightとwidth属性を含めたOdin Projectのロゴの例です:</p>
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="PogmYGp" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/PogmYGp">
+  Image Height and Width Attributes</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>それでは、<code>odin-links-and-images</code>プロジェクトの犬の画像に、widthとheight属性を追加して更新してみましょう。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Kevin Powellの動画を見てみましょう:
+   - <a href="https://www.youtube.com/watch?v=tsEQgGjSmkM">HTML Links</a>。
+   - <a href="https://www.youtube.com/watch?v=0xoztJCHpbQ">HTML Images</a>。
+   - <a href="https://www.youtube.com/watch?v=ta3Oxx7Yqbo">File Structure</a>。</li>
+<li>Interneting is Hardの<a href="https://internetingishard.netlify.app/html-and-css/links-and-images">Links and Images</a>の記事を読んで、一緒にコードを書いてみましょう。4つの主要な画像フォーマットを扱っているセクションには特に注意を払ってください。この記事では、画像の寸法はCSSで設定する方が良いと提案されています。それでも私たちは、このレッスンの前半で述べた通り、すべての画像にwidthとheight属性を設定することをお勧めします。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#anchor-elements">リンクを作成するために使われる要素は何ですか?</a></li>
+<li><a href="#attribute">属性とは何ですか?</a></li>
+<li><a href="#where-to-go">リンクにどこへ行くべきかを伝える属性は何ですか?</a></li>
+<li><a href="#target-security">target属性を使ってリンクを新しいタブ/ウィンドウで開きたい場合、どのようなセキュリティ上の考慮が必要ですか?</a></li>
+<li><a href="#absolute-and-relative-links">絶対リンクと相対リンクの違いは何ですか?</a></li>
+<li><a href="#images">画像を表示するために使われる要素はどれですか?</a></li>
+<li><a href="#two-attributes">画像には常にどの2つの属性が必要ですか?</a></li>
+<li><a href="#parent-filepath">ファイルパスで親ディレクトリにアクセスするにはどうすればよいですか?</a></li>
+<li><a href="https://internetingishard.netlify.app/html-and-css/links-and-images/#image-formats">ウェブ上の画像に使用できる4つの主要な画像フォーマットは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variables and Operators</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Variables and Operators <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">In this lesson we learn about variables and operators.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>前のセクションでは、HTMLを使ってウェブページを構造化し、CSSを使ってスタイルを付ける方法を学びました。次のステップは、ウェブページを<em>インタラクティブ</em>にすることです。まさにこれこそがJavaScriptの目的です。</p>
+<p>このセクションでは、JavaScriptの基礎と、それを使ってウェブページとユーザーの間のさまざまなやり取りをどう操作できるかに焦点を当てます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>HTMLファイルを使ってJavaScriptコードを実行すること。</li>
+<li><code>let</code>と<code>const</code>で変数を宣言すること。</li>
+<li>数値の演算を行うこと。</li>
+<li>文字列の演算を行うこと。</li>
+<li>論理演算子と算術演算子を使用すること。</li>
+</ul>
+<h3 id="how-to-run-javascript-code">JavaScriptコードを実行する方法</h3>
+<p>Foundationsコースの大部分で書くJavaScriptはすべて、ブラウザを通して実行されます。Foundationsの後のレッスンやNode.jsパスでは、ブラウザ環境の外でJavaScriptを実行する方法を紹介します。つまり、それが私たちが作成したファイルから来ているものであっても、ブラウザにコードを実行させるということです。</p>
+<p>これらのレッスン以外では、今のところ、特に指定がない限り、常にブラウザでJavaScriptを実行することをデフォルトにしてください。そうしないと、予期しないエラーに遭遇する可能性があります。</p>
+<p>始めるための最も簡単な方法は、JavaScriptコードを含むHTMLファイルを作成することです。VS Codeのスニペット<kbd>!</kbd> + <kbd>TAB</kbd>を使って、コンピューター上のどこかのファイルに基本的なHTMLの骨組みを作成してください。<code>&lt;script&gt;</code>タグを必ず含めてください:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;script&gt;
+    // Your JavaScript goes here!
+    console.log("Hello, World!")
+  &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>このファイルを保存してウェブブラウザで開き、それからブラウザのコンソールを開いてください:</p>
+<ol>
+<li>空白のウェブページを右クリックしてください。</li>
+<li>「検証」または「Inspect Element」をクリックして開発者ツールを開いてください。</li>
+<li>「Console」タブを見つけて選択してください。そこに<code>console.log</code>文の出力が表示されるはずです。</li>
+</ol>
+<div class="lesson-note lesson-note--tip">
+<h4>ライブプレビュー</h4>
+<p>コードを編集した際に変更を見るために手動でページを更新する代わりに、<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server">Visual Studio CodeのLive Preview拡張機能</a>を使えば、ファイルを保存したときに自動的にブラウザが更新されるようになります。テキストを編集して、何か別のことを表示させてみてください!</p>
+</div>
+<p><code>console.log()</code>は、ブラウザの開発者コンソールに何かを出力するためのコマンドです。これを使って、以下の記事や演習の結果をコンソールに出力できます。このレッスンと今後のレッスンにあるすべての例について、一緒にコードを書いてみることをお勧めします。</p>
+<p>ウェブページにJavaScriptを含めるもう一つの方法は、外部スクリプトを通すことです。これは、ウェブサイトに外部CSSファイルをリンクするのと非常によく似ています。</p>
+<pre class="highlight"><code class="language-html">&lt;script src="javascript.js"&gt;&lt;/script&gt;</code></pre>
+<p>JavaScriptファイルには、スタイルシートの<code>.css</code>と同様に、<code>.js</code>という拡張子が付きます。外部JavaScriptファイルは、より複雑なスクリプトのために使用されます。</p>
+<p>私たちはファイルに<code>javascript.js</code>という名前を付けましたが、<code>my-script.js</code>や<code>i-love-the-odin-project.js</code>のような、どんな名前を選んでもよかったのです。</p>
+<h3 id="variables">変数</h3>
+<p>変数はあらゆるプログラムの構成要素です。変数は、コード内のデータのための「保管容器」だと考えることができます。</p>
+<p><img alt="変数の箱のイラスト" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/d39eaf2ca95e80705f703bb218216c10508f5047/foundations/javascript_basics/fundamentals-1/imgs/00.png" /></p>
+<p><code>let</code>キーワードを使って変数を宣言できます。実際に試してみましょう!(ダジャレのつもりはありません。)</p>
+<pre class="highlight"><code class="language-javascript">let firstName = "John";
+let lastName = "Doe";
+
+console.log(firstName);
+console.log(lastName);</code></pre>
+<p><code>console.log</code>は何を出力するでしょうか?試してみてください!</p>
+<p>変数を再代入することもできます:</p>
+<pre class="highlight"><code class="language-javascript">let age = 11;
+console.log(age); // outputs 11 to the console
+
+age = 54;
+
+console.log(age); // what will be output now?</code></pre>
+<p>4行目に<code>let</code>がないことに注目してください---変数はすでに前の行で<em>宣言</em>されており、ここでは単に再代入しているだけなので、<code>let</code>は必要ありません!</p>
+<p>再代入もいいものですが、それが起きて<em>ほしくない</em>場合はどうでしょうか?例えば、決して再代入する必要のない<em>定数</em><code>pi</code>があるかもしれません。これは<code>const</code>キーワードを使うことで実現できます。</p>
+<pre class="highlight"><code class="language-javascript">const pi = 3.14;
+pi = 10;
+
+console.log(pi); // What will be output?</code></pre>
+<p>直感的には<code>3.14</code>が出力されると思うかもしれません。試してみてください!</p>
+<p>エラーが発生します。<code>console.log</code>にすら到達しません!なぜ私たちがコード内でエラーを<em>望む</em>のか、疑問に思うかもしれません。実のところ、エラーは、私たちのコードの何が間違っていて、問題が正確にどこにあるのかを教えてくれる、非常に役立つものです。エラーがなければ、私たちのコードは望み通りに動作しないままですが、何が間違っているのかを見つけようとするのは非常に大変な作業になってしまいます!</p>
+<p>つまり、まとめると、変数を宣言する方法は2つあります:</p>
+<ul>
+<li><code>let</code>は、再代入できます。</li>
+<li><code>const</code>は再代入<strong>できず</strong>、試みるとエラーが発生します。</li>
+</ul>
+<p>3つ目の方法、<code>var</code>もあります。これはJavaScriptで変数を宣言する元々の方法でした。<code>var</code>は、この方法で代入された変数が再代入できるという点で<code>let</code>に似ていますが、言語が<code>let</code>と<code>const</code>を導入した際に解消された、他の癖があります。今ではほとんど使われていません。しかし、どこかの時点で<code>var</code>を使用しているコードに出会うことがあるかもしれないので、それが存在することを知っておくのは有用です。</p>
+<h3>数値</h3>
+<p>数値はプログラミングのロジックの構成要素です!実際、多少の基本的な計算を伴わない、役に立つプログラミングタスクを考えるのは難しいので、数値がどう機能するかを知ることは明らかに非常に重要です。幸いなことに、JavaScriptでは、数値の振る舞い方はかなり馴染み深いものです。</p>
+<p>例えば、JavaScriptは標準的な数学の<strong>演算の順序</strong>に従います(<strong>PEMDAS</strong>や<strong>BODMAS</strong>のような頭字語でよく覚えられています)。つまり:</p>
+<ol>
+<li><strong>括弧(Parentheses/Brackets)</strong>が最初に評価されます。</li>
+<li>次に<strong>べき乗(Exponentiation)</strong>が右から左に行われます。</li>
+<li>次に<strong>乗算(Multiplication)</strong>と<strong>除算(Division)</strong>が左から右に行われます。</li>
+<li>最後に<strong>加算(Addition)</strong>と<strong>減算(Subtraction)</strong>が左から右に行われます。</li>
+</ol>
+<p>例えば、数式<code>(3 + 2) - 76 * (1 + 1)</code>は完全に有効なJavaScriptであり、この式を<code>console.log</code>に入れると、まさに期待通りに評価されます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<p>HTMLファイルのscriptタグにコードを追加して、以下の演習に取り組んでみましょう:</p>
+<ol>
+<li>2つの数値を足し合わせましょう!スクリプトの中で<code>console.log(23 + 97)</code>と入力してください。これを実行すると<code>120</code>が出力されるはずです。</li>
+<li>同じことを、6つの異なる数値を足し合わせて行ってください。</li>
+<li>次に、以下の式の値を出力してください:<code>(4 + 6 + 9) / 77</code>。コンソールにはおよそ<code>0.24675</code>が出力されるはずです。</li>
+<li>いくつか変数を使ってみましょう!</li>
+<li>scriptタグにこの文を追加してください:<code>let a = 10</code>。</li>
+<li>その下に<code>console.log(a)</code>を追加してください。これを実行すると、ブラウザのコンソールには<code>10</code>が出力されるはずです。</li>
+<li>その後、<code>a</code>に別の数値を再代入してください。その後もう一度<code>a</code>を出力すると、更新された値が表示されるはずです(前の出力は、<code>a</code>が再代入される前のものなので、古い値<code>10</code>のままのはずです)。</li>
+<li>次に、スクリプトの一番下に<code>let b = 7 * a</code>を追加してください。</li>
+<li><code>b</code>が何であるかを出力してください。7に、あなたが<code>a</code>に再代入した値を掛けた結果が出力されるはずです。</li>
+<li>次の手順を試してみてください:</li>
+<li>値<code>57</code>を持つconst変数<code>max</code>を宣言してください。</li>
+<li>別のconst変数<code>actual</code>を宣言し、<code>max - 13</code>を代入してください。</li>
+<li>さらに別のconst変数<code>percentage</code>を宣言し、<code>actual / max</code>を代入してください。</li>
+<li><code>percentage</code>を出力すると、コンソールに<code>0.7719</code>のような値が表示されるはずです。</li>
+<li>数分間、scriptタグの中でさまざまなことをいろいろ試してみてください。いずれ、実際にこれらのものをウェブページ上に表示させる方法を学びますが、このロジックはすべて変わりません。先に進む前に、これに十分慣れておいてください。</li>
+</ol>
+<p>以下の記事に目を通して、知識を深めてください。</p>
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/What_is_JavaScript">MDNの「What is JavaScript?」</a>を見て、ウェブページ上でのJavaScriptの役割を理解しましょう。</li>
+<li>JavaScript.infoの<a href="https://javascript.info/variables">JavaScriptにおける変数</a>を読んでみましょう。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Math">JavaScriptの数学</a>についてのこのMDNの記事は、少し異なる視点から同じ情報を扱っており、JavaScriptで基本的な計算を適用する方法も教えてくれます。数値でできることはもっとたくさんありますが、今のところはこれだけで十分です。</li>
+<li><a href="http://javascript.info/operators">JavaScriptの演算子</a>についてのこの記事を読んで(そして一緒にコードを書いて!)みましょう。ページ下部の「Tasks」に取り組むのを忘れずに!JavaScriptで数値を使って(その他のことも含めて!)何ができるかについて、かなり良いイメージがつかめるはずです。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#variables">新しい変数を宣言するために使える3つのキーワードは何ですか?</a></li>
+<li><a href="#variables">3つの変数宣言のうち、どれを避けるべきで、それはなぜですか?</a></li>
+<li><a href="https://javascript.info/variables#variable-naming">変数に名前を付ける際に従うべきルールは何ですか?</a></li>
+<li><a href="https://javascript.info/operators#string-concatenation-with-binary">数値と文字列を足し合わせるとどうなりますか?</a></li>
+<li><a href="https://javascript.info/operators#remainder">剰余(Modulo, %)演算子はどのように機能しますか?</a></li>
+<li><a href="https://javascript.info/operators#increment-decrement">数値をインクリメント・デクリメントするにはどうすればよいですか?</a></li>
+<li><a href="https://javascript.info/operators#increment-decrement">インクリメント/デクリメント演算子の前置と後置の違いは何ですか?</a></li>
+<li><a href="https://javascript.info/operators#operator-precedence">演算子の優先順位とは何で、JSではどのように扱われますか?</a></li>
+<li><a href="#how-to-run-javascript-code">開発者ツールとコンソールにアクセスするにはどうすればよいですか?</a></li>
+<li><a href="#how-to-run-javascript-code">コンソールに情報を出力するにはどうすればよいですか?</a></li>
+<li><a href="https://javascript.info/operators#numeric-conversion-unary">単項プラス演算子は、整数を表す文字列に対して何をしますか?例:+"10"</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

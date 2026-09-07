@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction To React Testing</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Introduction To React Testing <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Introduction To React Testing</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>We've learned how to test our vanilla JavaScript applications in a previous section. Testing is a powerful tool that allows us to write maintainable and flexible code. If you've followed along with our lessons, so far we've been using the <a href="https://jestjs.io/">Jest</a> framework. However, since we're using <a href="https://vitejs.dev/">Vite</a> we'll switch over to <a href="https://vitest.dev/">Vitest</a> as our test runner since it integrates nicely with Vite. We'll add more capabilities to our tests using the <a href="https://testing-library.com/docs/react-testing-library/intro/">React Testing library (RTL)</a>.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Why UI testing is valuable.</li>
+<li>How to set up a React testing environment.</li>
+<li>How to test UI elements.</li>
+<li>Understanding snapshot tests.</li>
+</ul>
+<h3>UI testing</h3>
+<p>By now, you'll have had some experience already with TDD and the idea of testing in general. You may remember in the Battleship project, you will have written tests limited to the underlying Battleship game, but without involving the DOM at all. You may have made non-UI changes, caused tests to fail, then resolved whatever was needed so you had tests that were relevant and passed.</p>
+<p>Despite this, you may have run into bugs in the UI because your tests only involved the underlying logic. You may have a working Battleship game, but that does not mean the UI actually displays what you intend nor lets users interact with the game as intended. And let's be honest, every time you make a change to any part of your code (whether related to UI or not), you're not going to remember to recheck every related UI aspect to make sure everything still works as you expect. i.e., this is no different to before, we're just involving the UI now.</p>
+<p>UI tests give us more confidence that our websites contain the intended contents and behave as we want, and notify us when something no longer satisfies our requirements. Perhaps you decide to change the exact structure of a state, such as changing from a plain object to an array, but now a list does not contain the text you intend. Or maybe you add a condition somewhere in a component and now suddenly, only the last three drop targets for your drag and drop cards are no longer valid targets. As your websites get more complex, the value of good tests (both UI and non-UI) will only increase.</p>
+<h3>Setting up a React testing environment</h3>
+<p>Follow along <a href="https://www.robinwieruch.de/vitest-react-testing-library/">Robin Wieruch's guide on setting up Vitest with RTL</a>. Once you've completed the setup, let's meet back here.</p>
+<div class="lesson-note">
+<h4>Vitest globals and ESLint</h4>
+<p>Even if you set <code>globals: true</code> in <code>vite.config.js</code> like in the setup tutorial, ESLint will still yell at you, as it will not recognize these globals without some extra configuration in your <code>eslint.config.js</code> file. The most straightforward resolution would be to explicitly import the globals you'd need instead. You can omit <code>globals: true</code> from <code>vite.config.js</code> in this case.</p>
+</div>
+<p>Phew, that was a lot of setup. But there's one more tiny package to install before we can begin:</p>
+<pre class="highlight"><code class="language-bash">npm install @testing-library/user-event --save-dev</code></pre>
+<p>Now that we have everything we need, let's briefly go over what some of those packages do. We'll primarily focus on the <code>@testing-library</code> packages.</p>
+<ul>
+<li>
+<p><code>@testing-library/react</code> will give us access to useful functions like <code>render</code> which we'll demonstrate later on.</p>
+</li>
+<li>
+<p><code>@testing-library/jest-dom</code> includes some handy custom matchers (assertive functions) like <code>toBeInTheDocument</code> and more. (complete list on <a href="https://github.com/testing-library/jest-dom">jest-dom's github</a>). Jest already has a lot of matchers so this package is not compulsory to use.</p>
+</li>
+<li>
+<p><span id="user-event"><code>@testing-library/user-event</code> provides the <code>userEvent</code> API that simulates user interactions with the webpage.</span></p>
+</li>
+</ul>
+<h3>Our first query</h3>
+<p>First, we'll render the component using <code>render</code> (you can read all about what the function can do in <a href="https://testing-library.com/docs/react-testing-library/api/#render">the React Testing Library API docs about <code>render</code></a>). We say "render", but you won't see any screen. Back in the RTL setup article just now, one of the packages installed is <code>jsdom</code>, which simulates the DOM (including events) in memory without actually laying anything out visually like in a browser, and that allows us to parse its contents for our tests. This is different to and much less complex than other libraries that actually run a real browser environment for more complex end-to-end tests - that's out of scope here.</p>
+<pre class="highlight"><code class="language-jsx">// App.jsx
+
+const App = () =&gt; &lt;h1&gt;Our First Test&lt;/h1&gt;;
+
+export default App;</code></pre>
+<pre class="highlight"><code class="language-jsx">// App.test.jsx
+
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import App from "./App";
+
+describe("App component", () =&gt; {
+  it("renders correct heading", () =&gt; {
+    render(&lt;App /&gt;);
+    // using regex with the i flag allows simpler case-insensitive comparison
+    expect(screen.getByRole("heading").textContent).toMatch(/our first test/i);
+  });
+});</code></pre>
+<p>Execute <code>npm test App.test.jsx</code> on the terminal and see the test pass. <code>getByRole</code> is just one of the dozen query methods that we could've used. Essentially, queries are classified into three types: <code>getBy</code>, <code>queryBy</code> and <code>findBy</code>. Go through <a href="https://testing-library.com/docs/queries/about/">the React Testing Library docs page about queries</a>. Pay extra attention to the "Types of Queries" and "Priority" sections.</p>
+<p><span id="by-role-methods">As stated by the React Testing Library docs, <code>ByRole</code> methods are favored methods for querying, especially when paired with the <code>name</code> option. For example, we could improve the specificity of the above query like so: <code>getByRole("heading", { name: "Our First Test" })</code>. Queries that are done through <code>ByRole</code> ensure that our UI is accessible to everyone no matter what mode they use to navigate the webpage (i.e. mouse or assistive technologies).</span></p>
+<h3>Simulating user events</h3>
+<p>There are numerous ways a user can interact with a webpage. Even though live user feedback and interaction is irreplaceable, we can still build some confidence in our components through tests. Here's a button which changes the heading of the App:</p>
+<pre class="highlight"><code class="language-jsx">// App.jsx
+
+import { useState } from "react";
+
+const App = () =&gt; {
+  const [heading, setHeading] = useState("Magnificent Monkeys");
+
+  const clickHandler = () =&gt; {
+    setHeading("Radical Rhinos");
+  };
+
+  return (
+    &lt;&gt;
+      &lt;button type="button" onClick={clickHandler}&gt;
+        Click Me
+      &lt;/button&gt;
+      &lt;h1&gt;{heading}&lt;/h1&gt;
+    &lt;/&gt;
+  );
+};
+
+export default App;</code></pre>
+<p>Let's test if the button works as intended. In this test suite, we'll use a separate utility to query our UI elements. React Testing Library provides the <code>screen</code> object which has all the methods for querying. With <code>screen</code>, we don't have to worry about keeping <code>render</code>'s destructuring up-to-date. Hence, it's better to use <code>screen</code> to access queries rather than to destructure <code>render</code>.</p>
+<pre class="highlight"><code class="language-jsx">// App.test.jsx
+
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import App from "./App";
+
+describe("App component", () =&gt; {
+  it("renders magnificent monkeys", () =&gt; {
+    // since screen does not have the container property, we'll destructure render to obtain a container for this test
+    const { container } = render(&lt;App /&gt;);
+    expect(container).toMatchSnapshot();
+  });
+
+  it("renders radical rhinos after button click", async () =&gt; {
+    const user = userEvent.setup();
+
+    render(&lt;App /&gt;);
+    const button = screen.getByRole("button", { name: "Click Me" });
+
+    await user.click(button);
+
+    expect(screen.getByRole("heading").textContent).toMatch(/radical rhinos/i);
+  });
+});</code></pre>
+<p>The tests speak for themselves. In the first test, we utilize snapshots to check whether all the nodes render as we expect them to. In the second test, we simulate a click event. Then we check if the heading changed. <code>toMatch</code> is one of the various assertions we could have made. Notice that the callback function for the second test is an <code>async</code> one, as we need this in order to <code>await user.click()</code>.</p>
+<p>It's also important to note that after every test, React Testing Library unmounts the rendered components. That's why we render for each test. For a lot of tests for a component, a custom <code>setup</code> function could prove handy.</p>
+<h3>What are snapshots?</h3>
+<p>Snapshot testing is just comparing our rendered component with an associated snapshot file. For example, the snapshot file which was automatically generated after we ran the <em>"renders magnificent monkeys"</em> test was:</p>
+<pre class="highlight"><code class="language-jsx">// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App component &gt; renders magnificent monkeys 1`] = `
+&lt;div&gt;
+  &lt;button
+    type="button"
+  &gt;
+    Click Me
+  &lt;/button&gt;
+  &lt;h1&gt;
+    Magnificent Monkeys
+  &lt;/h1&gt;
+&lt;/div&gt;
+`;</code></pre>
+<p>It's an HTML representation of the <code>App</code> component. And it will be compared against the <code>App</code> in future snapshot assertions. If the <code>App</code> changes even slightly, the test fails.</p>
+<p><span id="advantage-snapshot-tests">Snapshot tests are fast and easy to write. One assertion saves us from writing multiple lines of code. For example, with a <code>toMatchSnapshot</code>, we're spared of asserting the existence of the button and the heading.</span> They also don't let unexpected changes creep into our code. Read all about what can be achieved with snapshots in the <a href="https://vitest.dev/guide/snapshot.html">Vitest snapshot docs</a>.</p>
+<p>Snapshots might seem the best thing that has happened to us while testing thus far. But we are forced to wonder, <em>what</em> exactly are we testing? What's being validated? If a snapshot passes, what does it convey about the correctness of the component?</p>
+<p><span id="disadvantage-snapshot-tests">Snapshot tests may cause false positives. Since we cannot ascertain the validity of the component from a snapshot test, a bug might go undetected. Over-reliance on snapshots can make developers more confident about their code than they should be.</span></p>
+<p>The other issue with snapshots is false negatives. Even the most insignificant of changes compel the test to fail. Fixing punctuation? Snapshot will fail. Replacing an HTML tag to a more semantic one? Snapshot will fail. This might cause us to lose our confidence in the test suite altogether. Snapshots aren't inherently bad; they do serve a purpose. But it's beneficial to understand when to snapshot, and when not to snapshot.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<div class="lesson-note">
+<h4>Focus on the concepts</h4>
+<p>Even though some articles use Jest and the Enzyme testing library, the concepts should be transferable.</p>
+</div>
+<ol>
+<li><a href="https://kentcdodds.com/blog/testing-implementation-details">Testing Implementation Details</a> by Kent C. Dodds shows us how we can reduce false test results and inflexible tests by avoiding testing the implementation of things.</li>
+<li>Take a glance at all of the available query methods on <a href="https://testing-library.com/docs/dom-testing-library/cheatsheet/">the React Testing Library's cheatsheet page</a>. There's no need to use them all, but it's optimal to employ a specific method for a specific query. If none of the query methods suffice, there's an option to use test ids. Learn about test ids on <a href="https://testing-library.com/docs/queries/bytestid/">the React Testing Library's test id docs</a>.</li>
+<li>Read <a href="https://testing-library.com/docs/user-event/intro">the userEvent API docs</a> to get a feel of how to achieve user simulation.</li>
+<li>This article on the <a href="https://tsh.io/blog/pros-and-cons-of-jest-snapshot-tests/">Pros and Cons of Snapshot Tests</a> goes in depth regarding the advantages and disadvantages of snapshot testing. And this one, <a href="https://www.sitepen.com/blog/snapshot-testing-benefits-and-drawbacks">Snapshot Testing: Benefits and Drawbacks</a>, does an excellent job of explaining what snapshot testing is for programming in general.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#ui-testing">Why might you want to test your UI?</a></li>
+<li><a href="#setting-up-a-react-testing-environment">What packages are required for React testing?</a></li>
+<li><a href="#user-event">What is the significance of the user-event package?</a></li>
+<li><a href="https://testing-library.com/docs/react-testing-library/api/#render">What does the <code>render</code> method do?</a></li>
+<li><a href="#by-role-methods">What is the most preferred method for querying?</a></li>
+<li><a href="#simulating-user-events">How would you test for a click event with <code>userEvent</code>?</a></li>
+<li><a href="#advantage-snapshot-tests">What is the advantage of snapshot tests?</a></li>
+<li><a href="#disadvantage-snapshot-tests">What are the disadvantages of snapshot tests?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

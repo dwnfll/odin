@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Responsive Images</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Responsive Images <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Some tricks relating specifically to making Images responsive.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>レスポンシブなウェブサイトでは、画像に特別な配慮が必要です。このレッスンでは、レスポンシブな画像を扱う際に発生するいくつかの問題と、それらに対処する際に利用できる選択肢を紹介します。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>CSSで画像をリサイズする際に、それらを適切に振る舞わせる方法を学びます。</li>
+<li>画面サイズに基づいて異なる画像を提供する方法を学びます。</li>
+</ul>
+<h3>基本</h3>
+<p>レスポンシブな画像を扱う際に直面する最も基本的な問題は、アスペクト比、つまり幅と高さの関係です。小さな画面で画像の幅を縮小し、高さを操作しない場合、画像は歪んで表示されてしまいます!</p>
+<p>この問題への解決策は非常に簡単で、前のレッスンですでに触れました: 幅と高さの両方を定義しないことです。<span id="aspect-ratio-knowledge-check">画像に柔軟な幅を与え、高さを<code>auto</code>に設定すれば、そのアスペクト比は正しく保たれるはずです。</span></p>
+<h3>background-size、background-position、object-fit</h3>
+<p>もし画像を(高さと幅の両方において)縮小させたくない場合はどうすればよいでしょうか?<code>background-size</code>と<code>object-fit</code>は、アスペクト比の扱いについてもう少し柔軟性(ダジャレのつもりです)を提供してくれる2つのプロパティです。</p>
+<p><code>background-position</code>と<code>background-size</code>は、背景画像を持つ要素に対して機能するプロパティであり、通常の<code>img</code>タグに対しては機能しません。後の課題の読み物でいくつかの例と詳細を見ることになりますが、これらのプロパティを扱うことで、背景画像の表示と配置について、かなり多くのコントロールを得ることができます。例えば、<code>background-position: center</code>は、たとえコンテナが画像全体を収めるには小さすぎる場合でも、画像が常にそのコンテナ内で中央に配置されるようにしてくれます。<code>background-size: cover</code>は、画像が常にそのコンテナを完全に埋め尽くすようにしつつ、できるだけトリミングを少なくするように画像をリサイズします。</p>
+<p>いろいろ試せる小さなデモがここにあります:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="powxJXV" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/powxJXV">
+  background | CSS Responsiveness</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p><code>object-fit</code>も同じように機能しますが、<code>img</code>タグ向けのものです。<code>object-fit</code>プロパティを使うと、画像に幅と高さを指定した上で、その画像がどのようにその寸法に自身を収めるべきかを指示することが<em>できます</em>。<code>object-fit</code>のデフォルト値は<code>fill</code>で、これは画像をその寸法に合わせて引き伸ばしますが、<code>background-size</code>と同様に、画像を<code>cover</code>や<code>contain</code>するよう指示することもできます。</p>
+<p>画像に対する<code>object-fit</code>のデモがここにあります。CodePenでこれを開いて、ブラウザをリサイズし、画像がどう反応するか見てみてください。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="NWgOGGX" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/NWgOGGX">
+  object-fit</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h3>さらなるコントロール!</h3>
+<p>画面サイズによって文字通り<em>異なる</em>画像を使うことも可能です。これにより、さまざまな解像度で画像が正確にどう表示されるかについて、最大限のコントロールが得られます。例えば、<code>object-fit</code>に頼って写真の被写体を枠内に収め続けるだけでなく、小さな画面ではトリミングされたバージョンを表示することもできます。これを実現する方法は2つありますが、最も柔軟なのは<code>&lt;picture&gt;</code>タグを使うことです。これについては課題でさらに詳しく学びます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><span id="object-fit-background-size-knowledge-check">まず、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-size">background-size</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-position">background-position</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit">object-fit</a>のドキュメントをチェックしてみてください。それらのページにあるデモが、使い方を明確にしてくれるはずです。</span></li>
+<li>MDNの<a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images">Responsive Images</a>は、HTMLでレスポンシブな画像を提供することについての導入です。</li>
+<li>CSS Tricksの<a href="https://css-tricks.com/a-guide-to-the-responsive-images-syntax-in-html/">Guide to the Responsive Images Syntax in HTML</a>は、レスポンシブな画像を実際にどう実装するかについて、より深く掘り下げてくれる素晴らしい記事です。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#object-fit-background-size-knowledge-check"><code>object-fit</code>と<code>background-size</code>の主な違いは何ですか?</a></li>
+<li><a href="#aspect-ratio-knowledge-check"><code>img</code>に幅と高さを、それを歪ませることなく定義するにはどうすればよいですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#why_responsive_images">なぜ異なる画面解像度で異なる画像を提供したいと思うのでしょうか?</a></li>
+<li><a href="https://css-tricks.com/a-guide-to-the-responsive-images-syntax-in-html/"><code>srcset</code>を持つ<code>img</code>と<code>picture</code>のどちらを使いたいのはどんなときですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

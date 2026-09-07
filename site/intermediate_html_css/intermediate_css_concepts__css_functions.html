@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS Functions</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">CSS Functions <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn the function syntax, and some useful ways you can do calculations in CSS.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>CSSで扱ったことのあるプロパティの値の中には、少し違った構文を持つものがあることに気づいたかもしれません。値が、情報を含む一対の括弧<code>()</code>が続く単語である場合 - <code>background-color: rgb(0, 0, 0)</code>のように - それはCSS関数を使っていることになります。</p>
+<p>このレッスンでは、関数とは何かの基本と、CSSでそれらがどのように一般的に使われるかを扱います。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>CSS関数の基本的な構成要素を認識します。</li>
+<li><code>calc()</code>、<code>min()</code>、<code>max()</code>、<code>clamp()</code>関数について、それぞれの使い方を学びます。</li>
+</ul>
+<h3 id="what-is-a-function-and-how-are-they-used-in-css">関数とは何で、CSSでどう使われるのか?</h3>
+<p>プログラミング言語と同様に、CSSの関数は特定のタスクを実行する再利用可能なコードの断片です。関数には括弧の間に「引数」が渡され、それぞれが関数によって特定の方法で使用されます。いくつかの一般的な例は次の通りです:</p>
+<pre class="highlight"><code class="language-css">color: rgb(0, 42, 255);
+background: linear-gradient(90deg, blue, red);</code></pre>
+<p>ここで、<code>color</code>の値は関数<code>rgb()</code>であり、これは数値の形式で引数を受け取ります。それらの数値を処理して、与えられた3つの値に対応するrgbカラーを計算します。同様に、<code>background</code>プロパティは<code>linear-gradient(90deg, blue, red)</code>という値を持ちます。<code>linear-gradient</code>は、与えられたパラメータを使ってグラデーション画像を生成します。少なくとも2つの色の引数、つまり間を遷移させる色が必要です。さらに、(例で行ったように)グラデーションラインの方向の角度を設定したり、さらに色の値を追加したりすることもできます。</p>
+<p>TOPで使うプログラミング言語とは異なり、CSSでは自分自身の関数を作成することはできません。その代わり、この言語には、最も一般的なスタイリングの問題を解決するのに役立つ、あらかじめ用意された関数のリストが同梱されています。</p>
+<p>色を定義すること以外にも、<span id='responsive-design-knowledge-check'>ウェブサイトのレイアウトやサイズ調整をデザインする際に役立つ、いくつかのCSS関数があります<span>。これらは、レスポンシブデザインについて考える際に重要になります。</p>
+<p>これらの関数のいくつかを見ていきましょう: <span id='function-names-knowledge-check'><code>calc()</code>、<code>min()</code>、<code>max()</code>、そして<code>clamp()</code>です。</span></p>
+<h3>calc()</h3>
+<p>calcの最も強力な使用例には、次のようなものがあります:</p>
+<ul>
+<li>単位の混在</li>
+<li><code>calc( calc () - calc () )</code>のようにネストできる能力</li>
+</ul>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="OJxNxya" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/OJxNxya">
+  calc() | CSS Functions</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p><code>calc()</code>がここでどう使われているか見てみましょう:</p>
+<pre class="highlight"><code class="language-css">:root {
+--header: 3rem;
+--footer: 40px;
+--main: calc(100vh - calc(var(--header) + var(--footer)));
+}</code></pre>
+<ul>
+<li><code>--header</code>、<code>--footer</code>、<code>--main</code>はすべてCSS変数の例です。これらについては次のレッスンで学びます。</li>
+</ul>
+<p>mainを、次の結果と等しく設定しています: <code>100vh - (3rem + 40px)</code>。
+別の言い方をすると: <code>main = 100vh - (header + footer)</code>。
+vh、rem、pxの単位を混在させているにもかかわらず、<code>calc()</code>が計算を代わりに処理してくれています。
+CSS変数と組み合わせることで、<code>calc()</code>はCSSルールを繰り返す頭痛の種から私たちを救ってくれます。</p>
+<p>上記のCodePenの埋め込みで<code>calc()</code>がどう使われているかを把握できるはずです。先に進む前に、要素のさまざまな単位やサイズをいろいろ試して、どんな結果が得られるか見てみることをお勧めします。</p>
+<div class="lesson-note lesson-note--tip">
+<h4>calc()の例</h4>
+<p>上記は<code>calc()</code>がレイアウトにどう影響するかの単なる一例に過ぎませんが、<code>calc()</code>がそれを行うための最善の方法とは限らないことを覚えておいてください。レイアウトについては今後のレッスンでさらに詳しく話します。</p>
+</div>
+<h3>min()</h3>
+<p><code>min()</code>は、レスポンシブなウェブサイトを作成する上で優れた働きをしてくれます。この例を見てみましょう:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="RwLaLay" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/RwLaLay">
+  min() | CSS Functions</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<pre class="highlight"><code class="language-css">#iconHolder {
+  width: min(150px, 100%);
+  height: min(150px, 100%);
+  box-sizing: border-box;
+  border: 6px solid blue;
+}</code></pre>
+<p><code>min()</code>関数は、JavaScriptの<code>Math.min()</code>やRubyの<code>Array#min</code>メソッドと同じように機能します。カンマで区切られた値のリストを受け取り、その中で最も小さいものを返します。</p>
+<p>これは、親要素の幅の<code>100%</code>が<code>150px</code>より小さいかどうかをチェックします。もし<code>100%</code>が<code>150px</code>より狭くなる場合、その要素はコンテナの幅いっぱい(<code>100%</code>)を占めます。そうでなければ、幅は<code>150px</code>になります。</p>
+<p><code>min()</code>の中で基本的な計算を行うこともできます。例えば、<code>width: min(80ch, 100vw - 2rem);</code>のように(この場合、<code>calc()</code>すら必要ありません)。</p>
+<h3>max()</h3>
+<p><code>max()</code>は<code>min()</code>と同じように機能しますが、逆方向であり、JavaScriptの<code>Math.max()</code>やRubyの<code>Array#max</code>メソッドに似ています。括弧の中から可能な限り最大の値を選択します。</p>
+<pre class="highlight"><code class="language-css">width: max(100px, 4em, 50%);</code></pre>
+<p>上記は3つの値をすべて比較し、要素の幅をそのうち最も大きいものに設定します。もし親コンテナの<code>50%</code>が<code>100px</code>と<code>4em</code>より大きい場合、幅は<code>50%</code>になります。もし<code>4em</code>が他より大きければ、<code>4em</code>が使われます。</p>
+<p>max関数は、表示ウィンドウが非常に小さい場合や、ユーザーがブラウザのズーム機能を使ってコンテンツのサイズを大きくした場合に最も役立ちます。
+最初はmaxをあまり使う機会がないかもしれませんが、アクセシビリティが重要なプロジェクトのために知っておくべき良いツールです。</p>
+<h3>clamp()</h3>
+<p><code>clamp()</code>は、要素を流動的でレスポンシブにする素晴らしい方法です。
+<code>clamp()</code>は3つの値を取ります:</p>
+<pre class="highlight"><code class="language-css">h1 {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+}</code></pre>
+<ol>
+<li>最小値<code>1.5rem</code></li>
+<li>スケーリング値<code>5vw</code></li>
+<li>最大値<code>3rem</code></li>
+</ol>
+<p><code>clamp()</code> CSS関数は、これらの値を使って最小値、スケーリング値、最大値を設定します。上記の例では、これは許容される最小のfont-sizeが<code>1.5rem</code>で、最大が<code>3rem</code>になることを意味します。</p>
+<p>その間には<code>5vw</code>のfont-sizeが設定されます。値<code>5vw</code>は、ビューポートの幅に応じてfont-sizeをスケーリングできるようにしますが、そのサイズは設定した最小値と最大値によって制限されます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Functions">CSS関数の完全なリスト</a>と、それらがどう使われるかを見て、何が可能かのイメージをつかんでください。</li>
+<li><a href="https://web.dev/min-max-clamp/"><code>min</code>、<code>max</code>、<code>clamp</code> CSS関数</a>の実際の動作について、より詳しく見てみてください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#function-names-knowledge-check">上記で扱った4つのCSS数学関数は何ですか?</a></li>
+<li><a href="#what-is-a-function-and-how-are-they-used-in-css">CSSの中で数学関数をどのように使いますか?</a></li>
+<li><a href="#responsive-design-knowledge-check">CSS関数は、ウェブサイトやアプリケーションをよりレスポンシブにするのに、どのように役立ちますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

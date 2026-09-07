@@ -1,0 +1,51 @@
+
+:root {
+  --bg: #ffffff; --fg: #24292e; --muted: #6a737d; --panel: #f3f3f3;
+  --accent: #1e5a8a; --border: #e1e4e8; --done: #2e8b57; --fallback: #b8860b; --missing: #c0392b;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: system-ui, "Segoe UI", "Yu Gothic", "Hiragino Sans", sans-serif;
+  line-height: 1.7;
+}
+.site-header {
+  padding: 12px 24px; border-bottom: 1px solid var(--border); background: #fafbfc;
+}
+.site-header__home { color: var(--accent); text-decoration: none; font-weight: 600; }
+.top-index, .course-index, .lesson { max-width: 840px; margin: 0 auto; padding: 32px 24px 80px; }
+h1 { font-size: 1.8em; }
+.legend { color: var(--muted); font-size: 0.9em; }
+.nav-lesson--done, .nav-lesson--fallback, .nav-lesson--missing { font-weight: bold; }
+.nav-lesson--done { color: var(--done); }
+.nav-lesson--fallback { color: var(--fallback); }
+.nav-lesson--missing { color: var(--missing); }
+.nav-lesson--done a { color: var(--fg); }
+.nav-lesson--fallback a { color: var(--fg); }
+.nav-lesson--missing a { color: var(--muted); }
+.nav-section ul { list-style: none; padding-left: 0; }
+.nav-section li { padding: 4px 0; }
+.lesson-header__course a { color: var(--muted); text-decoration: none; font-size: 0.9em; }
+.lesson-header__title { margin-bottom: 4px; }
+.lesson-header__desc { color: var(--muted); }
+.lang-badge { font-size: 0.5em; padding: 2px 8px; border-radius: 10px; vertical-align: middle; }
+.lang-badge--ja { background: #e6f4ea; color: var(--done); }
+.lang-badge--en { background: #fdf3d8; color: var(--fallback); }
+.lesson-content h3 { margin-top: 2.2em; font-size: 1.4em; }
+.lesson-content h3:first-child { margin-top: 0; }
+.lesson-content h4 { font-size: 1.1em; }
+.lesson-content pre {
+  background: #282c34; color: #eee; padding: 14px 16px; overflow-x: auto; border-radius: 6px;
+}
+.lesson-content code { background: var(--panel); padding: 0.15em 0.4em; border-radius: 4px; }
+.lesson-content pre code { background: none; padding: 0; }
+.lesson-content img { max-width: 100%; }
+.lesson-content .lesson-content__panel {
+  background: var(--panel); padding: 1.4em 1.6em; margin: 20px 0 40px; border-radius: 6px;
+}
+.lesson-content details {
+  border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; margin: 10px 0;
+}
+.lesson-content summary { cursor: pointer; font-weight: 600; }
+.notice { padding: 14px 18px; border-radius: 6px; }
+.notice--missing { background: #fdecea; color: var(--missing); }

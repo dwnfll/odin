@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transforms</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Transforms <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Before we get into animations, we need to learn about manipulating elements with CSS transforms.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p><code>transform</code>プロパティは、通常のドキュメントフローに影響を与えることなく、要素の見た目を変更するための強力なツールです。</p>
+<p>あなたはおそらく、お気に入りのウェブサイトの多くでこれが実際に使われているのを見たことがあるでしょう!Transformはアニメーション効果によく使われます。私たちは、あなたが自分自身で洗練されたアニメーションを作りたくなるだろうと確信していますが、まずはtransformがどう機能するかを理解する必要があります。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>2D transformの使い方。</li>
+<li>3D transformの使い方。</li>
+<li>複数のtransformを連結する方法。</li>
+<li><code>transform</code>プロパティを使う利点。</li>
+</ul>
+<h3>transformの基本</h3>
+<p><code>transform</code>プロパティは、値として1つ以上の<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/transform-function">CSS transform関数</a>を取り、それらの関数はそれぞれ独自の値、通常は角度や数値を取ります。</p>
+<p>ほとんどすべての要素に<code>transform</code>プロパティを適用できますが、例外は<code>&lt;col&gt;</code>、<code>&lt;colgroup&gt;</code>、そして非置換インライン要素です。「非置換(non-replaced)」とは、コンテンツがHTMLドキュメントの中に含まれている要素(例えば<code>&lt;span&gt;</code>、<code>&lt;b&gt;</code>、<code>&lt;em&gt;</code>)を指し、「置換(replaced)」要素のコンテンツがドキュメントの外に含まれていて、要素自体が外部のコンテンツによって「置換」される(例えば<code>&lt;video&gt;</code>、<code>&lt;iframe&gt;</code>、<code>&lt;img&gt;</code>)のとは対照的です。非置換であるすべての要素を暗記する必要はありませんが、<code>transform</code>プロパティをある要素に適用しようとしてなぜ機能しないのか分からないときのために、この知識を心に留めておいてください。</p>
+<h3 id="two-dimensional-transforms">2次元transform</h3>
+<p>このセクションでは、<code>rotate</code>、<code>scale</code>、<code>skew</code>、<code>translate</code>という以下のtransform関数を使って、2D transformを見ていきます。</p>
+<h4 id="rotate">Rotate</h4>
+<p>これは、2D平面上で要素を回転させるためのtransform関数の値です:</p>
+<pre class="highlight"><code class="language-css">.element {
+  transform: rotate();
+}</code></pre>
+<p>以下は、この値が対象の要素にどう影響するかを示すCodePenです。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="GRMgKeE" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+<span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/GRMgKeE">
+2D Rotate | CSS Transform</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4 id="scale">Scale</h4>
+<p>これらは、2D平面上で要素を拡大縮小するためのtransform関数の値です:</p>
+<pre class="highlight"><code class="language-css">.element {
+  transform: scaleX();
+  transform: scaleY();
+  transform: scale();
+}</code></pre>
+<p>以下は、それぞれの値が対象の要素にどう影響するかを示すCodePenです。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="XWeJrGL" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+<span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/XWeJrGL">
+2D Scale | CSS Transform</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4>Skew</h4>
+<p>これらは、2D平面上で要素を傾けるためのtransform関数の値です:</p>
+<pre class="highlight"><code class="language-css">.element {
+  transform: skewX();
+  transform: skewY();
+  transform: skew();
+}</code></pre>
+<p>以下は、それぞれの値が対象の要素にどう影響するかを示すCodePenです。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="mdBybgm" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+<span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/mdBybgm">
+2D Skew | CSS Transform</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4 id="translate">Translate</h4>
+<p>これらは、2D平面上で要素を移動させるためのtransform関数の値です:</p>
+<pre class="highlight"><code class="language-css">.element {
+  transform: translateX();
+  transform: translateY();
+  transform: translate();
+}</code></pre>
+<p>以下は、それぞれの値が対象の要素にどう影響するかを示すCodePenです。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="PoJwYrO" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+<span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/PoJwYrO">
+2D Translate | CSS Transform</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h3>複数のtransformを連結する</h3>
+<p>2D transformの理解が深まったところで、それらを連結する方法を学びましょう。複数のtransformを連結するには、それぞれの間にスペースを入れながら、さらに多くのtransform関数を追加していきます。以下のコードを見てみてください:</p>
+<pre class="highlight"><code class="language-html">&lt;div class="red-box"&gt;&lt;/div&gt;
+&lt;div class="blue-box"&gt;&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-css">.red-box,
+.blue-box {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+}
+
+.red-box {
+  background: red;
+  transform: rotate(45deg) translate(200%);
+}
+
+.blue-box {
+  background: blue;
+  transform: translate(200%) rotate(45deg);
+}</code></pre>
+<p>同じ位置に配置された2つのボックスがあります。両方のボックスに<code>rotate</code>と<code>translate</code>関数の値を連結しましたが、異なる順序でです。それぞれのボックスに何が起こるか予想してから、下のCodepenの「Result」リンクをクリックして、あなたの予想が正しかったか確認してください。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css" data-slug-hash="XWeJWWr" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+<span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/XWeJWWr">
+Chaining | CSS Transform</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>もし正しく予想できたなら、おめでとうございます!青いボックスはX軸方向に200%移動し、まっすぐ右に動いてから、その場で45度回転します。赤いボックスは先に45度回転してから、回転した後のX軸方向に200%移動し、右下に動きます。</p>
+<p>一般的に、さまざまな結果を得るために複数のtransformを好きな順序で連結できますが、一つ例外があります: <code>perspective</code>です。これは、次の<code>perspective</code>が関わるセクションへとうまくつながっていきます。</p>
+<h3 id="three-dimensional-transforms">3次元transform</h3>
+<p><code>rotate</code>、<code>scale</code>、<code>translate</code>のtransform関数は、2D平面だけに限定されているわけではありません。これらは3D平面でも機能します!しかし、これらの値の一部で3D効果を知覚するためには、<code>perspective</code>が必要です。</p>
+<p>ここから先は、例がより複雑になっていきます。これらのプロパティを自由にいろいろ試してみて構いませんが、あまり深入りしすぎないよう気をつけてください。</p>
+<h4>Perspective</h4>
+<p>これは、z = 0の平面からユーザーまでの距離を設定するためのtransform関数の値です:</p>
+<pre class="highlight"><code class="language-css">.element {
+  transform: perspective();
+}</code></pre>
+<p>基本的に、<code>perspective</code>の値を設定することで、z軸上のある特定の距離から見ているかのようにオブジェクトを描画するよう指示しています。</p>
+<p>他のtransform関数の値とは異なり、複数のtransform関数の値がある場合、<code>perspective</code>は最初に(一番左に)宣言される必要があります。これから見ていく<code>rotate</code>、<code>scale</code>、<code>translate</code>の例で、これが対象の要素にどう影響するかを見ることができます。</p>
+<h4>特定の軸でのRotate</h4>
+<p>これらは、3D空間で要素を回転させるための追加のtransform関数の値です:</p>
+<pre class="highlight"><code class="language-css">.element {
+  transform: rotateX();
+  transform: rotateY();
+  transform: rotateZ();
+  transform: rotate3d();
+}</code></pre>
+<p>以下は、最初の3つの値が対象の要素にどう影響するかを示すCodePenです。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="PoJwozR" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+<span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/PoJwozR">
+3D Rotate | CSS Transform</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4>特定の軸でのScale</h4>
+<p>これらは、3D空間で要素を拡大縮小するための追加のtransform関数の値です:</p>
+<pre class="highlight"><code class="language-css">.element {
+  transform: scaleZ();
+  transform: scale3d();
+}</code></pre>
+<p>MDNの<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/scaleZ()"><code>scaleZ</code></a>と<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/scale3d()"><code>scale3d</code></a>による3Dキューブの実演を見てみてください。</p>
+<h4>特定の軸でのTranslate</h4>
+<p>これらは、3D空間で要素を移動させるための追加のtransform関数の値です:</p>
+<pre class="highlight"><code class="language-css">.element {
+  transform: translateZ();
+  transform: translate3d();
+}</code></pre>
+<p><code>translateZ</code>は、<code>perspective</code>なしではあまり何もしません。その代わり、<code>perspective</code>と<code>translateZ</code>は一緒に働くことで、以下の例に示すように、描画されたオブジェクトからの3次元的な距離という錯覚を作り出します。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="MWEYWpN" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+<span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/MWEYWpN">
+TranslateZ | CSS Transform</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4>Matrix</h4>
+<p>厳密には3D transform関数ではありませんが、どれほどまれにしか使われないかという理由から、このレッスンの最後に触れておきます。これがそのtransform関数の値です。</p>
+<pre class="highlight"><code class="language-css">.element {
+  transform: matrix();
+  transform: matrix3d();
+}</code></pre>
+<p>Matrixは、すべてのtransform関数を一つにまとめる方法です。可読性が低いためめったに使われず、手で書かれることはほぼありません。非常に複雑なtransformを適用する必要がない限り、代わりに他のtransform関数の値を使うべきです。</p>
+<p>これらの関数が<em>存在する</em>ということと、大まかにどう機能するかを知っておくだけで十分です。しかし、それらを使って構築することに慣れている必要はありません。</p>
+<h3>transformの利点</h3>
+<p><code>transform</code>プロパティが優れている理由を理解するには、CSSトリガーについて知っておく必要があります。これについては、GoogleのWeb Fundamentalsの<a href="https://developers.google.com/web/fundamentals/performance/rendering/#the_pixel_pipeline">The Pixel Pipeline</a>セクションで学ぶことができます。</p>
+<p><code>transform</code>を使う主な利点は、それが<strong>合成(composition)</strong>の間に発生するということです。これにより、他の多くのCSSプロパティと比べて、使用コストが低くなります。それぞれのCSSプロパティでどのトリガーが実行されるかは、この<a href="https://web.archive.org/web/20220727225220/https://csstriggers.com/">CSSトリガーの一覧表</a>で見ることができます。</p>
+<p><code>transform</code>のもう一つの利点は、デバイスの<a href="https://en.wikipedia.org/wiki/Graphics_processing_unit">GPU</a>を介してハードウェアアクセラレーションできることです(GPUがどう機能するかを理解する必要はありませんが、この用語とその意味を知っておくのは良いことです)。この利点は、次のレッスンで学ぶことになるtransitionやアニメーションに関して、より顕著になります。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotate3d()"><code>rotate3d</code>のMDNの実演</a>を見てから、この<a href="https://www.qhmit.com/css/functions/css_rotate3d_function.cfm"><code>rotate3d</code>についてのQHMITの記事</a>でこのプロパティについてさらに読んでください。</li>
+<li><a href="https://3dtransforms.desandro.com/perspective">CSSにおけるperspective</a>についてさらに学んでください。</li>
+<li>MDNには、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translate3d()"><code>translate3d</code>を使ったもう一つの素晴らしい実演</a>もあります。</li>
+<li>Josh Comeauによる<a href="https://www.joshwcomeau.com/css/transforms/">The World of CSS Transforms</a>に目を通してください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#two-dimensional-transforms"><code>transform</code>プロパティの4つの主な関数は何ですか?</a></li>
+<li><a href="#translate">X軸、Y軸、Z軸に沿って空間内でオブジェクトを動かすために使える関数はどれですか?</a></li>
+<li><a href="#scale">X軸、Y軸、Z軸に沿ってオブジェクトを大きくしたり小さくしたりするために使える関数はどれですか?</a></li>
+<li><a href="#three-dimensional-transforms">3D transformに必要な追加の関数は何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

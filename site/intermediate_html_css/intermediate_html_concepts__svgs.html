@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SVG</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">SVG <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">SVG is neat!</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>SVGは、ウェブ上で非常によく使われる画像フォーマットです。最初は少し分かりにくく感じるかもしれませんが、使い方を知ってしまえば、ウェブサイトのために高品質で動的な画像を作成する、信じられないほど強力なツールになります。</p>
+<p>このレッスンでは、SVGとは正確には何なのか、何に使われるのか、そしてどうやってあなたのウェブサイトに埋め込めるのかを学びます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>SVG、ベクターグラフィック、XMLとは何か。</li>
+<li>シンプルなSVGを作成し、ウェブサイトに追加する方法。</li>
+<li>いつSVGを使うべきか、いつ別の画像フォーマットの方が適切か。</li>
+</ul>
+<h3>SVGとは何か?</h3>
+<p>SVGは<em>スケーラブル(拡大縮小可能)</em>な画像フォーマットであり、これは、ファイルサイズを増やすことなく、簡単にどんなサイズにも拡大縮小でき、品質を保てるということを意味します。また、CSSやJavaScriptを通してプロパティを変更できるため、プログラムで画像を作成したり変更したりする必要がある場合にも非常に便利です。</p>
+<p>SVGは、よく以下のような用途に使われます:</p>
+<ol>
+<li>アイコン</li>
+<li>グラフ/チャート</li>
+<li>大きく、シンプルな画像</li>
+<li>パターン化された背景</li>
+<li>SVGフィルターを介して他の要素にエフェクトを適用すること</li>
+</ol>
+<h3>では、それは一体何なのか?</h3>
+<p>「SVG」は「Scalable Vector Graphics(拡大縮小可能なベクターグラフィック)」の略です。ベクターグラフィックとは、数学によって定義される画像のことであり、画像がピクセルのグリッドによって定義される従来の「ラスターグラフィック」とは対照的です。ラスターグラフィックでは、詳細さはそのピクセルグリッドのサイズに制限されます。画像のサイズを大きくしたい(<em>拡大</em>したい)場合、そのグリッドのサイズを大きくする必要があります。それらの新しいピクセルすべてがどのように見えるべきかを、どう決めればよいのでしょうか?簡単な解決策はありません。さらに、グリッドが大きくなればなるほど、ファイルサイズも大きくなります。</p>
+<p>一方、ベクターグラフィックにはグリッドがありません。代わりに、さまざまな形や線のための数式があります。これらは単なる数式にすぎないため、どれだけ大きく、あるいは小さく表示したいかは関係ありません---どんなサイズにも拡大縮小でき、品質やファイルサイズには何の影響もありません。</p>
+<p>SVGにはもう一つ興味深い側面があります。それはXMLを使って定義されているということです。XML(別名「Extensible Markup Language」)は、<a href="https://en.wikipedia.org/wiki/API">API</a>から<a href="https://en.wikipedia.org/wiki/RSS">RSS</a>、<a href="https://en.wikipedia.org/wiki/Office_Open_XML">表計算ソフトやワードエディタソフト</a>まで、多くのことに使われるHTMLに似た構文です。</p>
+<p>SVGのソースコードがXMLであるという事実には、いくつかの重要な利点があります。</p>
+<p>まず、それが<em>人間が読める</em>ということを意味します。JPEGをテキストエディタで開いたとしたら、単なる意味不明な文字の羅列にしか見えないでしょう。しかしSVGを開いてみると、次のようなものになります:</p>
+<pre class="highlight"><code class="language-html">&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"&gt;
+  &lt;rect x=0 y=0 width=100 height=50 /&gt;
+  &lt;circle class="svg-circle" cx="50" cy="50" r="10"/&gt;
+&lt;/svg&gt;</code></pre>
+<p>それでもまだ分かりにくいかもしれませんが、それでも---これらは単語です!タグです!属性です!JPEGのような<a href="https://en.wikipedia.org/wiki/Binary_file">バイナリファイル形式</a>と比べれば、間違いなく馴染みのある領域にいます。</p>
+<p>XMLの2つ目の利点は、HTMLと相互運用できるように設計されていることです。つまり、上記のコードを何も変更せずにそのままHTMLファイルに配置でき、画像が表示されるはずだということです。そして、これらはHTML要素と同じようにDOM内の要素になれるため、CSSでそれらを対象にしたり、あなたがすでに使ってきた<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element">Element WebAPI</a>を使って作成したりできます!</p>
+<h3 id="drawbacks">欠点</h3>
+<p>さて、SVGは明らかに素晴らしいものです!すべての画像をSVGに変換する時が来ましたね?いいえ、そう単純な話ではありません。SVGは比較的シンプルな画像には<em>最適</em>ですが、画像のあらゆる細部をXMLとして書き出す必要があるため、複雑な画像を保存するには非常に非効率です。あなたの画像が写真のようにリアルであるべきものであったり、細かいディテールやテクスチャ(「<a href="https://unsplash.com/s/photos/grunge-texture">グランジテクスチャ</a>」が良い例です)を持っていたりする場合、SVGはその仕事に間違ったツールです。</p>
+<h3 id="anatomy-of-an-svg">SVGの構造</h3>
+<p>通常、コード内でSVGをゼロから作成したいとは思わないでしょう。多くの場合、ウェブサイトから、あるいはそれらを作成できる画像エディタから、ファイルをダウンロードするかコードをコピーすることになります(<a href="https://fonts.google.com/icons">Material icons</a>や<a href="https://feathericons.com/">Feather icons</a>は、人気のあるSVGアイコンライブラリの例です)。しかし、SVGをダウンロードして、ほんの少しだけ微調整したいと思うことはよくあるので、それぞれの部品が何であり、どう機能するのかを知っておくことは非常に役立ちます。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="NWaGdmL" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/NWaGdmL">
+  Simple SVG Example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<ol>
+<li><code>xmlns</code> - 「XML NameSpace」の略です。これは、あなたが使用しているXMLの<em>方言</em>を指定します。私たちの場合、その方言はSVG言語仕様です。これがないと、一部のブラウザは画像をレンダリングしなかったり、正しくレンダリングしなかったりします。</li>
+<li><code>viewBox</code> - SVGの境界を定義します。SVG内の要素のさまざまな点の位置を定義する必要があるとき、これが参照されるものです。また、SVGのアスペクト比<em>と</em>原点も定義します。かなりたくさんのことをしているんですね!上記の例でさまざまな値をいろいろ試して、それが形にどう影響するかの感覚をつかんでみてください。</li>
+<li><code>class</code>、<code>id</code> - これらの属性は、HTMLでのものとまったく同じように機能します。SVGでこれらを使用することで、CSSやJavaScriptを介して要素を簡単に対象にしたり、<a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use"><code>use</code>要素</a>を介して要素を再利用したりできます。</li>
+<li><code>&lt;circle&gt;</code>、<code>&lt;rect&gt;</code>、<code>&lt;path&gt;</code>、<code>&lt;text&gt;</code>のような要素は、SVG名前空間によって定義されています。これらは私たちの基本的な構成要素です。SVGで非常に複雑な画像を作ることもできますが、それらのほとんどは、これらの基本要素のうちのほんの十数個程度で作成されています。<a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element">SVG要素の完全なリスト</a>はこちらです。</li>
+<li><code>fill</code>や<code>stroke</code>のような多くのSVG属性は、CSSで変更できます。詳しくは、<a href="https://css-tricks.com/svg-properties-and-css/">SVGのプロパティとCSSについてのこの記事</a>で学んでください。</li>
+</ol>
+<p>上記のコードをいろいろ試して、何が起きているのかの感覚をつかんでみてください。viewBoxの寸法を変えるとどうなりますか?あるいは、要素の属性を変えると?</p>
+<h3 id="embedding-svgs">SVGを埋め込む</h3>
+<p>実際にドキュメント内にSVGを配置する方法を決める際、主に2つのアプローチがあります:リンクとインラインです。</p>
+<p>SVGをリンクすることは、基本的に他のどんな画像をリンクするのとも同じように機能します。<code>&lt;img&gt;</code>のようなHTML画像要素を使うことも、CSSで<code>background-image: url(./my-image.svg)</code>を使ってリンクすることもできます。それでも適切に拡大縮小されますが、SVGの内容はウェブページからアクセスできなくなります。</p>
+<p>代わりの方法は、画像としてリンクするのではなく、その内容をウェブページのコードに直接貼り付けることでSVGをインライン化することです。それでも正しくレンダリングされますが、SVGのプロパティがあなたのコードから見えるようになり、CSSやJavaScriptを介して画像を動的に変更できるようになります。</p>
+<p>SVGをインライン化することで、その真価を解き放つことができますが、いくつかの深刻な欠点も伴います。コードが読みにくくなり、ページのキャッシュ可能性が下がり、大きなSVGであれば、残りのHTMLの読み込みを遅らせてしまう可能性があります。</p>
+<p>SVGコードをインライン化することの欠点のいくつかは、Reactのようなフロントエンドライブラリや、webpackのようなビルドツールを学んでしまえば回避できます。まだそれらに入る準備はできていないので、頭の片隅に留めておくだけにしてください。</p>
+<p>今のところは、あなたのユースケースに最も合う方法を選んでください。リンクの方が一般的にクリーンでシンプルなので、HTMLと一緒にSVGコードを微調整する必要がない限り、そちらを優先してください。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Josh Comeauの<a href="https://www.joshwcomeau.com/svg/friendly-introduction-to-svg/">A Friendly Introduction to SVG</a>を読んでみましょう。形や拡大縮小を扱う、インタラクティブなデモ付きの素晴らしいガイドです。アニメーションについてのセクションに来たら止めてください(アニメーションはカリキュラムの後半で扱います)。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#anatomy-of-an-svg"><code>xmlns</code>属性とは何ですか?</a></li>
+<li><a href="#drawbacks">SVGを使いたく<em>ない</em>状況にはどのようなものがありますか?</a></li>
+<li><a href="#embedding-svgs">SVGを「インライン化」することの利点は何ですか?欠点は何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

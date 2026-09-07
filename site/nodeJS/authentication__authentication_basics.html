@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Authentication Basics</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
+    <h1 class="lesson-header__title">Authentication Basics <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Learn the basics of authentication with passportJS and bcrypt</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Creating users and allowing them to log in and out of your web apps is a crucial functionality that we are finally ready to learn! There is quite a bit of setup involved here, but thankfully none of it is too tricky. You'll be up and running in no time! In this lesson, we're going to be using <a href="https://www.passportjs.org">passport.js</a>, an excellent middleware to handle our authentication and sessions for us.</p>
+<p>We're going to be building a very minimal express app that will allow users to sign up, log in, and log out. For now, we're just going to keep everything except the views in one file to make for easier demonstration, but in a real-world project, it is best practice to split our concerns and functionality into separate modules.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Understand the use order for the required middleware for Passport.js.</li>
+<li>Describe what Passport.js Strategies are.</li>
+<li>Use the LocalStrategy to authenticate users.</li>
+<li>Explain the purpose of cookies in authentication.</li>
+<li>Review prior learning material (routes, templates, middleware, async/await, and promises).</li>
+<li>Use Passport.js to set up user authentication with Express.</li>
+<li>Describe what bcrypt is and its use.</li>
+<li>Describe what a hash is and explain the importance of password hashing.</li>
+<li>Describe bcrypt's <code>compare</code> function.</li>
+</ul>
+<h3>Set up</h3>
+<p>Before we start, create a new database within <code>psql</code>.</p>
+<p>To begin, let's set up a <code>users</code> table. So instead of <code>usernames</code> we will create a <code>users</code> table.</p>
+<pre class="highlight"><code class="language-sql">CREATE TABLE users (
+   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+   username VARCHAR ( 255 ),
+   password VARCHAR ( 255 )
+);</code></pre>
+<p>Next, let's set up a very minimal express app. Create a new directory and use <code>npm init</code> to start the package.json file then run the following to install all the dependencies we need:</p>
+<pre class="highlight"><code class="language-bash">npm install express express-session pg passport passport-local ejs</code></pre>
+<div class="lesson-note lesson-note--warning">
+<h4>Securing passwords</h4>
+<p>For the moment we are saving our users with just a plain text password. This is a <em>really</em> bad idea for any real-world project. At the end of this lesson, you will learn how to properly secure these passwords using bcrypt. Don't skip that part.</p>
+</div>
+<pre class="highlight"><code class="language-javascript">/////// app.js
+
+const path = require("node:path");
+const { Pool } = require("pg");
+const express = require("express");
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require('passport-local').Strategy;
+
+const pool = new Pool({
+  // add your configuration
+});
+
+const app = express();
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
+
+app.get("/", (req, res) =&gt; res.render("index"));
+
+app.listen(3000, (error) =&gt; {
+  if (error) {
+    throw error;
+  }
+  console.log("app listening on port 3000!");
+});</code></pre>
+<p>Most of this should look familiar to you by now, except for the newly required modules <code>express-session</code> and <code>passport</code>. We are not actually going to be using <code>express-session</code> directly, it is a dependency that is used in the background by <code>passport.js</code>. You can <a href="https://github.com/expressjs/session">take a look at what the express-session package does in the Express docs</a>.</p>
+<p>Our view engine is looking for <code>index.ejs</code> inside the <code>views</code>, so go ahead and create that:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Home&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;hello world!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h3>Creating users</h3>
+<p>The first thing we need is a sign up form so we can actually create users to authenticate! For the sake of brevity, we're going to leave sanitization and validation out here. But don't forget about it when you get to that point, we will have the opportunity to apply them later.</p>
+<p>Create a new template called <code>sign-up-form</code>, and a route for <code>/sign-up</code> that points to it:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Sign Up&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Sign Up&lt;/h1&gt;
+  &lt;form action="/sign-up" method="POST"&gt;
+    &lt;label for="username"&gt;Username&lt;/label&gt;
+    &lt;input id="username" name="username" placeholder="username" type="text" /&gt;
+    &lt;label for="password"&gt;Password&lt;/label&gt;
+    &lt;input id="password" name="password" type="password" /&gt;
+    &lt;button type="submit"&gt;Sign Up&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">//// app.js
+
+app.get("/sign-up", (req, res) =&gt; res.render("sign-up-form"));</code></pre>
+<p>Next, create an <code>app.post</code> for the sign up form so that we can add users to our database (remember our notes about sanitization, and using plain text to store passwords...).</p>
+<pre class="highlight"><code class="language-javascript">app.post("/sign-up", async (req, res, next) =&gt; {
+  try {
+    await pool.query("INSERT INTO users (username, password) VALUES ($1, $2)", [
+      req.body.username,
+      req.body.password,
+    ]);
+    res.redirect("/");
+  } catch(err) {
+    return next(err);
+  }
+});</code></pre>
+<p>Let's reiterate: this is not a particularly safe way to create users in your database... BUT you should now be able to visit <code>/sign-up</code>, and submit the form. If all goes well it'll redirect you to the index and you will be able to go see your newly created user inside your database. Open your database in <code>psql</code> and run your query to see your first user!</p>
+<h3>Authentication</h3>
+<p>Now that we have the ability to put users in our database, let's allow them to log in to see a special message on our home page! We're going to step through the process one piece at a time, but first, take a minute to glance at the <a href="http://www.passportjs.org/">passport.js website</a>. The documentation here has pretty much everything you need to set it up. You're going to want to refer back to this when you're working on your project.</p>
+<p><span id='strategy'>Passport.js uses what they call <em>Strategies</em> to authenticate users</span>. They have over 500 of these strategies, but we're going to focus on the most basic (and most common), the username-and-password, or what they call the <code>LocalStrategy</code> (<a href="http://www.passportjs.org/docs/username-password/">documentation for the LocalStrategy</a>). We have already installed and required the appropriate modules so let's set it up!</p>
+<p>We need to add 3 functions to our app.js file, and then add an <code>app.post</code> for our <code>/log-in</code> path.</p>
+<h4>Function one: setting up the LocalStrategy</h4>
+<pre class="highlight"><code class="language-javascript">passport.use(
+  new LocalStrategy(async (username, password, done) =&gt; {
+    try {
+      const { rows } = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
+      const user = rows[0];
+
+      if (!user) {
+        return done(null, false, { message: "Incorrect username" });
+      }
+      if (user.password !== password) {
+        return done(null, false, { message: "Incorrect password" });
+      }
+      return done(null, user);
+    } catch(err) {
+      return done(err);
+    }
+  })
+);</code></pre>
+<p>This function is what will be called when we use the <code>passport.authenticate()</code> function later.  Basically, it takes a username and password, tries to find the user in our DB, and then makes sure that the user's password matches the given password. If all of that works out (there's a user in the DB, and the passwords match) then it authenticates our user and moves on! We will not be calling this function directly, so you won't have to supply the <code>done</code> function.  This function acts a bit like a middleware and will be called for us when we ask passport to do the authentication later.</p>
+<h3>Functions two and three: sessions and serialization</h3>
+<p><span id='cookie'>To make sure our user is logged in, and to allow them to <em>stay</em> logged in as they move around our app, passport internally calls a function from <code>express-session</code> that uses some data to create a cookie called <code>connect.sid</code> which is stored in the user's browser</span>. These next two functions define what bit of information passport is looking for when it creates and then decodes the cookie. The reason they require us to define these functions is so that we can make sure that whatever bit of data it’s looking for actually exists in our Database! <code>passport.serializeUser</code> takes a callback which contains the information we wish to store in the session data. <code>passport.deserializeUser</code> is called when retrieving a session, where it will extract the data we "serialized" in it then ultimately attach something to the <code>.user</code> property of the request object (<code>req.user</code>) for use in the rest of the request.</p>
+<p>For our purposes, the functions that are listed in the passport docs will work just fine:</p>
+<pre class="highlight"><code class="language-javascript">passport.serializeUser((user, done) =&gt; {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) =&gt; {
+  try {
+    const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    const user = rows[0];
+
+    done(null, user);
+  } catch(err) {
+    done(err);
+  }
+});</code></pre>
+<p>When a session is created, <code>passport.serializeUser</code> will receive the user object found from a successful login and store its id property in the session data. Upon some other request, if it finds a matching session for that request, <code>passport.deserializeUser</code> will retrieve the id we stored in the session data. We then use that id to query our database for the specified user, then <code>done(null, user)</code> attaches that user object to <code>req.user</code>. Now in the rest of the request, we have access to that user object via <code>req.user</code>.</p>
+<p>Again, we aren’t going to be calling these functions on our own and we just need to define them, they’re used in the background by passport.</p>
+<h3>Log-in form</h3>
+<p>Let's go ahead and add the log-in form directly to our index template. The form will look just like our sign-up form, but instead of <code>POST</code>ing to <code>/sign-up</code> we'll add an <code>action</code> to it so that it <code>POST</code>s to <code>/log-in</code> instead. Add the following to your index template:</p>
+<pre class="highlight"><code class="language-html">&lt;h1&gt;please log in&lt;/h1&gt;
+&lt;form action="/log-in" method="POST"&gt;
+  &lt;label for="username"&gt;Username&lt;/label&gt;
+  &lt;input id="username" name="username" placeholder="username" type="text" /&gt;
+  &lt;label for="password"&gt;Password&lt;/label&gt;
+  &lt;input id="password" name="password" type="password" /&gt;
+  &lt;button type="submit"&gt;Log In&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+<p>... and now for the magical part! Add this route to your <code>app.js</code> file:</p>
+<pre class="highlight"><code class="language-javascript">app.post(
+  "/log-in",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/",
+    failureMessage: true,
+  })
+);</code></pre>
+<p>As you can see, all we have to do is call <code>passport.authenticate()</code>. This middleware performs numerous functions behind the scenes. Among other things, it looks at the request body for parameters named <code>username</code> and <code>password</code> then runs the <code>LocalStrategy</code> function that we defined earlier to see if the username and password are in the database. It then creates a session cookie that gets stored in the user's browser and used in all future requests to see whether or not that user is logged in.  It can also redirect you to different routes based on whether the login is a success or a failure. To access any error messages we defined earlier, we can pass <code>failureMessage</code> a boolean and access it later in subsequent middleware through the <code>req.session.messages</code> array.</p>
+<p>If we had a separate login page we might want to go back to that if the login failed, or we might want to take the user to their user dashboard if the login is successful. Since we're keeping everything in the index we want to go back to <code>/</code> no matter what.</p>
+<p>If you fill out and submit the form now, everything should technically work, but you won't actually SEE anything different on the page... let's fix that.</p>
+<p>The passport middleware checks to see if there is a user logged in (by checking the cookies that come in with the <code>req</code> object) and if there is, it adds that user to the request object for us.  So, all we need to do is check for <code>req.user</code> to change our view depending on whether or not a user is logged in.</p>
+<p>Edit your <code>app.get("/")</code> to send the user object to our view like so:</p>
+<pre class="highlight"><code class="language-javascript">app.get("/", (req, res) =&gt; {
+  res.render("index", { user: req.user });
+});</code></pre>
+<p>and then edit your view to make use of that object like this:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Log In&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;% if (locals.user) {%&gt;
+    &lt;h1&gt;WELCOME BACK &lt;%= user.username %&gt;&lt;/h1&gt;
+    &lt;a href="/log-out"&gt;LOG OUT&lt;/a&gt;
+  &lt;% } else { %&gt;
+    &lt;h1&gt;please log in&lt;/h1&gt;
+    &lt;form action="/log-in" method="POST"&gt;
+      &lt;label for="username"&gt;Username&lt;/label&gt;
+      &lt;input id="username" name="username" placeholder="username" type="text" /&gt;
+      &lt;label for="password"&gt;Password&lt;/label&gt;
+      &lt;input id="password" name="password" type="password" /&gt;
+      &lt;button type="submit"&gt;Log In&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;%}%&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>So, this code checks to see if there is a user defined... if so it offers a welcome message, and if NOT then it shows the login form.  Neat!</p>
+<p>As one last step... let's make that log out link actually work for us. As you can see it's sending us to <code>/log-out</code> so all we need to do is add a route for that in our app.js.  Conveniently, the passport middleware adds a logout function to the <code>req</code> object, so logging out is as easy as this:</p>
+<pre class="highlight"><code class="language-javascript">app.get("/log-out", (req, res, next) =&gt; {
+  req.logout((err) =&gt; {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});</code></pre>
+<p>You should now be able to visit <code>/sign-up</code> to create a new user, then log in using that user's username and password, and then log out by clicking the log out button!</p>
+<div class="lesson-note lesson-note--tip">
+<h4>A quick tip</h4>
+<p>In express, you can set and access various local variables throughout your entire app (even in views) with the <code>locals</code> object. We can use this knowledge to write ourselves a custom middleware that will simplify how we access our current user in our views.</p>
+<p>Middleware functions are functions that take the <code>req</code> and <code>res</code> objects, manipulate them, and pass them on through the rest of the app.</p>
+<pre class="highlight"><code class="language-javascript">app.use((req, res, next) =&gt; {
+  res.locals.currentUser = req.user;
+  next();
+});</code></pre>
+<p>If you insert this code somewhere between where you instantiate the passport middleware and before you render your views, you will have access to the <code>currentUser</code> variable in all of your views, and you won't have to manually pass it into all of the controllers in which you need it.</p>
+</div>
+<h3>Securing passwords with bcrypt</h3>
+<p>Now, let's go back and learn how to securely store user passwords so that if anything ever goes wrong, or if someone gains access to our database, our user passwords will be safe.  This is <em>insanely</em> important, even for the most basic apps.</p>
+<p>First <code>npm install bcryptjs</code>. There is another module called <code>bcrypt</code> that does the same thing, but it is written in C++ and is sometimes a pain to get installed. The C++ <code>bcrypt</code> is technically faster, so in the future it might be worth getting it running, but for now, the modules work the same so we can just use <code>bcryptjs</code>.</p>
+<p>Once it's installed you need to require it at the top of your app.js and then we are going to put it to use where we save our passwords to the DB, and where we compare them inside the LocalStrategy.</p>
+<h4>Storing hashed passwords</h4>
+<p>Password hashes are the result of passing the user's password through a one-way hash function, which maps variable sized inputs to fixed size pseudo-random outputs.</p>
+<p>Edit your <code>app.post("/sign-up")</code> to use the bcrypt.hash function which works like this:</p>
+<pre class="highlight"><code class="language-javascript">//Don't forget to import bcrypt!
+const bcrypt = require("bcryptjs");
+
+//...
+
+app.post("/sign-up", async (req, res, next) =&gt; {
+ try {
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  await pool.query("INSERT INTO users (username, password) VALUES ($1, $2)", [req.body.username, hashedPassword]);
+  res.redirect("/");
+ } catch (error) {
+    console.error(error);
+    next(error);
+   }
+});</code></pre>
+<p>The second argument is the length of the "salt" to use in the hashing function; salting a password means adding extra random characters to it, the password plus the extra random characters are then fed into the hashing function. Salting is used to make a password hash output unique, even for users who use the same password, and to protect against <a href="https://en.wikipedia.org/wiki/Rainbow_table">rainbow tables</a> and <a href="https://en.wikipedia.org/wiki/Dictionary_attack">dictionary attacks</a>.</p>
+<p>Usually, the salt is stored in the database alongside the hashed value. However, in our case, there is no need to store the salt separately because the <code>bcryptjs</code> hashing algorithm automatically incorporates the salt within the hash itself.</p>
+<p>The hash function is somewhat slow, so all of the DB storage stuff needs to go inside the callback. Check to see if you've got this working by signing up a new user with a password, then go look at your DB entries to see how it's being stored. If you've done it right, your password should have been transformed into a really long random string.</p>
+<p>It's important to note that <em>how</em> hashing works, especially in the context of passwords, is beyond the scope of this lesson.</p>
+<h4>Comparing hashed passwords</h4>
+<p><span id='compare'>We will use the <code>bcrypt.compare()</code> function to validate the password input. The function compares the plain-text password in the request object to the hashed password</span>.</p>
+<p>Inside your <code>LocalStrategy</code> function we need to replace the <code>user.password !== password</code> expression with the <code>bcrypt.compare()</code> function.</p>
+<pre class="highlight"><code class="language-javascript">const match = await bcrypt.compare(password, user.password);
+if (!match) {
+  // passwords do not match!
+  return done(null, false, { message: "Incorrect password" })
+}</code></pre>
+<p>You should now be able to log in using the new user you've created (the one with a hashed password).  <span id='bcrypt'>Unfortunately, users that were saved BEFORE you added bcrypt will no longer work, but that's a small price to pay for security</span>! (and a good reason to include bcrypt from the start on your next project)</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Watch videos 1, 2, 3, 5 and 6 of this <a href="https://www.youtube.com/playlist?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">Youtube Playlist on sessions in Express and local strategy authentication with Passport.js</a>.
+   - You may notice at some points in the videos, the Express app contains the line <code>app.use(passport.initialize())</code>. This line is no longer required to include in current versions of Passport.
+   - They are using MongoDB and you can replace any instance of it with PostgreSQL.
+   - In <a href="https://youtu.be/J1qXK66k1y4?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">video 3: "Your complete guide to understanding the express-session library"</a> and <a href="https://youtu.be/xMEOT9J0IvI?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">video 5: "Passport Local Configuration (Node + Passport + Express)"</a>, it shows using the <code>connect-mongo</code> library to use your MongoDB connection to store sessions, as opposed to storing them in memory. However, since we are using PostgreSQL, we need to replace it with a library called <code>connect-pg-simple</code> instead. You can view the implementation for doing this on the <a href="https://www.npmjs.com/package/connect-pg-simple">npm page for connect-pg-simple</a>.
+   - Do note that the table needed to be used for the session store is not automatically created by default, be sure to check the available options in their npm page.</li>
+<li>In <a href="https://github.com/jwalton/passport-api-docs">Passport: The Hidden Manual</a>, you can explore more comprehensive explanations of some of Passport's main functions, gaining a deeper understanding of what each function accomplishes.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#strategy">Which passport.js strategy did we use in the lesson?</a></li>
+<li><a href="#cookie">Why does passport.js create a cookie?</a></li>
+<li><a href="#compare">What does the <code>bcrypt.compare()</code> function do?</a></li>
+<li><a href="#bcrypt">Why should we include bcrypt when we begin a project?</a></li>
+</ul>
+<h3>Additional resources</h3>
+<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<ul>
+<li>This video provides a broad overview of some of the <a href="https://www.youtube.com/watch?v=8ZtInClXe1Q">different methods to store passwords in databases and possible risks</a>.</li>
+<li>If you would like a little more of a deeper dive into password hashing, read the following Wikipedia article to <a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function">learn more about how cryptographic hash functions work</a>.</li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

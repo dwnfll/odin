@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WAI-ARIA</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">WAI-ARIA <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn about ARIA, how to implement it, and when it&#x27;s necessary.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>前のレッスンでは、ウェブサイトをよりアクセシブルにするいくつかの方法を学びました。しかし、それらのレッスンは、アクセシビリティという氷山のほんの一角に過ぎません。WAI-ARIAは、要素のセマンティクスとコンテキストを変更することでウェブサイトをさらにアクセシブルにするのに役立つ属性を導入し、それらの要素が支援技術によってどう知覚されるかについて、より大きなコントロールを与えてくれます。このトピックは非常に複雑になり得るため、ここでは<em>大いに</em>役立つ2つの属性だけを扱っていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>WAI-ARIAの目的を知ります。</li>
+<li>ARIAができないことを知ります。</li>
+<li>ARIAの5つのルールを理解します。</li>
+<li>アクセシビリティツリーとは何かを理解します。</li>
+<li>要素にラベルを追加できる3つのARIA属性を理解します。</li>
+<li><code>aria-hidden</code>属性が何をするかを理解します。</li>
+</ul>
+<h3>WAI-ARIAとは何か?</h3>
+<p>WAI-ARIAは-一息ついてください-Web Accessibility InitiativeのAccessible Rich Internet Applications仕様の略です。<span id="wai-aria-purpose">WAI-ARIA(しばしば単にARIAと呼ばれます)の目的は、ネイティブのHTMLではできない場合に、ウェブコンテンツをよりアクセシブルにする方法を定義することです。</span>ARIAを、ネイティブHTMLが残したアクセシビリティの隙間を埋めてくれるものだと考えてください。</p>
+<p><span id="aria-limitations">ARIAは要素のセマンティクスやコンテキストしか変更できないということに注意することが重要です。ARIAには次のことが<em>できません</em>:</span></p>
+<ul>
+<li>要素の見た目を変更すること</li>
+<li>要素の振る舞いを変更すること</li>
+<li>フォーカス可能性を追加すること</li>
+<li>キーボードのイベントハンドリングを追加すること</li>
+</ul>
+<p>ARIAを使うときは、通常、不足しているセマンティクスや機能を追加するために、追加のステップを踏む必要があります。Keyboard Navigationのレッスンで、<code>&lt;div&gt;</code>の「ボタン」に機能を追加しなければならなかったことを覚えていますか?</p>
+<h4 id="the-five-rules-of-aria">ARIAの5つのルール</h4>
+<p>ARIAは正しく使われれば非常に強力になり得ますが、間違って使われれば同じくらい危険にもなり得ます。このため、たとえ最善の意図を持っていたとしても、<strong>悪いARIAよりはARIAがない方がまし</strong>であるということを心に留めておくべきです。WCAGには「ARIAの5つのルール」と呼ばれるものがあり、これはご想像の通り、ARIAを使う際に従うべきルールです。以下で言及されているすべての用語を扱うわけではありませんが、それでもルール自体を理解しておくことは重要です。特に、自分自身でさらにARIAを深く掘り下げていくことに決めた場合はなおさらです。</p>
+<ol>
+<li>可能な場合は、ARIAよりも常にネイティブのHTML要素や属性を使ってください。</li>
+<li>他に選択肢がない場合を除いて、ネイティブのセマンティクスを決して変更しないでください。</li>
+<li>すべてのインタラクティブなARIAコントロールは、キーボードで使用可能でなければなりません。</li>
+<li>フォーカス可能な要素に<code>role="presentation"</code>や<code>aria-hidden="true"</code>を決して使わないでください。</li>
+<li>すべてのインタラクティブな要素は、アクセシブルな名前を持たなければなりません。</li>
+</ol>
+<h3 id="the-accessibility-tree">アクセシビリティツリー</h3>
+<p>私たちが利用できるARIA属性のいくつかに入っていく前に、アクセシビリティツリーとは何かの基本を知っておくことが重要です。それが、これらの属性が実際に何をしているのかを理解するのに役立つからです。</p>
+<p>アクセシビリティツリーはDOMに基づいており、これは今のあなたにとってかなり馴染みがあるはずのものです。DOMがウェブページを構成するノードやオブジェクトを表しているのに対し、アクセシビリティツリーには、支援技術によって使われるアクセシビリティ関連の情報だけが含まれています。ARIAの機能の仕方は、このアクセシビリティツリーを構成するオブジェクトのプロパティを変更することによるものです。このレッスンでは、これらのプロパティのうち2つだけに焦点を当てていきます:</p>
+<ul>
+<li><strong>Name</strong>: 「アクセシブルな名前」としても知られ、これは支援技術がユーザーにアナウンスするものであり、同じタイプの要素を互いに区別するものです。名前は、要素のテキストコンテンツ、<code>&lt;label&gt;</code>要素、<code>alt</code>属性など、一つ以上のネイティブなラベルによって設定される場合があります。</li>
+<li><strong>Description</strong>: これは、支援技術がアクセシブルな名前に加えてアナウンスするものです。</li>
+</ul>
+<h3 id="aria-labels">ARIAラベル</h3>
+<p>ARIAラベルは、ネイティブなラベルを上書きしたり、追加の説明的なテキストを提供したりすることで、支援技術のユーザーがウェブページ上のコンテンツをよりよく理解する助けとなります。<code>&lt;label&gt;</code>要素とは異なり、ARIAラベルは限られた一部の要素だけに使用が制限されているわけではありませんが、それでも独自の制限があります。</p>
+<p>カリキュラムの前の方で、<code>id</code>属性を使うことについて注意されたのを覚えているかもしれません。簡単に振り返ると、通常は<code>id</code>属性を使いすぎたり、必要でないときにさえ使ったりすることは避けたいところです(そして実際、必要でないことの方が多く、クラスを使い続けるべきです)。しかし、実は別の要素に<code>id</code>を持たせることを<em>要求する</em>ARIA属性がいくつかあります。</p>
+<p>そのようなARIA属性を使うときは、ある要素に<code>id</code>を与え、それからその<code>id</code>の値を別の要素のARIA属性の値として渡します。これにより、<code>&lt;label&gt;</code>要素の<code>for</code>属性がinputの<code>id</code>へのリンクを作るのと似たような形で、要素間にリンクが作られます。以下で言及する3種類のARIAラベルのうち、<code>aria-labelledby</code>と<code>aria-describedby</code>は、別の要素に<code>id</code>を持たせることを要求するARIA属性です。</p>
+<h4>aria-label</h4>
+<p><code>aria-label</code>属性は、要素のネイティブなラベルを上書きし、アクセシビリティツリー内のそのnameプロパティを変更します。これは、要素がすでにネイティブなラベルを持っていない場合に最もよく使われます。追加されると、<code>aria-label</code>属性の文字列値がその要素のアクセシブルな名前になります。<strong>しかし</strong>、<a href="https://github.com/w3c/aria/issues/756"><code>aria-label</code>は一部のHTML要素には何の効果も持ちません</a>。<code>&lt;div&gt;</code>や<code>&lt;span&gt;</code>などです。</p>
+<p><code>aria-label</code>の一般的な使用例は、メニューやモーダルの「閉じる」ボタンに見られます:</p>
+<pre class="highlight"><code class="language-html">&lt;button type="button" aria-label="Close menu"&gt;X&lt;/button&gt;</code></pre>
+<p>スクリーンリーダーがユーザーにとってほとんど意味をなさない「X, button」とアナウンスする代わりに、「Close menu, button」とアナウンスすることになります。<code>aria-label</code>を使えるもう一つの方法は、ランドマーク要素に対してです(<a href="https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-semantic-html">Semantic HTML</a>のレッスンがまた出てきましたね…また!):</p>
+<pre class="highlight"><code class="language-html">&lt;nav aria-label="main navigation"&gt;...&lt;/nav&gt;</code></pre>
+<p>スクリーンリーダーが上記のHTMLに到達すると、「Main navigation, navigation landmark」とアナウンスします。もしページに複数のnavigation要素があれば、それぞれに異なる<code>aria-label</code>の値を与えることで、互いを区別し、スクリーンリーダーのユーザーにとってより理解しやすくすることができます。かなり素敵ですよね?</p>
+<p>ある単語がどう発音されてアナウンスされるかを変えるために<code>aria-label</code>を使うのは<strong>やめてください</strong>。特定の単語は、スクリーンリーダーによって正しくアナウンスされないことがあり、これを修正しようとしたくなるかもしれません。ある単語がスクリーンリーダーによってどうアナウンスされるかを修正できたとしても、その「修正」が、<a href="https://en.wikipedia.org/wiki/Braille">点字</a>リーダーのような他の支援技術によってアナウンスされたときには意味をなさなくなってしまう可能性があります。</p>
+<h4>aria-labelledby</h4>
+<p><code>aria-labelledby</code>属性は、ネイティブなラベルと<code>aria-label</code>属性の両方を上書きします。<code>aria-labelledby</code>を使うと、対象の要素のアクセシブルな名前は、<code>id</code>が参照されている要素のテキストコンテンツや<code>alt</code>属性を連結することで作られます。</p>
+<p><code>aria-labelledby</code>の素晴らしいところは、いくつでも<code>id</code>の参照を渡せるだけでなく、要素自身を参照させることもできるということです。同じ参照を複数回渡すことはできないことに注意してください。なぜなら、最初の後に続く参照はすべて無視されるからです。</p>
+<pre class="highlight"><code class="language-html">&lt;!-- Here's the labeling element --&gt;
+&lt;h2 id="label"&gt;Shirts&lt;/h2&gt;
+
+&lt;!-- And here's the labeled element. Note the order of the ID references passed in --&gt;
+&lt;button type="button" id="shop-btn" aria-labelledby="label shop-btn"&gt;Shop Now&lt;/button&gt;</code></pre>
+<p>上記のHTMLは、スクリーンリーダーによって「Shirts, shop now, button」とアナウンスされます。これにより、ページ上の複数の「shop now」ボタンを互いに区別できるようになり、追加のコンテキストを提供して、ページをより理解しやすくすることができます。</p>
+<p><code>aria-labelledby</code>のもう一つの素晴らしいところは、ラベル付けする要素が<code>hidden</code> HTML属性やCSSによって視覚的に隠されていたとしても、ラベル付けされる要素のアクセシブルな名前を変更し続けるということです。これは、支援技術のユーザーのために要素にラベルを付けたいが、そのラベル(または複数のラベル)を目の見えるユーザーには見えないようにしたい場合に役立ちます。</p>
+<p>ネイティブの<code>&lt;label&gt;</code>要素と多少似たような働き方をするかもしれませんが、<code>aria-labelledby</code>はデフォルトでは同じイベントハンドリングを持っていません。これは、あなた自身がJavaScriptで追加する必要のある機能です。</p>
+<pre class="highlight"><code class="language-html">&lt;!-- Clicking the &lt;label&gt; element gives focus to the input element --&gt;
+&lt;label for="name"&gt;Name:&lt;/label&gt;
+&lt;input id="name" type="text"&gt;
+
+&lt;!-- Clicking the &lt;div&gt; element won't give focus to the input element --&gt;
+&lt;div id="label"&gt;Name:&lt;/div&gt;
+&lt;input type="text" aria-labelledby="label"&gt;</code></pre>
+<h4>aria-describedby</h4>
+<p><code>aria-describedby</code>属性は、アクセシビリティツリー内のdescriptionプロパティを変更します。<code>aria-labelledby</code>属性と同様に、この属性を使うときは、他の要素の<code>id</code>の値を<code>aria-describedby</code>の値として渡し、その<code>id</code>の値が渡された要素も視覚的に隠すことができます。</p>
+<pre class="highlight"><code class="language-html">&lt;label&gt;
+  Password:
+  &lt;input type="password" aria-describedby="password-requirements"&gt;
+&lt;/label&gt;
+
+&lt;!-- Meaningful text + ARIA! --&gt;
+&lt;span id="password-requirements"&gt;Password must be at least 10 characters long.&lt;/span&gt;</code></pre>
+<p><code>&lt;input&gt;</code>要素がフォーカスを受け取ると、スクリーンリーダーは「Password, edit protected, password must be at least ten characters long.」とアナウンスします。これにより、inputがフォーカスを受け取るたびに、選びたいパスワードに関する要件を、スクリーンリーダーのユーザーにすぐに知らせることができます。</p>
+<h3 id="hiding-content-from-the-accessibility-tree">アクセシビリティツリーからコンテンツを隠す</h3>
+<p><code>hidden</code> HTML属性や<code>display</code>・<code>visibility</code> CSSプロパティを使って要素を視覚的に隠せるのと同様に、<code>aria-hidden</code>属性を使って、装飾的な画像やアイコンなどの特定の要素をアクセシビリティツリーから隠すことができます。しかし、<code>aria-hidden</code>との違いは、その要素が目の見えるユーザーには見えたままになるということです。これは、ある要素の中にアイコンを追加したい場合に特に役立ちます。例えば、ボタンの中でMaterial Iconsを使うとしたら:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- Example 1 --&gt;
+&lt;button type="button"&gt;
+  &lt;span class="material-icons"&gt;add&lt;/span&gt;
+  Add Book
+&lt;/button&gt;
+
+&lt;!-- Example 2 --&gt;
+&lt;button type="button"&gt;
+  &lt;span class="material-icons" aria-hidden="true"&gt;add&lt;/span&gt;
+  Add Book
+&lt;/button&gt;</code></pre>
+<p>上記の両方の例は視覚的には同じに見えますが、例1のボタンはスクリーンリーダーによって「Add add book, button」とアナウンスされます。<code>&lt;span&gt;</code>のテキストコンテンツとボタン自体のテキストコンテンツが連結されて、ボタンのアクセシブルな名前になります。しかし、例2のボタンは<code>&lt;span&gt;</code>をアクセシビリティツリーから隠しているため、そのテキストコンテンツはボタンのアクセシブルな名前に追加され<em>ず</em>、つまりスクリーンリーダーは正しく「Add book, button」とアナウンスすることになります。</p>
+<p>しかし、この属性を使う際には注意してください。ある要素に<code>aria-hidden="true"</code>を与えると、その要素のすべての子要素もアクセシビリティツリーから隠されることになります。親のいずれかがまだ<code>aria-hidden="true"</code>を持っている場合、子要素に<code>aria-hidden="false"</code>を追加しても何の効果もありません。</p>
+<p>また、フォーカス可能な要素に<code>aria-hidden="true"</code>を与えないよう注意すべきです。そうしてしまうと、その要素がフォーカスを受け取ったときに何もアナウンスされなくなり、スクリーンリーダーを使いキーボードでページをナビゲートするユーザーを混乱させてしまいます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://www.w3.org/TR/html-aria/">W3の「ARIA in HTML」</a>のセクション1から5を読んでください。これは非常に徹底したドキュメントですが、いつも通り、何かを暗記することは期待されていません。内容の要点をつかむだけで十分です。後のレッスン、特にフロントエンドのテストに取り組む頃には、多くのツールがARIAのroleを使って、最初からアクセシビリティを念頭に置いた構築を促していることに気づくでしょう。おそらく、このドキュメントに戻ってきたり、似たようなリソースを調べたりすることになるでしょう。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions">ARIAのライブリージョン</a>は、ページに加えられた動的な更新を支援技術にアナウンスさせるのに非常に便利な、もう一つの種類のARIA属性です。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#wai-aria-purpose">WAI-ARIAはどんな目的を果たしますか?</a></li>
+<li><a href="#aria-limitations">ARIAができない4つのことは何ですか?</a></li>
+<li><a href="#the-five-rules-of-aria">ARIAの5つのルールは何ですか?</a></li>
+<li><a href="#the-accessibility-tree">アクセシビリティツリーとは何ですか?</a></li>
+<li><a href="#aria-labels">3つのARIAラベルの違いは何ですか?</a></li>
+<li><a href="#hiding-content-from-the-accessibility-tree"><code>aria-hidden</code>属性は何をしますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

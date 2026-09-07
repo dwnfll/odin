@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tic Tac Toe</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Tic Tac Toe <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Tic Tac Toe</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ブラウザでプレイできるTic Tac Toeゲームを作っていきます!</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>HTML、CSS、JavaScriptファイルでプロジェクトをセットアップし、Gitリポジトリもすべてセットアップしてください。</li>
+<li>ゲームボードは、Gameboardオブジェクトの中の配列として保存することになるので、そこから始めましょう!プレイヤーも同様にオブジェクトとして保存されることになり、そしておそらく、ゲーム自体の流れをコントロールするオブジェクトも欲しくなるでしょう。</li>
+<li>ここでのあなたの主な目標は、グローバルなコードをできるだけ少なくすることです。できるだけ多くのものをファクトリーの中に押し込んでみてください。もし何かの単一のインスタンスだけが必要な場合(例えばgameboardやdisplayControllerなど)、追加のインスタンスを作成するために再利用されることのないよう、ファクトリーをIIFE(モジュールパターン)でラップしてください。</li>
+<li>このプロジェクトでは、それぞれのロジックがどこに置かれるべきかを慎重に考えてください。それぞれの小さな機能は、game、player、gameboardオブジェクトのいずれかに収まるはずです。それらを「論理的な」場所に置くよう気を配ってください。ここで少し時間をかけてブレインストーミングすることで、後々の作業がずっと楽になります!</li>
+<li>もし困っているなら、<a href="https://www.ayweb.dev/blog/building-a-house-from-the-inside-out">Building a house from the inside out</a>は、このプロジェクトにどう取り組むか、そしてコードをどう整理・構造化するかについての、非常に応用の利く例を示してくれる素晴らしい記事です。</li>
+<li>まずはコンソールで動作するゲームを作ることに集中してください。ゲームが終了したときをチェックするロジックを必ず含めてください!3つ並んだすべての勝利パターンと引き分けをチェックすべきです。ゲームが動作するまでは、DOMやHTML/CSSについて考えるのは避けるようにしてください。この時点では、ユーザー入力を受け取ることについても心配しなくて構いません。自分で関数を呼び出し、引数を渡すことでゲームをプレイし、すべてが意図通りに動作しているか確認できます。</li>
+<li>コンソールで動作するゲームができたら、表示/DOMのロジックを扱うオブジェクトを作成してください。ゲームボード配列の内容をウェブページに描画する関数を書いてください(今のところ、何が起きているか確認するためだけに、ゲームボード配列を<code>"X"</code>と<code>"O"</code>で埋めておくだけでも構いません)。</li>
+<li>適切なDOM要素とやり取りすることで、プレイヤーがボードの特定のマスにマークを追加できるようにする関数を書いてください(例えば、プレイヤーがボードのマスをクリックしてマーカーを置けるようにするなど)。すでに埋まっているマスにプレイヤーがプレイできないようにするロジックを忘れないでください!</li>
+<li>プレイヤーが自分の名前を入力できるようにインターフェースを整え、ゲームを開始/リスタートするボタンを含め、ゲーム終了時に結果を表示する表示要素を追加してください!</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Security</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
+    <h1 class="lesson-header__title">API Security <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">We learn how to secure our APIs using JSON web tokens</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Securing your API is an important step. When we were using Express to serve view templates we used PassportJS along with a username and password to authenticate users, but that is not the only way to secure an Express app, and in the context of an API it often makes sense to use a different strategy.  The username and password session pattern that we learned previously will still work of course, though it is made a little more complicated by the fact that we've separated our front-end code from the back-end.</p>
+<p>Another strategy is to generate and pass a secure <strong>token</strong> between our back-end and front-end code.  <span id='secure-token'>Doing so will make sure that our user's username and password are not compromised and will also give us the ability to expire our user's session for added security</span>. The basic idea is that when a user signs in to our app, a secure token is created, and then for all subsequent requests <span id='pass-token'>that token is passed in the header of our request object</span>. In the end, the process is straightforward since you should already be comfortable with using passport to authenticate users.</p>
+<p>This strategy, while particularly useful with APIs can be used with a traditional view-template project as well. The main difference here is that instead of setting and checking a cookie we're passing a special token in the header of our request. In our previous Authentication Tutorial, the Passport middleware checked the cookie that was sent and then either authenticated or denied our user. In this case, we're going to do something very similar, but instead of using cookies, we're going to pass the token.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Explain how token authentication differs from session based authentication.</li>
+<li>Learn about JSON Web Tokens.</li>
+<li>Read about an authorization header and how to use it.</li>
+<li>Identify and explain the methods used to sign and verify tokens.</li>
+<li>Write custom middleware to verify tokens on a given route.</li>
+<li>Have familiarity with token expiration with JWT.</li>
+<li>Expand PassportJS implementations to use JSON Web Tokens.</li>
+</ul>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>This video is a great resource that explains everything you need to know about <a href="https://www.youtube.com/watch?v=7nafaH9SddU">creating and verifying JSON Web Tokens</a>.</li>
+<li>This video presents <a href="https://www.youtube.com/watch?v=7Q17ubqLfaM">different ways in which JWTs can be useful</a>.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=7Q17ubqLfaM">What is a JSON web token?</a></li>
+<li><a href="#secure-token">What are two things a secure token will do?</a></li>
+<li><a href="#pass-token">Where in the code is a secure token passed?</a></li>
+</ul>
+<h3>Additional resources</h3>
+<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<ul>
+<li>This article is a <a href="https://web.archive.org/web/20230207144457/https://laptrinhx.com/a-practical-guide-for-jwt-authentication-using-node-js-and-express-917791379/">guide for JWT Authentication Using Node.js and Express</a>.</li>
+<li>This article is a <a href="https://medium.com/@paul.allies/stateless-auth-with-express-passport-jwt-7a55ffae0a5c">more concise guide for using JWTs in Express</a>.</li>
+<li><a href="https://www.youtube.com/watch?v=JdGOb7AxUo0">Not everyone agrees that JWTs are the best way to store authentication data</a>. This video is one argument against using them, and some of the pitfalls that you may encounter with using them.</li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

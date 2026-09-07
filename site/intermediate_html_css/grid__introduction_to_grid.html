@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to Grid</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">Introduction to Grid <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Introduction to CSS Grid</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>次のいくつかのレッスンでは、CSS Gridを扱い、ページレイアウトをずっと簡単にしていきます。まず、Flexbox(Flexboxを覚えていますか!?)をさっと振り返り、それからGridについて学びます。</p>
+<p>以降のレッスンでは、グリッドの作成方法、グリッドアイテムの位置指定、そしていくつかの高度なプロパティの使い方を紹介していきます。それから、FlexboxとGridの違いについてより深く見ていきます。最終的には、Gridを使ってダッシュボードのプロジェクトを構築することを目指していきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>FlexboxとGridの基本を比較します。</li>
+<li>FlexboxよりもGridを使うべき状況を説明します。</li>
+</ul>
+<h3 id="a-look-back-at-flex">flexの振り返り</h3>
+<p>Foundationsコースでは、Flexboxについてたくさん学びました。ここまでの道のりであちこちでFlexを使ってきたなら、このセクションはGridに入る前のさっとした復習になるでしょう。もしFlexについて完全に迷子になっているなら、<a href="https://www.theodinproject.com/lessons/foundations-introduction-to-flexbox">Flexのレッスン</a>をもう一度見直して、ペースを取り戻すのが役立つかもしれません。</p>
+<p>Flexのレッスンでは、<a href="https://www.theodinproject.com/lessons/foundations-axes">2つのflex軸(mainとcross)</a>に沿ってアイテムを位置指定する方法や、それらの<a href="https://www.theodinproject.com/lessons/foundations-alignment">flexアライメント</a>の設定方法を扱いました。また、<a href="https://www.theodinproject.com/lessons/foundations-growing-and-shrinking">flexアイテムを大きくしたり小さくしたり、サイズを変えたりする方法</a>も学びました。これこそがFlexboxの真の美しさで、アイテムはまさに「flex(たわむ)」して伸びたり縮んだりできるのです。</p>
+<p>このように、flexアイテムをきれいな行に並べられたことを覚えているでしょう:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="XWeJbRy" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/XWeJbRy">
+  Single Row | CSS Flexbox</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>あるいは、このように列にすることもできました:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="MWEYwoX" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/MWEYwoX">
+  Single Column | CSS Flexbox</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>1次元のレイアウトについては、Flexはfloatやその他のCSSのハックに頼ることなく、アイテムを適切に整列させるための便利なツールを提供してくれます。</p>
+<p>2次元のレイアウトについては、<code>flex-wrap</code>について少し学びました。これを使うと、flexアイテムを取り、次の行に折り返すことができます。これは、行が別の行に折り返すこともできますし、列が別の列に折り返すこともできます。</p>
+<p>この演習でカードレイアウトを解くのがどれほど楽しかったか、覚えていますか?</p>
+<p><a href="https://github.com/TheOdinProject/css-exercises/tree/main/foundations/flex/07-flex-layout-2"><img alt="flex-exercise-desired-outcome.png" src="https://i.postimg.cc/vZ81HMkB/flex-exercise-desired-outcome.png" /></a></p>
+<p>あれがイライラするものだったことは分かっていますが、それがポイントの一部でもあります。Flexboxは行と列を組み合わせたレイアウトを構築できるようにしてくれますが、それは必ずしも簡単ではありません。</p>
+<p>しかし、CSS Gridを使えば、カードの2次元レイアウトのセットアップはずっと簡単になります:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="KKXwpZR" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/KKXwpZR">
+  2D Layout | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h3 id="what-is-grid">Gridとは何か?</h3>
+<p>GridはCSSの中では比較的新しいモジュールですが、このレイアウトツールは長い間開発され続けてきました。豆知識ですが、CSSの共同創作者であるBert Bos博士(Wes Bosとは関係ありません)は、1996年にこのレイアウトモデルの開発に取り組み始めました。このアイデアは、新聞や雑誌など他の形式のメディアで使われているグリッドのようなレイアウトから着想を得たものでした。長年にわたる徹底的な実演と開発の末、CSS Gridは2017年についにすべての主要ブラウザに導入されました。</p>
+<p>上記で示したように、Gridは2次元のレイアウトでアイテムを簡単に配置できることでよく称賛されます。しかし、Gridは1次元のレイアウトにも使うことができます。開発者にとっての一つの利点は、最初はアイテムの行が一つだけであっても、後から追加の行を加えられるということです。</p>
+<p>FlexとGridの間には多くの類似点があることに気づくでしょう。どちらも、子アイテムを持つ親コンテナを使います。アライメントや位置指定のためのプロパティ名も似ています。しかし、この2つの間には多くの違いもあり、それぞれのモジュールをどう使うべきかについての意見の相違にも出会うことになるでしょう。例えば、もしあなたがFlexアイテムをすべて均等なサイズに揃えるのに苦労してきたなら、Gridはこの種のレイアウトをずっと簡単にしてくれます。</p>
+<p>古いリソースを見直すときは、これらのモジュールが更新されるにつれて、FlexとGridの違いも変わり得るということを心に留めておいてください。CSS Gridの大きな見どころの一つは<code>gap</code>プロパティの使用でしたが、これについては次のレッスンで扱います。これはかつてGridでしか利用できませんでしたが、今ではFlexでもサポートされています。</p>
+<p>CSS GridがFlexboxを置き換えるためにここにあると考えた人もいましたが、これらのレッスンの終わりまでに、Gridは単に道具箱に加わったもう一つの道具に過ぎないということを学ぶでしょう。実際、これらのモジュールはそれぞれ独自のユースケースを持っているだけでなく、FlexとGridを組み合わせて使うことが役立つと分かることもあるでしょう。しかし、それについては最後のまとめのレッスンですべて扱います。まずは、実際にグリッドを作る方法を学んでいきましょう!</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>サプライズです!課題はありません!今後のレッスンを通してさらに多くのことを学んでいくので、そのまま進み続けてください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#a-look-back-at-flex">Flexを使って2次元のレイアウトを作るにはどうすればよいですか?</a></li>
+<li><a href="#what-is-grid">CSS Gridはなぜ導入されたのですか?</a></li>
+<li><a href="#what-is-grid">コンテナ内で均等なサイズのアイテムを簡単に作るには、どのCSSレイアウトモジュールを使いますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

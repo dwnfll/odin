@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loops and Arrays</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Loops and Arrays <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">In this lesson we learn about loops and arrays.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>プログラミングの課題の一つは繰り返しです。手動での繰り返しが完全に問題ない場合もありますが、時には繰り返しの指示をより読みやすくするために効率化したいことがあります。もう一つの課題は、大量のデータを扱うことです。例えば、クラスの生徒全員の名前を保存したい場合、どうすればよいでしょうか?それぞれの名前用に変数を作ることもできますが、それは面倒で非効率的です。管理や更新も難しくなります。後で名前を変更したりアクセスしたりしたい場合はどうでしょうか?</p>
+<p>幸いなことに、これらの問題に対処する方法があります。このレッスンでは、コードのブロックを繰り返し実行できるようにする制御構造である、ループについて学びます。また、1つの変数に複数の値を保存できるデータ構造である配列についても学びます。配列は、大量のデータを整理し操作するのに非常に役立ちます。ループは、配列の各要素に対して同じ操作を行うのに便利なことがよくあります。最後に、コード自体を書く前にそのコードのテストを書くという実践である、テスト駆動開発(TDD)を紹介します。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>ループを使用する。</li>
+<li>配列を使用する。</li>
+<li><code>map</code>、<code>filter</code>、<code>reduce</code>のような配列メソッドを使用する。</li>
+<li>TDDの演習で実際に手を動かす。</li>
+</ul>
+<h3>ループ</h3>
+<p>コンピューターは疲れることがなく、本当に、<em>本当に</em>速いです!そのため、計算を何度も行う必要がある問題を解決するのに適しています。場合によっては、人間なら何時間もかかるようなタスクを、コンピューターはほんの数秒で<em>何千回</em>、あるいは<em>何百万回</em>も繰り返すことができます(もちろん、ここでの速さは計算の複雑さとコンピューター自体の速度によります)。</p>
+<p>一連の指示を何度も繰り返すには、<strong>ループ</strong>を使用できます。ループについての以下のリソースに目を通してください。中には配列を使った例が含まれているものもありますが、それについては次のセクションでさらに詳しく扱います。今のところは、配列が単なる項目のリストであることを知っておくだけで十分です。</p>
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Looping_code">MDNのLooping Code</a>を読んでください。長めの記事ですが、ページ下部の演習には必ず取り組んでください。</li>
+<li>もう一度、同じ情報ですが、<a href="http://javascript.info/while-for">JavaScript.infoの「Loops: While and For」</a>では少し異なる文脈で扱われています。ページの最後にある演習を必ず行ってください。実際にやってみることが最良の学習方法です。</li>
+</ol>
+<h3>配列</h3>
+<p>文字列や数値は私たちの構成要素かもしれませんが、スクリプトがより複雑になるにつれて、それらの大量の集まりを扱う方法が必要になります。幸いなことに、JavaScriptにはまさにそのために使われるいくつかのデータ型があります。配列とは、項目(文字列、数値、その他のもの)の順序付けられた集まりです。以下のリソースのいくつかで示されている配列メソッドの中には、ループと似たことを行うものがあることに気づくかもしれません。実際のループを通してより多くの制御が必要な場合もありますが、適切な配列メソッドで十分に済み、その読み方の方が好ましい場合もあります。</p>
+<ol>
+<li>この<a href="https://www.youtube.com/watch?v=7W4pQQ20nJg">JavaScript Arrays crash course</a>は、JavaScriptにおける配列の概要を約6分で説明してくれます。</li>
+<li>JavaScript.infoのこの<a href="https://javascript.info/array">配列への入門</a>を読み通してください。ページ最後の演習を行う必要はありません。</li>
+<li>JavaScriptのさらなる配列メソッドをより深く見るために、JavaScript.infoの<a href="https://javascript.info/array-methods">配列メソッドガイド</a>を読み通してください。こちらもページ最後の演習を行う必要はありません。後で戻ってきます。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">MDNのArrayのドキュメント</a>をブックマークしておいてください。ここにあるものを暗記する必要はありません。ここには、すべての組み込みの配列プロパティとメソッド、そのドキュメントがあります。コーディングや問題解決をする中で、定期的に立ち返ることになるはずです。</li>
+</ol>
+<h3>配列マジックの例</h3>
+<p>配列は、データを保存するための手早く便利な方法であるだけでなく、そのデータを非常に強力な方法で操作するための関数一式も備えています。これらの関数にもっと慣れてくると、あちこちでそれらを使う方法が見えてくるようになります!実際にはこうした関数はほんの一握りしかありませんが、すぐに分かるように、それらでできることの可能性はほぼ無限です。</p>
+<p>私たちが言おうとしていることの例として、<code>sumOfTripledEvens</code>関数を考えてみましょう。これは:</p>
+<ol>
+<li>配列を受け取ります。</li>
+<li>すべての偶数について、それを3倍にします。</li>
+<li>それからそれらの偶数をすべて合計します。</li>
+</ol>
+<p>疑似コードを使って、そのような関数をどう実装できるか考えられますか?</p>
+<ol>
+<li>偶数だけに操作を行う必要があります。</li>
+<li><em>それらの</em>数値を3倍することで変換する必要があります。</li>
+<li>最後に、前の変換からの結果を合計する必要があります。</li>
+</ol>
+<p>そのロジックを使うと、次のようなものを実装することになるかもしれません:</p>
+<pre class="highlight"><code class="language-javascript">function sumOfTripledEvens(array) {
+  let sum = 0;
+  for (let i = 0; i &lt; array.length; i++) {
+    // Step 1: If the element is an even number
+    if (array[i] % 2 === 0) {
+      // Step 2: Multiply this number by three
+      const tripleEvenNumber = array[i] * 3;
+
+      // Step 3: Add the new number to the total
+      sum += tripleEvenNumber;
+    }
+  }
+  return sum;
+}</code></pre>
+<p>上記のコードには、考慮すべき3つの重要な断片があります:</p>
+<ul>
+<li><code>if (array[i] % 2 === 0)</code>:与えられた数値が偶数かどうかを確認します。</li>
+<li><code>const tripleEvenNumber = array[i] * 3</code>:その数値の3倍を得ます。</li>
+<li><code>sum += tripleEvenNumber</code>:その数値だけ合計を増やします。</li>
+</ul>
+<p>それぞれの部分が、私たちのコードにおける重要な問題を解決しています。しかし、いくつかの配列メソッドを使って同じことを行うこともでき、その結果は時に少し読みやすく理解しやすくなります。少し時間を取って、それらのいくつかをどう使えるか見てみましょう。</p>
+<h4>mapメソッド</h4>
+<p><code>map</code>はそのような関数の一つです。これは引数として<code>callback</code>を期待しますが、これは「私の関数に別の関数を引数として渡してほしい」という気取った言い方です。</p>
+<p><code>num</code>を引数として受け取り、その<code>num</code>に1を加えたものを出力する<code>addOne</code>という関数と、数値の配列<code>[1, 2, 3, 4, 5]</code>があるとしましょう。<code>addOne</code>関数を使って、これらの数値すべてに1を加えたいとします。</p>
+<p><code>for</code>ループを作って上記の配列を反復処理する代わりに、<code>map</code>配列メソッドを使うことができます。これは配列を<strong>自動的に</strong>反復処理してくれます。使いたい関数を渡すだけで、それ以外の余計な作業をする必要はありません:</p>
+<pre class="highlight"><code class="language-javascript">function addOne(num) {
+  return num + 1;
+}
+const arr = [1, 2, 3, 4, 5];
+const mappedArr = arr.map(addOne);
+console.log(mappedArr); // Outputs [2, 3, 4, 5, 6]</code></pre>
+<p><code>map</code>は新しい配列を返し、元の配列を変更しません。</p>
+<pre class="highlight"><code class="language-javascript">// The original array has not been changed!
+console.log(arr); // Outputs [1, 2, 3, 4, 5]</code></pre>
+<p>このように<code>map</code>を使うことは、<code>for</code>ループを書いて配列を反復処理するよりエレガントかもしれません。しかし、さらに良くすることができます。<code>addOne</code>を他のどこでも使っておらず、単純な関数なので、次のようにアロー関数を使って<code>map</code>の中に直接インラインで定義できます:</p>
+<pre class="highlight"><code class="language-javascript">const arr = [1, 2, 3, 4, 5];
+const mappedArr = arr.map((num) =&gt; num + 1);
+console.log(mappedArr); // Outputs [2, 3, 4, 5, 6]</code></pre>
+<h4>filterメソッド</h4>
+<p><code>filter</code>は<code>map</code>にいくらか似ています。配列を反復処理し、すべての項目にコールバック関数を適用する点は同じです。しかし、配列内の値を変換する代わりに、コールバック関数がその項目に対して<code>true</code>を返した場合<em>にのみ</em>、その項目が含まれる新しい配列を返します。</p>
+<p>数値が奇数であれば<code>true</code>を、そうでなければ<code>false</code>を返す<code>isOdd</code>という関数があるとしましょう。</p>
+<p><code>filter</code>メソッドは、<code>callback</code>が<code>true</code>か<code>false</code>のどちらかを返すことを期待します。<code>true</code>を返せば、その値は出力に含まれます。そうでなければ含まれません。前の例の配列<code>[1, 2, 3, 4, 5]</code>を考えてみましょう。この配列からすべての偶数を取り除きたい場合、次のように<code>.filter()</code>を使用できます:</p>
+<pre class="highlight"><code class="language-javascript">function isOdd(num) {
+  return num % 2 !== 0;
+}
+const arr = [1, 2, 3, 4, 5];
+const oddNums = arr.filter(isOdd);
+console.log(oddNums); // Outputs [1, 3, 5];
+console.log(arr); // Outputs [1, 2, 3, 4, 5], original array is not affected</code></pre>
+<ul>
+<li><code>filter</code>は<code>arr</code>を反復処理し、<strong>すべての値</strong>を1つずつ<code>isOdd</code>コールバック関数に渡します。</li>
+<li>値が奇数であれば<code>isOdd</code>は<code>true</code>を返し、この値が出力に含まれることになります。</li>
+<li>偶数であれば、<code>isOdd</code>は<code>false</code>を返し、最終的な出力に含まれません。</li>
+</ul>
+<h4>reduceメソッド</h4>
+<p>最後に、<code>arr</code>の中のすべての数値を<code>1 * 2 * 3 * 4 * 5</code>のように掛け合わせたいとしましょう。まず、<code>total</code>という変数を宣言し、1で初期化する必要があります。それから、<code>for</code>ループで配列を反復処理し、<code>total</code>に現在の数値を掛けていきます。</p>
+<p>しかし、実際にはそのすべてを行う必要はありません。その作業をやってくれる<code>reduce</code>メソッドがあります。<code>.map()</code>や<code>.filter()</code>と同様に、コールバック関数を期待します。しかし、この配列メソッドには2つの重要な違いがあります:</p>
+<ul>
+<li>コールバック関数は1つではなく2つの引数を取ります。最初の引数は<code>accumulator</code>(累積値)で、これは<em>ループのその時点での</em>結果の現在の値です。最初の実行時、この値は<code>initialValue</code>(次の項目で説明します)に設定されるか、<code>initialValue</code>が提供されていない場合は配列の最初の要素に設定されます。コールバックの2番目の引数は<code>current</code>(現在の)値で、現在反復処理されている項目です。</li>
+<li><code>reduce</code>自体も、(コールバックの後の)任意の2番目の引数として<code>initialValue</code>を受け取ります。これは、初期値を配列の最初の要素にしたくない場合に役立ちます。例えば、配列内のすべての数値を合計したい場合は<code>initialValue</code>なしで<code>reduce</code>を呼び出せますが、配列内のすべての数値を合計して10を足したい場合は、<code>initialValue</code>として10を使用できます。</li>
+</ul>
+<pre class="highlight"><code class="language-javascript">const arr = [1, 2, 3, 4, 5];
+const productOfAllNums = arr.reduce((total, currentItem) =&gt; {
+  return total * currentItem;
+}, 1);
+console.log(productOfAllNums); // Outputs 120;
+console.log(arr); // Outputs [1, 2, 3, 4, 5]</code></pre>
+<p>上記の関数では、私たちは:</p>
+<ul>
+<li>コールバック関数、つまり<code>(total, currentItem) =&gt; total * currentItem</code>を渡しています。</li>
+<li>2番目の引数で<code>total</code>を<code>1</code>に初期化しています。</li>
+</ul>
+<p>つまり、<code>.reduce()</code>が行うことは、<code>arr</code>のすべての要素を巡回し、それに<code>callback</code>関数を適用することです。配列自体を実際に変更することなく<code>total</code>を更新します。終わったら、<code>total</code>を返します。</p>
+<h4>まとめ</h4>
+<p><code>map</code>、<code>filter</code>、<code>reduce</code>という3つの強力な配列メソッドについて学びました。これらは、より読みやすい可能性のあるコードを書くことを可能にし、それによってバグが起きにくくなるかもしれません。</p>
+<p>これらの配列メソッドを簡単に復習するために、サンドイッチに例えて視覚的に説明してくれるこの画像を見てみましょう:</p>
+<p><img alt="filter、map、reduceメソッドを使ってサンドイッチ作りを視覚的に表現した例" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/335ab97a10d66d0f07e81d01fc6b1c63d31dc5ae/foundations/javascript_basics/loops_and_arrays/imgs/00.jpg" /></p>
+<p>課題の前に、簡単な練習をしてみましょう!これら3つのメソッドを使って<code>sumOfTripledEvens(array)</code>関数を書き直してください。終わったら、関数が正しく動くことをテストし、以下の解答を確認してみてください。</p>
+<details>
+<summary>解答</summary>
+<pre class="highlight"><code class="language-javascript">function sumOfTripledEvens(array) {
+  return array
+    .filter((num) =&gt; num % 2 === 0)
+    .map((num) =&gt; num * 3)
+    .reduce((acc, curr) =&gt; acc + curr);
+}</code></pre>
+</details>
+<h3 id="test-driven-development">テスト駆動開発</h3>
+<p>テスト駆動開発(TDD)は、開発の世界でよく耳にするフレーズです。これは、実際にコードを書く前に、そのコードがどう動作すべきかを記述する自動テストを書くという実践を指します。例えば、いくつかの数値を足し合わせる関数を書きたい場合、まずその関数を使い、期待される出力を与えるテストを書きます。コードを書く前はテストは失敗し、テストが通ったときにコードが正しく動作していることが分かるはずです。</p>
+<p>多くの点で、TDDはテストなしでコードを書くよりもはるかに生産的です。上記の加算関数のテストがなければ、うまく動いていると確信できるまで、さまざまな数値を入れながら自分でコードを何度も実行しなければなりません……基本的な<code>add(2, 2)</code>ならたいした問題ではありませんが、三目並べ(tic tac toe)で誰かが勝ったかどうかを確認するような、もっと複雑な関数の場合を想像してみてください:(<code>game_win(["o", null,"x",null,"x",null,"x", "o", "o"])</code>)。TDDをしていなければ、関数が正しく動いているかをテストするためだけに、実際に自分自身を相手に何度もゲームをプレイしなければならないかもしれません!</p>
+<p>実際にこれらのテストを書く技術については、コースの後半で教えます。今のところは、以前からのJavaScriptの演習に引き続き取り組んでください。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>JavaScript.infoの配列メソッドの記事の最後にある<a href="https://javascript.info/array-methods#tasks">配列メソッドの演習</a>に行き、以下の演習のみを行ってください:
+   - <code>Translate border-left-width to borderLeftWidth</code>
+   - <code>Filter range</code>
+   - <code>Filter range "in place"</code>
+   - <code>Sort in decreasing order</code>
+   - <code>Copy and sort array</code>
+   - <code>Shuffle an array</code>
+   - <code>Filter unique array members</code></li>
+<li>
+<p><a href="https://github.com/TheOdinProject/javascript-exercises/tree/main/foundations/loops_and_arrays">JavaScript演習リポジトリの<code>foundations/loops_and_arrays</code>ディレクトリ</a>に行ってください。以下の演習に順番に取り組む前に、それぞれのREADMEファイルを確認してください(しばらく間が空いているかもしれないので、一般的な指示については<a href="https://github.com/TheOdinProject/javascript-exercises#how-to-use-these-exercises" title="JavaScript exercises repo README">リポジトリ自体のREADME</a>を少し見返してみましょう):</p>
+<ul>
+<li><code>01_repeatString</code></li>
+<li><code>02_reverseString</code></li>
+<li><code>03_removeFromArray</code></li>
+<li><code>04_sumAll</code></li>
+<li><code>05_leapYears</code></li>
+<li><code>06_tempConversion</code></li>
+</ul>
+<p>注:これらの演習の解答は、各演習の<code>solution</code>フォルダにあります。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Loops#why_are_loops_useful">ループは何に役立ちますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Looping_code#exiting_loops_with_break">break文とは何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Looping_code#skipping_iterations_with_continue">continue文とは何ですか?</a></li>
+<li><a href="https://www.w3schools.com/js/js_arrays.asp">配列とは何ですか?</a></li>
+<li><a href="https://www.w3schools.com/js/js_arrays.asp">配列は何に役立ちますか?</a></li>
+<li><a href="https://javascript.info/array">配列の要素にアクセスしたり変更したりするにはどうすればよいですか?</a></li>
+<li><a href="https://javascript.info/array-methods">役立つ配列メソッドにはどのようなものがありますか?</a></li>
+<li><a href="#test-driven-development">自動テストを書くことの利点は何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

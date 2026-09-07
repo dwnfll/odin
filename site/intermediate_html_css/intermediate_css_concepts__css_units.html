@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS Units</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">CSS Units <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Check out the various units you can use in your stylesheets</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>CSSでサイズを定義するために使用できる、さまざまな単位がたくさんあります。このレッスンでは、最も重要なものを紹介し、残りのものについてどこで学べるかを示します。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>相対単位と絶対単位の違いを学びます。</li>
+<li>さまざまな単位をいつ使うのが適切かを学びます。</li>
+</ul>
+<h3>絶対単位</h3>
+<p>絶対単位とは、どんな文脈でも常に同じであるものです。<code>px</code>は絶対単位です。なぜなら、ピクセルのサイズはページ上の他の何とも相対的に変化しないからです。実際、ウェブプロジェクトで使用すべき絶対単位は<code>px</code>だけです。それ以外の単位は、<code>in</code>(インチ)や<code>cm</code>(センチメートル)のような物理的な単位に関連しているため、印刷の設定においてより意味を成します。</p>
+<h3>相対単位</h3>
+<p>相対単位とは、その文脈に基づいて変化し得る単位です。あなたが出会い、使いたいと思うことになりそうなものがいくつかあります。</p>
+<h4 id="em-and-rem">emとrem</h4>
+<p><code>em</code>と<code>rem</code>はどちらもフォントサイズを指しますが、CSSでは他のサイズを定義するためによく使われます。どちらもよく見かけることになるので両方を説明しますが、経験則としては<code>rem</code>を優先してください。</p>
+<p><code>1em</code>は要素の<code>font-size</code>です(あるいは、<code>font-size</code>を設定するために使っている場合は、その要素の親の<code>font-size</code>です)。例えば、ある要素の<code>font-size</code>が<code>16px</code>の場合、その幅を<code>4em</code>に設定すると、幅は<code>64px</code>になります(<code>16 * 4 == 64</code>)。</p>
+<p><code>1rem</code>はルート要素(<code>:root</code>または<code>html</code>)の<code>font-size</code>です。計算方法は<code>em</code>のときと同じように<code>rem</code>でも機能しますが、親のフォントサイズを追跡するという追加の複雑さがありません。<code>em</code>に頼ると、文脈が変わった場合に特定のサイズが変わってしまう可能性があり、これはおそらくあなたが望む動作ではないでしょう。</p>
+<p>ウェブサイト全体でフォントサイズを定義するために<code>rem</code>のような相対サイズを使うことは<em>お勧め</em>されています。多くのブラウザでは、可読性を高めるためにユーザーが基本フォントサイズを変更できるようになっています。可能な限り、フォントサイズに関するユーザーの希望を尊重することが望ましいです。これについては、課題の読み物でさらに詳しく学びます。</p>
+<h4 id="viewport-units">ビューポート単位</h4>
+<p><code>vh</code>と<code>vw</code>という単位は、ビューポートのサイズに関連しています。具体的には、<code>1vh</code>はビューポートの高さの<code>1%</code>に等しく、<code>1vw</code>はビューポートの幅の<code>1%</code>に等しくなります。これらは、何かをビューポートに対して相対的なサイズにしたいときにいつでも役立ちます。例えば、全高のヒーローセクションや、アプリのような全画面インターフェースなどです。</p>
+<h3>たくさんの単位!</h3>
+<p>CSSで利用可能なすべての異なる単位を調べてみると、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/length">長さの単位</a>だけでも、<em>とんでもない数</em>があることが分かります。どれをいつ使えばよいのか、どうやって分かるのでしょうか?</p>
+<p>どんな状況でどの単位を使うべきかというルールを探そうとしないようにしてください。それぞれの単位は異なることを行うので、他のコードと同じように、何かをどう振る舞わせたいか、どんな指示を書きたいかを考え、それからどの単位がそれに役立ちそうかを調べてください。</p>
+<p>あるmarginのサイズを、ルートのフォントサイズに基づかせたい(つまり、それに合わせて拡大縮小させたい)場合があるかもしれません。その場合は<code>rem</code>を使うことになります。しかし別のmarginに<code>rem</code>を使うのは意味を成さず、実際には<code>px</code>の値に固定したい場合もあります。あるいは、このdivの幅を親の半分にしたい場合、<code>50%</code>の幅が意味を成しますが、あちらのdivをビューポートの幅がどうであれその半分にしたい場合は、<code>%</code>は意味を成さず<code>vw</code>が意味を成します。これらをすぐに暗記することにはならないでしょうし、そうすることがあまり役立つわけでもないので、必要なときに調べることを気にしないでください(これはあなたのプログラミングの旅のあらゆることに当てはまります)。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units">CSS values and units</a>は、利用可能なすべての単位を扱っています。</li>
+<li><a href="https://web.archive.org/web/20251130034321/https://codyloyd.com/2021/css-units/">CSS units</a>という記事は、<code>em</code>、<code>rem</code>、<code>px</code>をどう、いつ使いたくなるかについて深く掘り下げています。</li>
+<li><a href="https://css-tricks.com/fun-viewport-units/">Fun with Viewport Units</a>は、<code>vh</code>と<code>vw</code>でできるいくつかの面白いことを示してくれます。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#em-and-rem">なぜ<code>px</code>の代わりに<code>em</code>や<code>rem</code>をfont-sizeに使いたくなるのでしょうか?</a></li>
+<li><a href="#viewport-units"><code>vh</code>や<code>vw</code>を使いたくなる状況にはどのようなものがありますか?</a></li>
+<li><a href="https://web.archive.org/web/20251130034321/https://codyloyd.com/2021/css-units/">相対単位の代わりに<code>px</code>を使いたくなる状況にはどのようなものがありますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

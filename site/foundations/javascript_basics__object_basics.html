@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Object Basics</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Object Basics <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">In this lesson we learn the basics of dealing with objects.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>Foundationsの最後のレッスンの一つにたどり着いたことをお祝いします!ここまでで、JavaScriptの基礎の多くを学んできました。このレッスンでは、キーと値のペアの集まりであるオブジェクトと、さらに強力でよく使われる配列メソッドについて学びます。</p>
+<p>気づかないうちに、オブジェクトと配列がいかに強力であり、その両方があなたのJavaScriptツールキットの不可欠な一部になり得るかについて、より良い理解が得られていることでしょう!</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>オブジェクトを作成する。</li>
+<li>オブジェクトのプロパティにアクセスする。</li>
+<li>複数のオブジェクト演算子を使用する。</li>
+<li>オブジェクト型とプリミティブ型の違いを理解する。</li>
+</ul>
+<h3>オブジェクト</h3>
+<p>オブジェクトはJavaScript言語の<em>非常に</em>重要な一部であり、ほとんどの場合、単純な、あるいは中級レベルのタスクであれば、それらを気にしなくても達成できますが、あなたが取り組むことになる実際のプロジェクトはどれもオブジェクトを特徴とすることになります。JavaScriptにおけるオブジェクトの使い方は比較的すぐに深くなり得るため、今のところは基本だけを扱います。詳しい掘り下げは後で行います。</p>
+<ol>
+<li>このJavaScript.infoの<a href="https://javascript.info/object">オブジェクトについての記事</a>が、始めるのに最適な場所です。ページ最後の演習を行う必要はありません。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics">MDNの「JavaScript object basics」</a>を読んで一緒に進めてください。「Introducing constructors」セクションは、カリキュラムの後半で扱うより高度なトピックなので飛ばしてください。</li>
+</ol>
+<h3 id="differences-between-objects-and-primitives">オブジェクトとプリミティブの違い</h3>
+<p>カリキュラムの前半で、<a href="https://www.theodinproject.com/lessons/foundations-data-types-and-conditionals">プリミティブ型</a>について学びました。そして今、オブジェクト型も見てきました。これにはオブジェクト({key: value})、配列、関数などが含まれますが、それらに限られるわけではありません。この2つの主な違いは、プリミティブは単一のもの(文字列、数値など)しか含めないという点です。オブジェクト型は、データの集まりやより複雑な実体を保存するために使用されます。</p>
+<p>形式的な違いに加えて、それぞれのデータ型をどう使うかに影響する技術的な違いもいくつかあります。プリミティブ変数を定義すると、それに与えられた情報のコピーを含むことになります:</p>
+<pre class="highlight"><code class="language-javascript">let data = 42;
+// dataCopy will store a copy of what data contains, so a copy of 42
+let dataCopy = data;
+
+// which means that making changes to dataCopy won't affect data
+dataCopy = 43;
+
+console.log(data); // 42
+console.log(dataCopy); // 43</code></pre>
+<p>一方、オブジェクト変数を定義すると、それに与えられたオブジェクトへの<em>参照</em>を含むことになります:</p>
+<pre class="highlight"><code class="language-javascript">// obj contains a reference to the object we defined on the right side
+const obj = { data: 42 };
+// objCopy will contain a reference to the object referenced by obj
+const objCopy = obj;
+
+// making changes to objCopy will make changes to the object that it refers to
+objCopy.data = 43;
+
+console.log(obj); // { data: 43 }
+console.log(objCopy); // { data: 43 }</code></pre>
+<p>この振る舞いはあなたにとって初めてのものではありません。前回のプロジェクトでは、参照を使ってEtch-A-Sketchグリッドのセルに変更を加えました。このコードの断片を例に取ってみましょう:</p>
+<pre class="highlight"><code class="language-javascript">const element = document.querySelector("#container");
+element.style.backgroundColor = "red";</code></pre>
+<p>私たちは宣言した変数(<code>element</code>)を変更(mutate)していますが、その変更はDOM内の対応するノードに影響を与えます。なぜこれが起きるのでしょうか?私たちのコードにあるノードは、私たちのDOMが使用しているのと同じノードへの<strong>参照</strong>です。もし<code>element</code>が参照ではなく、代わりにノード自体のコピーだったら(プリミティブ型がそうであるように)、それを変更しても<strong>何の</strong>効果もなかったでしょう。なぜなら、変更はコピーにしか影響せず、元のものには影響しないからです。</p>
+<p>この振る舞いは、関数に引数を渡す際にも考慮すべきことです。以下の関数を例に取ってみましょう:</p>
+<pre class="highlight"><code class="language-javascript">function increaseCounterObject(objectCounter) {
+  objectCounter.counter += 1;
+}
+
+function increaseCounterPrimitive(primitiveCounter) {
+  primitiveCounter += 1;
+}
+
+const object = { counter: 0 };
+let primitive = 0;
+
+increaseCounterObject(object);
+increaseCounterPrimitive(primitive);</code></pre>
+<p>少し時間を取って、関数呼び出しを行った後、<code>object</code>と<code>primitive</code>にそれぞれ何が起きるか予想してみてください。</p>
+<p>オブジェクトのカウンターは1増え、プリミティブのカウンターは変わらないと答えたなら、それは正解です。パラメータ<code>objectCounter</code>は、私たちが渡した<code>object</code>変数と同じオブジェクトへの<em>参照</em>を含んでいるのに対し、<code>primitiveCounter</code>はプリミティブな値のコピーしか含んでいないことを思い出してください。</p>
+<div class="lesson-note">
+<h4>オブジェクト型の変数を再代入する</h4>
+<p>複数の変数から参照されているオブジェクトを変更すると、それらの変数はすべて同じオブジェクトを参照しているため、その変更はすべての変数を通して見えるようになります。しかし、それらの変数の一つを新しいオブジェクトに再代入しても、他の変数が再代入されるわけではありません。例えば:</p>
+<pre class="highlight"><code class="language-javascript">let animal = { species: "dog" };
+let dog = animal;
+
+// reassigning animal variable with a completely new object
+animal = { species: "cat" };
+
+console.log(animal); // { species: "cat" }
+console.log(dog); // { species: "dog" }</code></pre>
+</div>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>オブジェクトに触れたところで、数レッスン前のJavaScript.infoの配列メソッドの記事の最後にある<a href="https://javascript.info/array-methods#tasks">配列メソッドの演習</a>に戻ってください。以下の演習のみを行ってください:
+   - <code>Map to names</code>
+   - <code>Map to objects</code>
+   - <code>Sort users by age</code>
+   - <code>Get average age</code>
+   - <code>Create keyed object from array</code></li>
+<li>オブジェクト(配列の中の!)のさらなる練習です。Wes Bosの<a href="https://github.com/wesbos/JavaScript30">JavaScript30リポジトリ</a>をフォークしてクローンしてください。この2つの動画演習について一緒に進めるには、<code>index-START.html</code>ファイルを開くとよいでしょう。<ul>
+<li><a href="https://www.youtube.com/watch?v=HB1ZC7czKRs">04 - Array Cardio Day 1</a></li>
+<li><a href="https://www.youtube.com/watch?v=QNmRfyNg1lw">07 - Array Cardio Day 2</a></li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/TheOdinProject/javascript-exercises/tree/main/foundations/object_basics">JavaScript演習リポジトリの<code>foundations/object_basics</code>ディレクトリ</a>に行ってください。以下の演習に順番に取り組む前に、それぞれのREADMEファイルを確認してください(念のため、一般的な指示については<a href="https://github.com/TheOdinProject/javascript-exercises#how-to-use-these-exercises" title="JavaScript exercises repo README">リポジトリ自体のREADME</a>をいつでも確認できます):
+   - <code>01_calculator</code>
+   - <code>02_palindromes</code>
+   - <code>03_fibonacci</code>
+   - <code>04_getTheTitles</code>
+   - <code>05_findTheOldest</code></p>
+<p>注:これらの演習の解答は、各演習の<code>solution</code>フォルダにあります。</p>
+</li>
+</ol>
+<p>圧倒されている、あるいは行き詰まっていると感じたら、遠慮なく振り返って復習するか、<a href="https://discord.gg/fbFCkYabZB">TOP Discordサーバー</a>で助けを求めてください!</p>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://javascript.info/object#summary">オブジェクトと配列の違いは何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics#bracket_notation">オブジェクトのプロパティにアクセスするにはどうすればよいですか?</a></li>
+<li><a href="https://www.theodinproject.com/lessons/foundations-object-basics#differences-between-objects-and-primitives">プリミティブとオブジェクト型は、他の変数に代入したり関数に渡したりする際、どう異なりますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homepage</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Homepage <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Create a fully responsive homepage.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>あなたの最後のHTML/CSSプロジェクトとして、ポートフォリオサイトのようなもので見かけるかもしれない、レスポンシブなホームページを作成していきます。あなたの作品を共有したり、仕事に応募したりし始めたいと思う段階になったとき、共有できるよくデザインされたポートフォリオを持っていることは役立ちます。まだそれを作ることはしませんが、まずはこれらのより高度なHTMLとCSSの概念を練習しておきたいところなので、これをそれらを練習する機会だと捉えてください!</p>
+<p>以前のプロジェクトであるランディングページや管理ダッシュボードと同様に、あなたには与えられたデザインブリーフに沿って構築するという課題が課されます。私たちは、デスクトップ、タブレット、モバイルという3つの異なるサイズで、完全なデザインを提供します。それぞれのビューポートについて、そのデザインをできるだけ忠実に再現し、320ピクセルから1,920ピクセル幅までの間のどんな画面サイズでも、あなたのレイアウトが見栄え良く見えることを確認してください。</p>
+<p>好きなフォントや色を選んで構いませんし、ヘッダーにはストックフォト以外の何かを使っても構いません。主な焦点は、完全なポートフォリオを作ることよりも、指定されたレイアウトとレスポンシブな挙動を達成することにあります。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<h4>ステップ1: セットアップと計画</h4>
+<ol>
+<li>すべてが正しくリンクされていることを確認するためだけに、ダミーコンテンツでHTMLとCSSファイルをセットアップしてください。</li>
+<li>デザインファイルのフル解像度版(<a href="https://cdn.statically.io/gh/TheOdinProject/curriculum/fd6d4d2e2abbac4a3bd183bba6b6eaf1548a1458/advanced_html_css/responsive_design/project_personal_portfolio/imgs/portfolio.png">デスクトップのデザインファイル</a>、<a href="https://cdn.statically.io/gh/TheOdinProject/curriculum/ca8588077887c9b653898537e84b1346967a4f0b/advanced_html_css/responsive_design/project_personal_portfolio/imgs/portfolio%20tablet.png">タブレットのデザインファイル</a>、<a href="https://cdn.statically.io/gh/TheOdinProject/curriculum/1c8b5c739efd263e8cc48703988b18d6e3afe034/advanced_html_css/responsive-design/project_personal_portfolio/imgs/portfolio%20mobile.png">モバイルのデザインファイル</a>)をダウンロードし、HTMLドキュメントでどのようにレイアウトする必要があるかについて大まかなイメージをつかんでください。</li>
+</ol>
+<h4>ステップ2: アセットを集める</h4>
+<ol>
+<li>デザインファイルで使用している人物写真は、<a href="https://www.pexels.com/">pexels.com</a>からダウンロードしたストックフォトです。もし手元に自分自身の写真がなければ、遠慮なく今のところはプレースホルダーを使ってください。</li>
+<li>フォントを選んでください!私たちはデザインで<code>Playfair Display</code>と<code>Roboto</code>を使っており、どちらもGoogle Fontsで利用できます。</li>
+<li>デザインには、GitHub、LinkedIn、X(旧Twitter)へのアイコンリンクがあります。もちろん、あなた自身のサイトには好きなリンクを自由に追加して構いません。私たちはそれらのアイコンを<a href="https://devicon.dev/">https://devicon.dev/</a>から入手しました。</li>
+<li>その他のアイコン(電話、メール、外部リンク)は、<a href="https://materialdesignicons.com/">https://materialdesignicons.com/</a>からSVGとしてダウンロードしました。</li>
+</ol>
+<h4>ステップ3: いくつかのヒント!</h4>
+<ol>
+<li>ご想像の通り、このプロジェクトでの作業は好きなように整理して構いません。過去のいくつかのレッスンで多くのヒントを提供してきたので、おそらくすでに何もないページから始めることに慣れていることでしょう。</li>
+<li>何をすべきか指示してもらいたい場合: このレッスンの著者は、レイアウトのより大きなセクションから始め、それからページの上から下へと作業していくのが最も心地よいと感じています。言い換えれば、多くの特定のスタイルやコンテンツの詳細を無視しながら、さまざまなセクション(ヘッダー、プロジェクト、連絡先など)を大まかに正しい場所に配置し、それから上から下まで戻って、埋めていき、スタイリングし、すべてをきれいに整えていくということです。</li>
+<li>このプロジェクトのレスポンシブ性をいつ、どうやって達成するかは、320ピクセルから1,920ピクセル幅までのビューポートでレイアウトが崩れない限り、問題ではありません。常にモバイル体験から始め、それからメディアクエリを使ってレイアウトをどう拡張するか指示すべきだと言う人もいます。「モバイルファースト」派には確かに良い主張があります(ググってみてください!)が、結局のところ、それが機能する限り、どうやって達成するかは重要ではありません。頑張ってください!</li>
+<li>終わったら、GitHubにプッシュして、GitHub Pagesを使って世界に公開するのを忘れないでください!ここで成し遂げたことを誇りに思うべきです!</li>
+</ol>
+<h4>ステップ4: フィードバックをお寄せください</h4>
+<ol>
+<li>先に進む前に、<a href="https://docs.google.com/forms/d/e/1FAIpQLSdVvT-2TiczhXP9qGfr28Aq6w6wzct0ypDqcpztaocA9bypXw/viewform?usp=sf_link">Advanced HTML and CSSコースについてのフィードバックを送って</a>いただけると嬉しいです。ユーザー(あなた)からのフィードバックを得ることは、カリキュラムを改善し続け、あなたの体験がどんなものだったかを知るために重要です。</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

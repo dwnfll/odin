@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testing Practice</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Testing Practice <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Testing Practice</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>練習しましょう!このテストというもの自体は、それほど難しくはありませんが、かなり新しいものでは<em>あります</em>。それに慣れる唯一の方法は、それをすることに時間を費やすことです。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<p>以下のためにテストを書き、それからテストを通してください!JestにはESMに対する組み込みの安定したサポートがないため、<a href="https://www.theodinproject.com/lessons/node-path-javascript-testing-basics#using-es6-import-statements-with-jest">JestのESM/CJS変換のためにBabelをセットアップする</a>必要があります。</p>
+<ol>
+<li>文字列を受け取り、最初の文字を大文字にして返す<code>capitalize</code>関数。</li>
+<li>文字列を受け取り、それを反転させて返す<code>reverseString</code>関数。</li>
+<li>基本的な演算のための関数、<code>add</code>、<code>subtract</code>、<code>divide</code>、<code>multiply</code>を含む<code>calculator</code>オブジェクト。これらの関数はそれぞれ2つの数値を受け取り、正しい計算結果を返すべきです。</li>
+<li>文字列とシフトの量を受け取り、それぞれの文字を「シフト」させて返す<code>caesarCipher</code>関数。<a href="https://crypto.interactive-maths.com/caesar-shift-cipher.html">シーザー暗号がどう機能するか</a>についてさらに読んでみてください。</li>
+<li><code>z</code>から<code>a</code>への折り返しをテストするのを忘れないでください。例えば、<code>caesarCipher('xyz', 3)</code>は<code>'abc'</code>を返すべきです。</li>
+<li>大文字・小文字の保持をテストするのを忘れないでください。シフトされた文字の大文字・小文字は、元の文字の大文字・小文字に従うべきです。例えば、<code>caesarCipher('HeLLo', 3)</code>は<code>'KhOOr'</code>を返すべきです。</li>
+<li>句読点をテストするのを忘れないでください。句読点、スペース、その他のアルファベット以外の文字は変更されないままであるべきです。例えば、<code>caesarCipher('Hello, World!', 3)</code>は<code>'Khoor, Zruog!'</code>を返すべきです。</li>
+<li>これについては、最終的な関数をいくつかの小さな関数に分割したいと思うかもしれません。テストの一つの考え方は、書いたすべての関数を明示的にテストする必要はないというものです…パブリックなものだけです。ですので、この場合、最終的な<code>caesarCipher</code>関数のためのテストだけが必要です。それが期待通りに機能すれば、より小さなヘルパー関数もそれぞれ意図した通りのことをしていると確信できます。</li>
+<li>
+<p>数値の配列を受け取り、<code>average</code>、<code>min</code>、<code>max</code>、<code>length</code>というプロパティを持つオブジェクトを返す<code>analyzeArray</code>関数。</p>
+<pre class="highlight"><code class="language-javascript">const object = analyzeArray([1,8,3,4,2,6]);
+
+// object should equal:
+{
+  average: 4,
+  min: 1,
+  max: 8,
+  length: 6
+}</code></pre>
+</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

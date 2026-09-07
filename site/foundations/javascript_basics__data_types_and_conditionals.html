@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Types and Conditionals</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Data Types and Conditionals <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">In this lesson we learn about basic data types and conditionals.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>JavaScriptで出会うことになる、非常に一般的なデータの型がいくつかあり、これらの基礎に関するレッスンは、それらすべてについて本当にしっかりとした土台を与えてくれます。しかし、深く掘り下げ始める前に、この<a href="http://javascript.info/types">JavaScriptで最も一般的なデータ型の概要</a>を読んでみてください。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>JavaScriptの8つのデータ型を挙げる。</li>
+<li>シングルクォート、ダブルクォート、バッククォートの違いを理解する。</li>
+<li>文字列に変数や式を埋め込む。</li>
+<li>メソッドとは何かを理解する。</li>
+<li>3つの論理演算子を挙げる。</li>
+<li>比較演算子とは何かを理解する。</li>
+<li>条件分岐とは何かを理解する。</li>
+<li>ネストとは何かを理解する。</li>
+<li>truthyな値とfalsyな値とは何かを理解する。</li>
+</ul>
+<h3>文字列</h3>
+<p>どのような種類の作業をしているかによっては、数値よりもテキストの断片を扱うことの方が多くなるかもしれません。<strong>文字列</strong>とはテキストの断片のことであり……この言語の基本的な構成要素です。</p>
+<ol>
+<li>この<a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Strings">JavaScriptの文字列についてのMDNチュートリアル</a>を読んで、一緒にコードを書いてみましょう。<code>Concatenation in context</code>セクションは、後のDOM Manipulationのレッスンで扱う概念をカバーしているので飛ばしてください。</li>
+<li><a href="https://www.w3schools.com/js/js_string_methods.asp">W3Schoolsの文字列メソッドについてのレッスン</a>に目を通して、文字列でできることについてもう少し学びましょう。<strong>メソッド</strong>とは、言語や特定のデータ型に組み込まれた機能の断片です。</li>
+<li>前のリソースが示していたよりも、はるかに多くの組み込み文字列メソッドがあります。これをすべて読んだり、まして暗記したりする必要はありませんが、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">文字列についてのMDNドキュメント</a>の存在は知っておくべきです。ここには文字列についてのはるかに多くの情報と、組み込みメソッドの網羅的なリファレンスがあるので、ブックマークしておきましょう!</li>
+</ol>
+<h3>条件分岐</h3>
+<p>さあ、いよいよ楽しいことをする時間です……ここまでのところ、私たちがプログラミングで行ってきたことは、基本的な算数のスキルでもできないことではありませんでした。確かに、コンピューターに計算のやり方を教えたことで、それがより速くなりましたが、プログラミングの本質は、より複雑なことをするための意思決定の仕方をコンピューターに教えることです。条件分岐は、それを行うための手段です。以下のリソースを読んでみてください:</p>
+<ol>
+<li>条件分岐について学ぶ最初のステップは、<a href="http://javascript.info/comparison">比較</a>についてしっかりと把握しておくことです。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/conditionals">条件分岐についてのMDNの記事</a>は、条件付きコードを書くさまざまな方法への素晴らしい入門です。</li>
+<li><a href="http://javascript.info/ifelse"><code>if/else</code>についてのJavaScript.infoのレッスン</a>は同じ基本概念を扱っており(復習として読んでみましょう!)、さらに重要なことに、ページ下部にいつものタスクを用意してくれています!</li>
+<li><a href="http://javascript.info/logical-operators">論理演算子についてのJavaScript.infoのレッスン</a>に目を通しましょう。この読み物のタスクについて少し注意点があります。かっこの中に数値や文字列が入った<code>alert()</code>を見かける質問がいくつかあります。ここで何が起きているかについては、カリキュラムの後半で説明します。答えの一部は今は意味が分からないかもしれませんが、それらは正確なものであり、カリキュラムを進めていくうちに理解できるようになります。今はあまり気にしすぎないでください!</li>
+<li>複数の条件があるときに便利な<a href="https://javascript.info/switch"><code>switch</code>文について学びましょう</a>。</li>
+</ol>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<p>十分な練習をしてもらうために、あなたが取り組めるJavaScriptの演習を用意しました。これらには、あなたのコードが意図通りに動作することを確認するために使われるテストが含まれています。<code>return</code>を見かけたら、それは単に、関数の実行が終わったときに、<code>return</code>の後に続くものを返すという意味です。今後のレッスンでは、これらの概念についてさらに詳しく扱いますので、今のところはとりあえず頑張ってください!</p>
+<p>ここで示されている順序に必ず従ってください。すべての指示を読み、ターミナルを見て、すべてのエラーを読んでください。</p>
+<ol>
+<li><a href="https://github.com/TheOdinProject/javascript-exercises#how-to-use-these-exercises">私たちの<code>javascript-exercises</code>リポジトリのREADMEの指示</a>に従って、ローカル環境をセットアップしてください。</li>
+<li>リポジトリをフォークし、クローンし、Jestをインストールしたら、<a href="https://github.com/TheOdinProject/javascript-exercises/tree/main/foundations/data_types_and_conditionals">JavaScript演習リポジトリの<code>foundations/data_types_and_conditionals</code></a>ディレクトリに移動してください。以下の演習に順番に取り組む前に、それぞれのREADMEファイルを確認してください:<ul>
+<li><code>01_helloWorld</code>(この演習は、すべてが正しくセットアップされていることを確認するために、意図的に非常に初心者向けになっています!)</li>
+<li><code>02_addNumbers</code></li>
+<li><code>03_numberChecker</code></li>
+<li><code>04_mathEquations</code></li>
+<li><code>05_joinStrings</code></li>
+</ul>
+</li>
+</ol>
+<p>注:これらの演習の解答は、各演習の<code>solution</code>フォルダにあります。</p>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://javascript.info/types#summary">JavaScriptの8つのデータ型は何ですか?</a></li>
+<li><a href="https://javascript.info/types#objects-and-symbols">どのデータ型がプリミティブではありませんか?</a></li>
+<li><a href="https://javascript.info/types#the-null-value">nullとundefinedの関係は何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Strings#single_quotes_double_quotes_and_backticks">文字列のシングルクォート、ダブルクォート、バッククォートの違いは何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Strings#embedding_javascript">文字列を結合することを表す用語は何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Strings#embedding_javascript">どの種類のクォートを使うと、文字列に変数や式を埋め込めますか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Strings#embedding_javascript">文字列に変数や式を埋め込むにはどうすればよいですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Strings#including_quotes_in_strings">文字列でエスケープ文字を使うにはどうすればよいですか?</a></li>
+<li><a href="https://www.w3schools.com/js/js_string_methods.asp">slice/substring文字列メソッドの違いは何ですか?</a></li>
+<li><a href="http://javascript.info/logical-operators">3つの論理演算子は何で、それぞれ何を表していますか?</a></li>
+<li><a href="https://javascript.info/comparison">比較演算子とは何ですか?</a></li>
+<li><a href="https://javascript.info/ifelse#boolean-conversion">truthyな値とfalsyな値とは何ですか?</a></li>
+<li><a href="https://javascript.info/ifelse#boolean-conversion">JavaScriptにおけるfalsyな値は何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/conditionals#basic_if...else_syntax">if/else条件分岐の構文は何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/conditionals#switch_statements">switch文の構文は何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/conditionals#ternary_operator">三項演算子の構文は何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/conditionals#nesting_if...else">ネストとは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

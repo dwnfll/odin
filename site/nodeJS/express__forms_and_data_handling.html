@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forms and Data Handling</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
+    <h1 class="lesson-header__title">Forms and Data Handling <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">How to use forms and its data validation in Express</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>In this lesson, we'll dive into forms and how to manage them using Express. We'll explore ways to secure your Node.js / Express applications by using <code>express-validator</code> for validation and sanitization. Understanding proper form handling is crucial for maintaining data integrity and protecting your web applications from security risks.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Understanding HTML form elements and their actions.</li>
+<li>Using <code>express-validator</code> for validation and sanitization.</li>
+<li>Best practices for form design and data integrity.</li>
+</ul>
+<h3>HTML forms overview</h3>
+<p>First, a brief refresher on the actual HTML.</p>
+<p>Let's create a simple HTML form, with a single text field for collecting a full name, and its associated label element.</p>
+<p>The HTML structure would look something like this:</p>
+<pre class="highlight"><code class="language-html">&lt;form action="/create" method="POST"&gt;
+  &lt;label for="fullName"&gt;Full Name:&lt;/label&gt;
+  &lt;input placeholder="John Doe" type="text" name="fullName" id="fullName"&gt;
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+<p>We have the HTML form element itself, with an action pointing to some resource on our server, and a method defined. Notice how the method corresponds to an HTTP verb, typically either <code>GET</code> or <code>POST</code>.</p>
+<p>The form consists of a text input with an associated label and a submit button.</p>
+<p>The input's <code>name</code> attribute plays a key role, as it defines how our input will be identified in the form data sent to our server. This is especially important when handling form submissions on the backend.</p>
+<p>The <code>type="submit"</code> button then allows the user to upload the entered data to the server.</p>
+<p>The <code>form</code> attributes define how to communicate with the server:</p>
+<ul>
+<li><code>action</code>: The resource/URL where data is sent for processing when the form is submitted. If this is not set, or is an empty string, the form will be submitted back to the current page URL</li>
+<li><code>method</code>: Defines the HTTP method to use (<code>POST</code> or <code>GET</code>).</li>
+</ul>
+<p><code>POST</code> is generally more secure because it keeps sensitive information out of the URL, which means they won't show up in server logs, and is the standard choice for creating or updating data on the server side. <code>GET</code> is for forms that don't modify data, such as search forms, or when you want the form submission to be bookmarkable or shareable via URL. The form data here is sent as a query string as part of the request url.</p>
+<h4>Form handling process</h4>
+<p>The form's <code>action</code> will point to some endpoint on our server, which will allow our controller to handle the request. The controller then communicates with the database to handle the data.</p>
+<p>We then generate a new or updated view with the controller's response and redirect the client. This is known as the <a href="https://en.wikipedia.org/wiki/Post/Redirect/Get">Post/Redirect/Get (PRG)</a> design pattern which helps prevent duplicate <code>POST</code> requests.</p>
+<h3>Validation and sanitization</h3>
+<p>Before the data from a form is sent off to our server, we should consider two important steps:</p>
+<ul>
+<li><em>Validation</em> ensures user input meets the specified criteria (e.g. required fields, correct format).</li>
+<li><em>Sanitization</em> cleans user input to prevent malicious data from being processed by removing or encoding potentially malicious characters.</li>
+</ul>
+<p>We don't always have to sanitize data right when we get it - sometimes it makes sense to sanitize just before we use it instead.</p>
+<p>We'll be using a library called <code>express-validator</code> to help us out with both of these. While it makes these processes much simpler, it's important to understand the underlying concepts of these two operations.</p>
+<div class="lesson-note">
+<h4>Sanitization definition</h4>
+<p>You will sometimes see "sanitization" used in a much stricter sense, involving only the removal of characters from incoming data, distinguishing it from "encoding" which is replacing certain characters. It is sometimes also used more loosely to refer to the entire process of changing the incoming data in some way, which includes both removing and encoding characters. This is how we will use the term in our own content in this lesson.</p>
+</div>
+<h4>Installing express-validator</h4>
+<p>We start as usual by installing the correct package in the <em>root</em> folder of our project.</p>
+<pre class="highlight"><code class="language-bash">npm install express-validator</code></pre>
+<p>To get started using the package, we first need to <code>require</code> it in our project</p>
+<pre class="highlight"><code class="language-javascript">const { body, validationResult } = require("express-validator");</code></pre>
+<p><code>express-validator</code> comes with many functions for just about every form operation you could think of, but for this lesson, we'll be sticking with <code>body()</code> and <code>validationResult()</code>.</p>
+<h3>Understanding the body() function</h3>
+<p>The <code>body()</code> function allows you to specify which fields in the request body should be validated and sanitized, as well as how to handle it.</p>
+<pre class="highlight"><code class="language-javascript">[
+  body("birthdate", "Must be a valid date.")
+    .optional({ values: "falsy" })
+    .isISO8601() // Enforce a YYYY-MM-DD format.
+];</code></pre>
+<p>This example marks <code>birthdate</code> field as optional, but still enforces the ISO8601 date format on inputs. This is because <code>{ values: "falsy" }</code> means values that aren't <code>undefined</code>, <code>null</code>, <code>false</code>, <code>0</code> or empty strings <code>""</code> will still be validated.</p>
+<h3>Chaining validations</h3>
+<p>You can also chain multiple validation methods, with unique error messages if the checks fail.</p>
+<pre class="highlight"><code class="language-javascript">[
+  body("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Name can not be empty.")
+    .isAlpha()
+    .withMessage("Name must only contain alphabet letters."),  
+];</code></pre>
+<p>This ensures that <code>name</code> is not only present and trimmed, but also only contains alphabet letters.</p>
+<h3>Escaping user input</h3>
+<p>While this might work for outputs we know won't have special characters, like names or ages, we also have to consider situations that do allow those characters. For example, when writing their "About Me" description, what would happen if the client decides to inject JavaScript code instead?</p>
+<pre class="highlight"><code class="language-ejs">&lt;div&gt;
+  About Me: &lt;%- description %&gt;!
+&lt;/div&gt;
+
+// The client then inputs the following as their page's About Me:
+&lt;script&gt;alert("Hacked!");&lt;/script&gt;</code></pre>
+<p>When unescaped, this would be rendered into HTML as:</p>
+<pre class="highlight"><code class="language-html">&lt;div&gt;
+  About Me: &lt;script&gt;alert("Hacked!");&lt;/script&gt;!
+&lt;/div&gt;</code></pre>
+<p>To prevent this <a href="https://en.wikipedia.org/wiki/Cross-site_scripting">cross-site scripting (XSS) attack</a>, we can <em>escape</em> the output (you may also see this referred to as <em>encoding</em>). Escaped HTML replaces special characters, like <code>&lt;</code>, with their respective HTML entities, in this case <code>&amp;lt;</code>. In EJS, we can escape the output using <code>&lt;%= %&gt;</code>.</p>
+<pre class="highlight"><code class="language-ejs">&lt;div&gt;
+  About Me: &lt;%= username %&gt;!
+&lt;/div&gt;
+
+// The escaped output is now rendered harmless:
+// About Me: &amp;lt;script&amp;gt;alert(&amp;quot;Hacked!&amp;quot;);&amp;lt;/script&amp;gt;!</code></pre>
+<p>So why not escape the data when we receive it by adding .escape() to the end of our body() validation chain instead? "Dangerous characters" are only dangerous at the point of use, and also only in certain contexts. What's "dangerous" for HTML may not be dangerous for SQL and vice versa, and they won't pose risks until they get used in those contexts.</p>
+<p>Also, if we have data with HTML entities after escaping them, if we used escaped output with (<code>&lt;%= %&gt;</code>), then <code>&amp;lt;</code> wouldn't become <code>&lt;</code> but output literally as the text <code>&amp;lt;</code>. We'd need to either unescape them then re-escape them via escaped output, or end up using unescaped output (<code>&lt;%- %&gt;</code>), which, like using <code>.innerHTML</code>, is undesirable as shown above.</p>
+<h3>Validation results</h3>
+<p>Once the validation rules are applied, you can use <code>validationResult</code> to handle any validation errors:</p>
+<pre class="highlight"><code class="language-javascript">const controller = (req, res, next) =&gt; {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render("index", {
+      errors: errors.array(),
+    });
+  }
+
+  // do stuff if successful
+  res.redirect("/success");
+};</code></pre>
+<p>This setup checks for any failed validation checks, and if there are any (the errors array is NOT empty), then the server sends a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400">400 status code</a>, along with any errors that may be present, to our <code>index</code> view. Otherwise, we're redirected to the <code>/success</code> route in our router.</p>
+<h3>Forms and Express routes</h3>
+<p>One final thing to cover is how to handle routes in Express. After all, our form needs somewhere to send the data to.</p>
+<pre class="highlight"><code class="language-javascript">exports.userUpdateGet = (req, res, next) =&gt; {};
+exports.userUpdatePost = (req, res, next) =&gt; {};</code></pre>
+<p>Inside our router, we can then assign routes which correspond to the controller's functions:</p>
+<pre class="highlight"><code class="language-javascript">const { Router } = require("express");
+const usersRouter = Router();
+const usersController = require("../controllers/usersController");
+
+// User update routes
+usersRouter.get("/:id/update", usersController.userUpdateGet);
+usersRouter.post("/:id/update", usersController.userUpdatePost);
+
+module.exports = usersRouter;</code></pre>
+<p>In our form, the action would look something like this:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- Example using EJS with POST to submit an update to our Express server. --&gt;
+&lt;form action="/users/&lt;%= user.userId %&gt;/update" method="POST"&gt;&lt;/form&gt;</code></pre>
+<p><code>/users/:id/update</code> is an <em>endpoint</em> we've created on our Express server.</p>
+<h3>Putting it together</h3>
+<p>Let's create a quick Express application to demonstrate how clients send data to servers with forms.</p>
+<p>Set up a new Express app with EJS templating:</p>
+<pre class="highlight"><code class="language-bash">npm init -y
+npm install express ejs express-validator</code></pre>
+<p>Create folders for <code>routes</code>, <code>views</code>, <code>controllers</code>, <code>storages</code>, and an <code>app.js</code> file:</p>
+<pre class="highlight"><code class="language-javascript">// app.js
+const express = require("express");
+const app = express();
+const path = require("node:path");
+const usersRouter = require("./routes/usersRouter");
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.use("/", usersRouter);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, (error) =&gt; {
+  if (error) {
+    throw error;
+  }
+  console.log(`Express app listening on port ${PORT}!`);
+});</code></pre>
+<p>Most simple forms will use the <code>Content-Type: application/x-www-form-urlencoded</code> HTTP header when sending data to the server. Express, however, can't natively parse that data. We can use the <code>express.urlencoded()</code> middleware to handle this for us and automatically set form's data to the <code>req.body</code> field. When <code>extended</code> is <code>false</code>,  our server will only accept a <code>string</code> or an array of data, so we set it to <code>true</code> for some added flexibility. Note that if the <code>Content-Type</code> doesn't match <code>application/x-www-form-urlencoded</code>, then your server will show the data as an empty object <code>{}</code>.</p>
+<p>Let's create a new router called <code>usersRouter.js</code> in the routes folder:</p>
+<pre class="highlight"><code class="language-javascript">// routes/usersRouter.js
+const { Router } = require("express");
+const usersController = require("../controllers/usersController");
+const usersRouter = Router();
+
+usersRouter.get("/", usersController.usersListGet);
+usersRouter.get("/create", usersController.usersCreateGet);
+usersRouter.post("/create", usersController.usersCreatePost);
+
+module.exports = usersRouter;</code></pre>
+<p>Next we'll create two views:</p>
+<ul>
+<li><code>index.ejs</code> will list all the users we've created.</li>
+<li><code>createUser.ejs</code> will display our user creation form.</li>
+</ul>
+<pre class="highlight"><code class="language-ejs">&lt;!-- views/index.ejs --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;
+  &lt;ul&gt;
+    &lt;% if (locals.users) { %&gt;
+      &lt;% users.forEach(user =&gt; { %&gt;
+        &lt;li&gt;
+          ID: &lt;%= user.id %&gt;, Name: &lt;%= user.firstName %&gt; &lt;%= user.lastName %&gt;
+        &lt;/li&gt;
+      &lt;% }); %&gt;
+    &lt;% } %&gt;
+  &lt;/ul&gt;
+  &lt;a href="/create"&gt;Create a user&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<pre class="highlight"><code class="language-ejs">&lt;!-- views/createUser.ejs --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+  &lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;
+  &lt;form action="/create" method="POST"&gt;
+    &lt;label for="firstName"&gt;First Name: &lt;/label&gt;
+    &lt;input type="text" name="firstName" id="firstName" required&gt;
+    &lt;label for="lastName"&gt;Last Name: &lt;/label&gt;
+    &lt;input type="text" name="lastName" id="lastName" required&gt;
+    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;a href="/"&gt;Back to home&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>The logic for this router will go inside of our controller:</p>
+<pre class="highlight"><code class="language-javascript">// controllers/usersController.js
+const usersStorage = require("../storages/usersStorage");
+
+exports.usersListGet = (req, res) =&gt; {
+  res.render("index", {
+    title: "User list",
+    users: usersStorage.getUsers(),
+  });
+};
+
+exports.usersCreateGet = (req, res) =&gt; {
+  res.render("createUser", {
+    title: "Create user",
+  });
+};
+
+exports.usersCreatePost = (req, res) =&gt; {
+  const { firstName, lastName } = req.body;
+  usersStorage.addUser({ firstName, lastName });
+  res.redirect("/");
+};</code></pre>
+<p>And we'll use a storage class to hold the users we create. In real-world scenarios, you would almost certainly be using a database for this, which you'll explore further in upcoming lessons. This class is just for demonstration purposes before we get there.</p>
+<pre class="highlight"><code class="language-javascript">// storages/usersStorage.js
+// This class lets us simulate interacting with a database.
+class UsersStorage {
+  constructor() {
+    this.storage = {};
+    this.id = 0;
+  }
+
+  addUser({ firstName, lastName }) {
+    const id = this.id;
+    this.storage[id] = { id, firstName, lastName };
+    this.id++;
+  }
+
+  getUsers() {
+    return Object.values(this.storage);
+  }
+
+  getUser(id) {
+    return this.storage[id];
+  }
+
+  updateUser(id, { firstName, lastName }) {
+    this.storage[id] = { id, firstName, lastName };
+  }
+
+  deleteUser(id) {
+    delete this.storage[id];
+  }
+}
+// Rather than exporting the class, we can export an instance of the class by instantiating it.
+// This ensures only one instance of this class can exist, also known as the "singleton" pattern.
+module.exports = new UsersStorage();</code></pre>
+<p>We can test our server with: <code>node --watch app.js</code>.</p>
+<p>You'll see we're able to add new users at <code>http://localhost:3000/create</code>, as well as list all existing users at <code>http://localhost:3000/</code>.</p>
+<p>Let's add a few methods to our <code>usersController.js</code> for validating and sanitizing our form to get the type of data we want.</p>
+<pre class="highlight"><code class="language-javascript">// This just shows the new stuff we're adding to the existing contents
+const { body, validationResult, matchedData } = require("express-validator");
+
+const alphaErr = "must only contain letters.";
+const lengthErr = "must be between 1 and 10 characters.";
+
+const validateUser = [
+  body("firstName").trim()
+    .isAlpha().withMessage(`First name ${alphaErr}`)
+    .isLength({ min: 1, max: 10 }).withMessage(`First name ${lengthErr}`),
+  body("lastName").trim()
+    .isAlpha().withMessage(`Last name ${alphaErr}`)
+    .isLength({ min: 1, max: 10 }).withMessage(`Last name ${lengthErr}`),
+];
+
+// We can pass an entire array of middleware validations to our controller.
+exports.usersCreatePost = [
+  validateUser,
+  (req, res) =&gt; {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("createUser", {
+        title: "Create user",
+        errors: errors.array(),
+      });
+    }
+    const { firstName, lastName } = matchedData(req);
+    usersStorage.addUser({ firstName, lastName });
+    res.redirect("/");
+  }
+];</code></pre>
+<p>We retrieve all validated data via the <a href="https://express-validator.github.io/docs/api/matched-data"><code>matchedData()</code></a> function to ensure all the data we get will include any sanitization done (such as trimmed data).</p>
+<p>And now, we need to update our <code>createUser.ejs</code> view to render these errors. Let's create a new partial. Inside the <code>views</code> folder, create a new folder called <code>partials</code> and inside it, create <code>errors.ejs</code>:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- views/partials/errors.ejs --&gt;
+&lt;% if (locals.errors) {%&gt;
+  &lt;ul&gt;
+    &lt;% errors.forEach(function(error) { %&gt;
+      &lt;li&gt;&lt;%= error.msg %&gt;&lt;/li&gt;
+    &lt;% }); %&gt;
+  &lt;/ul&gt;
+&lt;% } %&gt;</code></pre>
+<p>And we'll include the partial just above our form in <code>createUser.ejs</code>.</p>
+<pre class="highlight"><code class="language-ejs">&lt;%- include("partials/errors.ejs") %&gt;</code></pre>
+<p>If the form is filled out incorrectly, you'll see the page contains all the errors.</p>
+<p>Now that we can create users, we also need a way to modify them. Let's create a form that lets us specify an ID and the values we want to update by making a new view: <code>updateUser.ejs</code>.</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- views/updateUser.ejs --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+  &lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;
+  &lt;%- include("partials/errors.ejs") %&gt;
+  &lt;form action="/&lt;%= user.id %&gt;/update" method="POST"&gt;
+    &lt;input type="text" name="firstName" value="&lt;%= user.firstName %&gt;" required&gt;
+    &lt;input type="text" name="lastName" value="&lt;%= user.lastName %&gt;" required&gt;
+    &lt;button type="submit"&gt;Update User&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;a href="/"&gt;Back to home&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>We'll modify <code>index.ejs</code> to include a new "Update" button next to each user to make our <code>GET</code> request to the route:</p>
+<pre class="highlight"><code class="language-ejs">&lt;li&gt;
+  ID: &lt;%= user.id %&gt;, Name: &lt;%= user.firstName %&gt; &lt;%= user.lastName %&gt;
+  &lt;a href="/&lt;%= user.id %&gt;/update"&gt;Update&lt;/a&gt;
+&lt;/li&gt;</code></pre>
+<p>Just like how we added a route for creating users, we'll add routes for updating them:</p>
+<pre class="highlight"><code class="language-javascript">usersRouter.get("/:id/update", usersController.usersUpdateGet);
+usersRouter.post("/:id/update", usersController.usersUpdatePost);</code></pre>
+<p>Then we'll add the logic for the requests into our controller:</p>
+<pre class="highlight"><code class="language-javascript">exports.usersUpdateGet = (req, res) =&gt; {
+  const user = usersStorage.getUser(req.params.id);
+  res.render("updateUser", {
+    title: "Update user",
+    user: user,
+  });
+};
+
+exports.usersUpdatePost = [
+  validateUser,
+  (req, res) =&gt; {
+    const user = usersStorage.getUser(req.params.id);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("updateUser", {
+        title: "Update user",
+        user: user,
+        errors: errors.array(),
+      });
+    }
+    const { firstName, lastName } = matchedData(req);
+    usersStorage.updateUser(req.params.id, { firstName, lastName });
+    res.redirect("/");
+  }
+];</code></pre>
+<p>You'll see you're now able to update users, and this looks very similar to how we create our users.</p>
+<p>Finally, let's add a way to delete users as well by starting with another form inside our <code>index.ejs</code> view:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- In views/index.ejs --&gt;
+&lt;ul&gt;
+  &lt;% if (locals.users) { %&gt;
+    &lt;% users.forEach(function(user) { %&gt;
+      &lt;li&gt;
+        ID: &lt;%= user.id %&gt;, Name: &lt;%= user.firstName %&gt; &lt;%= user.lastName %&gt;
+        &lt;a href="/&lt;%= user.id %&gt;/update"&gt;Update&lt;/a&gt;
+        &lt;!-- This time we're sending a POST request to our route, so we need a form. --&gt;
+        &lt;form action="/&lt;%= user.id %&gt;/delete" method="POST" style="display:inline;"&gt;
+          &lt;button type="submit" onclick="return confirm('Are you sure you want to delete this user?');"&gt;Delete&lt;/button&gt;
+        &lt;/form&gt;
+      &lt;/li&gt;
+    &lt;% }); %&gt;
+  &lt;% } %&gt;
+&lt;/ul&gt;</code></pre>
+<p>Then we add the logic to handle the request into our controller:</p>
+<pre class="highlight"><code class="language-javascript">exports.usersDeletePost = (req, res) =&gt; {
+  usersStorage.deleteUser(req.params.id);
+  res.redirect("/");
+};</code></pre>
+<p>Don't forget to add the new route to your router!</p>
+<pre class="highlight"><code class="language-javascript">usersRouter.post("/:id/delete", usersController.usersDeletePost);</code></pre>
+<p>You'll notice we didn't need a <code>GET</code> route here since we're already redirecting to <code>/</code>.</p>
+<p>We could go much deeper into working safely with forms, but we'll stop there. By now you can already see how helpful <code>express-validator</code> is, and how you can do almost anything you want with the <code>req.body</code> object.</p>
+<p>To give you an overview of what this entire flow looks like visually, here's an example courtesy of MDN:</p>
+<p><img alt="A diagram showing an outline of how a form interacts with a server using GET and POST requests." src="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Express_Nodejs/forms/web_server_form_handling.png" /></p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<h4>Add user details</h4>
+<p>Expand the <code>User</code> model we created to include more details. Implement the following fields and validations to your model:</p>
+<ul>
+<li>Email (required, must be formatted properly)</li>
+<li>Age (optional, must be a number between 18 and 120)</li>
+<li>Bio (optional, maximum 200 characters)</li>
+</ul>
+<p>Don't forget to update the view to display these new fields!</p>
+<h4>Implement searching</h4>
+<p>What if we want to search for a specific user in a list of thousands? We'll need a new route and view that lets clients search our list of users.</p>
+<ol>
+<li>Add a form with a <code>GET</code> method (in <code>createUser.ejs</code> or another view) which accepts a <code>name</code> or <code>email</code> (or both!)</li>
+<li>Create a new route <code>/search</code> which accepts a <code>GET</code> request.</li>
+<li>Add the search logic to your controller which searches your list for a matching user. Form data that has been sent via a <code>GET</code> request will not be available via <code>req.body</code>. You will need to use <code>req.query</code> instead.
+   - Your <code>GET</code> request should handle searching for the user and then render the search result.</li>
+<li>Display the search results in a new view: <code>search.ejs</code>.</li>
+</ol>
+<h4>Further Reading</h4>
+<ul>
+<li>This article expands on <a href="https://blog.presidentbeef.com/blog/2020/01/14/injection-prevention-sanitizing-vs-escaping/">what sanitizing and escaping means, and how they can help further secure your web applications</a>.</li>
+<li><a href="https://express-validator.github.io/docs/">express-validator</a> contains the full documentation for <code>validator</code>, with some important sections being:</li>
+<li><a href="https://express-validator.github.io/docs/guides/getting-started">Getting Started with express-validator</a></li>
+<li><a href="https://express-validator.github.io/docs/guides/validation-chain">Validation Chains</a></li>
+</ul>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#html-forms-overview">What are the attributes of a form element and what do they do?</a></li>
+<li><a href="#validation-and-sanitization">How do you install and import express-validator in your project?</a></li>
+<li><a href="#understanding-the-body-function">How do you validate and sanitize form input using express-validator?</a></li>
+<li><a href="#validation-and-sanitization">What is the difference between validation and sanitization?</a></li>
+<li><a href="#validation-results">How do you handle validation errors in Express routes?</a></li>
+<li><a href="#escaping-user-input">What is the importance of escaping HTML characters in a form?</a></li>
+</ul>
+<h3>Additional resources</h3>
+<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<ul>
+<li>Web Dev Simplified has a <a href="https://youtu.be/SccSCuHhOw0?si=2dZ5Y4dvxyh7jpcy">tutorial on submitting forms and parsing form data in Express</a> if you want a refresher.</li>
+<li>express-validator's docs has a good write-up on <a href="https://express-validator.github.io/docs/guides/customizing#implementing-a-custom-validator">implementing a custom validator in Express</a>.</li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

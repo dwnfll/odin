@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Working with Text</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Working with Text <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn how to properly work with text in HTML</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ウェブ上のコンテンツのほとんどはテキストベースであるため、HTMLのテキスト要素をかなり頻繁に扱う必要が出てくるでしょう。</p>
+<p>このレッスンでは、あなたが最もよく使うことになりそうなテキストベースの要素について学びます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>段落の作り方。</li>
+<li>見出しの作り方。</li>
+<li>太字のテキストの作り方。</li>
+<li>斜体のテキストの作り方。</li>
+<li>ネストされた要素同士の関係。</li>
+<li>HTMLコメントの作り方。</li>
+</ul>
+<h3>段落</h3>
+<p>以下のテキストが、HTMLページ上でどのように出力されると思いますか?</p>
+<pre class="highlight"><code class="language-html">&lt;body&gt;
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+  incididunt ut labore et dolore magna aliqua.
+
+  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+  nisi ut aliquip ex ea commodo consequat.
+&lt;/body&gt;</code></pre>
+<p>2つの段落のテキストのように見えるので、そのように表示されると思うかもしれません。しかし、そうはなりません。以下の出力で確認できます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="xxrKqeV" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/xxrKqeV">
+  no-paragraphs-example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>ブラウザは、HTML内でこのような改行に出くわすと、それを1つのスペースに圧縮します。この圧縮の結果、すべてのテキストが1つの長い行にまとめられてしまいます。</p>
+<p>HTMLで段落を作成したい場合、<span id='create-paragraph-element'>段落要素を使う必要があります</span>。これにより、それぞれの段落の後に改行が追加されます。段落要素は、テキストコンテンツを<code>&lt;p&gt;</code>タグで囲むことで定義されます。</p>
+<p>先ほどの例を段落要素を使うように変更すると、この問題が解決します:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="mdwbmdp" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/mdwbmdp">
+  pargraph-example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h3 id="headings">見出し</h3>
+<p>見出しは、他のHTMLテキスト要素とは異なります。見出しであることを示すために、他のテキストよりも大きく太字で表示されます。</p>
+<p><span id='different-heading-levels'>見出しには、<code>&lt;h1&gt;</code>から<code>&lt;h6&gt;</code>まで6つの異なるレベルがあります。見出しタグ内の数字は、その見出しのレベルを表します。最も大きく最も重要な見出しはh1であり、h6は最も低いレベルの、最も小さな見出しです。</span></p>
+<p>見出しは段落とほぼ同じように定義されます。例えば、h1見出しを作成するには、見出しのテキストを<code>&lt;h1&gt;</code>タグで囲みます。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="LYLPLbg" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/LYLPLbg">
+  HTML-headings-example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>正しいレベルの見出しを使用することは重要です。レベルはコンテンツに階層構造を与えるからです。h1見出しは常にページ全体の見出しとして使用されるべきであり、より低いレベルの見出しは、ページのより小さなセクション内のコンテンツの見出しとして使用されるべきです。</p>
+<h3 id="strong-element">strong要素</h3>
+<p><code>&lt;strong&gt;</code>要素はテキストを太字にします。また、意味的にテキストを重要なものとしてマークします。これは、視覚障害のあるユーザーがあなたのウェブサイトを利用する際に頼りにする、スクリーンリーダーのようなツールに影響を与えます。一部のスクリーンリーダーでは、strong要素内のテキストの重要性を伝えるために声のトーンが変わります。strong要素を定義するには、テキストコンテンツを<code>&lt;strong&gt;</code>タグで囲みます。</p>
+<p>strongは単独で使うこともできます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="qBjWXrB" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/qBjWXrB">
+  HTML-single-strong-example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>しかし、おそらくstrong要素は、次のように他のテキスト要素と組み合わせて使うことの方がはるかに多くなるでしょう:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="wvewqJr" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/wvewqJr">
+  HTML-strong-with-paragraph-exmample</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>重要な意味を持たせずにテキストを太字にしたい場合もあるでしょう。その方法については、カリキュラムの後半のCSSのレッスンで学びます。</p>
+<h3 id="em-element">em要素</h3>
+<p><code>&lt;em&gt;</code>要素はテキストを斜体にします。また、意味的にテキストに強調を置くもので、これもまたスクリーンリーダーのようなものに影響を与えることがあります。強調要素を定義するには、テキストコンテンツを<code>&lt;em&gt;</code>タグで囲みます。</p>
+<p><code>&lt;em&gt;</code>を単独で使うには:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="wvewqpp" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/wvewqpp">
+  HTML-single-em-example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>strong要素と同様に、<code>&lt;em&gt;</code>要素もほとんどの場合、他のテキスト要素と一緒に使うことになるでしょう:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="VwWZzyj" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/VwWZzyj">
+  HTML-em-with-paragraph-example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h3>ネストとインデント</h3>
+<p>このレッスンのすべての例で、他の要素の中にある要素にインデントを付けていることに気づいたかもしれません。これは要素のネストと呼ばれています。</p>
+<p><span id='nested-relationship'>ある要素を別の要素の中にネストすると、それらの間に親子関係が生まれます。ネストされた要素が子であり、それらがネストされている要素が親です。</span></p>
+<p>次の例では、body要素が親であり、段落が子です:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="oNwjEvO" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/oNwjEvO">
+  HTML-nesting-parent-child</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>人間関係と同じように、HTMLの親要素は多くの子を持つことができます。<span id='elements-same-level'>ネストの同じレベルにある要素は、兄弟(sibling)とみなされます。</span></p>
+<p>例えば、次のコードにある2つの段落は、どちらもbody要素の子であり、互いに同じネストのレベルにあるため、兄弟です:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="ZEybrYx" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/ZEybrYx">
+  HTML-nesting-siblings</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>私たちは、自分自身や将来私たちのHTMLを扱うことになる他の開発者にとって、ネストのレベルを明確で読みやすいものにするためにインデントを使用します。私たちの例では、ネストのレベルごとに2つのスペースで子要素をインデントしています。</p>
+<p>要素間の親、子、兄弟の関係は、後でCSSを使ってHTMLにスタイルを付けたり、JavaScriptで動作を追加したりし始めるときに、はるかに重要になります。しかし今のところは、要素同士がどのように関係しているかの違いと、その関係を説明するために使われる用語を知っておくことだけが重要です。</p>
+<h3 id="html-comments">HTMLコメント</h3>
+<p>HTMLコメントはブラウザには表示されません。これにより、私たちは自分のコードに<em>コメント</em>を付けられるようになり、他の開発者や未来の自分自身がそれを読んで、コード内で分かりにくいかもしれない何かについての文脈を得ることができます。</p>
+<p>HTMLコメントを書くには、コメントを<code>&lt;!--</code>と<code>--&gt;</code>タグで囲むだけです。例えば:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="abwoyBg" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/abwoyBg">
+  HTML-comments-example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<div class="lesson-note">
+<h4>VSCodeのキーボードショートカット</h4>
+<p>コメントの構文を入力するのが面倒だと感じる場合、以下のショートカットを使うと、新しいコメントをすばやく作成したり、任意の行をコメントに変換したり、コメントを解除したりできます:</p>
+<ul>
+<li>Macユーザー: <kbd>Cmd</kbd> + <kbd>/</kbd></li>
+<li>WindowsとLinuxユーザー: <kbd>Ctrl</kbd> + <kbd>/</kbd></li>
+</ul>
+<p>これらのショートカットは英語のキーボードレイアウト用であり、それ以外の非英語レイアウトでは必ずしも機能するとは限らないことを知っておくことが重要です。あなたのキーボードレイアウトにおけるこれらのショートカットの対応版を、きっと見つけられるはずです。</p>
+</div>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Kevin Powellの<a href="https://www.youtube.com/watch?v=yqcd-XkxZNM&amp;t=35s">HTML Paragraph and Headings動画</a>を見てみましょう。</li>
+<li>Kevin Powellの<a href="https://www.youtube.com/watch?v=gW6cBZLUk6M&amp;t=5s">HTML Bold and Italic Text動画</a>を見てみましょう。</li>
+<li>HTMLでテキストを扱う練習をするために、さまざまな見出しや段落を使い、段落内の一部のテキストを太字や斜体にした、シンプルなブログ記事ページを作成してみましょう。サイトを構築する際、本物のテキストの代わりにダミーテキストを生成するために<a href="https://en.wikipedia.org/wiki/Lorem_ipsum">Lorem Ipsum</a>を使うことができます。VS Codeには、lorem ipsumを生成するためのショートカットが組み込まれています。このショートカットを起動するには、ダミーテキストを入れたい行に<code>lorem</code>と入力し、<kbd>Enter</kbd>キーを押してください。すると、ほら、簡単にダミーテキストが生成されます。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#create-paragraph-element">HTMLで段落を作成するにはどうすればよいですか?</a></li>
+<li><a href="#headings">HTMLで見出しを作成するにはどうすればよいですか?</a></li>
+<li><a href="#different-heading-levels">見出しにはいくつのレベルがあり、それらの違いは何ですか?</a></li>
+<li><a href="#strong-element">テキストを太字にし、重要なものにするにはどの要素を使うべきですか?</a></li>
+<li><a href="#em-element">テキストを斜体にして強調を加えるにはどの要素を使うべきですか?</a></li>
+<li><a href="#nested-relationship">ある要素は、その中にネストされた要素とどのような関係を持ちますか?</a></li>
+<li><a href="#elements-same-level">2つの要素が同じネストのレベルにある場合、それらはどのような関係にありますか?</a></li>
+<li><a href="#html-comments">HTMLコメントを作成するにはどうすればよいですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

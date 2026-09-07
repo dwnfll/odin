@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transitions</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Transitions <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Our first kind of animation code is the transition</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>CSS transitionのワクワクする世界に飛び込んで、あなたのHTML要素に洗練された変化を与える時が来ました!</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>CSS transitionとは何で、いつ使うか。</li>
+<li>どのCSSプロパティがアニメーション可能で、どれがそうでないかを知ります。</li>
+<li>transitionが滑らかでパフォーマンスの良いものであることを確実にする方法。</li>
+</ul>
+<h3>Transition</h3>
+<p>CSS transitionを使うと、要素の初期状態から終了状態への変化をアニメーションできます。白い背景を持つ普通のボタン要素を思い浮かべてください。マウスがボタンから離れているとき、それはただそこにあるだけです。退屈ですね。それから、マウスカーソルをボタンの上にホバーさせると、背景色が時間をかけて白からグレー、そして黒へと滑らかに変化します。これがCSS transitionです。以下のCodepenを見て、実際に動作しているのを見てみてください。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="eYGmYRm" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/eYGmYRm">
+  CSS Transition (longhand)</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>マウスカーソルがボタンから離れているとき、ボタンは初期状態にあります。その上にホバーすると、終了状態、つまりホバー状態を導入することになり、背景色が白から黒へと滑らかに変化します。</p>
+<p>これは<code>transition</code>プロパティを使って実現されましたが、これは実は<code>transition-property</code>、<code>transition-duration</code>、<code>transition-timing-function</code>、<code>transition-delay</code>のショートハンドプロパティです。</p>
+<pre class="highlight"><code class="language-css">button {
+  /* ... other CSS properties ... */
+  transition-property: background-color;
+  transition-duration: 1s;
+  transition-timing-function: ease-out;
+  transition-delay: 0.25s;
+}</code></pre>
+<ul>
+<li><code>transition-property</code> - これは、どのCSSプロパティがtransitionするかを決めます。この場合は<code>background-color</code>です。</li>
+<li><code>transition-duration</code> - これは、transitionが発生する期間を決めます。この場合、色の変化は1秒かけて徐々に起こります。</li>
+<li><code>transition-timing-function</code> - これを使うと、transitionの期間中における速度を変えることができます。ここでは<code>ease-out</code>にしているので、色の変化はtransitionの終わりよりも始めの方が速くなります。</li>
+<li><code>transition-delay</code> - これは、transitionが始まるまでの遅延を決めます。この場合、色の変化はカーソルがボタンの上に静止してから4分の1秒後に始まります。</li>
+</ul>
+<p>ショートハンドプロパティは次のようになります:</p>
+<pre class="highlight"><code class="language-css">button {
+  /* ... other CSS properties ... */
+  background-color: white;
+  transition: background-color 1s ease-out 0.25s;
+}
+
+button:hover {
+  background-color: black;
+}</code></pre>
+<p>上記のtransitionは、<code>:hover</code>疑似クラスで示されているように、ユーザーがマウスをボタンの上にホバーさせたときに発生します。<code>:hover</code>や他の疑似クラスに加えて、JavaScriptでクラスを追加・削除することでもtransitionをトリガーできます。例えば、ボタンをクリックするとドロップダウンメニューに"open"クラスが追加され、これが開くtransitionをトリガーする、といった具合です。</p>
+<h3>パフォーマンス</h3>
+<p>一般的に、CSS transitionのパフォーマンスを保つことは問題にならないでしょう。しかし、心に留めておくべきことがいくつかあります。</p>
+<p>一つ目は「スタッキングコンテキスト」です。「スタッキングコンテキスト」とは、親コンテナ内のHTML要素の、z軸(奥行きの次元)に沿った積み重ね、つまり重なりのことを指します。あるスタッキングコンテキスト内での要素の位置は、同じスタッキングコンテキスト内の他の要素に対してのみ相対的です。<code>z-index</code>プロパティは、要素同士が重なったときに、ある要素がウェブページ上でどれだけ後ろに、あるいは前に表示されるべきかをコントロールします。要素の<code>z-index</code>を設定することに加えて、<code>transform</code>、<code>opacity</code>、<code>filter</code>など、いくつかのCSSプロパティも新しいスタッキングコンテキストの作成をトリガーすることがあります。私たちにとって関連のあるシナリオは、以下のように<code>transform</code>プロパティをtransitionさせることでしょう:</p>
+<pre class="highlight"><code class="language-css">div {
+  width: 100px;
+  height: 100px;
+  transition: transform 2s 1s;
+}
+
+div:hover {
+  transform: rotate(180deg);
+}</code></pre>
+<p>これはスタッキングコンテキストを作成しました。もし他のさまざまな手段を通してさらに多くのスタッキングコンテキストを作っていたら、最初のtransformを描画する際に、私たちの<code>div</code>要素だけでなく、<strong>そのスタッキングコンテキストでその上に積み重なっているすべての要素</strong>も再描画することになります。これを放置すると、かつてはバターのように滑らかだったtransitionが、遅くぎこちないものになってしまうことがあります。</p>
+<p>二つ目に心に留めておくべきことは、ウェブページ上でのアニメーションについて絶対的に最高のパフォーマンスを求めるなら、アニメーションが<code>opacity</code>と<code>transform</code>にのみ影響するようにすべきだということです。そうです、上記の最初の例は<code>background-color</code>の変化しか行っていませんでしたが、それでさえもそれ自体がコストの高い操作でした。</p>
+<p>重要なのは、これらの概念をしっかりと理解し、必要なときに応用できるようにすることです。なぜなら、もしホバーされたときにボタンを虹色に変える必要があるなら、その虹色をちゃんとtransitionさせられるようにしておく必要があるのですから!</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions">CSS transitionの使用</a>についてのMDNの記事を、記事内の<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions#defining_transitions">Defining transitions</a>セクションのリンクも含めて読んでください。構文に慣れるために、必ず例と一緒に手を動かしてみてください。</li>
+<li><a href="https://www.joshwcomeau.com/css/stacking-contexts/">スタッキングコンテキスト</a>についてのこの記事を読んでください。</li>
+<li><a href="https://chromewebstore.google.com/detail/apjeljpachdcjkgnamgppgfkmddadcki?utm_source=item-share-cb">CSS Stacking Context inspector</a>というブラウザ拡張機能を試して、ページ上のスタッキングコンテキストを探索し、その階層を見て、レイアウトや再描画の問題をトラブルシューティングしてみてください。</li>
+<li>アニメーション可能なCSSプロパティが描画とパフォーマンスにどう影響し得るかを理解するために、<a href="https://web.archive.org/web/20220727225220/https://csstriggers.com/">CSS Triggers</a>について学んでください。<code>background-color</code>や<code>transform</code>のようなプロパティを比較して、異なるCSSの変更がブラウザの描画パイプラインにどう影響するかを見てみてください。</li>
+<li>この<a href="https://www.joshwcomeau.com/animation/css-transitions/">transitionについてのインタラクティブなガイド</a>を読んでください。</li>
+<li><a href="https://dzhavat.github.io/2021/02/18/debugging-layout-repaint-issues-triggered-by-css-transition.html">再描画の問題を捕まえてデバッグする</a>方法について学んでください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animated_properties">すべてのCSSプロパティはアニメーション可能ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition">transitionのロングハンド記法とショートハンド記法は何ですか?</a></li>
+<li><a href="https://www.joshwcomeau.com/css/stacking-contexts/">スタッキングコンテキストとは何ですか?</a></li>
+<li><a href="https://dzhavat.github.io/2021/02/18/debugging-layout-repaint-issues-triggered-by-css-transition.html">なぜ再描画に注意を払う必要があるのですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

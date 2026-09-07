@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Component Lifecycle Methods</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Component Lifecycle Methods <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Component Lifecycle Methods</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>In the previous section, you've learned about a component's lifecycle. In functional components, we've primarily used the <code>useEffect</code> hook to perform tasks throughout the lifecycle, but in class components we have to use specific lifecycle methods instead.</p>
+<p>We'll start with a short recap of what a component's lifecycle is. There are three stages to a component's life: mounting, updating, and unmounting. Each of these have a method assigned to them within class components, which is what we are going to cover in this lesson.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Learn how to use lifecycle methods in a class component.</li>
+</ul>
+<h3>render()</h3>
+<p>The render function is the most used lifecycle method, and one that you've come across in the last class components lesson. It is the only required lifecycle method in a class component. It runs on mount and update of a component. Render should be pure, meaning it doesn't modify component state, returns the same thing each time it's called (given the same inputs), and doesn't directly interact with the browser.</p>
+<h3>componentDidMount()</h3>
+<p>This method is run after the component is mounted (inserted in the DOM tree). You should make any calls to fetch data that is needed for the component here. It is also a good place to perform any operations that depend on the component being mounted in the DOM.</p>
+<h3>componentDidUpdate()</h3>
+<p>This method is run after a component re-renders. Because of this, you have to be careful about what you update in this method, as if you're updating state indiscriminately, a re-render is caused, and you'll end up in an endless loop. You can avoid this issue by using conditional statements about the equality of previous and current props when updating state.</p>
+<p>In this method you should be updating anything that needs to be changed in response to either the DOM changing, or any states that you might want to act on upon change. For example, you'd want to refetch user data if the user changes.</p>
+<h3>componentWillUnmount()</h3>
+<p>This is the last lifecycle method, which is called before a component is unmounted and destroyed. In this method you should be performing cleanup actions, so that would be cancelling network requests, clearing timers, etc.</p>
+<h3>How useEffect() combines the lifecycle methods</h3>
+<p>Now that we've learnt about class lifecycle methods, it's useful to understand that the <code>useEffect</code> hook used in functional components is essentially a combination of <code>componentDidMount</code>, <code>componentDidUpdate</code>, and <code>componentWillUnmount</code>. Which method/methods it relates to varies based on its dependency array, and if it returns anything.</p>
+<ul>
+<li>An empty dependency array would be equivalent to <code>componentDidMount</code>.</li>
+<li>A dependency array with a value/values in it would be a combination of <code>componentDidMount</code> and <code>componentDidUpdate</code>, but only updating when dependencies change.</li>
+<li>No dependency array would be equivalent to <code>componentDidMount</code> and <code>componentDidUpdate</code> combined.</li>
+<li>A return function inside of a <code>useEffect()</code> hook would be equivalent to <code>componentWillUnmount</code>.</li>
+</ul>
+<p>For example:</p>
+<pre class="highlight"><code class="language-javascript">  useEffect(() =&gt; {
+    placeholderFunction();
+    return () =&gt; cleanupFunction();
+  }, [])</code></pre>
+<p>In this snippet, the useEffect contains the functionality of <code>componentDidMount</code>, and <code>componentWillUnmount</code> via the return function. This example doesn't have the <code>componentDidUpdate</code> functionality because of an empty dependency array.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>Check out this <a href="https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">component lifecycle diagram</a> to see a good visual representation of a component's lifecycle methods.</p>
+</li>
+<li>
+<p>Read through <a href="https://react.dev/reference/react/Component">component documentation</a> from 'constructor(props)' up to 'componentWillUnmount()' in the Reference section, being mindful of deprecated APIs. Consider other APIs as supplementary information.</p>
+</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#render">What is the only required lifecycle method?</a></li>
+<li><a href="#componentdidmount">What lifecycle method should you use for initial data fetching?</a></li>
+<li><a href="#componentdidupdate">When you want to act upon change of the DOM, or of state, what lifecycle method would you use?</a></li>
+<li><a href="#componentwillunmount">When performing cleanup actions, what lifecycle method should be used?</a></li>
+<li><a href="#how-useeffect-combines-the-lifecycle-methods">How does the useEffect hook combine some of the lifecycle methods?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

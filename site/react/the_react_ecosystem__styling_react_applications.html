@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Styling React Applications</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Styling React Applications <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Styling React Applications</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>In the previous courses, you'll have learned a lot of CSS and all of those skills are still applicable to React. However, there are a couple of things we'd like to highlight. As you've probably already noticed, all of the styles we write share the global scope, which means that as our application grows, it will become increasingly difficult to manage our CSS. Some of the tools mentioned below are things people use to help solve this problem.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Know about ways to style React applications.</li>
+</ul>
+<h3>CSS modules</h3>
+<p>Regular CSS is the simplest way to style. CSS Modules let you write CSS style declarations that are scoped locally, which means that we finally no longer have to worry about our class names potentially conflicting with other classes in the global scope.</p>
+<h3>CSS in JS</h3>
+<p>Why even write CSS in CSS when you can write it in JavaScript? Just kidding, of course!</p>
+<p>CSS-in-JS is a paradigm for styling front-end projects. It allows you to entirely take control of CSS with JavaScript and extend it with various features. Additionally, it also helps to apply styling in a logical fashion, e.g. based on state, and also supports modular CSS in the same way that CSS Modules do. There are various CSS-in-JS solutions. One of the most popular ones in the React ecosystem is <a href="https://styled-components.com/">styled-components</a>.</p>
+<h3>CSS Utility Frameworks</h3>
+<p>CSS Utility Frameworks are a popular choice for styling React applications. They provide a set of pre-defined classes that you can directly use in your HTML, or JSX in our case. <a href="https://tailwindcss.com">Tailwind CSS</a> is by far the most popular choice.</p>
+<h3>Component libraries</h3>
+<p>What if everything's already done for you? Styling, behavior, and accessibility are taken care of for you in component libraries. As the name suggests, these libraries provide adaptable and reusable components that you can use directly in your project. These components include, but are not limited to, dropdowns, drawers, calendars, toggles, tabs, and all other components you can think of.</p>
+<p><a href="https://mui.com/">Material UI</a>, <a href="https://www.radix-ui.com/">Radix</a>, and <a href="https://chakra-ui.com/">Chakra UI</a> are worth a mention when talking about component libraries.</p>
+<p>There are also icon component libraries like <a href="https://lucide.dev/guide/packages/lucide-react">lucide react</a>, which let you include icons in your project as components.</p>
+<div class="lesson-note lesson-note--warning">
+<h4>Recommended styling approach</h4>
+<p>For learning purposes throughout this course, we strongly recommend that you avoid using CSS frameworks or component libraries (using icon component libraries is fine), and instead implement your components' styling from scratch using CSS Modules.</p>
+</div>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>Read <a href="https://github.com/css-modules/css-modules">CSS Modules documentation</a> and <a href="https://www.makeuseof.com/react-components-css-modules-style/">How to style React components using CSS Modules</a>.</p>
+</li>
+<li>
+<p>Read <a href="https://blog.logrocket.com/css-vs-css-in-js/">CSS vs CSS-in-JS</a> and <a href="https://css-tricks.com/a-thorough-analysis-of-css-in-js/">a thorough analysis of CSS-in-JS</a>.</p>
+</li>
+<li>
+<p>Skim through the <a href="https://styled-components.com/">styled components documentation</a>.</p>
+</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="https://www.makeuseof.com/react-components-css-modules-style/">How can you use CSS Modules in your React app?</a></li>
+<li><a href="#css-in-js">What does CSS-in-JS mean?</a></li>
+<li><a href="#component-libraries">What are component libraries?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

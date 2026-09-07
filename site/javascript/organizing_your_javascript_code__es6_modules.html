@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ES6 Modules</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">ES6 Modules <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">ES6 Modules</p>
+  </div>
+  <div class="lesson-content">
+    <h3 id="introduction">イントロダクション</h3>
+<p>前のレッスンで<strong>モジュールパターン</strong>について学び、変数や関数を整理する助けとして使ってみました。ここ数個のプロジェクトのどこかで、あなたはこう思ったことさえあるかもしれません。「もっと複雑なプロジェクトはどう管理すればいいんだろう?ファイルが長くなりすぎてしまう!コードを整理のために複数のファイルに分割できたら素晴らしいのに!」複数のファイルを使うことは、まさにこの理由から非常に便利です。</p>
+<p>モジュールパターンはこれまで、これを管理するのを助ける上で大きな役割を果たしてきましたが、ES6(ES2015と呼ばれることもあります)のリリースにより、実際の「モジュール」が与えられ、そのため「ES6モジュール」や「ESM」としばしば呼ばれるようになりました。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>ES6モジュールとは何で、そこからどうインポート・エクスポートするかを説明します。</li>
+<li>デフォルトエクスポートと名前付きエクスポートの違いを説明します。</li>
+<li>CommonJSモジュールとES6モジュールの主な違いを説明します。</li>
+</ul>
+<h3 id="before-es6-modules-the-global-scope-problem">ES6モジュール以前: グローバルスコープの問題</h3>
+<div class="lesson-note">
+<h4>ES6以前の例でモダンな構文を使うこと</h4>
+<p><code>let</code>/<code>const</code>やアロー関数はES6以前には存在しませんでしたが、ES6以前の例でもそれらを引き続き使っていきます。それらは、このセクションの主な焦点であるグローバルスコープとモジュールパターンに関して、物事がどう機能するかを変えることはありません。</p>
+</div>
+<p><code>one.js</code>と<code>two.js</code>という2つのスクリプトがあり、それらをHTMLで別々のスクリプトとしてリンクしているとしましょう。</p>
+<pre class="highlight"><code class="language-html">&lt;script src="one.js" defer&gt;&lt;/script&gt;
+&lt;script src="two.js" defer&gt;&lt;/script&gt;</code></pre>
+<pre class="highlight"><code class="language-javascript">// one.js
+const greeting = "Hello, Odinite!";</code></pre>
+<pre class="highlight"><code class="language-javascript">// two.js
+console.log(greeting);</code></pre>
+<p>HTMLを開くと、<code>greeting</code>が<code>two.js</code>で一度も定義されていないにもかかわらず、<code>"Hello, Odinite!"</code>がコンソールにログ出力されるのが分かります!それは、2つのスクリプトが、あたかもその順序で2行を持つ一つのファイルだけを書いたかのように、同じグローバルスコープに次々と読み込まれたからです。もし<code>two.js</code>のスクリプトタグを先に置いていたら、代わりに<code>greeting is not defined</code>というエラーが出ていたでしょう。なぜなら、変数を定義する前にconsole.logを実行しようとするからです。</p>
+<p>これはつまり、複数のJavaScriptファイルを使っていても、それらは結局同じグローバルスコープを共有することになるということです。私たちのトップレベルの変数は安全ではありません!</p>
+<p>ESM以前は、何かをIIFEでラップすることができ、これによりまったく同じように実行されるものの、その中の変数はグローバルではなく、その関数にスコープされるようになりました。</p>
+<pre class="highlight"><code class="language-javascript">// one.js
+(() =&gt; {
+  const greeting = "Hello, Odinite!";
+})();</code></pre>
+<p>これで、コンソールに<code>greeting is not defined</code>というエラーが出るようになります。なぜなら、私たちがログ出力できる<code>greeting</code>というグローバル変数がもう存在しないからです!しかし、<em>一部</em>のものだけを他のファイルに公開したい場合はどうすればよいでしょうか?私たちのIIFEからそれらのものをグローバルスコープに返しつつ、他のものはプライベートに保つことができます!</p>
+<pre class="highlight"><code class="language-javascript">// one.js
+const greeting = (() =&gt; {
+  const greetingString = "Hello, Odinite!";
+  const farewellString = "Bye bye, Odinite!";
+  return greetingString;
+})();</code></pre>
+<p>これで、グローバル変数<code>greeting</code>は<code>"Hello, Odinite!"</code>を含むことになり、<code>two.js</code>からの私たちのコードはこれを正常にコンソールにログ出力します。しかし、<code>greetingString</code>と<code>farewellString</code>のどちらもIIFEにローカルであり、グローバルではありません。違いは、<code>greetingString</code>がIIFEから明示的にreturnされ、<code>greeting</code>に割り当てられているため、関数の外からアクセス可能になっているのに対し、<code>farewellString</code>はreturnされていないため、<code>two.js</code>では完全にアクセス不可能なままだということです。これを通して、私たちは一つのファイルから何を公開し、それに続くすべてのファイルで利用可能にするかを選べます!これが、IIFEがしばしば「モジュールパターン」と呼ばれた理由です。なぜなら、それらは「本物のモジュール」が与えられる前に、複数のファイルにまたがってモジュール式のコードを書けるようにしてくれたからです。</p>
+<p>しかし今では、ESMを使えば、この特定の目的のためにIIFEを使う必要はもうありません。</p>
+<h3>ES6モジュール</h3>
+<p>ESMを使うと、物事をもう少しコントロールできるようになります。それぞれのファイルはデフォルトで独自のプライベートスコープを持ち、そのファイルから何をエクスポートするかを選べるだけでなく、他のファイルに何をインポートするかも選べます。ですので、何かをエクスポートしたからといって、それが自動的に他の場所で利用可能になるわけではありません。それは、別のファイルでそれを明示的にインポートした場合にのみ、そのファイルで利用可能になります。たくさんのコントロールですね!</p>
+<div class="lesson-note">
+<h4>モジュールスコープはグローバルスコープではない</h4>
+<p>ESMを使うとき、それぞれのモジュールは独自のプライベートスコープを持ち、そこでファイル間の伝達にimport/exportを使います。モジュール内のトップレベルの変数は、グローバルスコープではアクセスできません。</p>
+</div>
+<h3>インポートとエクスポート</h3>
+<p>実際にどうやってインポート・エクスポートするのでしょうか?いかにもJavaScriptらしく、インポートとエクスポートには一つだけでなく2つの種類があります: <code>default</code>と<code>named</code>です。これらは基本的に同じ種類のことを行いますが、ほんの少しだけ違います。同じファイルの中で混ぜて使うことさえできます。</p>
+<p>まず、異なるインポート/エクスポートの構文を示しますが、スクリプトをES6モジュールとしてもリンクする必要があるため、このコードはまだ動作しません。それについてはこのセクションの後で扱います。</p>
+<h4>名前付きエクスポート</h4>
+<p>以前の<code>one.js</code>と<code>two.js</code>の例を使いましょう。まず、<code>one.js</code>からgreetingとfarewellの文字列をエクスポートする必要があります。</p>
+<p>何かを<strong>名前付きエクスポート</strong>としてエクスポートするには、その宣言の前に<code>export</code>キーワードを付けるか、ファイルのどこか(通常は末尾)に<code>export { }</code>を追加します。波括弧の中には、エクスポートしたいものの名前のリストが含まれます。どちらの方法を使っても構いませんし、名前付きエクスポートとして好きなだけたくさんのものをエクスポートできます。</p>
+<pre class="highlight"><code class="language-javascript">// one.js
+export const greeting = "Hello, Odinite!";
+export const farewell = "Bye bye, Odinite!";</code></pre>
+<p>あるいは、別の行で:</p>
+<pre class="highlight"><code class="language-javascript">// one.js
+const greeting = "Hello, Odinite!";
+const farewell = "Bye bye, Odinite!";
+export { greeting, farewell };</code></pre>
+<p>さて、<code>two.js</code>でこれらの変数をインポートしましょう!何をインポートするかをコントロールできることを覚えておいてください。ですので、<code>greeting</code>変数だけが必要なら、それだけを単独でインポートできます。もし別のファイルが<code>farewell</code>変数(あるいは両方)を必要とするなら、そのファイルは必要なものをインポートすればよいのです。インポートしなければ?使えません。名前付きインポートを行うには、インポートしたいものの名前を<code>{ }</code>の中に指定し、インポート元のファイルへのパスを提供する必要があります(後でサードパーティのライブラリをインポートするときには、完全なファイルパスの代わりにライブラリの名前を使うだけで構いません)。</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#module-name">ファイルパスにはテンプレート文字列を使えない</a>ことに注意してください。シングルクォートかダブルクォートの文字列だけです。</p>
+<pre class="highlight"><code class="language-javascript">// two.js
+import { greeting, farewell } from "./one.js";
+
+console.log(greeting); // "Hello, Odinite!"
+console.log(farewell); // "Bye bye, Odinite!"</code></pre>
+<div class="lesson-note lesson-note--warning">
+<h4>名前付きインポート/エクスポートはオブジェクトリテラルとは違う!</h4>
+<p>名前付きインポート/エクスポートで<code>{ }</code>を使うのは特殊な構文であり、オブジェクトリテラルを宣言することや<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring">オブジェクトの分割代入</a>とは何の関係もありません。</p>
+<pre class="highlight"><code class="language-javascript">export { greeting, farewell };
+
+import { greeting, farewell } from "./one.js";</code></pre>
+<p>上記では、<code>greeting</code>と<code>farewell</code>キーを含むオブジェクトをエクスポートしているわけでも、インポート時にそれらのキーを持つオブジェクトを分割代入しているわけでもありません。私たちは単に名前付きインポート/エクスポートの構文を使っているだけです。</p>
+</div>
+<h4 id="default-exports">デフォルトエクスポート</h4>
+<p>名前付きエクスポートとは対照的に、一つのファイルはデフォルトエクスポートを一つしか持てません。この方法でエクスポートされたものには名前が付いていないため、どこかでそれをインポートするときに、どんな名前を付けるか自分で決めることができます。</p>
+<p>ファイルから何かをデフォルトエクスポートとしてエクスポートするには、適切な宣言の前に<code>export default</code>を付けてインラインで行うこともできますし、ファイルの末尾で、今度は波括弧を<em>使わずに</em>エクスポートすることもできます。これもまた、どちらの方法でも完全に問題ありません。インラインで変数をデフォルトエクスポートしたい場合、<code>default</code>キーワードが変数宣言を<em>置き換える</em>ため、式を直接エクスポートすることになる点に注意してください。</p>
+<p><code>one.js</code>からgreeting文字列をデフォルトエクスポートしてみましょう。</p>
+<pre class="highlight"><code class="language-javascript">// one.js
+export default "Hello, Odinite!";</code></pre>
+<p>あるいは、別の行で:</p>
+<pre class="highlight"><code class="language-javascript">// one.js
+const greeting = "Hello, Odinite!";
+export default greeting;</code></pre>
+<p>さて、<code>two.js</code>でその文字列をデフォルトインポートできます。覚えておいてください、デフォルトエクスポートされたものをインポートしているので、好きな名前を付けることができます。<code>one.js</code>ではその変数は<code>greeting</code>と呼ばれていましたが、望むなら<code>two.js</code>でそう呼ぶ必要はありません。デフォルトインポートの際は、名前付きインポート用の波括弧は使いません。</p>
+<pre class="highlight"><code class="language-javascript">// two.js
+import helloOdinite from "./one.js";
+
+console.log(helloOdinite); // "Hello, Odinite!"</code></pre>
+<p>同じファイルの中でデフォルトエクスポートと名前付きエクスポートの両方を使うことができます。紛らわしいことに、一つのファイルは複数の名前付きエクスポートを持てるがデフォルトエクスポートは一つしか持てないという事実を除けば、どちらをいつ使うべきかについて、普遍的に合意されたルールは実は特にありません。モジュールから単一のものだけをエクスポートする必要がある場合、デフォルトエクスポートを使うのを好む人もいれば、単一の名前付きエクスポートを使うのを好む人もいます。どちらも機能するので、好きな方を使ってください。あるいはチームで作業しているなら、チームが好む方を使ってください。</p>
+<p><code>one.js</code>からgreeting文字列をデフォルトエクスポートし、farewell文字列を名前付きエクスポートとしてエクスポートしてみましょう。</p>
+<pre class="highlight"><code class="language-javascript">// one.js
+export default "Hello, Odinite!";
+export const farewell = "Bye bye, Odinite!";</code></pre>
+<p>それから、<code>two.js</code>で両方をインポートできます。greeting文字列はデフォルトインポートする必要があり(これは好きな名前を付けられることも意味します)、farewell文字列は名前付きインポートする必要があります。</p>
+<pre class="highlight"><code class="language-javascript">// two.js
+import greeting, { farewell } from "./one.js";
+
+console.log(greeting); // "Hello, Odinite!"
+console.log(farewell); // "Bye bye, Odinite!"</code></pre>
+<h3 id="entry-points">エントリーポイント</h3>
+<p>ESMを使うとき、すべてのJavaScriptファイルを順番にHTMLに追加する代わりに、単一のファイル - <strong>エントリーポイント</strong> - だけをリンクする必要があります。</p>
+<pre class="highlight"><code class="language-html">&lt;script src="two.js" type="module"&gt;&lt;/script&gt;</code></pre>
+<p>なぜ<code>two.js</code>が私たちのエントリーポイントなのでしょうか?さて、上記の例では、<code>two.js</code>は<code>one.js</code>から変数をインポートしています。つまり<code>two.js</code>は<code>one.js</code>に依存しているということであり、次のような<strong>依存関係グラフ</strong>があることになります:</p>
+<pre class="highlight"><code class="language-text">importer  depends on  exporter
+two.js &lt;-------------- one.js</code></pre>
+<p><code>two.js</code>をモジュールとして読み込むとき、ブラウザはそれが<code>one.js</code>に依存していることを見て、そのファイルからもコードを読み込みます。もし代わりに<code>one.js</code>をエントリーポイントとして使っていたら、ブラウザはそれが他のどのファイルにも依存していないことを見て、それ以外は何もしなかったでしょう。私たちの<code>two.js</code>からのコードは使われず、何もログ出力されなかったでしょう!</p>
+<p>もし何かをエクスポートする別のファイル<code>three.js</code>があり、<code>two.js</code>がそこからインポートしていたら、<code>two.js</code>は依然として私たちのエントリーポイントであり、今度は<code>one.js</code>と<code>three.js</code>の両方に依存することになります。</p>
+<pre class="highlight"><code class="language-text">two.js &lt;-------------- one.js
+              └------- three.js</code></pre>
+<p>あるいは、<code>two.js</code>の代わりに、<code>one.js</code>が<code>three.js</code>からインポートしているとしましょう。その場合でも、<code>two.js</code>は依然として私たちのエントリーポイントであり、<code>one.js</code>を通して間接的に<code>three.js</code>に依存することになります。</p>
+<pre class="highlight"><code class="language-text">two.js &lt;-------------- one.js &lt;-------------- three.js</code></pre>
+<p>ブラウザが追加のファイルの依存関係を私たちの代わりに処理してくれるため、スクリプトタグは一つだけで済んだことに注意してください。また、<code>type="module"</code>が自動的にスクリプトの実行を遅延してくれるため、<code>defer</code>属性を追加する必要もありませんでした。</p>
+<p>もしレッスンの最初にあったIIFEの例で一緒に手を動かしていたなら、JavaScriptを<code>import</code>と<code>export</code>を使うように書き直し、エントリーポイントだけをモジュールスクリプトとしてリンクしてみてください。ブラウザのセキュリティ上の理由から、ブラウザでHTMLファイルを直接開いた場合、ES6モジュールは読み込めません。ですので、まだ使っていなければ、Visual Studio Codeの<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server">Live Preview拡張機能</a>を必ず使ってください。</p>
+<h3>CommonJS</h3>
+<p>これまでの道のりで、<code>import</code>や<code>export</code>の代わりに<code>require</code>や<code>module.exports</code>のような構文を使う、CommonJS(CJS)と呼ばれるものに出会ったことがあるかもしれません。Foundationsコースの私たちのJavaScript演習でこれを見たのを覚えているかもしれません(ずいぶん遠くまで来ましたね)!これはNode.jsで使うために設計されたモジュールシステムで、ESMとは少し異なる働き方をし、ブラウザが理解できるものではありません。</p>
+<p>CJSは今でもNode.jsのコードでかなり多く使われていますが、近年ではNode.jsでもESMが人気を集めてきています。今のところ、私たちはブラウザで実行するコードを書くことに焦点を当てているので、ESMに時間を費やしていきます。もしFull Stack JavaScriptパスウェイを進めているなら、Node.jsのコースで後ほどCJSについてさらに詳しく扱います。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>いつも通り、JavaScriptのキーワードや概念について最も学べるのはMDNのドキュメントからなので、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">exportについてのドキュメント</a>と<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">importについてのドキュメント</a>をチェックしてみてください。エイリアスや名前空間のインポートなど、このレッスンで扱わなかった、それらについての小さな追加事項がいくつかあります。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#before-es6-modules-the-global-scope-problem">ES6モジュール以前、ある変数を他のファイルからアクセスできないようにプライベートにするにはどうすればよかったですか?</a></li>
+<li><a href="#before-es6-modules-the-global-scope-problem">ES6モジュール以前、後のファイルからアクセスできるように変数を公開するにはどうすればよかったですか?</a></li>
+<li><a href="#introduction">コードをモジュールで書くことの利点にはどのようなものがありますか?</a></li>
+<li><a href="#default-exports">デフォルトエクスポートと名前付きエクスポートの違いは何ですか?</a></li>
+<li><a href="#entry-points">エントリーポイントとは何ですか?</a></li>
+<li><a href="#entry-points">HTMLでモジュールスクリプトをどうリンクしますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

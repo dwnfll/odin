@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Views</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
+    <h1 class="lesson-header__title">Views <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Views in Express</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Previously, a lot of projects you'll have made would have been SPAs: the served HTML file would essentially be empty with a script tag that lets the client render the page using JavaScript. Now we're focusing on rendering HTML on the server, i.e. using the server to create HTML files that actually contain contents of the page.</p>
+<p>Views are the user-facing part of the application, in this case, HTML files. We've dealt with views in an earlier project where the server would send HTML files to the user, but these files were static and many of our use cases require views to be dynamic with regards to data.</p>
+<p>Hence, we will use template engines to create our views. As the name suggests, we write template files in our codebase that get transformed into HTML when we respond to a server request. Any variables defined in our template files are replaced with actual data. Additionally, we can insert conditional and/or loop logic into our template file, e.g. render the user's username once they have logged in. This would not be possible with plain HTML. Any client-side JavaScript can still be added via a script tag (though we won't be doing much fancy with the client side for now).</p>
+<p>In this course, we will use <a href="https://ejs.co/">EJS</a>. EJS's syntax is very similar to that of HTML, meaning that the learning curve is relatively low compared to other template engines.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>How to set up EJS in an Express project.</li>
+<li>How to use EJS.</li>
+</ul>
+<h3>Setting up EJS</h3>
+<div class="lesson-note">
+<h4>Why not React?</h4>
+<p>We have not taught how to use React Server Components which are quite different to what you'll know about React so far. Setting these up on their own is not trivial unlike a template engine like EJS, and it would be hard to focus on learning back end fundamentals if using a preconfigured but highly abstracted full stack framework (which blurs the lines between both ends for more streamlined development).</p>
+</div>
+<p>Let's get started with EJS! Install EJS into your application by typing the following into your terminal:</p>
+<pre class="highlight"><code class="language-bash">npm install ejs</code></pre>
+<p>At the root of your project, create a subfolder called <code>views</code>.</p>
+<p>Next, we need to let our app know that we intend to use <code>EJS</code> as a template engine, as well as where to look for view files.</p>
+<p>In your <code>app.js</code> file, set the following application properties:</p>
+<pre class="highlight"><code class="language-javascript">// app.js
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");</code></pre>
+<p>And import the Path CommonJS module from Node near the top:</p>
+<pre class="highlight"><code class="language-javascript">// app.js
+const path = require("node:path");</code></pre>
+<p>This enables EJS as the view engine, and that our app should look for templates in the <code>/views</code> subdirectory.</p>
+<h3>EJS syntax</h3>
+<p>In EJS, the <code>&lt;%</code> and <code>%&gt;</code> tags allow us to use JavaScript. This lets us write conditional statements, <code>for</code> loops, as well as use variables.</p>
+<p>In order to output a variable as a value, we use the <code>&lt;%=</code> tag.</p>
+<p>Here's a quick example that includes arrays and loop logic.</p>
+<pre class="highlight"><code class="language-ejs">&lt;% const animals = ["Cat", "Dog", "Lemur", "Hawk"] %&gt;
+
+&lt;ul&gt;
+  &lt;% animals.map((animal) =&gt; { %&gt;
+    &lt;li&gt;&lt;%= animal %&gt;s are cute&lt;/li&gt;
+  &lt;% }) %&gt;
+&lt;/ul&gt;</code></pre>
+<h3>Using EJS with Express</h3>
+<p>Let's use EJS with Express. First, create an EJS template file called <code>index.ejs</code> in the <code>views</code> subdirectory, and add the following:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;%= message %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>And in <code>app.js</code>, render this template file in one of your routes:</p>
+<pre class="highlight"><code class="language-javascript">// app.js
+app.get("/", (req, res) =&gt; {
+  res.render("index", { message: "EJS rocks!" });
+});</code></pre>
+<p>Ideally we would define the route in a separate router file, but for the purposes of this lesson we'll be defining it in <code>app.js</code></p>
+<p>Start the server and go to the <code>/</code> route in the browser. You should see:</p>
+<pre class="highlight"><code class="language-html">EJS rocks!</code></pre>
+<p>If you inspect the HTML in the browser's dev tools, you can see the HTML is structured exactly like how we wrote the EJS template with the <code>message</code> variable replaced with its value.</p>
+<p>When you hit the <code>/</code> route, <code>res.render("index", { message: "EJS rocks!" });</code> is the line that sends back the response. Since we've already defined the <code>views</code> and <code>view engine</code> app properties, the first argument of <code>res.render</code> is programmed to look for "a template called index in the specified folder", while the second argument is an object of variables that are to be made available to that specific template.</p>
+<h3>The locals variable in EJS</h3>
+<p>In the example above, how did the template file know about the <code>message</code> variable? When we render the view, EJS has access to any properties from the object we pass into <code>res.render</code>, as well as any properties on <a href="https://expressjs.com/en/5x/api/response/#reslocals">Express's res.locals object</a> (<code>res.locals</code> can be useful if you need to pass values to the view in one middleware function, but won't call <code>res.render</code> until later in the middleware chain).</p>
+<p>EJS will store these properties in an object called <code>locals</code>, which you can access in the view. Similarly to the global <code>window</code> object in browsers, this allows you to access the <code>message</code> variable in the view via <code>locals.message</code>, or simply just <code>message</code>.</p>
+<div class="lesson-note lesson-note--tip">
+<h4>Undefined variables in locals</h4>
+<p>If we try to access a variable in a rendered template file that was not defined in the <code>locals</code> argument of <code>res.render</code> or <code>res.locals</code>, this can cause a reference error. For instance if we try to access an undefined <code>foo</code> variable, <code>locals.foo</code> will return undefined, while <code>foo</code> will result in a reference error. Verify this by outputting <code>locals.foo</code> in <code>index.ejs</code>, then replacing it with<code>foo</code>:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;%= message %&gt;
+    &lt;!-- replace the below with the output of just foo --&gt;
+    &lt;%= locals.foo %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+<h3>Reusable templates</h3>
+<p>You may want to include webpage components that are shared across different pages, such as a sidebar or a header. To insert such components into your pages, we make use of the <code>include</code> command. This requires the name of the file to be inserted, and optionally an object of data you wish to pass.</p>
+<p>Create the following navbar component called <code>"navbar.ejs"</code>:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- navbar.ejs --&gt;
+&lt;nav&gt;
+  &lt;ul&gt;
+    &lt;% for (let i = 0; i &lt; links.length; i++) { %&gt;
+      &lt;li&gt;
+        &lt;a href="&lt;%= links[i].href %&gt;"&gt;
+          &lt;span&gt; &lt;%= links[i].text %&gt; &lt;/span&gt;
+        &lt;/a&gt;
+      &lt;/li&gt;
+    &lt;% } %&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+<p>Note that the navbar expects a <code>links</code> variable. To pass this data into the navbar, pass it as a <code>locals</code> variable when rendering the template file at <code>res.render()</code>. We will render <code>index.ejs</code> to include the navbar. To do this, modify <code>app.js</code> such that a <code>links</code> object is defined and passed into the <code>render</code> function rendering <code>index.ejs</code> in the <code>"/"</code> route handler:</p>
+<pre class="highlight"><code class="language-javascript">// app.js
+const links = [
+  { href: "/", text: "Home" },
+  { href: "/about", text: "About" },
+];
+
+app.get("/", (req, res) =&gt; {
+  res.render("index", { links: links });
+});</code></pre>
+<p>Then, modify the previously created <code>index.ejs</code> to remove the <code>&lt;%= message %&gt;</code> line and instead <code>include</code> the <code>navbar</code> with the <code>links</code> variable like so:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Homepage&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%- include('navbar', {links: links}) %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>This will include the navbar with links in <code>index.ejs</code>. Run your server and see! Reusable templates can be used to include headers and footers in all of your pages.</p>
+<p>Note the use of the raw output tag <code>&lt;%-</code> with the <code>include</code> which is used to avoid double-escaping the HTML output.</p>
+<p>Let's use <code>include</code> to dynamically render a list of variables a different way. In <code>app.js</code>, add the following <code>users</code> array just below the <code>links</code> variable, and pass it to the <code>render</code> function when rendering <code>index</code>:</p>
+<pre class="highlight"><code class="language-javascript">// app.js
+
+const links = [
+  { href: "/", text: "Home" },
+  { href: "/about", text: "About" },
+];
+
+const users = ["Rose", "Cake", "Biff"];
+
+app.get("/", (req, res) =&gt; {
+  res.render("index", { links: links, users: users });
+});</code></pre>
+<p>Then create a new view called <code>user.ejs</code> in the <code>views</code> directory:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- views/user.ejs --&gt;
+&lt;li&gt;&lt;%= user %&gt;&lt;/li&gt;</code></pre>
+<p>Then add the following block to <code>index.ejs</code>:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
+&lt;ul&gt;
+  &lt;% users.forEach((user) =&gt; { %&gt;
+    &lt;%- include('user', {user: user}); %&gt;
+  &lt;% }); %&gt;
+&lt;/ul&gt;</code></pre>
+<p>If successful, Rose, Cake and Biff will be visible when rendering <code>index.ejs</code>.</p>
+<div class="lesson-note lesson-note--tip">
+<h4>Directories within the views folder</h4>
+<p>Let's create nested directories of EJS template files within the views. Change the <code>user.ejs</code> in the <code>views</code> directory to <code>users/user.ejs</code>, and in <code>index.ejs</code> change the path from <code>user</code> to <code>users/user</code> in the <code>users.forEach</code> block:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
+&lt;ul&gt;
+  &lt;% users.forEach((user) =&gt; { %&gt;
+    &lt;%- include('users/user', {user: user}); %&gt;
+  &lt;% }); %&gt;
+&lt;/ul&gt;</code></pre>
+</div>
+<h3>Serving Static Assets</h3>
+<p>Serving static assets with EJS is similar to how we served assets previously when working directly with HTML, in that we can add external files to the head of the template file using the <code>link</code> tag. The main thing to point out is that the app needs to know where to serve assets from. Assuming <code>express</code> is installed, set the following lines in <code>app.js</code>:</p>
+<pre class="highlight"><code class="language-javascript">// app.js
+const assetsPath = path.join(__dirname, "public");
+app.use(express.static(assetsPath));</code></pre>
+<p><code>express.static()</code> is a middleware function that enables the use of static assets, and we tell it to look for assets with the <code>public</code> directory as the root.</p>
+<p>Create the following <code>styles.css</code> file in the root of the <code>public</code> directory:</p>
+<pre class="highlight"><code class="language-css">/* public/styles.css */
+body {
+  color: red;
+}</code></pre>
+<p>To serve <code>styles.css</code> in <code>index.ejs</code>, set the following <code>link</code> tag like so in the head:</p>
+<pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
+&lt;head&gt;
+  &lt;link rel="stylesheet" href="/styles.css"&gt;
+&lt;/head&gt;</code></pre>
+<p>Your <code>index.ejs</code> file should now display red text!</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Have another read through the <a href="https://ejs.co/#docs">EJS docs</a>.</li>
+<li>Read through the <a href="https://expressjs.com/en/guide/using-template-engines.html">Express resource on template engines</a>. The resource uses Pug for the examples which has a different syntax, however the information should still be a useful supplement to this lesson.</li>
+<li>Let's add to the app we've been developing this lesson! Add a view for an about page, which should render on the <code>/about</code> route.</li>
+<li>Create a reusable footer template and render it in all of the app routes.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#introduction">What are template engines for that differs from rendering an SPA on the client?</a></li>
+<li><a href="#setting-up-ejs">How do you configure EJS for Express projects?</a></li>
+<li><a href="#ejs-syntax">What is the difference between "&lt;%" and "&lt;%=" tags?</a></li>
+<li><a href="#using-ejs-with-express">How do you render a view in a controller callback?</a></li>
+<li><a href="#reusable-templates">How can templates be included in other templates?</a></li>
+</ul>
+<h3>Additional resources</h3>
+<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<ul>
+<li><a href="https://blog.logrocket.com/how-to-use-ejs-template-node-js-application/">How to Use EJS to Template Your Node.js Application</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

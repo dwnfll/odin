@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commit Messages</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Commit Messages <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">How and when to commit</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>このレッスンでは、良いコミットメッセージの重要性、それらの書き方、いつコミットすべきか、そしてなぜ良いコミットの履歴を持つことがそれほど重要なのかを説明します!これを今学ぶのは、あなたがワークフローの一部としてGitを使う最初のプロジェクトを始めようとしているからです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>意味のあるコミットメッセージの書き方。</li>
+<li>なぜ意味のあるコミットメッセージが重要なのか。</li>
+<li>いつコミットすべきか。</li>
+</ul>
+<h3>コミットメッセージは、それ専用のレッスンに値するほど重要なのか?</h3>
+<p>はい!その理由を簡単にリストアップしましょう:</p>
+<ul>
+<li>
+<p>仕事に応募するとき、雇用主はあなたのGitHub上のプロジェクトに目を通し、コミット履歴を確認します。新人開発者として良いコミットを持っていることは、あなたを際立たせる助けになります。</p>
+</li>
+<li>
+<p>良いコミットメッセージの履歴があれば、あなた(やあなたのコードに取り組む他の開発者)は、どのような変更が、なぜ行われたのかをすぐに把握できます。これは、修正が必要なバグがコード内に見つかった場合に役立ちます!</p>
+</li>
+<li>
+<p>良いコミットメッセージの履歴は、しばらく離れていたプロジェクトに戻ってきたときにも役立ちます。最初にコードを書いたときの思考のプロセスや行った変更は、おそらく覚えていないでしょう。</p>
+</li>
+</ul>
+<h3>悪いコミットと良いコミット</h3>
+<p>コミットを書くにあたっては、それらを効果的に書く方法を知ることが極めて重要です。悪いコミットメッセージの例を挙げてみましょう:</p>
+<pre class="highlight"><code class="language-text">fix a bug</code></pre>
+<p>何をしたかは説明されていますが、このメッセージはあまりにも曖昧であり、チームの他の開発者を混乱させてしまいます。良いコミットメッセージは、あなたの変更の背後にある<strong>理由</strong>を説明します。言い換えると、コミットメッセージは、あなたの変更がどのような問題を、どのように解決するのかを説明するものです。</p>
+<p>効果的なコミットは、サブジェクト(件名)とボディ(本文)という2つの別々の部分で構成されます:</p>
+<h4>サブジェクト(件名)</h4>
+<p>プロジェクトに加えた変更の簡潔な要約です。</p>
+<pre class="highlight"><code class="language-text">This is the change I made to the codebase</code></pre>
+<div class="lesson-note lesson-note--tip">
+<h4>コミットのサブジェクトの文字数制限</h4>
+<p>GitHubには72文字の制限があるため、コミットのサブジェクトはこの文字数以内に収めることをお勧めします。</p>
+</div>
+<h4>ボディ(本文)</h4>
+<p>自分が行ったことについての、簡潔かつ明確な説明です。</p>
+<pre class="highlight"><code class="language-text">Describe the problem your commit solves and how.</code></pre>
+<p>良いコミットメッセージを作る秘訣を学んだところで、先ほどのコミットメッセージを直してみましょう:</p>
+<pre class="highlight"><code class="language-git">Add missing link and alt text to the company's logo
+
+Screen readers won't read the images to users with disabilities without this information.</code></pre>
+<p>ああ、これでよくなりました!:) これで、開発者はこのコミットメッセージをより深く理解できるようになります。なぜなら、これは以下のことを行っているからです:</p>
+<ul>
+<li>コードのアクションを明示するサブジェクト(件名)を提供している(例:「Add missing link and alt text to the company's logo」)。</li>
+<li>なぜそのコミットが必要だったのかについて、簡潔かつ明確な説明を提供するボディ(本文)を含んでいる(例:「Screen readers won't read the images to users with disabilities without this information.」)。</li>
+<li>サブジェクトとボディを、新しい行/空白行で区切っている。これは私たちが従うことを強くお勧めするベストプラクティスです。これにより、他の開発者にとってコミットメッセージが読みやすくなります。</li>
+</ul>
+<p>開発者チームによっては、特定の形式でコミットメッセージの独自の慣習を持っていることもあります。しかし、それらも依然として、このレッスンで説明した原則に従っています。</p>
+<h3>サブジェクトとボディを含むメッセージでコミットする方法</h3>
+<p>これまでは、<code>git commit -m &lt;message&gt;</code>でコミットするよう指示されてきました。サブジェクトとボディを含むメッセージでコミットする最も簡単な方法は、<code>-m</code>フラグとメッセージ引数を付けずに<code>git commit</code>と入力することです。</p>
+<p>こうすることで、<a href="https://www.theodinproject.com/lessons/foundations-git-basics#changing-the-git-commit-message-editor">Visual Studio CodeをGitのエディタとして設定</a>していれば、新しいVisual Studio Codeのタブが開きます。コメントを削除し、複数行のメッセージを入力できます。タブを保存して閉じると、コミットが作成されます。</p>
+<h3>いつコミットすべきか</h3>
+<p>コミットを捉える良い方法は、それが作られた瞬間のあなたのコードの「スナップショット」だと考えることです。その時点までのコードのバージョンが保存され、後で元に戻したり振り返ったりできるようになります。</p>
+<p>コードを書くとき、コードに意味のある変更があるたびにコミットすることがベストプラクティスとされています。これにより、あなたの進捗のタイムラインが作られ、完成したコードが何もないところから突然現れたわけではないことが示されます。</p>
+<p>言い換えると、取り組んでいるコードの一部を望み通りに機能させられたとき、タイプミスを直したとき、あるいはバグを直したときにコミットしてください。経験を積むにつれて、何をコミットすべきかについての感覚がより身についていきます!</p>
+<p>プロジェクトに取り組んでいて、何かをようやく正しく動かせるようになる(これはコミットするのに良いタイミングです)ものの、その30秒後から数日後に、それが壊れてしまうという瞬間がやってきます。何を変更したのか見当もつかず、すべてが同じに<em>見える</em>し、その行を編集した覚えもないのに、悲しいことに、もう望み通りには動かなくなっています。そんなとき、コミット履歴を遡って、その部分が最初に動くようになったときの最後のコミットにコードを戻すか、その時点でコードがどうなっていたかを確認することができます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>この記事、<a href="https://cbea.ms/git-commit">How to Write a Git Commit Message</a>は、良いコミットメッセージの書き方について主要な要点をすべて網羅しています。記事全体が素晴らしく有益な内容ですが、記事の核心となるのは「優れたコミットメッセージの7つのルール」です。</li>
+</ol>
+</div>
+<h4>覚えておくべきコツと注意点</h4>
+<ul>
+<li>テキストエディタとしてVSCodeを使用すること(Git Basicsのセクションですでに設定しているはずです)で、複数行のコミットメッセージを簡単に作成でき、各行の文字数を簡単に確認でき、また<a href="https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker">VSCodeのスペルチェック拡張機能</a>を使ってスペルが正しいことを確認できるようになります。</li>
+<li>能動態を使いましょう: 「Fix card generator」。</li>
+<li>「saved」や「updated」のような曖昧なコミットメッセージは避けましょう。</li>
+<li>早めに、こまめにコミットしましょう!</li>
+</ul>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://cbea.ms/git-commit/#intro">よく書かれたコミットメッセージと良いコミット履歴を持つことの2つの利点は何ですか?</a></li>
+<li><a href="https://cbea.ms/git-commit/#limit-50">コミットメッセージのサブジェクト行は何文字にすべきですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

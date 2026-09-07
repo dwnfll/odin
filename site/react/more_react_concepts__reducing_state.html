@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reducing State</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Reducing State <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Reducing State</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>You have probably heard about reducers before. In this lesson we are going to
+learn <em>what</em> they are, <em>when</em> to use them and <em>how</em> to use them in React with the <code>useReducer</code> hook.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>What are reducers.</li>
+<li>When to use reducers.</li>
+<li>What is the <code>useReducer</code> hook.</li>
+</ul>
+<h3>What are reducers?</h3>
+<p>Reducers are pure functions that take a previous state and an action to return a new state.</p>
+<p>The action is an object with a <em>type</em> property describing what the user did. This object can also contain
+any other properties that our reducer might need to produce the new state.</p>
+<p>We can define a reducer that updates the state of a counter like this:</p>
+<pre class="highlight"><code class="language-javascript">function reducer(state, action) {
+  switch (action.type) {
+    case "incremented_count": {
+      return { count: state.count + 1 };
+    }
+    case "decremented_count": {
+      return { count: state.count - 1 };
+    }
+    case "set_count": {
+      return { count: action.value };
+    }
+    default: {
+      throw new Error("unknown action: " + action.type);
+    }
+  }
+}</code></pre>
+<p>Remember, reducers are pure functions so we shouldn't mutate the state.</p>
+<h3>When to use reducers?</h3>
+<p>If a component only needs to update its state in a couple of simple ways, you don't need to use reducers.
+The opposite can be said when a component has become too big, hard to read or debug because of its state logic.</p>
+<p>By using reducers, we can separate the state logic and even store it in a different file or directory, leading
+to smaller components that are easier to read.</p>
+<p>Since reducers use <em>actions</em>, we can easily track any state-related bugs back to the dispatched action,
+and because our reducers are just pure functions, we can test them in isolation.</p>
+<h3>The useReducer hook</h3>
+<p>React allows us to use reducers in our components through a hook called <code>useReducer</code>. This hook takes a reducer function and
+an initial state as arguments, then returns an array with two values: the current state and a <code>dispatch</code> function.</p>
+<p>This <code>dispatch</code> function receives an <strong>action</strong> object as argument, which is passed to our reducer function and
+the returned value from it is used to update the state.</p>
+<pre class="highlight"><code class="language-javascript">const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+function handleClick() {
+  dispatch({ type: "incremented_count" });
+}</code></pre>
+<p>Similarly to how React updates state with the <code>set</code> function in <code>useState</code>, React <em>only updates the state in the next render</em> after calling the <code>dispatch</code> function.
+Keep in mind that these functions use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is"><code>Object.is()</code></a> to determine if the state has changed, if it hasn't, then the component won't re-render.</p>
+<p>Whether you use <code>useState</code> or <code>useReducer</code> is up to you, they're both equivalent and you might use them both in the same component.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>Read through the React docs <a href="https://react.dev/learn/extracting-state-logic-into-a-reducer">Extracting state logic into a reducer</a> to learn more about how to use reducers in React and how to refactor <code>useState</code> into <code>useReducer</code>. Don't forget to complete the challenges at the end.</p>
+</li>
+<li>
+<p>Read the <a href="https://react.dev/reference/react/useReducer">useReducer</a> React docs to learn more about this hook. Pay close attention to the troubleshooting section for common problems that you might encounter.</p>
+</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#what-are-reducers">What are reducers?</a></li>
+<li><a href="https://react.dev/reference/react/useReducer#writing-the-reducer-function">How would you declare a reducer?</a></li>
+<li><a href="#the-usereducer-hook">What does the dispatch function do?</a></li>
+<li><a href="https://react.dev/learn/extracting-state-logic-into-a-reducer#consolidate-state-logic-with-a-reducer">What steps can you follow to migrate from useState to useReducer?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

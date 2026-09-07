@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rock Paper Scissors</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Rock Paper Scissors <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Rock Paper Scissors</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>このプロジェクトでは、<a href="https://www.wikihow.com/Play-Rock,-Paper,-Scissors">じゃんけん(Rock Paper Scissors)</a>ゲームを作成します。このゲームは完全にコンソール内でプレイされます。</p>
+<div class="lesson-note">
+<h4>GUIはまだなし</h4>
+<p>以下の受講生の解答の一部には、ボタン、テキスト、その他の要素が含まれています。これらの要素は、グラフィカルユーザーインターフェース(GUI)と呼ばれるものの一部です。GUIは後のレッスンで作成します。それまでの間、コードをGitHubにコミットするのを忘れないでください。</p>
+</div>
+<h3>問題解決のアプローチ</h3>
+<p>これはゼロから構築する最初のJavaScriptプロジェクトなので、<a href="https://www.theodinproject.com/lessons/foundations-problem-solving">Problem Solvingのレッスン</a>の賢明な言葉を思い出しておくことが重要です。このプロジェクトの各ステップで、以下のことを必ず行ってください</p>
+<ol>
+<li>解決策を計画するか、疑似コードを書く。</li>
+<li>コードを書く。</li>
+<li>コードをテストして、うまく動くことを確認する。</li>
+</ol>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<div class="lesson-note">
+<h4>目の前のタスクに集中する</h4>
+<p>このようなインタラクティブなプロジェクトを作っていると、機能を追加したり、インタラクティブ性を向上させたり、ユーザー体験、ウェブサイトのデザインやスタイリングを改善したくなったりするかもしれません。</p>
+<p>そうしないことをお勧めします。その労力はポートフォリオプロジェクトのために取っておきましょう。詳しくは<a href="https://dev.to/theodinproject/strategically-building-your-portfolio-1km4">"Becoming a TOP Success Story"の「Strategically building your portfolio」</a>を読んでみてください。</p>
+</div>
+<p>早めに、こまめにコミットするのを忘れないでください!記憶を新たにするために、<a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/commit-messages">commit messagesのレッスン</a>を確認してみてください。</p>
+<h4>ステップ1: プロジェクト構造をセットアップする</h4>
+<ol>
+<li>プロジェクト用の新しいGitリポジトリを作成してください。</li>
+<li>scriptタグを含む空のHTMLドキュメントを作成してください。</li>
+<li>JavaScriptが正しくリンクされているか確認してください:
+   - JavaScriptで<code>console.log("Hello World")</code>と書いてください。
+   - ウェブページを開いたときに、ブラウザのコンソールに「Hello World」が出力されるか確認してください。</li>
+</ol>
+<p>このscriptタグ内で外部JavaScriptファイルをリンクするのがベストプラクティスです。外部JavaScriptファイルを使うことで、HTMLファイルをきれいで整理された状態に保てます。</p>
+<p>HTMLファイルに追加のコードを書く必要はありません。このゲームは完全にコンソールを通してプレイされます。</p>
+<h4>ステップ2: コンピューターの選択を取得するロジックを書く</h4>
+<p>あなたのゲームはコンピューターを相手にプレイされます。「rock」「paper」「scissors」のいずれかをランダムに返す関数を書きます。</p>
+<ol>
+<li><code>getComputerChoice</code>という名前の新しい関数を作成してください。</li>
+<li><code>getComputerChoice</code>が「rock」「paper」「scissors」のいずれかの文字列値をランダムに<code>return</code>するようにコードを書いてください。
+   - <strong>ヒント</strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random">Math.random</a>メソッドは、0以上1未満のランダムな数値を返します。これを使って、複数の選択肢のうちの一つを条件付きで返す方法を考えてみてください。
+   - <strong>注</strong>: この問題には配列が必要だと考える学習者もいるかもしれませんが、そうではありません。配列に馴染みがなくても心配いりません---カリキュラムの後半で扱います。</li>
+<li>次のステップに進む前に、<code>console.log</code>または<a href="https://www.theodinproject.com/lessons/foundations-javascript-developer-tools">ブラウザの開発者ツール</a>を使って、関数が期待通りのものを返すことをテストしてください。</li>
+</ol>
+<h4>ステップ3: 人間の選択を取得するロジックを書く</h4>
+<p>あなたのゲームは人間のプレイヤーによってプレイされます。ユーザーの選択を受け取り、それを返す関数を書きます。</p>
+<ol>
+<li><code>getHumanChoice</code>という名前の新しい関数を作成してください。</li>
+<li>ユーザーが入力した内容に応じて、<code>getHumanChoice</code>が有効な選択肢のいずれかを返すようにコードを書いてください。
+   - <strong>ヒント</strong>: ユーザーの入力を得るために<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt">prompt</a>メソッドを使用してください。
+   - ユーザーが無効な入力をした場合の再入力の処理は、後で教える内容が必要になるため、対応する必要はありません。今のところは、ユーザーが常に有効な選択肢を入力すると仮定してください。</li>
+<li><code>console.log</code>を使って、関数が何を返すかをテストしてください。</li>
+</ol>
+<h4>ステップ4: プレイヤーのスコア変数を宣言する</h4>
+<p>あなたのゲームはプレイヤーのスコアを記録します。プレイヤーのスコアを記録するための変数を書きます。</p>
+<ol>
+<li>グローバルスコープに<code>humanScore</code>と<code>computerScore</code>という名前の2つの新しい変数を作成してください。</li>
+<li>それらの変数を<code>0</code>という値で初期化してください。</li>
+</ol>
+<h4>ステップ5: 1ラウンドをプレイするロジックを書く</h4>
+<p>あなたのゲームはラウンドごとにプレイされます。人間とコンピューターのプレイヤーの選択を引数として受け取り、1ラウンドをプレイし、ラウンドの勝者のスコアを増やし、勝者発表を出力する関数を書きます。</p>
+<ol>
+<li><code>playRound</code>という名前の新しい関数を作成してください。</li>
+<li><code>playRound</code>に2つのパラメータを定義してください:<code>humanChoice</code>と<code>computerChoice</code>。この2つのパラメータを使って、人間とコンピューターの選択を引数として受け取ります。</li>
+<li>プレイヤーが「rock」「ROCK」「RocK」など、さまざまなバリエーションを入力できるように、関数の<code>humanChoice</code>パラメータを大文字・小文字を区別しないようにしてください。</li>
+<li><code>playRound</code>関数のコードを書いて、「You lose! Paper beats Rock」のような、ラウンドの勝者を表す文字列値を<code>console.log</code>で出力してください。</li>
+<li>ラウンドの勝者に基づいて、<code>humanScore</code>または<code>computerScore</code>変数を増やしてください。</li>
+</ol>
+<p>コード例:</p>
+<pre class="highlight"><code class="language-javascript">function playRound(humanChoice, computerChoice) {
+  // your code here!
+}
+
+const humanSelection = getHumanChoice();
+const computerSelection = getComputerChoice();
+
+playRound(humanSelection, computerSelection);</code></pre>
+<h4>ステップ6: ゲーム全体をプレイするロジックを書く</h4>
+<p>あなたのゲームは5ラウンドプレイします。<code>playRound</code>を呼び出して5ラウンドをプレイし、スコアを記録し、最後に勝者を発表する<code>playGame</code>という名前の関数を書きます。</p>
+<ol>
+<li><code>playGame</code>という名前の新しい関数を作成してください。</li>
+<li><code>playRound</code>関数とスコア変数を移動し、新しい<code>playGame</code>関数の中で宣言されるようにしてください。</li>
+<li><code>playRound</code>を5回呼び出して、5ラウンドをプレイしてください。
+   - <strong>ヒント</strong>: 関数呼び出しを変数に代入すると、その関数の戻り値が変数に代入されます。その後変数にアクセスしても、代入された値が得られるだけで、関数が再度呼び出されるわけではありません。各ラウンドで新しい選択を得るには、選択の関数を再度呼び出す必要があります。
+   - 必要であれば、以前の関数を作り直したり、ヘルパー関数をさらに作成したりしてください。特に、戻り値をより役立つものに変更したいと思うかもしれません。
+   - すでにループについて知っているなら、それを使っても構いません。知らなくても心配いりません!ループは次のレッスンで扱います。</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

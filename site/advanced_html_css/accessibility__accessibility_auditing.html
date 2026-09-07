@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessibility Auditing</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Accessibility Auditing <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn how to audit your own sites to check for and correct accessibility issues.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>これで、あなたのウェブサイトを多くのユーザーにとってよりアクセシブルにするために必要な知識を身につけましたが、ここで疑問が生じます: a11y機能が正しく実装されていることをどう確認できるでしょうか?修正すべき間違いや、改善できる可能性のある点はあるでしょうか?このレッスンでは、あなたのa11yスキルをさらに一段上へと押し上げる助けとなるよう、これらの質問に答えていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>ブラウザのDevTools内でアクセシビリティセクションを開きます。</li>
+<li>サードパーティの監査ツールを使ってウェブページを監査します。</li>
+</ul>
+<h3>アクセシビリティDevTools</h3>
+<p>ブラウザのDevToolsを使うことは、ページに適用されているスタイルを確認することからコードのデバッグまで、さまざまなことに非常に役立ちますが、それはあなたもすでにご存知でしょう!ここで、あなたが知らないかもしれないことがあります: DevToolsを使って、さまざまなアクセシビリティ機能を確認することもできるのです。これは、いわば「簡易監査」として非常に役立ちます。コントラスト比を確認したり(前のレッスンで触れたように)、さまざまなアクセシビリティプロパティを見たり、アクセシビリティツリーを見たりすることが、いくつかできる機能として挙げられます。</p>
+<h3>アクセシビリティ監査</h3>
+<p>ウェブページのアクセシビリティを監査するためのサードパーティツールはたくさんあり、それぞれに独自の長所と短所があります。ここでは、それらのツールのうち3つだけを紹介します。ウェブページを監査する習慣を身につけることで、見落としていたかもしれない未解決のa11yの問題を突き止められるようになります。これらのツールのいずれかを使うことに決めても、あなたが好む他の監査ツールを使うことに決めても、今のところは、カリキュラムのこの部分で紹介された概念に関連する問題を修正することだけに焦点を当てるべきです。</p>
+<ul>
+<li>
+<p><a href="https://chrome.google.com/webstore/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd?hl=en-US">axe DevTools for Chrome</a>は、拡張機能ベースのツールで、重大度レベルごとにランク付けされた問題のリストを返し、手動で確認すべき問題があれば知らせてくれます。</p>
+</li>
+<li>
+<p><span id="chrome-default-tool-knowledge-check"><a href="https://developers.google.com/web/tools/lighthouse">Lighthouse for Chrome</a>はデフォルトでChromeのDevToolsで利用可能です(Auditingタブとして表示されている場合もあります)。あるいはコマンドラインから実行することもできます。Lighthouseは、a11yの監査だけでなく、パフォーマンス、ベストプラクティス、検索エンジン最適化(SEO)、該当する場合はプログレッシブウェブアプリ(PWA)についても提供してくれます。問題はカテゴリごとに分かれており、axe DevToolsと同様に、手動で確認すべき問題のリストがある場合があります。</span></p>
+</li>
+<li>
+<p><a href="https://wave.webaim.org/">WebAIMのWAVE</a>は、監査したいページのURLを入力する、ウェブサイトベースのツールです。ブラウザ拡張機能やAPIのオプションもあります。WAVEは、ページのプレビューにアイコンのオーバーレイを重ねたものを返し、問題はアラート、警告、コントラストエラーというカテゴリに分けられます。残念ながら、ページに配置されるアイコンがレイアウトを崩してしまうことがありますが、発見されたa11yの問題により集中したいのであれば、それは小さな問題かもしれません。</p>
+</li>
+</ul>
+<p>もちろん、あなたのウェブサイトのアクセシビリティを確認する最良の方法の一つは、これらのアクセシビリティ機能に頼っているユーザーからフィードバックを得ることです。これは必ずしも簡単な選択肢ではありませんが、あなたのサイトのアクセシビリティ(あるいはその欠如)によって影響を受けるかもしれない人々の声に耳を傾ける価値はあります。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>以下のリソースを読んでください:<ul>
+<li><a href="https://developer.chrome.com/docs/devtools/accessibility/reference/#tab">アクセシビリティ機能のリファレンス</a>は、Accessibilityタブのセクションから始まり、ChromeのDevTools内のアクセシビリティ機能の簡単な概要を提供してくれます。</li>
+<li>Chrome 83のアップデートページからの<a href="https://developer.chrome.com/blog/new-in-devtools-83/#vision-deficiencies">視覚障がいをエミュレートする</a>セクション。</li>
+<li><a href="https://developer.chrome.com/docs/devtools/issues/#open">Issuesタブを開く</a>セクション。このページでアクセシビリティに関連しない言及はすべて無視して構いません。ここでは、DevToolsでこのタブを開く方法を知ってもらうことだけが目的だからです。それができるようになれば、他に発見された問題に加えて、a11yの問題も見られるようになります。</li>
+<li>ブラウザによって(roleプロパティの値やa11yプロパティの表示方法など)違いはありますが、<a href="https://firefox-source-docs.mozilla.org/devtools-user/accessibility_inspector/index.html#features-of-the-accessibility-panel">MDNのドキュメントの「Features of the Accessibility panel」セクション</a>をチェックしてみてください。よりFirefox向けの内容ではありますが、Chromeユーザーにとっても依然として役立つ有用な情報があります。</li>
+</ul>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://developer.chrome.com/docs/devtools/accessibility/reference/#pane">ブラウザのDevToolsで利用可能な、さまざまなアクセシビリティ機能にはどのようなものがありますか?</a></li>
+<li><a href="#chrome-default-tool-knowledge-check">ChromeのDevToolsにデフォルトで利用可能なサードパーティのアクセシビリティ監査ツールはどれですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to Flexbox</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Introduction to Flexbox <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Let&#x27;s get started with Flexbox</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>これから学んでいくように、ウェブページ上で要素を動かす方法は<em>たくさん</em>あります。長年にわたって新しい方法が開発され、古いものは廃れていきました。Flexboxは最初からCSSで使えたわけではありません---その登場は<em>革命的</em>なものでした。</p>
+<p>多くの教材は、これが技術として比較的新しいという理由でカリキュラムの終盤に配置しています。しかし現時点では、多くの開発者にとって要素を配置するデフォルトの方法になっています。Flexboxはあなたのツールボックスの中で最もよく使うツールの一つになるので、先に学んでしまいましょう。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>flexboxを使って要素を配置する方法を学びます。</li>
+<li>フレックスコンテナとフレックスアイテムについて学びます。</li>
+<li>単に要素を積み重ねたり中央揃えしたりするだけにとどまらない、役立つコンポーネントやレイアウトの作り方を学びます。</li>
+</ul>
+<h3>始める前に</h3>
+<p>Flexboxのレイアウトは少し複雑になることがあります。前のレッスンでは、ブラウザの開発者ツールを使って物事を検証しデバッグする方法を学びました。これらのツールは、これから続くレッスンで<em>非常に重要</em>になります。何かが期待通りに動作しない場合は、開発者ツールで検証することが<em>毎回</em>最初のステップになるはずです。</p>
+<p>Flexboxは、これまで扱ってきた他の概念より必ずしも難しいわけではありませんが、動く部分が<em>確かに</em>もう少し多くあります。これらの最初のレッスンで学んでいることを実際に活用できるようになるには、最後までたどり着いてすべてを組み合わせられるようになるまで、少し難しく感じるでしょう。進めていく中で、自分のためにも<strong>すべてのコード例をいろいろ試してみて</strong>ください。</p>
+<p>このセクションの終わりの課題に取り組む際、ほぼ間違いなくこれらのレッスン(あるいは私たちが紹介するいくつかのリソース)を振り返って参照する必要が出てくるでしょう。しかし、時間をかけて私たちが提供するすべてのコード例を試しておけば、その時が来たときにどこを見ればよいかがよりよく分かるようになります。</p>
+<h3>フレックスしてみよう!</h3>
+<p>Flexboxは、アイテムを行や列に配置する方法です。これらのアイテムは、あなたが定義できるいくつかのルールに基づいて、フレックス(つまり伸び縮み)します。始めるにあたって、まずデモを見てみましょう。</p>
+<div class="lesson-note">
+<h4>インタラクティブなCodePen</h4>
+<p>これらのレッスンには、たくさんのインタラクティブな例を埋め込んでいます。概念をしっかり頭に定着させるために、時間をかけていろいろ試してみてください!</p>
+</div>
+<p class="codepen" data-height="400" data-default-tab="html,result" data-slug-hash="QWgNxrp" data-editable="true" data-user="TheOdinProjectExamples" style="height: 400px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/QWgNxrp">
+  first flex example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>ここで何が起きているのかについては、すぐに詳しく説明します。しかしとりあえずは、上記のCodepenにある2つのflex関連のCSS宣言を、それらを囲んでいる<code>/*</code>と<code>*/</code>タグを削除してコメントアウトを解除し、結果を確認してみましょう。</p>
+<div class="lesson-note">
+<h4>コメント</h4>
+<p>コメントは、ブラウザがある行をコードとして解釈するのを防ぐもので、特定のタグの間に囲まれています。CSSでは<code>/*</code>を開始コメントタグ、<code>*/</code>を終了コメントタグとして使用し、HTMLとJavaScriptにはそれぞれ独自の構文があります。コメントアウトされたコードの行は、コードを囲んでいるコメントタグを削除することで「再度有効化」できます。</p>
+</div>
+<p>これで3つのdivがすべて水平に並んでいるはずです。「1x」「.5x」「.25x」ボタンで結果のフレームのサイズを変更すると、divが「フレックス」する様子も見られます。それらは利用可能な領域を埋め、それぞれが等しい幅を持つようになります。</p>
+<p>HTMLの<code>.flex-container</code>の中に別のdivを追加すると、それは他のものと並んで表示され、すべてが利用可能な領域に収まるようにフレックスします。</p>
+<div class="lesson-note">
+<h4>CodePenを外部で開く</h4>
+<p>小さく埋め込まれたCodePenで何が起きているのか見づらい場合は、遠慮なく「Edit on CodePen」または「Fork on CodePen」ボタンをクリックしてください。これにより、例をフルサイズの環境に持っていくことができます。後の例のいくつかは、特にこれを行うことで見やすくなるかもしれません。</p>
+</div>
+<h4>フレックスコンテナとフレックスアイテム</h4>
+<p>これまで見てきたように、flexboxは単一のCSSプロパティではなく、物事を必要な場所に配置するために使える、プロパティ一式のツールボックスです。これらのプロパティの中には<em>フレックスコンテナ</em>に属するものもあれば、<em>フレックスアイテム</em>に属するものもあります。これは重要な概念です。</p>
+<p><span id="flex-container-item-knowledge-check">フレックスコンテナとは、<code>display: flex</code>が設定されている任意の要素のことです。フレックスアイテムとは、フレックスコンテナの直下に存在する任意の要素のことです。</span></p>
+<p><img alt="「display: flex」が適用された要素がフレックスコンテナとなり、その子要素がフレックスアイテムになっている図" id="how-to-create-flex-item-knowledge-check" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/b2a53579fcbec1cfde47646cc5a2b109cd7772cc/foundations/html_css/flexbox/imgs/03.png" /></p>
+<p>少しややこしいのですが、どんな要素もフレックスコンテナ<em>かつ</em>フレックスアイテムの両方になることができます。言い換えると、フレックスアイテムに<code>display: flex</code>を設定し、flexboxを使って<em>その</em>子要素を配置することもできるということです。</p>
+<p><img alt="3つのフレックスアイテムの子要素を持つフレックスコンテナ要素。そのうちの1つはさらにフレックスコンテナであり、独自のフレックスアイテムの子要素を持っている" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/495704c6eb6bf33bc927534f231533a82b27b2ac/html_css/v2/foundations/flexbox/imgs/04.png" /></p>
+<p>複数のフレックスコンテナとアイテムを作成し、ネストさせることが、複雑なレイアウトを組み立てていく主な方法になります。以下の画像は、さまざまな要素を配置し、サイズを決め、位置づけるために、flexbox<em>だけ</em>を使って実現されたものです。Flexboxは<em>非常に</em>強力なツールです。</p>
+<p><img alt="サイズや間隔、フレックス方向がさまざまに異なる、多数の独立したネストされたフレックスコンテナ" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/1c08f76bfc94871a3e01bcc2488c82519335b5cd/foundations/html_css/flexbox/imgs/05.png" /></p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>サプライズです!課題はありません!この先のレッスンでさらにたくさんのことを学んでいくので、そのまま進んでください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#flex-container-item-knowledge-check">フレックスコンテナとフレックスアイテムの違いは何ですか?</a></li>
+<li><a href="#how-to-create-flex-item-knowledge-check">フレックスアイテムを作成するにはどうすればよいですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

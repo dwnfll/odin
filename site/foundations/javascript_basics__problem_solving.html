@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problem Solving</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Problem Solving <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">In this lesson we will explore how to approach solving programming problems.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>かなり洗練されたJavaScriptに掘り下げていく前に、<em>問題解決</em>について話し始める必要があります。これは開発者が必要とする最も重要なスキルです。</p>
+<p>問題解決は、ソフトウェア開発者が行うことの核心です。彼らが使うプログラミング言語やツールは、この基本的なスキルに対して二の次です。</p>
+<p>著書<em>『Think Like a Programmer』</em>の中で、V. Anton Spraulはプログラミングにおける問題解決を次のように定義しています:</p>
+<blockquote>
+<p>問題解決とは、特定のタスクの集合を実行し、明示されたすべての制約を満たす、独自のプログラムを書くことである。</p>
+</blockquote>
+<p>タスクの集合は、小さなコーディング演習を解くことから、Facebookのようなソーシャルネットワークサイトや、Googleのような検索エンジンを構築することまで多岐にわたります。それぞれの問題には独自の制約があります。例えば、高いパフォーマンスやスケーラビリティは、コーディング演習ではあまり重要でないかもしれませんが、毎日何十億もの検索クエリを処理する必要があるGoogleのようなアプリでは不可欠です。</p>
+<p>新人プログラマーは、問題解決を身につけるのが最も難しいスキルだと感じることがよくあります。駆け出しのプログラマーが構文やプログラミングの概念をすらすらと学んでいくのに、いざ自分で何かをコーディングしようとすると、どこから始めればいいか分からず、テキストエディタをぼんやりと見つめてしまうことは珍しくありません。</p>
+<p>問題解決能力を向上させる最良の方法は、たくさんのたくさんのプログラムを作ることで経験を積むことです。練習を積めば積むほど、現実世界の問題を解決する準備がより整っていきます。</p>
+<p>このレッスンでは、問題解決のプロセスに役立てられるいくつかのテクニックを見ていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>問題解決プロセスの3つのステップを説明する。</li>
+<li>疑似コードとは何かを説明し、それを使って問題を解けるようになる。</li>
+<li>問題を小さな部分問題に分解できるようになる。</li>
+</ul>
+<h3>問題を理解する</h3>
+<p><span id="problem-solving-stages"></span>
+問題を解決するための最初のステップは、その問題が正確に何であるかを理解することです。<span id="important-understand-problem">問題を理解していなければ、いつそれをうまく解決できたのかが分からず、間違った解決策に多くの時間を無駄にしてしまうかもしれません</span>。</p>
+<p><span id="help-understand-problem">問題を明確に理解するために、それを紙に書き出し、自分にとって意味が通るまで平易な言葉で言い換え、役立つのであれば図を描いてみましょう。誰か他の人にその問題を平易な言葉で説明できるようになったとき、あなたはそれを理解しているのです。</span></p>
+<h3>計画を立てる</h3>
+<p>解決しようとしていることが分かったところで、まだコーディングに飛び込まないでください。まずはどうやってそれを解決するかを計画する時です。
+<span id="planning-stage"></span>
+このプロセスのこの段階で答えるべき質問のいくつかを挙げます:</p>
+<ul>
+<li>あなたのプログラムにはユーザーインターフェースがありますか?それはどのような見た目になりますか?インターフェースにはどのような機能がありますか?これを紙にスケッチしてみましょう。</li>
+<li>あなたのプログラムにはどのような入力がありますか?ユーザーがデータを入力するのか、それとも他の場所から入力を得るのですか?</li>
+<li>望ましい出力は何ですか?</li>
+<li>入力が与えられたとき、望ましい出力を返すために必要なステップは何ですか?</li>
+</ul>
+<p>最後の質問は、問題を解決するためのアルゴリズムを書き出すところです。<span id="algorithm">アルゴリズムは、特定の問題を解決するためのレシピだと考えることができます。それは、疑似コードでコンピューターが問題を解決するために取る必要のあるステップを定義します。</span></p>
+<h3>疑似コード</h3>
+<p><span id="pseudo">疑似コードとは、プログラムのロジックをコードの代わりに自然言語で書き出すことです。これは、あなたが立ち止まって、プログラムが問題を解決するために経なければならないステップをじっくり考える助けになります。</span></p>
+<p>入力された数までのすべての数値を出力するプログラムの疑似コードが、どのようなものになるかの例を挙げます:</p>
+<pre class="highlight"><code class="language-text">When the user inputs a number
+Initialize a counter variable and set its value to zero
+While counter is smaller than user inputted number increment the counter by one
+Print the value of the counter variable</code></pre>
+<p>これは、疑似コードがどのようなものかを示すための基本的なプログラムです。課題にはさらに多くの疑似コードの例が含まれています。</p>
+<h3>分割統治</h3>
+<p>計画を立てる中で、あなたが解決しようとしている大きな問題のいくつかの部分問題を特定できているはずです。前のセクションで書き出したアルゴリズムの各ステップが部分問題です。最も小さい、あるいは最も単純なものを選び、そこからコーディングを始めましょう。</p>
+<p>必要になるかもしれないすべてのステップを前もって知っているとは限らないため、あなたのアルゴリズムは不完全かもしれない、ということを覚えておくのが重要です---それで構いません。計画段階で特定した部分問題の一つに取り組み、それを解決することで、次に取り組める部分問題が見えてくることがよくあります。あるいは、すでに次の部分問題が分かっている場合でも、最初の部分問題を解決しておくと、それがよりシンプルになることがよくあります。</p>
+<p>多くの初心者は、大きな問題を一度に解決しようとします。<strong>これはやめてください</strong>。<span id="breaking-problem">問題が十分に複雑であれば、自分自身をがんじがらめにしてしまい、物事をはるかに難しくしてしまいます。問題をより小さく、解決しやすい部分問題に分解することの方が、はるかに優れたアプローチです。分解は複雑さに対処するための主要な方法であり、問題を解決し理解しやすく、取り組みやすいものにしてくれます。</span></p>
+<p>つまり、大きな問題を分解し、大きな問題を解決し終えるまで、それぞれの小さな問題を解いていくということです。</p>
+<h3>Fizz Buzzを解く</h3>
+<p>このワークフローが実際に動くところを示すために、<a href="https://en.wikipedia.org/wiki/Fizz_buzz">Fizz Buzz</a>を解いてみましょう。</p>
+<h4>問題を理解する</h4>
+<blockquote>
+<p>ユーザーの入力を受け取り、1からユーザーが入力した数までの数を出力するプログラムを書いてください。ただし、3の倍数についてはその数の代わりに<code>Fizz</code>を、5の倍数については<code>Buzz</code>を出力してください。3と5の両方の倍数である数については<code>FizzBuzz</code>を出力してください。</p>
+</blockquote>
+<p>これが、私たちが解決しようとしている大きな全体像の問題です。しかし、言い換えることで、常により明確にすることができます。</p>
+<p>ユーザーが数を入力できるようにし、1からユーザーが入力した数までの各数を出力するプログラムを書いてください。ただし、3で割り切れる数については代わりに<code>Fizz</code>を出力してください。5で割り切れる数については<code>Buzz</code>を出力し、最後に3と5の両方で割り切れる数については<code>FizzBuzz</code>を出力してください。</p>
+<h4>計画を立てる</h4>
+<p>あなたのプログラムにはインターフェースがありますか?それはどのような見た目になりますか?
+私たちのFizzBuzzの解決策はブラウザのコンソールプログラムになるので、インターフェースは必要ありません。唯一のユーザーとのやり取りは、ユーザーが数を入力できるようにすることだけです。</p>
+<p>あなたのプログラムにはどのような入力がありますか?ユーザーがデータを入力するのか、それとも他の場所から入力を得るのですか?
+ユーザーはプロンプト(ポップアップボックス)から数を入力します。</p>
+<p>望ましい出力は何ですか?
+望ましい出力は、1からユーザーが入力した数までの数のリストです。ただし、3で割り切れる各数は<code>Fizz</code>を出力し、5で割り切れる各数は<code>Buzz</code>を出力し、3と5の両方で割り切れる各数は<code>FizzBuzz</code>を出力します。</p>
+<h4>疑似コードを書く</h4>
+<p>望ましい出力を返すために必要なステップは何ですか?
+この問題についての疑似コードによるアルゴリズムは以下の通りです:</p>
+<pre class="highlight"><code class="language-text">When a user inputs a number
+Loop from 1 to the entered number
+If the current number is divisible by 3 then print "Fizz"
+If the current number is divisible by 5 then print "Buzz"
+If the current number is divisible by 3 and 5 then print "FizzBuzz"
+Otherwise print the current number</code></pre>
+<h4>分割統治する</h4>
+<p>私たちが作成したアルゴリズムから分かるように、最初に解決できる部分問題はユーザーから入力を得ることです。それでは、そこから始めて、入力された数を出力することでうまくいくか確認しましょう。</p>
+<p>JavaScriptでは、「prompt」メソッドを使用します。</p>
+<pre class="highlight"><code class="language-javascript">let answer = parseInt(prompt("Please enter the number you would like to FizzBuzz up to: "));</code></pre>
+<p>上記のコードは、ユーザーに数を尋ねる小さなポップアップボックスを作成するはずです。返ってきた入力は、私たちの変数<code>answer</code>に保存されます。</p>
+<div class="lesson-note lesson-note--tip">
+<h4>parseInt関数を使う</h4>
+<p>ユーザーの入力から数値が返されるように、prompt呼び出しを<code>parseInt</code>関数で包みました。</p>
+</div>
+<p>それができたら、次の部分問題に移りましょう:「1から入力された数までループする」。JavaScriptでこれを行う方法はたくさんあります。一般的な方法の一つ---実際にJava、C++、Rubyなど他の多くの言語で見られるもの---は<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for">forループ</a>を使うことです:</p>
+<pre class="highlight"><code class="language-javascript">let answer = parseInt(prompt("Please enter the number you would like to FizzBuzz up to: "));
+
+for (let i = 1; i &lt;= answer; i++) {
+  console.log(i);
+}</code></pre>
+<p>これを見たことがなく、奇妙に見える場合でも、実際には単純です。私たちは変数<code>i</code>を宣言し、それに1を代入します。これがループにおける変数<code>i</code>の初期値です。2番目の節、<code>i &lt;= answer</code>が私たちの条件です。<code>i</code>が<code>answer</code>より大きくなるまでループしたいのです。3番目の節、<code>i++</code>は、ループに対して繰り返しごとに<code>i</code>を1ずつ増やすよう指示します。結果として、ユーザーが10を入力した場合、このループはコンソールに1から10までの数を出力します。</p>
+<div class="lesson-note lesson-note--tip">
+<h4>ループを1から始める</h4>
+<p>ほとんどの場合、プログラマーは0からループすることになります。私たちのプログラムのニーズにより、私たちは1から始めています。</p>
+</div>
+<p>それが動くようになったら、次の問題に移りましょう:現在の数が3で割り切れる場合、<code>Fizz</code>を出力する。</p>
+<pre class="highlight"><code class="language-javascript">let answer = parseInt(prompt("Please enter the number you would like to FizzBuzz up to: "));
+
+for (let i = 1; i &lt;= answer; i++) {
+  if (i % 3 === 0) {
+    console.log("Fizz");
+  } else {
+    console.log(i);
+  }
+}</code></pre>
+<p>ここでは、現在の数を3で割るために剰余演算子(<code>%</code>)を使用しています。前のレッスンを思い出すと、剰余演算子は除算の余りを返します。つまり、除算から余り0が返される場合、それは<code>現在</code>の数が3で割り切れることを意味します。</p>
+<p>この変更の後、プログラムを実行してユーザーが10を入力すると、次のように出力されます:</p>
+<pre class="highlight"><code class="language-bash">1
+2
+Fizz
+4
+5
+Fizz
+7
+8
+Fizz
+10</code></pre>
+<p>プログラムが形になり始めています。基本構造がすでに整っており、残りの部分問題はすでにある条件のバリエーションにすぎないので、最後のいくつかの部分問題は簡単に解決できるはずです。次のものに取り組みましょう:現在の数が5で割り切れる場合、<code>Buzz</code>を出力する。</p>
+<pre class="highlight"><code class="language-javascript">let answer = parseInt(prompt("Please enter the number you would like to FizzBuzz up to: "));
+
+for (let i = 1; i &lt;= answer; i++) {
+  if (i % 3 === 0) {
+    console.log("Fizz");
+  } else if (i % 5 === 0) {
+    console.log("Buzz");
+  } else {
+    console.log(i);
+  }
+}</code></pre>
+<p>今プログラムを実行すると、ユーザーが10を入力した場合、次のような出力が見られるはずです:</p>
+<pre class="highlight"><code class="language-bash">1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz</code></pre>
+<p>プログラムを完成させるために、もう一つ解決すべき部分問題があります:現在の数が3と5の両方で割り切れる場合、<code>FizzBuzz</code>を出力する。</p>
+<pre class="highlight"><code class="language-javascript">let answer = parseInt(prompt("Please enter the number you would like to FizzBuzz up to: "));
+
+for (let i = 1; i &lt;= answer; i++) {
+  if (i % 3 === 0 &amp;&amp; i % 5 === 0) {
+    console.log("FizzBuzz");
+  } else if (i % 3 === 0) {
+    console.log("Fizz");
+  } else if (i % 5 === 0) {
+    console.log("Buzz");
+  } else {
+    console.log(i);
+  }
+}</code></pre>
+<p>動くようにするために、条件分岐を少し並べ替える必要がありました。最初の条件は、<code>i</code>が単に3で割り切れるかどうかを確認する代わりに、<code>i</code>が3と5の両方で割り切れるかどうかを確認するようになりました。これを行う必要があったのは、もし元のままにしておくと、最初の条件<code>if (i % 3 === 0)</code>が実行され、<code>i</code>が3で割り切れる場合には<code>Fizz</code>が出力され、たとえ<code>i</code>が5でも割り切れたとしても、そのままイテレーションの次の数に進んでしまうからです。</p>
+<p>条件<code>if (i % 3 === 0 &amp;&amp; i % 5 === 0)</code>を最初に持ってくることで、<code>else if</code>条件で3または5それぞれで割り切れるかどうかを個別に確認する前に、<code>i</code>が3と5の両方で割り切れることを確認します。</p>
+<p>これでプログラムは完成しました!今実行すると、ユーザーが20を入力した場合、次のような出力が得られるはずです:</p>
+<pre class="highlight"><code class="language-bash">1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+16
+17
+Fizz
+19
+Buzz</code></pre>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Richard Reisによる<a href="https://www.freecodecamp.org/news/how-to-think-like-a-programmer-lessons-in-problem-solving-d1d8bf1de7d2/">How to Think Like a Programmer - Lessons in Problem Solving</a>を読んでください。</li>
+<li>Coding Techによる<a href="https://www.youtube.com/watch?v=azcrPFhaY9k">How to Begin Thinking Like a Programmer</a>を見てください。1時間の長さがありますが、情報が満載で、視聴する時間をかける価値は間違いなくあります。</li>
+<li>Built Inによるこの<a href="https://www.builtin.com/data-science/pseudocode">Pseudocode: What It Is and How to Write It</a>の記事を読んでください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#problem-solving-stages">問題解決プロセスの3つの段階は何ですか?</a></li>
+<li><a href="#important-understand-problem">なぜ最初に問題を明確に理解することが重要なのですか?</a></li>
+<li><a href="#help-understand-problem">問題をより明確に理解するために何ができますか?</a></li>
+<li><a href="#planning-stage">問題解決プロセスの計画段階で行うべきことにはどのようなものがありますか?</a></li>
+<li><a href="#algorithm">アルゴリズムとは何ですか?</a></li>
+<li><a href="#pseudo">疑似コードとは何ですか?</a></li>
+<li><a href="#breaking-problem">問題を分解して、より小さな問題を解決することの利点は何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

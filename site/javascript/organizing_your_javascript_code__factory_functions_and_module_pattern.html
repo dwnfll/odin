@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factory Functions and the Module Pattern</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Factory Functions and the Module Pattern <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Factory Functions and the Module Pattern</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>前のレッスンでは、オブジェクトコンストラクタについて説明しました。しかし、それはあなたのコードを整理するための数多くの方法の一つに過ぎません。それらはかなり一般的で、JavaScript言語の基本的な構成要素ですが、欠点もあります。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>変数のスコープ。</li>
+<li>クロージャ。</li>
+<li>ファクトリー関数。</li>
+<li>プライベート変数。</li>
+<li>コンポジション。</li>
+<li>IIFEとモジュールパターン。</li>
+<li>カプセル化。</li>
+</ul>
+<h3 id="scoopfuls-of-scopes">スコープをすくい取る</h3>
+<p>「スコーピング(scoping)」という言葉は基本的に、「ある変数はどこで私が利用できるのか?」と問うものです - それは変数の現在のコンテキストを示します。ある変数が<strong>どんな</strong>関数の中でも宣言されておらず、どんな<code>{ 波括弧 }</code>の外にも存在する場合、それらは<strong>グローバルスコープ</strong>にあると言われ、どこからでも利用可能であることを意味します。もしそれらが関数や<code>{ 波括弧 }</code>の中にあれば、それらは<strong>ローカルスコープ</strong>にあることが知られています。</p>
+<p>ECMAScript 6より前は、JavaScriptには変数を宣言するためのキーワードが<code>var</code>一つだけでした。これらの変数は再定義や更新ができ、<strong>関数スコープ</strong>内で定義されていると言われます。つまり、それらは宣言された関数の中でのみ利用可能だということです。</p>
+<p>ECMAScript 6では、<code>let</code>と<code>const</code>というキーワードが導入されました。<code>var</code>変数が関数スコープだったのに対し、これらは<strong>ブロックスコープ</strong>である変数を定義できるようにしてくれます - 基本的に、その変数が定義された最も近い<code>{ 波括弧 }</code>のセットの中でのみ利用可能になるように、スコープを絞ります。これらの波括弧は、<code>for</code>ループ、<code>if-else</code>条件、あるいは他の似たような構造のものであってもよく、これらはブロックと呼ばれます。これらすべてをまとめる例を見てみましょう。</p>
+<pre class="highlight"><code class="language-javascript">// This is a global variable
+let globalAge = 23;
+
+// This is a function - and hey, a curly brace indicating a block
+function printAge(age) {
+  // This is a function scoped variable
+  var varAge = 34;
+
+  // This is yet another curly brace, and thus a block
+  if (age &gt; 0) {
+    // This is a block-scoped variable that exists
+    // within its nearest enclosing block: the if's block
+    const constAge = age * 2;
+    console.log(constAge);
+  }
+
+  // ERROR! We tried to access a block scoped variable
+  // outside its scope
+  console.log(constAge);
+}
+
+printAge(globalAge);
+
+// ERROR! We tried to access a function scoped variable
+// outside the function it's defined in
+console.log(varAge);</code></pre>
+<p>その例についてじっくり考える時間を取ってください。結局のところ、それほど驚くべき概念ではありませんが、そこにはたくさんの用語が詰まっています - それらすべてが、次の巨大なテーマ、クロージャを理解するのに役立ちます。</p>
+<h3 id="closures-arent-scary">クロージャは怖くない</h3>
+<p>何らかの入力に基づいて、ある値を繰り返し取得したり作成したりする必要がある場合、パラメータを持つ関数を使うことがあるのをご存知でしょう?例えば、引数を受け取り、それらの引数を使った結果として配列や文字列や数値を返す関数を書くことができます。関数も同じです。ある関数を使って別の関数を作成することができます。</p>
+<p>これに取り組む最良の方法は、例から始めることでしょう - 以下のコードの断片を見てみてください。</p>
+<pre class="highlight"><code class="language-javascript">function makeAddingFunction(firstNumber) {
+  // firstNumber is scoped anywhere within makeAddingFunction,
+  // including returnedFunction
+  // any variables declared here will also be accessible within returnedFunction
+
+  // we don't need to name the returned function
+  // this is just to reference more easily in explanation
+  return function returnedFunction(secondNumber) {
+    // secondNumber is scoped only within returnedFunction
+    return firstNumber + secondNumber;
+  }
+}</code></pre>
+<p>それから、<code>makeAddingFunction</code>を呼び出すことで、私たちの関数を作成できます:</p>
+<pre class="highlight"><code class="language-javascript">const add5 = makeAddingFunction(5);
+console.log(add5(2)); // 7
+
+const add8 = makeAddingFunction(8);
+console.log(add8(2)); // 10
+
+const add79100105110 = makeAddingFunction(79100105110);
+console.log(add79100105110(111687378)); // 79211792488</code></pre>
+<p>毎回新しい関数を書く代わりに、私たちのために関数を作成してくれる関数を使うだけです - これは、異なる日付を使って何度も呼び出す<code>toFormattedDateString(date)</code>関数を書くのと同じように、ロジックと結果の文字列を毎回ハードコーディングする代わりに行うことです。</p>
+<p><code>returnedFunction</code>は、<code>firstNumber</code>パラメータの周りにクロージャを形成します。クロージャとは、ある関数と、その関数が宣言された<strong>周囲の状態</strong>の組み合わせを指します。この周囲の状態は、その<strong>レキシカル環境</strong>とも呼ばれ、クロージャが作られた時点でスコープ内にあったすべてのローカル変数で構成されます。ここで、<code>add5</code>は<code>makeAddingFunction(5)</code>の呼び出しによって返された関数への参照です。<code>makeAddingFunction(5)</code>の実行が終了した後も、返された関数がまだそれを必要としているため、5はメモリ上でクリーンアップされません。返された関数は、そのレキシカル環境(この場合は<code>firstNumber</code>パラメータを含む)にアクセスできます。</p>
+<p>これは関数の<strong>極めて重要な</strong>振る舞いです。これにより、データを関数に関連付け、囲んでいる関数の外側のどこからでもそのデータを操作できるようになります。これをファクトリー関数で利用できますが、それについてはもうすぐ扱います。</p>
+<h3 id="so-whats-the-matter-with-constructors">では、コンストラクタの何が問題なのか?</h3>
+<p>コンストラクタに関しては、歴史的に一部の人があまり乗り気になれなかったいくつかのことがあります。それらが悪いとか避けるべきだという意味ではなく、単に、オブジェクトを作成する際、代替手段と比較してコンストラクタが機能する仕方について不満を持っていた人がいた、というだけです。</p>
+<p>その一例は、<code>new</code>キーワードなしでコンストラクタを呼び出すといった、間違った使い方を防ぐ自動的な保護策が提供されていないということです(自分自身で保護策を適用する必要があります)。それらは構文的には通常の関数と同じであるため、<code>new</code>なしで呼び出しても依然として「動作」してしまいます。場合によっては、これは意図的に利用されることもあります。例えば<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date"><code>Date()</code>コンストラクタ</a>は、<code>new</code>と共に呼び出されたかどうかによって異なるものを返します。しかし、これは常に望ましいわけではありません。保護策を追加し忘れると、<code>new</code>なしでオブジェクトを構築しようとしてしまい、その時点でエラーになる代わりに、間違った振る舞いで「動作」してしまうかもしれません(これは、プログラムの他の場所から来る非常に紛らわしいエラーを引き起こすかもしれません)。</p>
+<p>もう一つの歴史的な不満は、<code>instanceof</code>が<em>実際に</em>どう機能するかから来ています。他のいくつかのプログラミング言語では、このキーワードはあるオブジェクトがどのコードで作られたかを知るための信頼できる方法です。JavaScriptでは、これはオブジェクトの<em>プロトタイプチェーン全体</em>におけるコンストラクタのプロトタイプの存在をチェックするものであり、あるオブジェクトが実際にそのコンストラクタで作られたかどうかを確認する役には全く立ちません。プロトタイプは、オブジェクトが作成された後でさえ再割り当てされ得ます。</p>
+<p>そのため、一部の人々(全員ではありません)は、特定の状況でコンストラクタを使うことを好まず、代わりにこれらの問題のいくつかに対処する似たようなパターンを好みました。今では、コンストラクタの欠点をそれほど多く持たずにオブジェクト/プロトタイプの操作を行うさらに多くの方法があります(class構文については後で学びます)が、これは依然として、実際の現場でよく見かけることになるものであり、それ自体の長所と短所を持っています。</p>
+<p>「ファクトリー関数」の登場です。</p>
+<h3>ファクトリー関数 🏭</h3>
+<p>これらの凝った響きの関数は、コンストラクタがどう機能するかととても似た働きをしますが、一つ重要な違いがあります - それらはクロージャの力を活用します。オブジェクトを作成するために<code>new</code>キーワードを使う代わりに、ファクトリー関数は、関数を呼び出したときに新しいオブジェクトをセットアップして返します。実際のところ、それらはオブジェクトを返す普通の関数に過ぎず、それほど凝ったことは何も起きていません。それらが「ファクトリー関数」のような凝った名前を持つのは、より特定のコンテキスト(オブジェクトを生産する工場のような)である特定の方法で使われるからに過ぎません。</p>
+<p>それらはプロトタイプを直接利用しないため、パフォーマンス上のペナルティが発生しますが、一般的なルールとして、何千ものオブジェクトを作成しているのでない限り、このペナルティは大きなものではありません(あなたが作るすべての単一の配列が、毎回すべての単一の配列・オブジェクトメソッドの独自のコピーを持って現れることを想像してみてください…それらがどれほど基本的なもので、一つのプログラムでどれほど多く使うことになりそうかを考えると、それは正気の沙汰ではないでしょう)。</p>
+<p>コンストラクタ関数と比較するための基本的な例を見てみましょう。</p>
+<pre class="highlight"><code class="language-javascript">function User(name) {
+  this.name = name;
+  this.discordName = "@" + name;
+}</code></pre>
+<p>おや、これはコンストラクタですね…では、これをファクトリーにリファクタリングできます!</p>
+<pre class="highlight"><code class="language-javascript">function createUser(name) {
+  const discordName = "@" + name;
+  return { name, discordName };
+}</code></pre>
+<p>これはコンストラクタと非常によく似ていますが、これは単なる通常の関数であるため、<code>new</code>キーワードで呼び出す必要はないという点が異なります。</p>
+<div class="lesson-note">
+<h4>オブジェクトのショートハンド記法</h4>
+<p>ファクトリー関数の例で返されるオブジェクトの書き方に、混乱する人もいるかもしれません。2015年、オブジェクトを作成するためのショートカットがJavaScriptに追加されました。名前、年齢、色を持つオブジェクトを作成したいとしましょう。これは次のように書くことになります:</p>
+<pre class="highlight"><code class="language-javascript">const name = "Bob";
+const age = 28;
+const color = "red";
+
+const thatObject = { name: name, age: age, color: color };</code></pre>
+<p>しかし今では、割り当てようとしているプロパティと同じ名前を持つ変数がある場合、それを一度だけ書けばよいのです!</p>
+<pre class="highlight"><code class="language-javascript">const nowFancyObject = { name, age, color };</code></pre>
+<p>これに加えての利点は、これで値をきれいにconsole.logできるようになったということです!以前、name、age、colorの変数を一緒にログ出力したい場合、次のようなことをしていたでしょう:</p>
+<pre class="highlight"><code class="language-javascript">console.log(name, age, color);</code></pre>
+<p>これは<code>Bob 28 red</code>のようなものをログ出力します。<em>悪くは</em>ありませんが、何が何なのか最も明確というわけではありません。代わりに、今度はそれをいくつかの波括弧で囲んでみてください。これによりそれはオブジェクトになります:</p>
+<pre class="highlight"><code class="language-javascript">// shorthand for console.log({ name: name, age: age, color: color })
+console.log({ name, age, color });</code></pre>
+<p>これで<code>{ name: "Bob", age: 28, color: "red" }</code>とログ出力され、これはずっと明確で、しかも手動でラベルを追加する必要もありませんでした!</p>
+<h4>分割代入</h4>
+<p>さらにもう一つの表現方法により、オブジェクト(または配列)から値を「取り出す」「抽出する」ことができます。これは<strong>分割代入(destructuring)</strong>として知られています。オブジェクトがある場合、そのオブジェクトのプロパティを同じ名前の変数に、あるいは配列の場合は任意の名前を付けた変数に抽出できます。以下の例を見てみてください:</p>
+<pre class="highlight"><code class="language-javascript">const obj = { a: 1, b: 2 };
+
+// equivalent of doing
+// const a = obj.a;
+// const b = obj.b;
+const { a, b } = obj;</code></pre>
+<p>そして配列でも:</p>
+<pre class="highlight"><code class="language-javascript">const array = [1, 2, 3, 4, 5];
+
+// equivalent of doing
+// const zerothEle = array[0];
+// const firstEle = array[1];
+const [zerothEle, firstEle] = array;</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">分割代入についてのMDNのドキュメント</a>には素晴らしい例がいくつかあり、この概念について良い読み物になるはずです。</p>
+</div>
+<h3 id="private-variables-and-functions">プライベート変数とプライベート関数</h3>
+<p>さて、これらすべてのどこにクロージャが関わってくるのだろうと思っているかもしれません。ファクトリーはオブジェクトを返しているように見えます。ここで、私たちの<code>User</code>ファクトリーを拡張して、さらにいくつかの変数を追加し、「プライベート」なものを導入することができます。今度はこれを見てみてください:</p>
+<pre class="highlight"><code class="language-javascript">function createUser(name) {
+  const discordName = "@" + name;
+
+  let reputation = 0;
+  const getReputation = () =&gt; reputation;
+  const giveReputation = () =&gt; { reputation++; };
+
+  return { name, discordName, getReputation, giveReputation };
+}
+
+const josh = createUser("josh");
+josh.giveReputation();
+josh.giveReputation();
+
+// logs { discordName: "@josh", reputation: 2 }
+console.log({
+  discordName: josh.discordName,
+  reputation: josh.getReputation()
+});</code></pre>
+<p>新しいユーザーのために新しい指標、レピュテーション(reputation)を導入しました。ファクトリー関数で返しているオブジェクトには、<code>reputation</code>変数自体も、その値のコピーも含まれていないことに注目してください。その代わり、返されるオブジェクトには2つの関数が含まれています - 一つは<code>reputation</code>変数の値を読み取るもので、もう一つはその値を1増やすものです。<code>reputation</code>変数は、私たちが「プライベート」変数と呼ぶものです。なぜなら、オブジェクトのインスタンスでその変数に直接アクセスすることはできず、私たちが定義したクロージャを通してのみアクセスできるからです。</p>
+<div class="lesson-note lesson-note--warning">
+<h4>落とし穴: 「オブジェクト内で変数をreturnする」</h4>
+<p>以下は、多くの人が最初に予想するようには振る舞いません:</p>
+<pre class="highlight"><code class="language-javascript">return { name, discordName, reputation };</code></pre>
+<p>これは「<code>reputation</code>変数をreturnする」ことにはなりません。長い形式の構文では、これは次と同じです:</p>
+<pre class="highlight"><code class="language-javascript">return { name: name, discordName: discordName, reputation: reputation };</code></pre>
+<p>私たちはただ、別のオブジェクトプロパティを作成している(オブジェクトのショートハンド記法のおかげで、たまたま自動的に<code>reputation</code>と呼ばれることになる)だけであり、それに<code>reputation</code>変数の値を割り当てているだけです。これは、ある変数の値で別の変数を普通に割り当てるのとまったく同じです。もう一方の変数は元の変数を「追跡」しません。これは次と同じ振る舞いです:</p>
+<pre class="highlight"><code class="language-javascript">let a = 1;
+let b = a;
+console.log(a, b); // 1 1
+
+a = 5; // only reassigns a
+console.log(a, b); // 5 1
+
+b = 23; // only reassigns b
+console.log(a, b); // 5 23</code></pre>
+<p>プライベート変数にアクセスする<em>唯一</em>の方法は、クロージャを通してです。</p>
+</div>
+<p>ファクトリー関数に関して言えば、プライベートな変数や関数は、クロージャを使って、ファクトリー関数自体の中により小さな専用の変数や関数を作成します - これらは、オブジェクト自体の中でreturnする<em>必要のない</em>ものです。こうすることで、返されるオブジェクトを不要な変数で汚すことなく、よりすっきりしたコードを作ることができます。多くの場合、ファクトリー内のすべての単一の関数をオブジェクトと一緒にreturnする必要はありませんし、内部の変数を公開する必要もありません。クロージャの性質のおかげで、それらをプライベートに使うことができます。</p>
+<p>この場合、私たちは<code>reputation</code>変数自体のコントロールを必要としませんでした。レピュテーションを誤って<code>-18000</code>に設定してしまうといった、うっかりミスを避けるために、<code>getReputation</code>と<code>giveReputation</code>という形で必要な詳細だけを公開します。</p>
+<div class="lesson-note">
+<h4>コンストラクタとクロージャ</h4>
+<p>技術的には、プロトタイプの上ではなくコンストラクタの内側で「プライベートプロパティ」にアクセスするメソッドを定義することで、コンストラクタでもクロージャを使うことができるということに注意してください。しかしそれでは、それらは継承不可能になってしまい、コンストラクタの目的が損なわれてしまいます。</p>
+</div>
+<h3 id="composition-with-factories">ファクトリーによるコンポジション</h3>
+<p>コンストラクタのレッスンでは、プロトタイプと継承の概念、そして私たちのオブジェクトに別のオブジェクトのプロパティへのアクセスを与える方法について深く見てきました。ファクトリー関数を使うと、同じプロトタイプの仕組みを通してではありませんが、似たような継承のような振る舞いを模倣できます。もう一つの仮定のシナリオを考えてみましょう。私たちは、それ自体のプロパティに加えて、<code>User</code>からのいくつかの(あるいはすべての)プロパティへのアクセスを持つ<code>Player</code>ファクトリーを必要としています - それを行う方法がいくつかあります:</p>
+<pre class="highlight"><code class="language-javascript">function createPlayer(name, level) {
+  const { getReputation, giveReputation } = createUser(name);
+
+  const getLevel = () =&gt; level;
+  const increaseLevel = () =&gt; { level++; };
+  return {
+    name,
+    getReputation,
+    giveReputation,
+    getLevel,
+    increaseLevel,
+  };
+}</code></pre>
+<p>これでできました!Userを作成し、そこから必要なものを抽出し、望むものを再びreturnし、残りは何らかのプライベートな変数や関数として隠すことができます!複数のオブジェクトから何かを取りたい場合は、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"><code>Object.assign</code>メソッド</a>を使うこともできます:</p>
+<pre class="highlight"><code class="language-javascript">function createPlayer(name, level) {
+  const user = createUser(name);
+
+  const getLevel = () =&gt; level;
+  const increaseLevel = () =&gt; { level++; };
+  return Object.assign({}, user, { getLevel, increaseLevel });
+}</code></pre>
+<p>これは依然として、<code>createPlayer</code>で作成するオブジェクトごとに、「継承された」メソッドのまったく新しいインスタンスを作成します(プロトタイプ継承を使う場合のようにメモリ内で同じメソッドを共有するのとは異なります)が、先ほど述べたように、絶対的に大量のオブジェクトを作成しているのでない限り、実際にはこれが大きな問題になることはまずありません。</p>
+<p>これは<strong>コンポジション</strong>と呼ばれます。これにより継承と似たようなことができますが、もう少し柔軟性が得られます。なぜなら、必ずしも別のオブジェクトからすべてを望むわけではないかもしれないからです(もしそう望むなら、すべてを取ることもできます)。私たちは、複数のソースから新しいオブジェクトを「コンポーズ(合成)」します。ある問題には継承が向いていることもありますが、それが脆くなることもあり、コンポジションの柔軟性が非常に適していることもあります。技術的にはコンストラクタでもコンポジションを行うことはできますが、それらは継承のアプローチにずっとよく向いています。コンポジションはしばしば、ファクトリー関数の方がずっと自然に行えます。</p>
+<h3 id="the-module-pattern">モジュールパターン</h3>
+<h4 id="iifes">IIFE</h4>
+<p>多くの場合、複数のオブジェクトを生産するためにファクトリーが必要なわけではなく、代わりにそれを使ってコードのセクションをまとめてラップし、他の場所で必要としない変数や関数をプライベートとして隠すために使っています。これは、ファクトリー関数を括弧で囲み、それをすぐに呼び出す(実行する)ことで簡単に達成できます。この即座の関数呼び出しは、一般的にImmediately Invoked Function Expression(まさにその名の通りです)、略してIIFEと呼ばれます。IIFEは文字通り、即座に呼び出される関数式です:</p>
+<pre class="highlight"><code class="language-javascript">// This is a function expression
+() =&gt; console.log("foo");
+
+// The function expression is now an IIFE!
+// Although this one is not particularly useful of course
+(() =&gt; console.log("foo"))();</code></pre>
+<h4 id="using-iifes-to-implement-the-module-pattern">IIFEを使ってモジュールパターンを実装する</h4>
+<div class="lesson-note lesson-note--warning">
+<h4>ES6モジュール</h4>
+<p>ECMAScript 6(2015年にリリース)は、「モジュール」と呼ばれる新しいJavaScriptの機能を導入しました。これは、異なるJavaScriptファイル間でコードをインポート・エクスポートするための構文のセットです。今のところは、実際の現場で今でも見かけることになる、IIFEを使ったモジュールパターンについて、より一般的に話していきます。後のレッスンで、似たような目的でES6モジュールを使うことについて扱います。</p>
+</div>
+<p>IIFEのより役立つ使い方は、「プライベートな」コードをIIFEの中にラップするというパターンです: モジュールパターンです。これはしばしば、ファクトリー関数を使って行われます:</p>
+<pre class="highlight"><code class="language-javascript">const calculator = (() =&gt; {
+  let lastResult;
+
+  const add = (a, b) =&gt; {
+    lastResult = a + b;
+    return lastResult;
+  };
+  const subtract = (a, b) =&gt; {
+    lastResult = a - b;
+    return lastResult;
+  };
+  const multiply = (a, b) =&gt; {
+    lastResult = a * b;
+    return lastResult;
+  };
+  const divide = (a, b) =&gt; {
+    lastResult = a / b;
+    return lastResult;
+  };
+  const getLastResult = () =&gt; lastResult;
+
+  return { add, subtract, multiply, divide, getLastResult };
+})();
+
+console.log(calculator.add(3, 5)); // 8
+console.log(calculator.subtract(6, 2)); // 4
+console.log(calculator.getLastResult()); // 4
+console.log(calculator.multiply(14, 5534)); // 77476</code></pre>
+<p>ここでは、4つの基本的な算術メソッドと、最も最近の計算結果を読み取るメソッドを持つ電卓があります。私たちは電卓オブジェクトを一つだけ欲しいのですが、それでもファクトリー関数を使っています!なぜオブジェクトリテラルを直接使わないのでしょうか?</p>
+<p>好むと好まざるとにかかわらず、すべてのオブジェクトプロパティはパブリックです。もし単に電卓オブジェクトリテラルを作っていたら、パブリックな<code>.lastResult</code>プロパティを持つことになり、それを直接再割り当てできてしまう可能性が生まれます(例えば<code>calculator.lastResult = 111100105110</code>)。私たちは<code>lastResult</code>をプライベートに保ち、その値を読み取り専用でパブリックに公開したいのです。再割り当ては、私たちの決めた条件で内部的にのみ起こるべきです。<code>lastResult</code>変数を、それを実際に必要としていない何からも本当に隠す唯一の方法は、それを外部のスコープから離れた関数の中に置き、それから同じスコープ内でオブジェクトを作成してそれをreturnすることです。ファクトリー関数を…一度だけ呼び出す必要があるものとして!</p>
+<p>ここで、私たちは<strong>カプセル化</strong>という言葉に出会います: データ、コード、あるいは何かを一つの単位にまとめ、その単位自体の内部にあるものへの選択的なアクセスを提供することです。一般的に聞こえるかもしれませんが、これはまさに、私たちがコードをモジュールにラップ(カプセル化)するときに起こることです。私たちはプログラム本体にすべてを公開するわけではなく、他のものが「モジュール」の中の何かとやり取りするために必要なものだけを公開します。</p>
+<h4>なぜIIFEなのか?</h4>
+<p>しかし、それならなぜファクトリー関数を書いて一度だけ呼び出すのではダメなのでしょうか?なぜわざわざIIFEを使う必要があるのでしょうか?実は、IIFEなしでは、後で呼び出せるように関数に名前を付ける必要があります。今、それは名前を持つことになり、そのスコープ内で名前を一つ占有すると同時に、そのスコープ内で再利用可能であることも意味します。それは望ましくないかもしれません - 私たちは意図的にそれを一度だけ呼び出したいかもしれません。ファクトリーをIIFEでラップすることで、私たちは同じコードフローを達成しますが、もはや関数に名前を付ける必要がなく、これは後で参照できないことも意味します。私たちは電卓を作成するコードを、事実上モジュールであるものにパッケージ化し、それから後でコード内で使う必要のあるもの、つまり<code>calculator</code>オブジェクトだけを公開します。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://wesbos.com/javascript/03-the-tricky-bits/scope">スコープについてのWes Bosの記事</a>を読んでください。</li>
+<li><a href="https://wesbos.com/javascript/03-the-tricky-bits/closures">クロージャについてのWes Bosの記事</a>を読んでください。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures">クロージャについてのMDNのガイド</a>を読んでください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#scoopfuls-of-scopes">JavaScriptでスコープはどう機能しますか?</a></li>
+<li><a href="#closures-arent-scary">クロージャとは何ですか?</a></li>
+<li><a href="#so-whats-the-matter-with-constructors">コンストラクタを扱う際に直面し得る、よくある問題は何ですか?</a></li>
+<li><a href="#private-variables-and-functions">ファクトリー関数におけるプライベート変数とは何で、どう役立ちますか?</a></li>
+<li><a href="#composition-with-factories">ファクトリー関数でどうコンポジションを行えますか?</a></li>
+<li><a href="#the-module-pattern">モジュールパターンはどう機能しますか?</a></li>
+<li><a href="#iifes">IIFEとは何の略で、それは何ですか?</a></li>
+<li><a href="#using-iifes-to-implement-the-module-pattern">ファクトリー関数はカプセル化にどう役立ちますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advanced Selectors</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">Advanced Selectors <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">You can do a lot more than just target specific classes and ids in your CSS...</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ここまでで、基本的なCSSセレクタには慣れ、タイプ・クラス・IDで要素を選択することに苦労はしないはずです。しかし、本物のCSSの達人になるには、時にはもっと専門的な道具が必要です。このレッスンでは、高度なCSSセレクタを見ていき、より細かい粒度で要素をターゲットにする方法を紹介します。</p>
+<p>これらのセレクタは、HTMLマークアップを変更できない(あるいは変更したくない)場合に特に役立ちます。</p>
+<p>高度なセレクタは<em>たくさん</em>あるので、一つ一つすべてを扱うのはこのレッスンの範囲を超えています。しかし、最も便利で一般的なものをいくつか取り上げ、さらに自分で学びを深めるための概念と語彙を身につけてもらいます。</p>
+<p>いつものように、コードエディタを開いて、これらのセレクタで自分自身の実験を行ってみてください。実践あるのみです!</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>親セレクタと兄弟セレクタの使い方を理解します。</li>
+<li>疑似クラスと疑似要素の違いを認識します。</li>
+<li>最も便利で一般的な疑似要素と疑似クラスのいくつかについて学びます。</li>
+<li>属性やその一部を選択するさまざまな方法について学びます。</li>
+</ul>
+<h3>子コンビネータと兄弟コンビネータ</h3>
+<p>クラスを参照<em>せずに</em>さまざまな要素にアクセスできる、さらにいくつかの方法を見てみましょう。まさにそれを行うための3つの新しいセレクタがあります。</p>
+<ul>
+<li><code>&gt;</code> - 子コンビネータ</li>
+<li><code>+</code> - 隣接兄弟コンビネータ</li>
+<li><code>~</code> - 一般兄弟コンビネータ</li>
+</ul>
+<p>このサンプルマークアップを使って、いくつかの実践的な例に取り組んでいきます。</p>
+<pre class="highlight"><code class="language-html">&lt;main class="parent"&gt;
+  &lt;div class="child group1"&gt;
+    &lt;div class="grand-child group1"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="child group2"&gt;
+    &lt;div class="grand-child group2"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="child group3"&gt;
+    &lt;div class="grand-child group3"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/main&gt;</code></pre>
+<p>ここまでで、<a href="https://www.theodinproject.com/lessons/foundations-intro-to-css">Intro to CSS</a>で学んだ子孫コンビネータを使ってルールを書くことにかなり慣れているはずです。例えば、<code>main</code>の中の<code>child</code>と<code>grand-child</code>の両方のdivをすべて選択したい場合は、次のように書けます:</p>
+<pre class="highlight"><code class="language-css">main div {
+  /* かっこいいCSS */
+}</code></pre>
+<p>しかし、もっと具体的に<span id="childvdesc-knowledge-check"><code>child</code>または<code>grand-child</code>のdiv<em>だけ</em>を選択したい場合</span>はどうでしょうか?そこで役立つのが子コンビネータ<code>&gt;</code>です。子孫コンビネータとは異なり、直接の子要素のみを選択します。</p>
+<pre class="highlight"><code class="language-css">/* これにより、クラス"child"を持つdivが選択される */
+main &gt; div {
+  /* かっこいいCSS */
+}
+
+/* これにより、クラス"grand-child"を持つdivが選択される */
+main &gt; div &gt; div {
+  /* さらにかっこいいCSS */
+}</code></pre>
+<p>別の言い方をすると、子セレクタはインデントが1レベル下の要素を選択します。ターゲットの隣(直後)にある要素、つまり同じインデントレベルの要素を選択するには、隣接兄弟コンビネータ<code>+</code>を使うことができます。</p>
+<pre class="highlight"><code class="language-css">/* これにより、クラス"child group2"を持つdivだけが選択される */
+.group1 + div {
+  /* かっこいいCSS */
+}
+
+/* これにより、クラス"child group3"を持つdivだけが選択される */
+.group1 + div + div {
+  /* さらにかっこいいCSS */
+}</code></pre>
+<p>最後に、最初の一つだけでなく、ある要素に続くすべての兄弟要素を選択したい場合は、一般兄弟コンビネータ<code>~</code>を使うことができます。</p>
+<pre class="highlight"><code class="language-css">/* .group1のdivの兄弟すべて - この場合、2番目と3番目の.child divが、これにより選択される */
+.group1 ~ div {
+  /* かっこいいCSS */
+}</code></pre>
+<p>子孫コンビネータと同様に、これらのセレクタには特別な詳細度のルールはありません。それらの詳細度スコアは、単にその構成要素によって決まります。</p>
+<p>これらについてさらに学びたい場合は、この<a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Combinators">コンビネータについてのMDNの記事</a>が良い概要を提供してくれます。</p>
+<h3>疑似セレクタ</h3>
+<p>疑似セレクタに飛び込む前に、<a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements">疑似クラスと疑似要素</a>の違いについて簡単に触れておきます。<span id="syntax-exist-knowledge-check">疑似クラスセレクタはコロン1つを前に付け、HTMLにすでに存在する要素をターゲットにする別の方法です。疑似要素はコロン2つを前に付け、マークアップに通常は存在<em>しない</em>要素をターゲットにするために使われます。</span>すぐにはピンとこなくても心配いりません。以下でいくつかの例を見ていきます。</p>
+<h3>疑似クラス</h3>
+<p>疑似クラスは、HTML内の要素をターゲットにするさまざまな方法を提供してくれます。かなりたくさんの種類があり、いくつかの異なる系統に分かれます。HTML内での位置や構造に基づくものもあれば、特定の要素の状態や、ユーザーが現在それとどうやり取りしているかに基づくものもあります。ここで詳細をすべて扱うには多すぎますが、最も便利なものをいくつか見ていきます。疑似クラスは通常のクラスと同じ詳細度(0, 0, 1, 0)を持ちます。通常のクラスと同様に、ほとんどのものは連結できます。</p>
+<div class="lesson-note lesson-note--tip">
+<h4>CSSの詳細度の記法を計算する</h4>
+<p>上記の(0,0,1,0)は、詳細度を計算するための記法です。それがどのように機能するかについてさらに知りたい場合は、この<a href="https://css-tricks.com/specifics-on-css-specificity/#aa-calculating-css-specificity-value">CSSの詳細度についての記事</a>の「Calculating CSS Specificity Value」のセクションにざっと目を通してください。</p>
+</div>
+<p>いつものように、利用可能なものの全体像を確認するために、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes">疑似クラスについてのMDNのドキュメント</a>を確認することを忘れないでください。</p>
+<h4>動的・ユーザーアクション疑似クラス</h4>
+<p>これらの種類の便利な疑似クラスは、あなたのページをよりダイナミックでインタラクティブに感じさせることができます。</p>
+<p><a href="https://css-tricks.com/almanac/pseudo-selectors/f/focus/"><code>:focus</code></a>は、ユーザーがカーソルで選択するか、キーボードを使うことで、現在選択されている要素に適用されます。</p>
+<p><span id="hover-active-knowledge-check"><a href="https://css-tricks.com/almanac/pseudo-selectors/h/hover/"><code>:hover</code></a>は、ユーザーのマウスポインタの下にあるものすべてに影響します。</span>これは、ボタンやリンクがインタラクト可能であることを強調するために追加のパンチを与えたり、ドロップダウンメニューをトリガーしたりするために使うことができます。</p>
+<p><a href="https://css-tricks.com/almanac/pseudo-selectors/a/active/"><code>:active</code></a>は、現在クリックされている要素に適用され、ユーザーのアクションに効果があったというフィードバックをユーザーに与えるのに特に役立ちます。これは、ボタンやその他のインタラクティブな要素に、より「触覚的な」フィードバックを与えるのに最適な方法です。</p>
+<p>スタイルのないHTMLで、なぜリンクが青く、クリックすると紫に変わるのか不思議に思ったことはありませんか?それは、ブラウザがデフォルトでそのスタイルを実装しているからです。リンクに独自のカスタムスタイルを実装するには、<a href="https://css-tricks.com/almanac/pseudo-selectors/l/link/"><code>:link</code></a>と<a href="https://css-tricks.com/almanac/pseudo-selectors/v/visited/"><code>:visited</code></a>疑似クラスを活用してください。デフォルトのブラウザスタイルを単純化したバージョンは、次のようなものになります:</p>
+<pre class="highlight"><code class="language-css">  /* このルールはすべてのリンクに適用される */
+  a {
+    text-decoration: underline;
+  }
+
+  /* これは未訪問のリンクに適用される */
+  a:link {
+    color: blue;
+  }
+
+  /* そしてお察しの通り、これはユーザーがクリックしたすべてのリンクに適用される */
+  a:visited {
+    color: purple;
+  }</code></pre>
+<h4>構造的疑似クラス</h4>
+<p>構造的疑似クラスは、DOM内での位置に基づいて要素を選択する強力な方法です。</p>
+<p><a href="https://css-tricks.com/almanac/pseudo-selectors/r/root/"><code>:root</code></a>は、ドキュメントの最上位レベルを表す特別なクラスです。つまり、親を持たない唯一の要素です。一般的にウェブで作業する際、これは<code>html</code>要素と同等ですが、<a href="https://stackoverflow.com/questions/15899615/whats-the-difference-between-css3s-root-pseudo-class-and-html"><code>:root</code>と<code>html</code>の間にはいくつかの微妙な違い</a>があります。</p>
+<p><code>:root</code>は一般的に、カスタムプロパティやCSS変数、あるいは<code>box-sizing: border-box;</code>のようなルールなど、どこでも利用可能にしたい「グローバルな」CSSルールを置く場所です。</p>
+<p><span id="first-child-knowledge-check"><a href="https://css-tricks.com/almanac/pseudo-selectors/f/first-child/"><code>:first-child</code></a></span>と<a href="https://css-tricks.com/almanac/pseudo-selectors/l/last-child/"><code>:last-child</code></a>は、最初または最後の兄弟である要素にマッチします。</p>
+<p>同様に、<a href="https://css-tricks.com/almanac/pseudo-selectors/e/empty/"><code>:empty</code></a>は子要素を全く持たない要素にマッチし、<a href="https://css-tricks.com/almanac/pseudo-selectors/o/only-child/"><code>:only-child</code></a>は兄弟要素を全く持たない要素にマッチします。</p>
+<p>よりダイナミックなアプローチとして、<span id="second-child-knowledge-check"><a href="https://css-tricks.com/almanac/pseudo-selectors/n/nth-child/"><code>:nth-child</code></a>を使うことができます。</span>これはいくつかの異なる使い方ができる柔軟な疑似クラスです。</p>
+<pre class="highlight"><code class="language-css">  .myList:nth-child(5) {/* クラスmyListを持つ5番目の要素を選択 */}
+
+  .myList:nth-child(3n) { /* クラスmyListを持つ3番目ごとの要素を選択 */}
+
+  .myList:nth-child(3n + 3) { /* クラスmyListを持つ3番目ごとの要素を、3番目から始めて選択 */}
+
+  .myList:nth-child(even) {/* クラスmyListを持つ偶数番目の要素をすべて選択 */}</code></pre>
+<h3>疑似要素</h3>
+<p>疑似クラスが状態や構造に基づいてHTML要素とやり取りする別の方法を提供してくれるのに対し、疑似要素はより抽象的です。要素ではまったくないHTMLの一部に影響を与えることができます。これらの特別な要素は、通常の要素と同じ詳細度(0, 0, 0, 1)を持ちます。さまざまな創造的な方法で利用できる、便利な疑似要素がいくつかあります。</p>
+<p><a href="https://css-tricks.com/almanac/pseudo-selectors/m/marker/"><code>::marker</code></a>を使うと、<code>&lt;li&gt;</code>要素の弾丸や番号のスタイルをカスタマイズできます。</p>
+<p><a href="https://css-tricks.com/almanac/pseudo-selectors/f/first-letter/"><code>::first-letter</code></a>と<a href="https://css-tricks.com/almanac/pseudo-selectors/f/first-line/"><code>::first-line</code></a>を使うと、(お察しの通り!)テキストの最初の文字や行に特別なスタイルを与えることができます。</p>
+<p><a href="https://css-tricks.com/almanac/pseudo-selectors/s/selection/"><code>::selection</code></a>を使うと、ユーザーがページ上のテキストを選択したときのハイライトを変更できます。</p>
+<p><a href="https://css-tricks.com/almanac/pseudo-selectors/b/after-and-before/"><code>::before</code>と<code>::after</code></a>を使うと、HTMLではなくCSSでページに追加の要素を加えることができます。これを使ってさまざまな方法でテキストを装飾するのは、よくある使用例の一つです。</p>
+<pre class="highlight"><code class="language-html">&lt;style&gt;
+  .emojify::before {
+    content: '😎 😄 🤓';
+}
+
+  .emojify::after {
+    content: '🤓 😄 😎';
+}
+&lt;/style&gt;
+
+&lt;body&gt;
+  &lt;div&gt; Let's &lt;span class="emojify"&gt;emojify&lt;/span&gt;this span!&lt;/div&gt;
+&lt;/body&gt;</code></pre>
+<p>これらの疑似要素をこのように使うと、次のような結果が得られます:</p>
+<p>Let's 😎 😄 🤓 emojify 🤓 😄 😎 this span!</p>
+<p>まだまだたくさんあります!可能なことのすべてのリストを見るには、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements">疑似要素のドキュメント</a>をざっと見てみてください。</p>
+<h3>属性セレクタ</h3>
+<p>道具箱に加える最後のツールは、属性セレクタです。属性とは、HTML要素の開始タグの中にある何か、例えば<code>src='picture.jpg'</code>や<code>href="www.theodinproject.com"</code>のようなものであることを思い出してください。</p>
+<p>属性の値は自分で書くものなので、特定の値をターゲットにできる、もう少し柔軟なシステムが必要です。</p>
+<p>属性セレクタは、クラスや疑似クラスと同じ詳細度(0, 0, 1, 0)を持ちます。</p>
+<p>基本的な使い方の例をいくつか見てみましょう。</p>
+<ul>
+<li><code>[attribute]</code> - この一般的なセレクタは、与えられた属性が存在するものすべてを選択します。その値は問題になりません。</li>
+<li><code>selector[attribute]</code> - オプションとして、属性セレクタをクラスセレクタや要素セレクタなど、他の種類のセレクタと組み合わせることができます。</li>
+<li><code>[attribute="value"]</code> -<span id="type-text-knowledge-check">本当に具体的にしたい場合は、<code>=</code>を使って特定の属性を特定の値にマッチさせることができます。</span></li>
+</ul>
+<pre class="highlight"><code class="language-css">  [src] {
+    /* これはsrc属性を持つあらゆる要素をターゲットにする */
+  }
+
+  img[src] {
+    /* これはsrc属性を持つimg要素だけをターゲットにする */
+  }
+
+  img[src="puppy.jpg"] {
+    /* これはsrc属性の値が正確に"puppy.jpg"であるimg要素をターゲットにする */
+  }</code></pre>
+<p>時には、これらの属性へのアクセス方法をもっと一般的にする必要があります。例えば、<code>src</code>属性の値が<code>.jpg</code>で終わる<code>img</code>要素だけに関心がある場合があるかもしれません。このような場合のために、属性の値の一部にマッチする属性セレクタがいくつかあります。以前に<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">正規表現</a>に出会ったことがあれば、これらの属性は似たような構文を使います。</p>
+<ul>
+<li><code>[attribute^="value"]</code> - <code>^=</code> <span id="thunder-knowledge-check">先頭から文字列にマッチします。</span></li>
+<li><code>[attribute$="value"]</code> - <code>$=</code> 末尾から文字列にマッチします。</li>
+<li><code>[attribute*="value"]</code> - <code>*=</code> ワイルドカードセレクタは、文字列の内側のどこでもマッチします。</li>
+</ul>
+<pre class="highlight"><code class="language-css">[class^='aus'] {
+  /* クラスも属性です!
+    これは'aus'で始まるあらゆるクラスをターゲットにします:
+    class='austria'
+    class='australia'
+  */
+}
+
+[src$='.jpg'] {
+  /* これは'.jpg'で終わるあらゆるsrc属性をターゲットにします:
+  src='puppy.jpg'
+  src='kitten.jpg'
+  */
+}
+
+[for*='ill'] {
+  /* これは内側のどこかに'ill'を持つあらゆるfor属性をターゲットにします:
+  for="bill"
+  for="jill"
+  for="silly"
+  for="ill"
+  */
+}</code></pre>
+<p>大文字小文字を区別しない検索や、ハイフンで区切られた部分文字列の検索など、属性セレクタで達成できる他のことについては、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors">属性セレクタについてのMDNのドキュメント</a>をざっと見てみてください。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://flukeout.github.io/">CSS Diner</a>を完了させてください。最初の数問の演習の内容にはほとんど馴染みがあるはずですが、練習と復習は決して無駄になりません!右側の例と解説を読むのを忘れないでください。</li>
+<li><a href="https://learn.shayhowe.com/advanced-html-css/complex-selectors/">複雑なセレクタについてのShay Howeの記事</a>を読んでください。これは、このレッスンの内容のほとんどを、もう少し詳しくカバーしています。彼らの記事で述べられているように、疑似要素に対してコロン2つの代わりにコロン1つを使うことがあります。二重コロンが現在の標準であることを念頭に置いておいてください。</li>
+<li>MDNのこの<a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Basic_selectors/Selectors_Tasks">Selectors Assessment</a>に取り組んでください。セレクタについて新しく学んだ知識を実践するのに役立ちます!</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#childvdesc-knowledge-check">子コンビネータと子孫コンビネータの違いは何ですか?</a></li>
+<li><a href="#syntax-exist-knowledge-check">疑似クラスと疑似要素の構文はどう異なりますか?</a></li>
+<li><a href="#syntax-exist-knowledge-check">疑似クラスはHTMLのどこかに存在しますか?疑似要素はどうですか?</a></li>
+<li><a href="#second-child-knowledge-check">最初の要素から始めて、要素の2番目ごとをすべて選択する2つの方法を挙げてください。</a></li>
+<li><a href="#first-child-knowledge-check"><code>div:first-child</code>と<code>div:last-child</code>の違いは何ですか?それぞれ何を選択しますか?</a></li>
+<li><a href="#hover-active-knowledge-check">ユーザーが現在ホバーしているボタンをスタイルするには、どのセレクタを使いますか?現在クリックされているボタンはどうですか?</a></li>
+<li><a href="#type-text-knowledge-check">typeがtextであるすべてのinput要素をどうやって選択できますか?</a></li>
+<li><a href="#thunder-knowledge-check"><code>thunder</code>で始まるすべてのクラスをどうやって選択できますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

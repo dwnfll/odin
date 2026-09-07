@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asynchronous Code</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Asynchronous Code <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Introduction to asynchronous programming</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>JavaScriptはウェブの言語であるため、サーバーからデータを取得してサイトに表示するなど、必然的にかなりの時間がかかる関数がいくつかあります。このため、JavaScriptは非同期関数、つまり別の言い方をすると、コードの残りの部分が実行されている間、バックグラウンドで発生し得る関数のサポートを含んでいます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>コールバックとは何かを説明します。</li>
+<li>Promiseとは何かを説明します。</li>
+<li>どんな状況でPromiseがコールバックより優れているかを説明します。</li>
+<li><code>.then()</code>関数が何をするかを説明します。</li>
+</ul>
+<h3>コールバック</h3>
+<p>最近まで、これらを扱う最も一般的な方法は<strong>コールバック</strong>を使うことであり、今でも特定の状況ではかなり多く使われています。</p>
+<p>コールバック関数とは、何らかのルーチンやアクションを完了するために、別の関数に引数として渡され、その外側の関数の中で呼び出される関数です(<a href="https://developer.mozilla.org/en-US/docs/Glossary/Callback_function">コールバック関数についてのMDNのドキュメント</a>)。</p>
+<p>コールバックは、他の関数に渡される関数です。例えば:</p>
+<pre class="highlight"><code class="language-javascript">myDiv.addEventListener("click", function(){
+  // do something!
+})</code></pre>
+<p>ここでは、<code>addEventListener()</code>関数がコールバック(「do something」関数)を受け取り、それから<code>myDiv</code>がクリックされたときにそれを呼び出します。</p>
+<p>このパターンは、JavaScriptのコードで<em>常に</em>起こっていることとして、見覚えがあるでしょう。残念ながら、上記の例のような状況では便利ですが、コールバックを使うことは、特にそれらのいくつかを特定の順序で連結する必要がある場合、手に負えなくなることがあります。このレッスンの残りでは、あなたを<a href="https://www.geeksforgeeks.org/javascript/what-to-understand-callback-and-callback-hell-in-javascript/">コールバック地獄</a>から遠ざけてくれるパターンと関数について論じていきます。</p>
+<h3 id="promises">Promise</h3>
+<p>JavaScriptで非同期コードを扱う方法は複数あり、それらはすべてそれぞれの使いどころがあります。Promiseはそのような仕組みの一つで、他のライブラリやフレームワークを使う際に、ある程度よく見かけることになるものです。それらが何で、どう使うかを知っておくことはかなり役立ちます。</p>
+<p>基本的に、Promiseとは、将来のある時点で値を生み出すかもしれないオブジェクトです。以下は例です:</p>
+<p><code>getData()</code>が、サーバーから何らかのデータを取得し、私たちがコードで使えるオブジェクトとしてそれを返す関数だとしましょう:</p>
+<pre class="highlight"><code class="language-javascript">const getData = function() {
+  // go fetch data from some API...
+  // clean it up a bit and return it as an object:
+  return data
+}</code></pre>
+<p>この例の問題は、データを取得するのに多少時間がかかるということですが、私たちのコードにそれを伝えない限り、関数内のすべてのことが基本的に瞬時に起こると想定してしまいます。ですので、もし次のようなことをしようとすると:</p>
+<pre class="highlight"><code class="language-javascript">const myData = getData()
+const pieceOfData = myData['whatever']</code></pre>
+<p>私たちは問題に遭遇することになります。なぜなら、返されたデータから<code>pieceOfData</code>を抽出しようとするとき、<code>getData()</code>関数はおそらくまだ取得中であり、<code>myData</code>は期待されるデータではなく<code>undefined</code>になってしまうからです。残念です。</p>
+<p>この問題を解決し、データの取得が完了するまで続行を待つよう私たちのコードに伝える、何らかの方法が必要です。Promiseがこの問題を解決してくれます。具体的な構文の学習は、これから読む記事に任せますが、基本的にPromiseを使うと次のようなことができるようになります:</p>
+<pre class="highlight"><code class="language-javascript">const myData = getData() // if this is refactored to return a Promise...
+
+myData.then(function(data){ // .then() tells it to wait until the promise is resolved
+  const pieceOfData = data['whatever'] // and THEN run the function inside
+})</code></pre>
+<p>もちろん、データの取得以外にもPromiseを使いたくなる場面はたくさんあるので、今これらのことを学んでおくことは、あなたにとって非常に役立つでしょう。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>コールバックがどう非同期の操作を扱うかを説明している、<a href="https://github.com/maxogden/art-of-node#callbacks">Art of Nodeの記事のコールバックについてのセクション</a>を読んでください。</li>
+<li>この<a href="https://davidwalsh.name/promises">Promiseについての記事</a>を読んでください。良い出発点であり、短く要点を押さえています。</li>
+<li>この<a href="https://youtu.be/DHvZLI7Db8E">Promiseについての動画</a>を見てください。実際の現場でPromiseがどう使われ得るかの感覚をつかむのに良い場所です。</li>
+<li>JavaScriptで非同期コードがどう機能するかを理解するために、この<a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">"What is Event Loop?"というタイトルの動画</a>を見てください。</li>
+<li>Event Loopをさらに理解するために、この<a href="https://www.youtube.com/watch?v=eiC58R16hb8">Event Loopを視覚化した動画</a>を見てください。</li>
+<li>JavaScriptにおけるPromiseの実行を理解するために、この<a href="https://www.youtube.com/watch?v=Xs1EMmBLpn4">Promiseを視覚化した動画</a>を見てください。</li>
+<li>初心者にとって優れたリソースである、この<a href="https://javascript.info/promise-basics">Promiseの基本についての記事</a>を読んでください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Glossary/Callback_function">コールバックとは何ですか?</a></li>
+<li><a href="#promises">Promiseとは何ですか?</a></li>
+<li><a href="https://www.geeksforgeeks.org/javascript/what-to-understand-callback-and-callback-hell-in-javascript/">コールバックよりPromiseを使うべきなのはいつですか?</a></li>
+<li><a href="https://davidwalsh.name/promises"><code>.then()</code>関数は何をしますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

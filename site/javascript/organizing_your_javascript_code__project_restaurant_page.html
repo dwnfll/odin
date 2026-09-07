@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restaurant Page</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Restaurant Page <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Restaurant Page</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>これまで学んだことを使って、レストランのホームページを動的に描画することで、DOM操作の練習を続ける機会にしましょう!最終的には、JavaScriptだけを使ってウェブサイトのコンテンツ全体を生成することになります!</p>
+<p><strong>注意: DOM要素はJavaScriptを使って作成すべきですが、スタイリングは別のCSSファイルで行うことができます。</strong></p>
+<div class="lesson-note lesson-note--tip">
+<h4>.gitignore</h4>
+<p>npmでインストールされたパッケージを扱う際、<code>node_modules</code>の中身をgitで追跡する必要はありませんし、それらのファイルをGitHubにプッシュする必要もありません。<a href="https://www.theodinproject.com/lessons/node-path-javascript-npm">npmのレッスン</a>で学んだように、<code>package.json</code>ファイルにはすべての依存関係の情報が含まれているため、誰でもあなたのプロジェクトをクローンして、自分のマシンで<code>npm install</code>を使ってそれらをインストールできます。</p>
+<p>プロジェクトのルートに<code>.gitignore</code>ファイルを作ることができ、そこにファイルやディレクトリの名前を書くことで、追跡してほしくないものをgitに伝えることができます。<code>node_modules</code>はとても大きくなり得るため、<code>.gitignore</code>に追加するのが慣習です。同様に、<code>dist</code>もしばしば無視されます。なぜなら、それは誰かがアプリケーションをバンドル/ビルドするコマンドを実行したときに生成され得るからです。</p>
+<p>GitHubで新しいリポジトリを作成する際、<code>.gitignore</code>テンプレートを指定するオプションがあります。プロジェクトの種類や使用言語に基づいて、通常追跡されない一般的なファイルやディレクトリを含む、多くのテンプレートが存在します。JavaScriptプロジェクト向けには、<code>node_modules</code>と<code>dist</code>を含む<code>node</code>テンプレートがあります。</p>
+</div>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>webpackのチュートリアルプロジェクトを始めたのと同じ方法で、<code>package.json</code>ファイルを作成し、Webpackをセットアップすることから、このプロジェクトを始めてください。<ul>
+<li>覚えておいてください、プロジェクトに必要なものだけをインストール・設定すればよいのです。例えば、HTMLテンプレートにローカルの画像ファイルをリンクする予定がないなら、<code>html-loader</code>をインストール・設定する必要はありません。</li>
+</ul>
+</li>
+<li>
+<p>プロジェクトのルートに<code>.gitignore</code>ファイルを作成してください。それには、別々の行に<code>node_modules</code>と<code>dist</code>というテキストを含めるべきです。</p>
+<pre class="highlight"><code class="language-text">node_modules
+dist</code></pre>
+</li>
+<li>
+<p><code>src/template.html</code>の中にHTMLの骨組みをセットアップしてください。body内に、異なる「タブ」のためのボタン(リンクではありません!)を含む<code>&lt;nav&gt;</code>を持つ<code>&lt;header&gt;</code>要素を追加してください(例えば「Home」「Menu」「About」などのボタン)。<code>&lt;header&gt;</code>の下に、単一の<code>&lt;div id="content"&gt;</code>を追加してください。</p>
+</li>
+<li><code>src/index.js</code>の中に<code>console.log</code>または<code>alert</code>文を書き、それから<code>npx webpack serve</code>を実行してください。ブラウザで<a href="http://localhost:8080">http://localhost:8080</a>を開いて、JavaScriptが実行されていることを確認してください。</li>
+<li><code>div#content</code>の中に、あなたのレストランのホームページを作成してください。画像、見出し、そのレストランがいかに素晴らしいかについてのテキストを含めたいと思うかもしれません。あまり凝ったものにする必要はありません。今のところは、ページ上でどう見えるかを確認するためだけに、これらをHTMLにハードコーディングしても構いません。</li>
+<li>今度は、HTMLから<code>div#content</code>の中身をすべて削除し(まだ<code>&lt;header&gt;</code>とその下に空の<code>&lt;div id="content"&gt;</code>を持つ<code>&lt;nav&gt;</code>はあるはずです)、代わりにJavaScriptだけを使ってそれらを作成してください。例えば、ページが最初に読み込まれたときに、それぞれの新しい要素を<code>div#content</code>に追加していく、というようにです。コードを複数のファイルに書く準備がすでに整っているので、この初期のページ読み込み関数を独自のモジュールの中に書き、それから<code>index.js</code>の中でそれをインポートして呼び出してみましょう。</li>
+<li>次に、MenuページとContactページにアクセスするためのタブ切り替えブラウジングを使うよう、レストランサイトをセットアップしてください。視覚的なインスピレーションとして、この<a href="https://web.archive.org/web/20221024060550/https://eckben.github.io/bearysBreakfastBar/">学生のライブプレビューサイト</a>の挙動を見てみてください。<ol>
+<li>それぞれの「タブ」の内容を、それ自体のモジュールの中に入れてください。それぞれのモジュールは、div要素を作成し、適切な内容とスタイルをその要素に追加し、それからそれをDOMに追加する関数をエクスポートします。</li>
+<li>タブ切り替えのロジックを<code>index.js</code>の中に書いてください。ヘッダーのnavbar内のそれぞれのボタンに対して、<code>div#content</code>の現在の中身を消去し、それから正しい「タブモジュール」を実行して新しい中身で再び埋める、イベントリスナーを持つべきです。</li>
+</ol>
+</li>
+</ol>
+<h4>デプロイ</h4>
+<p>あなたのプロジェクトをGitHub Pagesにデプロイしましょう!これは、以前のプロジェクトよりも少し手間がかかります。なぜなら、GitHub Pagesは<em>プロジェクトのルートにある</em> <code>index.html</code>を探そうとしますが、あなたのものは<code>dist</code>の中にあるからです!<code>dist</code>ディレクトリの<em>中身</em>をGitHub上の独自のブランチにプッシュするために、いくつかのステップを踏む必要があります。そうすることで、GitHub Pagesが提供するための、ルートレベルの<code>index.html</code>を持つことになります。</p>
+<p>すべてのコマンドが正確に何をするのかを知る必要はありません - 以下の指示を注意深く従えば大丈夫なはずです。これらの指示は、プロジェクトを最初にデプロイする際にも、後でプロジェクトにさらに変更を加えて再びデプロイする際にも使うことができます。</p>
+<ol>
+<li><code>git branch gh-pages</code>を実行して、デプロイ元のブランチを新しく作成してください。これは最初にデプロイするときにだけ行う必要があります。残りのステップは、プロジェクトをデプロイまたは再デプロイするたびに行うべきです。</li>
+<li>すべての作業がコミットされていることを確認してください。何かコミットする必要のあるものがあるかどうかは<code>git status</code>で確認できます。</li>
+<li><code>git checkout gh-pages &amp;&amp; git merge main --no-edit</code>を実行して、ブランチを切り替え、<code>main</code>からの変更を同期し、デプロイの準備を整えてください。</li>
+<li>さあ、ビルドコマンドを使って、アプリケーションを<code>dist</code>にバンドルしましょう。今のところ、それは<code>npx webpack</code>です。</li>
+<li>
+<p>さらにいくつかコマンドがあります。これらを順番に実行してください:</p>
+<pre class="highlight"><code class="language-bash">git add dist -f &amp;&amp; git commit -m "Deployment commit"
+git subtree push --prefix dist origin gh-pages
+git checkout main</code></pre>
+</li>
+<li>
+<p>GitHub Pagesの<strong>ソースブランチ</strong>は、あなたのリポジトリの設定で設定されていることを思い出してください。これを<code>gh-pages</code>ブランチに変更してください。それですべてです!</p>
+</li>
+</ol>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

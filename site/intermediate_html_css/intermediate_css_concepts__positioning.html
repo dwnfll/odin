@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Positioning</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">Positioning <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn some new methods for moving items around on a webpage.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ここまでで、margin、padding、flexboxなどを使って、画面上で要素を動かす練習をかなり積んできました。これらのテクニックはすべて、CSSのデフォルトの「ポジショニングモード」に依存していました。このデフォルトのポジショニングモードは直感的で、レイアウトのほとんどのニーズには引き続きこれを使っていくことになります。しかし、状況によっては非常に役立つ、他の方法も用意されています。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>絶対位置指定(absolute positioning)の使い方を学びます。</li>
+<li>固定位置指定(fixed positioning)の使い方を学びます。</li>
+<li>追従位置指定(sticky positioning)の使い方を学びます。</li>
+<li>各プロパティの違いと、それらを組み合わせる方法を知ります。</li>
+</ul>
+<h3 id="static-and-relative-positioning">静的位置指定と相対位置指定</h3>
+<p>あなたが慣れ親しんできたデフォルトのポジショニングモードは<code>position: static</code>です。staticとrelativeの違いはかなりシンプルです。staticはすべての要素のデフォルトの位置であり、<code>top</code>、<code>right</code>、<code>bottom</code>、<code>left</code>のプロパティは要素の位置に影響を与えません。一方relativeは、staticとほとんど同じですが、<code>top</code>、<code>right</code>(など)のプロパティが、ドキュメントのフローにおけるその通常の位置を基準に、要素をずらします。</p>
+<h3 id="absolute-positioning">絶対位置指定</h3>
+<p><code>position: absolute</code>を使うと、周囲の他の要素を乱すことなく、画面上の正確な位置に何かを配置できます。より具体的には、ある要素に絶対位置指定を使うと、その要素は通常のドキュメントフローから取り除かれると同時に、祖先要素を基準として位置指定されます。言い換えると、ドキュメントの通常のフローから取り除かれた要素は、他の要素に影響を与えず、また他の要素からも影響を受けません。絶対位置指定を使うと、<code>top</code>、<code>right</code>、<code>bottom</code>、<code>left</code>のプロパティを使って、画面上のどこにでも要素を配置できます。このプロパティは、他の要素を一切乱すことなく、画面上の正確な位置に何かを配置したい場合に本当に便利です。絶対位置指定の良い使用例としては、次のようなものがあります:</p>
+<ul>
+<li>モーダル</li>
+<li>キャプション付きの画像</li>
+<li>他の要素の上に重ねるアイコン</li>
+</ul>
+<p>次の例では、絶対位置指定を使って画像の上にテキストを表示しています。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="poWyWeJ" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+<span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/poWyWeJ">
+Absolute Position | CSS Positioning</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>免責事項: 絶対位置指定には非常に限定的な使用例があり、可能であればflexboxやgridを優先すべきです。絶対位置指定をページ全体のレイアウトに使うべきではありません。</p>
+<h3>固定位置指定</h3>
+<p>固定要素も同様にドキュメントの通常のフローから取り除かれ、<code>viewport</code>を基準に位置指定されます。基本的には<code>top</code>、<code>right</code>、<code>bottom</code>、<code>left</code>のプロパティを使ってそれを配置し、ユーザーがスクロールしてもそこにとどまります。これはナビゲーションバーやフローティングのチャットボタンなどに特に役立ちます。</p>
+<h3>追従位置指定</h3>
+<p>追従(sticky)要素は、それを通り過ぎてスクロールするまでは通常の要素のように振る舞い、それから固定要素のように振る舞い始めます。これらもドキュメントの通常のフローから取り除かれることはありません。少し分かりにくく聞こえるかもしれないので、この<a href="https://codepen.io/theanam/pen/MPLBYy">追従位置指定の例</a>を見てみると、はっきりするかもしれません。これはセクションの見出しなどに役立ちます。ショップをスクロールしている間、今見ているカテゴリーがまだ表示されているのを覚えていますか?これはこうやって実現されているのです!</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Web Dev Simplifiedの<a href="https://www.youtube.com/watch?v=jx5jmI0UlXU">Learn CSS Position</a>動画はペースが速いですが、さまざまな位置指定の挙動を視覚的によく表現してくれています。ぜひ見てみてください。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/position">positionについてのMDNのドキュメント</a>は、位置指定に関する概念的な詳細をすべてカバーしています。</li>
+<li>CSS Tricksのページ<a href="https://css-tricks.com/absolute-relative-fixed-positioining-how-do-they-differ/">Absolute, Relative, Fixed Positioning</a>は、このトピックについて別の視点を与えてくれるはずです。これもぜひ読んでみてください。</li>
+<li>最後に、Kevin Powellの記事では、<a href="https://www.kevinpowell.co/article/positition-fixed-vs-sticky/">固定位置指定と追従位置指定の違い</a>について論じています。その違いをよりよく理解するための素晴らしい読み物です。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#static-and-relative-positioning">静的位置指定と相対位置指定の違いは何ですか?</a></li>
+<li><a href="#absolute-positioning">絶対位置指定は何に役立ちますか?</a></li>
+<li><a href="https://www.kevinpowell.co/article/positition-fixed-vs-sticky/">固定位置指定と追従位置指定の違いは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

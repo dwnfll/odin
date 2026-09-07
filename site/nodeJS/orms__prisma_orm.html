@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prisma ORM</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
+    <h1 class="lesson-header__title">Prisma ORM <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Introduction to Prisma ORM and how to use it</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Tired of writing raw SQL queries in your projects? In this lesson, we'll talk about Object Relational Mappers (ORM for short). ORMs are tools that let you manipulate data in your database and are widely used in the software industry. We'll dive deep into one ORM popular in the Node.js landscape: <a href="https://www.prisma.io/orm">Prisma ORM</a>.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>What ORMs are and why they are used.</li>
+<li>Introduce Prisma ORM.</li>
+<li>Describe the features of Prisma ORM.</li>
+</ul>
+<h3>Challenges with raw SQLin'</h3>
+<p>With the couple of projects you've done earlier, you might've run into the tediousness of raw SQL queries. Let's briefly discuss some of these challenges.</p>
+<h4>So much more code</h4>
+<p>You need a <code>SELECT</code> statement? Cool, write a query. Need a <code>SELECT</code> statement for a different table? Write another query. Or if your programmer senses are tingling, you could create a utility function for <code>SELECT</code>. But now you need a <code>SELECT</code> statement for specific columns? You'll have to modify the utility function. What about filters and sorting? You get the point.</p>
+<p>Replicate the above for insert queries, and all of its variations. Or you could go in a different direction. Create modules per entity. For example, the books module would have:</p>
+<pre class="highlight"><code class="language-javascript">class Book {
+  async getBooks(filters) {}
+  async getBookById(id) {}
+  async createBook(data) {}
+  async updateBook(id, data) {}
+  async deleteBook(id) {}
+  async getBookAuthors(id) {}
+  async getBookGenres(id) {}
+  // and so on
+}</code></pre>
+<p>Or you could mix and match the two approaches. Create a <code>Database</code> class and inherit from it in your entity classes. Or you fancy composition, and just want to deal with pure functions.</p>
+<p>Now do this over and over for each entity, across multiple projects. You get the point. It can be argued that writing more code is not necessarily bad, as you're learning and practicing, and it isn't. It's sufficient for solo projects and we even suggest you explore the above ideas. But as you work in teams, and with large scale software, it becomes imperative to have a standard way of interacting with the database, either with an external library or a homegrown solution. You'll realize how much an ORM really helps you focus on writing code that's business critical.</p>
+<div class="lesson-note lesson-note--tip">
+<h4>Refactor your previous projects</h4>
+<p>If you haven't applied any of the above paradigms in your previous projects, we highly recommend going back and refactoring. You might end up with a very basic mini ORM for your project. This will help you appreciate a bit more how a proper ORM will make your life easier.</p>
+</div>
+<h4>Navigating the codebase</h4>
+<p>When all database interactions are done in raw SQL, there's nowhere in the codebase where you can understand the database tables, their relations, and column data types. You might have to log in to your database to make sense of what the codebase is doing. To attain a technical understanding of the project, you now rely on the codebase as well as access to the database.</p>
+<p>Most ORMs out there solve this problem by bringing database definitions into the codebase. This is called a "schema". This allows you to quickly glance at the schema of a table and understand what columns it has and so forth.</p>
+<h4>Altering production data</h4>
+<p>Databases inevitably change as the requirements of the project evolve. You might have to add a new column or populate a new table with existing data. In technical terms, this is called a migration. Without an ORM or a similar library, you'll be hand rolling these migrations, which will be error-prone and tedious. ORMs standardize migrations via changelogs, and have processes to deal with conflicts. Granted, you won't be running as many migrations in your curriculum projects, but as you work professionally, you might do it every other day.</p>
+<h3>Introducing Prisma ORM</h3>
+<p>ORMs pretty much solve all of the pain points mentioned above, but it's not all sunshine and roses. There can be a learning curve to fully understand the ins and outs of an ORM, and some don't even fully support all SQL features. Even with these shortcomings, using an ORM can be extremely worthwhile.</p>
+<p>In the Node.js ecosystem, there are <em>a lot</em> of ORMs to choose from, and the community has not landed on a go-to yet. We've decided to cover <a href="https://www.prisma.io/orm">Prisma ORM</a> in the curriculum because of its popularity and community support.</p>
+<p>Prisma ORM has all the features we need to complete this curriculum and then some. Prisma ORM consists of several libraries, so we can use npm to install whichever one(s) our application needs. We'll start by discussing some of its features, and then link to some official Prisma ORM guides to help you get started.</p>
+<h3>Prisma Schema</h3>
+<p>The Prisma schema is a file where you will define your models. For example, consider a message table in a chat app:</p>
+<pre class="highlight"><code class="language-text">model Message {
+   id        Int      @id @default(autoincrement())
+   content   String   @db.VarChar(255) 
+   createdAt DateTime @default(now())
+   author    User     @relation(fields: [authorId], references: [id])
+   authorId  Int     
+}
+
+model User {
+   // user's fields
+}</code></pre>
+<p>There's a bunch of new stuff up here. Prisma schema files are written in Prisma Schema Language. You can see how not only are there column definitions for the table, but also a relation to another table defined within the <code>Message</code> model. You'll learn more about this in the assignment readings.</p>
+<p>This schema file lives in your codebase and is tracked by version control. You can guess by now how useful this is.</p>
+<h3>Prisma Client</h3>
+<p>The client is a separate library that you will use to interact with your database. The Prisma client is a bit special in that it's customized to your schema. Um... what?</p>
+<pre class="highlight"><code class="language-javascript">// instantiate the client
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+
+// when creating a new message
+await prisma.message.create({
+   data: {
+      content: 'Hello, world!',
+      authorId: 1
+   }
+})
+
+// when fetching all messages
+const messages = await prisma.message.findMany();</code></pre>
+<p>Notice the <code>prisma.message</code> object? How did Prisma Client know that there's a <code>message</code> model? Once you create or update the schema file, all you have to do is run</p>
+<pre class="highlight"><code class="language-bash">npx prisma generate</code></pre>
+<p>in the CLI, and Prisma ORM will generate the client for you. The client can handle all sorts of querying: joins, filters, sorting, pagination, and more.</p>
+<p>You might have a complex query that you just are unable to get right via the Prisma client, or if you feel more comfortable writing a query raw, you can do that too. Prisma Client supports raw queries as well.</p>
+<h3>Prisma Migrate</h3>
+<p>Prisma migrate is a tool that helps you perform database migrations. You won't be using it a whole ton in the curriculum, but it's good to be aware of it. When you decide to change the schema in any way, you run a Prisma migration to apply the schema changes to the database. These changes are tracked in a <code>migrations</code> folder in your codebase.</p>
+<div class="lesson-note lesson-note--warning">
+<h4>Prisma ORM limitations</h4>
+<p>In the <a href="https://www.theodinproject.com/lessons/nodejs-using-postgresql">Using PostgreSQL lesson</a>, we learned about Identity columns. PostgreSQL recommends the use of Identity columns, as they comply with the SQL standard. Prisma ORM, however, does not support these columns, and will create PostgreSQL specific <a href="https://www.postgresql.org/docs/16/datatype-numeric.html#DATATYPE-SERIAL">Serial Types</a> instead. This most likely will not affect your projects, but it can be important to keep in mind. See this Stackoverflow answer for a short description on the <a href="https://stackoverflow.com/a/55300741/1882858">difference between Serial and Identity</a>.</p>
+</div>
+<div class="lesson-note lesson-note--tip">
+<h4>Official Prisma extension on Visual Studio Code</h4>
+<p>If you use VS Code, you may want to install the <a href="https://marketplace.visualstudio.com/items?itemName=Prisma.prisma">official Prisma VS Code extension</a> to get features like syntax highlighting, IntelliSense / auto-completion, schema linting, and easier navigation between models. It makes working with Prisma schema files much more pleasant.</p>
+</div>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>Go through the <a href="https://www.prisma.io/docs/v7/prisma-orm/quickstart/postgresql">Quickstart with Prisma v7 ORM and PostgreSQL</a>, which covers migrations, schema, and the Prisma client.</p>
+<div class="lesson-note" markdown="1">
+<h4>Getting Prisma to work with JavaScript</h4>
+<p>Recently, Prisma has decided to only continue supporting Typescript. This means we will need to modify their Quickstart guide to have it work with JavaScript.</p>
+<p>As you follow along the Prisma Quickstart guide, modify the Quickstart's steps as described below.</p>
+<p><strong>Step 1:</strong> Skip these commands:</p>
+<pre class="highlight"><code class="language-bash">npm init
+npm install typescript tsx @types/node --save-dev
+npx tsc --init</code></pre>
+<p><strong>Step 2:</strong> You do not need to install <code>@types/pg</code>. If you get a warning about "install scripts not yet covered by allowScripts", you can safely ignore this as Prisma will perform the necessary actions in a later step anyway.</p>
+<p><strong>Step 3:</strong> We're not using Typescript, so we will completely skip this step.</p>
+<p><strong>Step 4:</strong> We want to be using the <code>prisma-client-js</code> generator instead of the default, so add <code>--generator-provider prisma-client-js</code> to the Prisma init command. We also don't want any AI features being installed from the Prisma Skills catalog by default, so add <code>--no-skills</code> to opt out:</p>
+<pre class="highlight"><code class="language-bash">npx prisma init --datasource-provider postgresql --output ../generated/prisma --generator-provider prisma-client-js --no-skills</code></pre>
+<p>We will also rename <code>prisma7.config.ts</code> to <code>prisma7.config.js</code>.</p>
+<p><strong>Steps 5 and 6:</strong> No changes necessary.</p>
+<p><strong>Step 7:</strong>  Instead of <code>lib/prisma.ts</code>, create <code>lib/prisma.js</code>. You must also add the <code>.js</code> file extension when importing <code>PrismaClient</code> in that file:</p>
+<pre class="highlight"><code class="language-javascript">import { PrismaClient } from '../generated/prisma/client.js';</code></pre>
+<p><strong>Step 8:</strong> File created should be named <code>script.js</code>, and when importing <code>prisma</code> in that file, add the <code>.js</code> file extension, so the first line is:</p>
+<pre class="highlight"><code class="language-javascript">import { prisma } from './lib/prisma.js';</code></pre>
+<p>To run the script, run <code>node script.js</code>.</p>
+<p><strong>Step 9:</strong> No changes necessary.</p>
+</li>
+<li>
+<p>Read the following articles from Prisma's documentation. Try to code along with the examples. Don't worry if things don't stick yet, we'll be practicing <em>a lot</em> of Prisma in the coming projects.
+   - <a href="https://www.prisma.io/docs/orm/v7">What is Prisma ORM?</a>
+   - <a href="https://www.prisma.io/docs/orm/v7/prisma-schema/overview">Prisma schema overview</a>
+   - <a href="https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/models">Data models</a>
+   - <a href="https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/relations">Relations</a>
+   - <a href="https://www.prisma.io/docs/orm/v7/prisma-client/queries/crud">Prisma client CRUD</a>
+   - <a href="https://www.prisma.io/docs/orm/v7/prisma-client/using-raw-sql">Raw SQL</a>
+   - <a href="https://www.prisma.io/docs/orm/v7/prisma-migrate/getting-started">Prisma migrate getting started</a>
+   - <a href="https://www.prisma.io/docs/orm/v7/prisma-migrate/understanding-prisma-migrate/mental-model">Prisma migrate mental model</a>
+   - <a href="https://www.prisma.io/docs/guides/data-migration">Data migrations</a></p>
+</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#challenges-with-raw-sqlin">What are some of the challenges of using raw sql?</a></li>
+<li><a href="#prisma-schema">What is Prisma schema and how is it useful?</a></li>
+<li><a href="#prisma-client">What is the Prisma client?</a></li>
+<li><a href="#prisma-client">How does Prisma client know about the models in your schema?</a></li>
+<li><a href="#prisma-migrate">What is Prisma migrate?</a></li>
+<li><a href="https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/relations">How do you define a relation in Prisma schema?</a></li>
+<li><a href="https://www.prisma.io/docs/orm/v7/prisma-client/queries/crud#get-all-records">How can you get all records from a table using Prisma client?</a></li>
+</ul>
+<h3>Additional resources</h3>
+<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=CYH04BJzamo">Prisma Crash Course</a> by Traversy Media.</li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

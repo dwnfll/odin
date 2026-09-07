@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>More Testing</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">More Testing <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">More Testing</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>テストにおける重要な基本概念の一つが、分離(isolation)です。一度に一つのメソッドだけをテストすべきであり、ある関数のためのテストは、理想的には、外部の関数が正しく振る舞うことに依存すべきではありません。特に、その関数が他の場所でテストされている場合はなおさらです(とはいえ、どんな理想もそうであるように、これが常に可能あるいは実用的とは限りません)。この主な理由は、あなたのテストが失敗したとき、できるだけ早くその失敗の原因を絞り込めるようにしたいからです。もしいくつもの関数に依存するテストがあると、正確に何がうまくいっていないのかを判断するのが難しくなることがあります。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>密結合なコードとは何かを説明します。</li>
+<li>純粋関数とは何で、それがTDDとどう関係するかを説明します。</li>
+<li>モッキングとは何かを説明します。</li>
+</ul>
+<h3>純粋関数</h3>
+<p>コードを書く際にTDDを使うことには<em>たくさんの</em>利点があります。最大の利点の一つは、最初はそれほど明白ではありません - それは、より良いコードを書く助けとなるということです。初期のプロジェクトのいくつかを振り返ってみると、おそらく、すべてがいかに<em>密結合</em>であるかに気づくでしょう。<span id='tightly-coupled-code'>あなたのすべての関数は、コードの他の部分にある関数への参照を含んでおり、コード全体がDOMメソッドや<code>console.log()</code>で<em>埋め尽くされて</em>います</span>。</p>
+<p>密結合なコードはテストしづらいものです!次のような関数のためにテストを書こうとすることを想像してみてください:</p>
+<pre class="highlight"><code class="language-javascript">function guessingGame() {
+  const magicNumber = 22;
+  const guess = prompt('guess a number between 1 and 100!');
+  if (guess &gt; magicNumber) {
+    alert('YOUR GUESS IS TOO BIG');
+  } else if (guess &lt; magicNumber) {
+    alert('YOUR GUESS IS TOO SMALL');
+  } else if (guess == magicNumber) {
+    alert('YOU DID IT! 🎉');
+  } else {
+    return 'INVALID INPUT';
+  }
+}</code></pre>
+<p><span id='try-before'>これをテスト可能にするには、起こっているすべての異なることを分割する必要があります。まず、<code>prompt</code>と<code>alert</code>関数はブラウザに組み込まれているため、テストする必要はありません。それらは私たちのプログラムにとって外部のものであり、それらを書いた人がすでにテストしています。私たちが<em>実際に</em>テストする必要があるのは数値のロジックであり、それを他の関数から解きほぐすことで、ずっと簡単になります:</span></p>
+<pre class="highlight"><code class="language-javascript">function evaluateGuess(magicNumber, guess) {
+  if (guess &gt; magicNumber) {
+    return 'YOUR GUESS IS TOO BIG';
+  } else if (guess &lt; magicNumber) {
+    return 'YOUR GUESS IS TOO SMALL';
+  } else if (guess == magicNumber) {
+    return 'YOU DID IT! 🎉';
+  } else {
+    return 'INVALID INPUT';
+  }
+}
+
+function guessingGame() {
+  const magicNumber = 22;
+  const guess = prompt('guess a number between 1 and 100!');
+  const message = evaluateGuess(magicNumber, guess);
+  alert(message);
+}
+
+guessingGame();</code></pre>
+<p>この例では、私たちが本当にテストする必要があるのは<code>evaluateGuess</code>関数だけであり、これは明確な入力と出力を持ち、外部の関数を一切呼び出さないため、テストするのがずっと簡単です。この実装はまた、拡張するのがずっと簡単なので、<em>ずっと</em>素敵でもあります。もし<code>prompt</code>と<code>alert</code>をDOMを操作するメソッドに切り替えたいなら、今ならそれをより簡単に行うことができますし、ユーザーに複数回推測させることでゲームをより高度にしたいなら、それもより簡単です。</p>
+<p>もしこのプログラムをTDDで書いていたら、最初から2つ目の例のような見た目になっていた可能性が非常に高いでしょう。テスト駆動開発は、<em>純粋関数</em>を書くことを促すため、より良いプログラムのアーキテクチャを促進してくれます。</p>
+<h3 id="mocking">モッキング</h3>
+<p>「密結合なコード」の問題には、2つの解決策があります。1つ目、そして最良の選択肢は、上記で行ったように、コードからそれらの依存関係を取り除くことですが、それが常に可能とは限りません。2つ目の選択肢は<strong>モッキング</strong>です - あなたが望む通りに<em>正確に</em>振る舞う、関数の「偽の」バージョンを書くことです。<span id='mock-function-example'>例えば、DOMの入力から情報を取得する関数をテストしているなら、テストを実行するためだけにウェブページをセットアップし、入力に何かを動的に挿入する必要は本当はないはずです。モック関数を使えば、常に特定の値を返す、入力を取得する関数の偽のバージョンを作成し、あなたのテストでそれを使うことができます</span>。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://medium.com/@jamesjefferyuk/javascript-what-are-pure-functions-4d4d5392d49c">「純粋関数」の価値</a>についてのこの手早い記事を読んでください。</li>
+<li><a href="https://www.youtube.com/watch?v=ajiAl5UNzBU&amp;t=3024s">testingにおけるmockについての動画</a>を見てください。</li>
+<li>TDDについてある程度の練習とコンテキストができたので、<a href="https://jestjs.io/docs/setup-teardown">Jestドキュメントの「Setup and Teardown」のセクション</a>は、おそらくあなたにとって理にかなうものになるでしょう。</li>
+<li><a href="https://jestjs.io/docs/mock-functions">Jestの本当に便利なモッキング関数</a>について読んでください。</li>
+<li><a href="https://www.youtube.com/watch?v=URSWYvyc42M">あなたのコードベースで何をテストすべきか</a>を扱っている、この素晴らしい動画を見てください。この動画は具体的にはRuby言語のテストについてのものですが、それは<em>まったく</em>問題ではありません。ここでの概念はどの言語でも真実であり、幸運なことにRubyは十分に明快な言語なので、問題なく理解できるはずです。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#tightly-coupled-code">密結合なコードとは何ですか?</a></li>
+<li><a href="https://medium.com/@jamesjefferyuk/javascript-what-are-pure-functions-4d4d5392d49c">関数が純粋であるための2つの要件は何ですか?</a></li>
+<li><a href="https://medium.com/@jamesjefferyuk/javascript-what-are-pure-functions-4d4d5392d49c">副作用とは何で、関数をテストする際になぜそれらを特定することが重要なのですか?</a></li>
+<li><a href="#try-before">密結合なコードをテストする前に何を試すべきですか?</a></li>
+<li><a href="#mocking">分離できないコードをどうテストできますか?</a></li>
+<li><a href="#mocking">モッキングとは何ですか?</a></li>
+<li><a href="#mock-function-example">モック関数はいつ使いますか?</a></li>
+<li><a href="https://youtu.be/URSWYvyc42M?t=699">受信するクエリメッセージをどうテストすべきですか?</a></li>
+<li><a href="https://youtu.be/URSWYvyc42M?t=792">なぜ実装をテストすべきではないのですか?</a></li>
+<li><a href="https://youtu.be/URSWYvyc42M?t=1102">プライベートメソッドはテストすべきですか?</a></li>
+<li><a href="https://youtu.be/URSWYvyc42M?t=1370">副作用のない送信メッセージをなぜテストすべきではないのですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

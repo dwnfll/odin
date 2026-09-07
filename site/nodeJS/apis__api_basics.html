@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Basics</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
+    <h1 class="lesson-header__title">API Basics <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">You already know most of what you need to create robust APIs. This lesson fills in the blanks for you.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>In recent years, a new pattern for developing websites has been gaining popularity. Instead of creating an app that hosts both the database and view templates, many developers are separating these concerns into separate projects, hosting their backend and database on a server (either on something like <a href="https://www.heroku.com/">Heroku</a> or on a VPS like <a href="https://www.digitalocean.com/">Digital Ocean</a>), then using a service such as <a href="https://pages.github.com/">GitHub Pages</a> or <a href="https://www.netlify.com/">Netlify</a> to host their frontend. This technique is sometimes referred to as the <a href="https://jamstack.org/what-is-jamstack/">Jamstack</a>.</p>
+<p>Organizing your project this way can be beneficial because it allows your project to be more modular instead of combining business logic with view logic. This also allows you to use a single backend source for multiple frontend applications, such as a website, a desktop app, or a mobile app. Other developers enjoy this pattern because they like using frontend frameworks such as React or Vue to create nice frontend-only, single-page applications.</p>
+<p>Frontend and backend applications usually talk to each other using JSON, which you have already encountered if you've gone through our frontend JavaScript course. So at this point, all you really need to learn is how to get your Express application to speak JSON instead of HTML. The assignment at the end of this lesson will take you through a tutorial, but essentially all you have to do is pass your information into <a href="https://expressjs.com/en/5x/api/response/#resjsonbody"><code>res.json()</code></a> instead of <a href="https://expressjs.com/en/5x/api/response/#ressendbody"><code>res.send()</code></a> or <a href="https://expressjs.com/en/5x/api/response/#resrenderview--locals--callback"><code>res.render()</code></a>. How easy is that?</p>
+<p>If you think back to the organization of the routes in the <a href="https://www.theodinproject.com/lessons/nodejs-routes#routers">Routes lesson</a>, we grouped related routes together and extracted each group into its own file. This approach allowed us to more easily modify specific routes without impacting others.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Know what <code>REST</code> stands for.</li>
+<li>Explain the purpose of using REST when structuring an API.</li>
+<li>Detail the REST naming conventions for your API endpoints.</li>
+<li>Have a reinforced understanding of the HTTP Methods/Verbs.</li>
+<li>Describe the Same Origin Policy.</li>
+<li>Explain the purpose of CORS.</li>
+<li>Use CORS as middleware in Express (Globally and on a single route).</li>
+<li>Configure CORS to only allow certain origins to access our API.</li>
+<li>Explain CORS headers.</li>
+</ul>
+<h3>REST</h3>
+<p>The structure of an API can take many forms, for example you could have routes named <code>/api/getAllPostComments/:postid</code> or <code>/api/posts/:postid/comments</code>.
+<em>However</em>, it's conventional to follow REST (an acronym for Representational State Transfer), a popular and common organizational method for your APIs which corresponds with <a href="https://www.codecademy.com/article/what-is-crud">CRUD actions</a>. Following established patterns such as REST make your API more maintainable and make it easier for other developers to integrate with your API. Software development is often about clear communication which is aided by following expectations.</p>
+<p>The actual technical <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">definition of REST</a> is a little complicated, but for our purposes, most of the elements (statelessness, cacheability, etc.) are covered by default just by using Express to output JSON. The piece that we specifically want to think about is how to <strong>organize our endpoint URIs</strong> (Uniform Resource Identifier).</p>
+<p>REST APIs are resource based, which basically means that instead of having names like <code>/getPostComments</code> or <code>/savePostInDatabase</code> we refer <strong>directly to the resource</strong> (in this case, the blog post) and use HTTP verbs such as GET, POST, PUT, and DELETE to determine the action.
+Typically this takes the form of 2 URI's per resource, one for the whole collection and one for a single object in that collection, for example, you might get a list of blog-posts from <code>/posts</code> and then get a specific post from <code>/posts/:postid</code>. You can also nest collections in this way. To get the list of comments on a single post you would access <code>/posts/:postid/comments</code> and then to get a single comment: <code>/posts/:postid/comments/:commentid</code>. Below are some other basic examples of endpoints you could have.</p>
+<h4>HTTP Verbs Table</h4>
+<table>
+<thead>
+<tr>
+<th>Verb</th>
+<th>Action</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>Create</td>
+<td><code>POST /posts</code> Creates a new blog post</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>Read</td>
+<td><code>GET /posts/:postid</code> Fetches a single post</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Update</td>
+<td><code>PUT /posts/:postid</code> Updates a single post</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Delete</td>
+<td><code>DELETE /posts/:postid</code> Deletes a single post</td>
+</tr>
+</tbody>
+</table>
+<p>Each part of an API URI specifies the resource. For example, <code>GET /posts</code> would return the entire list of blog posts while <code>GET /posts/:postid</code> specifies the exact blog post we want. We could nest further with <code>GET /posts/:postid/comments</code> to return a list of comments for that blog post or even <code>GET /posts/:postid/comments/:commentid</code> for a very specific blog post comment.</p>
+<h3>CORS</h3>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy">Same Origin Policy</a> is an important security measure for browsers that restricts web pages from making requests to a different origin than the one that served the page (look at the link above for a couple of examples of what counts as the 'same origin').</p>
+<p>In the next project, we will be deploying our REST API and front end separately (different domains), meaning we need to enable <strong>Cross-Origin Resource Sharing (CORS)</strong> on the server to allow our separate front end to access its resources. Express has a <a href="https://expressjs.com/en/resources/middleware/cors.html">CORS middleware package</a> that lets us set everything up.</p>
+<p>For now, it is acceptable to just allow access from any origin. This makes development quite a bit easier but for any <em>real</em> project, once you deploy to a production environment you will probably want to specifically block access from any origin <em>except</em> your frontend website. The documentation above explains how to do this.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Read about <a href="https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design">RESTful API design</a>. If you want to code along with the first article, please note this includes the body-parser middleware to parse JSON data on the request body, however since Express 4.16.0 this parsing functionality has been incorporated directly into the Express package itself.</li>
+<li>Read and code along with this tutorial on <a href="https://www.robinwieruch.de/node-express-server-rest-api/">setting up a REST API in Express</a>. This is one of the best Express tutorials we've come across, it also talks about modular code organization, writing middleware, and links to some great extra info at the end.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#rest">What does REST stand for?</a></li>
+<li><a href="#rest">What are HTTP verbs and why are they important to an API?</a></li>
+<li><a href="#cors">What is the Same-Origin Policy?</a></li>
+<li><a href="https://expressjs.com/en/resources/middleware/cors.html">How do you enable CORS in your Express app?</a></li>
+<li><a href="#http-verbs-table">Which HTTP verb does each letter in CRUD (Create, Read, Update, Delete) correspond to?</a></li>
+</ul>
+<h3>Additional resources</h3>
+<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<ul>
+<li>A simple <a href="https://simple.wikipedia.org/wiki/Representational_state_transfer">example-based definition of REST</a>.</li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

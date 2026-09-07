@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controllers</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
+    <h1 class="lesson-header__title">Controllers <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Controllers in Express</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>The controller's job is really to act as the ultimate middleman. It knows which questions it wants to ask the model, but lets the model do all the heavy lifting for actually solving those questions. It knows which view it wants to render and send back to the browser, but lets the view itself take care of putting all that HTML together. That's why it's a "controller" - it's smart enough to know what to do, then it delegates all the hard work.</p>
+<p>Ultimately, the controller is the brains of the operation ensuring that each component plays its part in delivering the final result and is really just a function with well-defined responsibilities as part of the MVC pattern.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Explore various response methods.</li>
+<li>Implement error handling middleware to catch and process errors gracefully.</li>
+<li>Describe common use cases for middleware, such as validation and authentication.</li>
+</ul>
+<h3>Handling responses</h3>
+<p>When it comes to sending responses from our controllers, we have several methods at our disposal. Let's explore some of the commonly used methods and their use cases.</p>
+<ul>
+<li><a href="https://expressjs.com/en/5x/api/response/#ressendbody">res.send</a> - A general-purpose method for sending a response, it is flexible with what data we can send since it will automatically set the <code>Content-Type</code> header based on what data you pass it. For example, if we pass in an object, it will stringify it as JSON and set the <code>Content-Type</code> header to <code>application/json</code>.</li>
+<li><a href="https://expressjs.com/en/5x/api/response/#resjsonbody">res.json</a> - This is a more explicit way to respond to a request with JSON. This always sets the <code>Content-Type</code> header to <code>application/json</code> and sends the data as JSON.</li>
+<li><a href="https://expressjs.com/en/5x/api/response/#resredirectstatus-path">res.redirect</a> - When we want to redirect the client to a different URL, this method allows for that capability.</li>
+<li><a href="https://expressjs.com/en/5x/api/response/#resrenderview--locals--callback">res.render</a> - <code>res.render</code> lets you render a view template and send the resulting HTML as the response. We'll cover this in a later lesson.</li>
+</ul>
+<p>There is also a useful method that we can use to set the status code manually.</p>
+<ul>
+<li><a href="https://expressjs.com/en/5x/api/response/#resstatuscode">res.status</a> - This sets the response's status code <strong>but does not end the request-response cycle by itself</strong>. We can chain other methods through this (e.g. <code>res.status(404).send(...)</code> but note that we can't do <code>res.send(...).status(404)</code>). We can omit this if we wish to use the default status code of <code>200</code>.</li>
+</ul>
+<div class="lesson-note">
+<h4>res.send and res.json</h4>
+<p>If <code>res.send</code> automatically sets the <code>Content-Type</code> based on the data passed, why would we still use <code>res.json</code>? <code>res.json</code> enforces JSON and will automatically convert non-object values to JSON, but <code>res.send</code> will not. <code>res.json</code> is just a convenient method that also internally calls <code>res.send</code>. <code>res.send</code> will only handle things as JSON when dealing with booleans and objects (which includes arrays).</p>
+<p>So for convenience it's more appropriate to use <code>res.json</code> instead of <code>res.send</code>, and if we're sending JSON, we might as well use a method that's literally named "json". It's like the perfect match!</p>
+</div>
+<p>We also need to take note that these response methods only end the request-response cycle. They do not end the function execution. For example if we do this:</p>
+<pre class="highlight"><code class="language-javascript">app.use((req, res) =&gt; {
+  // This works and this ends the request-response cycle
+  res.send("Hello");
+
+  // However, it does not exit the function so this will still run
+  console.log('will still run!!');
+
+  // This will then throw an error that we cannot send again after sending to the client already
+  res.send("Bye");
+});</code></pre>
+<h3>Middleware</h3>
+<p>Middleware functions are a core concept in Express and play a crucial role in handling requests and responses. They operate between the incoming request and the final intended route handler.</p>
+<p>A middleware function typically takes three arguments (however, there is one that we will get into later that has four):</p>
+<ul>
+<li><code>req</code> - The request object, representing the incoming HTTP request.</li>
+<li><code>res</code> - The response object, representing the HTTP response that will be sent back to the client.</li>
+<li><code>next</code> - The function that passes control to the next middleware function in the chain (we'll get to this later). This is optional.</li>
+</ul>
+<div class="lesson-note">
+<h4>Naming convention</h4>
+<p>Names are just convention, we can name them whatever we want, like <code>req</code> -&gt; <code>request</code>, <code>res</code> -&gt; <code>response</code>, etc.</p>
+</div>
+<p>A middleware function can perform various tasks, such as:</p>
+<ul>
+<li>Modifying the request or response objects (some packages for example will do this, like adding a new property in the request object, or setting the <code>res.locals</code> that is used in templates rendered with <code>res.render</code>).</li>
+<li>Executing additional code (validation middleware functions to validate the request before going to our main logic, authentication middleware functions, and so on).</li>
+<li>Calling the next middleware function in the chain.</li>
+<li>Ending the request-response cycle (meaning no further middleware functions are called, even if there are more in the chain).</li>
+</ul>
+<p>Express has a rich ecosystem, so you'll likely find a package that solves the problem you're encountering. For example, some packages provide middleware functions to handle authentication, CORS, rate limiting, sessions, logging, validation, and more! Throughout this lesson (and the course), we'll introduce middlewares needed to build projects in this course, but you’re welcome to explore on your own.</p>
+<h4>Application-level middleware</h4>
+<p>Application-level middleware are bound to an <em>instance of Express</em> using <code>app.use</code> or using <code>app.METHOD</code> (e.g. <code>app.get</code>, <code>app.post</code>) functions. Express executes these middleware functions for every incoming request that matches the specified path. If we don't specify a path, Express defaults the path to <code>/</code>, matching every incoming request. As with any middleware functions, they will not run if the request-response cycle ends before reaching them. Typically, these middleware functions are placed on top of our application code to ensure they always run first.</p>
+<p>Express offers several essential built-in middleware functions that we'll frequently use in our applications. These include:</p>
+<ul>
+<li>Body parsers (e.g. <code>express.json</code>, <code>express.urlencoded</code>) - These allow us to correctly parse the incoming request's body, so that we can use it through <code>req.body</code>.</li>
+<li>Serving static files (e.g. <code>app.use(express.static('public'))</code>) - This middleware function serves static files like HTML, CSS, JavaScript, and images. We can pass an argument to specify which directory to serve the static files.</li>
+</ul>
+<h4>Router-level middleware</h4>
+<p>Router-level middleware works similarly to an application-level middleware, but it's bound to an <em>instance of Express router</em> using <code>router.use</code> or <code>router.METHOD</code> (e.g. router.get) functions. Because of this, Express only executes these middleware when the request matches and goes through that router.</p>
+<p>Here is an example of a basic middleware function:</p>
+<pre class="highlight"><code class="language-javascript">function myMiddleware(req, res, next) {
+  // Perform some operations
+  console.log("Middleware function called");
+
+  // Modify the request object
+  req.customProperty = "Hello from myMiddleware";
+
+  // Call the next middleware/route handler
+  next();
+}
+
+app.use(myMiddleware);</code></pre>
+<p>In this example, the middleware function logs a message, adds a custom property to the request object, and then calls the <code>next()</code> function to pass control to the next middleware function or route handler. We also register the middleware function through the usage of <code>app.use</code> which makes this an application-level middleware. Middleware functions following <code>myMiddleware</code> in this chain can now access <code>req.customProperty</code>, which contains the value <code>"Hello from myMiddleware"</code>.</p>
+<p>One thing to note is that Express executes middleware functions in the order we define or register them in our application. This means that the sequence in which we define our middleware functions matters, as it determines the order in which they will be invoked during the request-response cycle. So we need to make sure and be aware that our middleware functions are placed in the correct order. As an example, some packages have middleware functions that changes the <code>Request</code> object, and as a result, these middleware functions should be placed at the very top of our application in order for us to be able to see their changes in all of your middleware functions below it.</p>
+<p>There is also a special type of middleware function that handles errors, which we will discuss shortly.</p>
+<h3>Controllers</h3>
+<p>As said earlier, controllers are just functions. They also classify as a middleware (at least in the Express world) that are used by route handlers. However, it's important to note that controller and middleware are distinct concepts. Controllers are a key component of the MVC (Model-View-Controller) pattern, a design approach for organizing software. Middleware, on the other hand, is a core feature of Express that allows you to run code, modify requests, or end the cycle at specific points in the request-response cycle. So we are using middleware in Express to implement the "Controller" part of the MVC pattern.</p>
+<p>A controller comes into play whenever a request hits the server and a route matches the requested HTTP verb and path. The route determines which controller should handle the request based on the defined middleware chain. The appropriate controller then takes over, performing the necessary actions to fulfill the request. This could involve retrieving data from the model, processing the data, making decisions based on business logic, or updating the model with new data.</p>
+<p>Once the controller completes its tasks, it passes the processed data to the view. The view then renders this data into a format suitable for sending back to the client. Typically, this would be HTML. Later, when we cover building APIs, we can also send JSON responses like with the APIs that we've previously used e.g. Giphy API.</p>
+<p>The naming conventions for these controllers are usually based on the route they will be attached to e.g. <code>GET</code> route -&gt; <code>getSomething</code>, <code>POST</code> route -&gt; <code>createSomething</code>, <code>DELETE</code> route -&gt; <code>deleteSomething</code>, etc. Nonetheless, there is no fixed rule since Express is not opinionated. It will always be based on you or someone else's conventions, and the requirements of the function.</p>
+<p>You should already have your application setup in-place from the previous lesson. Previously, we've defined a route for <code>/authors/:authorId</code>, but this time we will define a controller for that route and hook it up with sample data. But to make the example produce something, let's first create a mock database with a function that we can use to retrieve an author by their ID.</p>
+<p>Create the following file <code>db.js</code> at the root of the project, and add the following code:</p>
+<pre class="highlight"><code class="language-javascript">// db.js
+
+const authors = [
+  { id: 1, name: "Bryan" },
+  { id: 2, name: "Christian" },
+  { id: 3, name: "Jason" },
+];
+
+async function getAuthorById(authorId) {
+  return authors.find(author =&gt; author.id === authorId);
+};
+
+module.exports = { getAuthorById };</code></pre>
+<p>The file name, content, and location aren't important here. This is just a quick mock "database" and query function so we can call it in a controller.</p>
+<p>Then for the controller, create the following file <code>authorController.js</code> within a <code>controllers</code> folder:</p>
+<pre class="highlight"><code class="language-javascript">// controllers/authorController.js
+
+const db = require("../db");
+
+async function getAuthorById(req, res) {
+  const { authorId } = req.params;
+
+  const author = await db.getAuthorById(Number(authorId));
+
+  if (!author) {
+    res.status(404).send("Author not found");
+    return;
+  }
+
+  res.send(`Author Name: ${author.name}`);
+};
+
+module.exports = { getAuthorById };</code></pre>
+<p>In this example, the <code>getAuthorById</code> function is a controller that handles a specific action related to retrieving an author by their ID. We'll use this controller by importing it into the file where we define our routes, and using it like this:</p>
+<pre class="highlight"><code class="language-javascript">// routes/authorRouter.js
+
+const { Router } = require("express");
+const { getAuthorById } = require('../controllers/authorController');
+
+const authorRouter = Router();
+
+// ... other route handlers
+authorRouter.get("/:authorId", getAuthorById);</code></pre>
+<p>Let's break down what's happening in this controller:</p>
+<ol>
+<li>The route path contains a route parameter (<code>/authors/:authorId</code>). The controller extracts the <code>authorId</code> from <code>req.params</code>.</li>
+<li>It then invokes a database query function <code>getAuthorById</code> to retrieve the author data based on the <code>authorId</code>.</li>
+<li>If the controller doesn't find the author, it sends a response with a 404 status code and the message <code>"Author not found"</code>, using <code>res.status(404).send(...)</code>. It then returns from the controller function to avoid invoking any other logic in the controller, as sending a response doesn't automatically stop the function execution.</li>
+<li>If the controller finds the author, it sends a response with a 200 status code with the text showing the author name using <code>res.send(...)</code>.</li>
+</ol>
+<p>Very simple right?</p>
+<h3>Handling errors</h3>
+<p>When building robust applications, it's crucial to handle errors gracefully within our application. Implementing proper error handling allows you to provide meaningful error responses to the client and prevent your application from crashing unexpectedly. And as we know, errors may occur during async operations, and we are not exactly handling that in our previous code snippets. Let's see what we can do to handle these possibilities.</p>
+<h4>try/catch</h4>
+<p>Using the same code from earlier, we can quickly handle errors by wrapping our controller logic in a <code>try/catch</code> block.</p>
+<pre class="highlight"><code class="language-javascript">async function getAuthorById(req, res) {
+  const { authorId } = req.params;
+
+  try {
+    const author = await db.getAuthorById(Number(authorId));
+
+    if (!author) {
+      res.status(404).send("Author not found");
+      return;
+    }
+
+    res.send(`Author Name: ${author.name}`);
+  } catch (error) {
+    console.error("Error retrieving author:", error);
+    res.status(500).send("Internal Server Error");
+
+    // or we can call next(error) instead of sending a response here
+    // Using `next(error)` however will only render an error page in the express' default view and respond with the whole html to the client.
+    // So we will need to create a special type of middleware function if we want a different response and we will get to that... next.
+  }
+};</code></pre>
+<p>What if we have many async middleware functions and a lot of them respond the same way just with things like different status codes and response messages? Instead of <code>try/catch</code> in each middleware, Express automatically catches any thrown errors and calls <code>next(error)</code>, which will pass control over to a special "error middleware function", meaning we wouldn't need to catch and handle in the original controller itself.</p>
+<h4>Error handler middleware</h4>
+<p>An error handler middleware function handles all errors in our application that come down from other middleware functions. We want to place this error middleware function at the very end of the application code to ensure it's the last middleware function executed and only handles errors bubbling down from preceding middleware functions.</p>
+<p>Add the following code in <code>app.js</code> at the end of all middleware functions in our application:</p>
+<pre class="highlight"><code class="language-javascript">// Every thrown error in the application or the previous middleware function calling `next` with an error as an argument will eventually go to this middleware function
+app.use((err, req, res, next) =&gt; {
+  console.error(err);
+  res.status(500).send(err);
+});</code></pre>
+<p>However, take note that this is a middleware function that requires <em>four parameters</em> that we will need to provide even if they are not used. If for example we exclude one of the parameters, it will not be recognized as an error middleware function. You can try it out yourself ;)</p>
+<p>This is an odd one where the error object <em>must</em> be the first parameter in the callback.</p>
+<p>This middleware function handles the <em>errors thrown</em> in other middleware functions or something that is sent by a previous middleware function using the <code>next</code> function (e.g. <code>next(err)</code>).</p>
+<p>So the way Express distinguishes this middleware function is again through adding <em>four parameters</em>, not a single one missing. A route middleware function or a middleware function with <em>fewer than four parameters</em> will always be considered as a request middleware function instead of this error middleware function, even if we place it last.</p>
+<pre class="highlight"><code class="language-javascript">app.use((req, res, next) =&gt; {
+  throw new Error("OH NO!");
+  // or next(new Error("OH NO!"));
+});
+
+app.use((err, req, res, next) =&gt; {
+  console.error(err);
+  // You will see an OH NO! in the page, with a status code of 500 that can be seen in the network tab of the dev tools
+  res.status(500).send(err.message);
+});</code></pre>
+<h4>Creating custom errors</h4>
+<p>With the solutions above, the error middleware function can only really respond with a <code>500</code> status code no matter what error it is. But what if we actually want to send a <code>404</code>? A common way to do this is to create our own custom error by extending the Error object.</p>
+<p>Create the following file <code>CustomNotFoundError.js</code> within an <code>errors</code> folder:</p>
+<pre class="highlight"><code class="language-javascript">// errors/CustomNotFoundError.js
+
+class CustomNotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.statusCode = 404;
+    // So the error is neat when stringified. NotFoundError: message instead of Error: message
+    this.name = "NotFoundError";
+  }
+}
+
+module.exports = CustomNotFoundError;</code></pre>
+<p>We can then use this custom error class and refactor the earlier version of <code>getAuthorById</code> like so:</p>
+<pre class="highlight"><code class="language-javascript">const CustomNotFoundError = require("../errors/CustomNotFoundError");
+
+const getAuthorById = async (req, res) =&gt; {
+  const { authorId } = req.params;
+
+  const author = await db.getAuthorById(Number(authorId));
+
+  if (!author) {
+    throw new CustomNotFoundError("Author not found");
+  }
+
+  res.send(`Author Name: ${author.name}`);
+};</code></pre>
+<p>Since Express will auto-catch any thrown errors in the async middleware function, we don't need to send an error response inside of this function but instead just throw an error. Express calls <code>next()</code>, passing in the caught error as an argument, which passes control to our custom error handler!</p>
+<p>It will eventually end up in the error middleware function where we can also modify:</p>
+<pre class="highlight"><code class="language-javascript">app.use((err, req, res, next) =&gt; {
+  console.error(err);
+  // We can now specify the `err.statusCode` that exists in our custom error class and if it does not exist it's probably an internal server error
+  res.status(err.statusCode || 500).send(err.message);
+});</code></pre>
+<p>This is a useful pattern and we can create more custom error classes for different use cases if needed.</p>
+<h4>What is the next function</h4>
+<p>We've used the <code>next</code> function a few times now. But what exactly is it? Well, to put it simply, it is used to pass control to the next middleware function in the application's request-response cycle. To give an example:</p>
+<pre class="highlight"><code class="language-javascript">function middleware1(req, res, next) {
+  console.log("Middleware 1");
+  next(); // Pass control to the next middleware
+};
+
+function middleware2(req, res, next) {
+  console.log("Middleware 2");
+  res.send("Response from Middleware 2");
+  // request-response cycle ends here
+};
+
+function middleware3(req, res, next) {
+  console.log("Middleware 3");
+  res.send("Response from Middleware 3");
+};
+
+app.use(middleware1);
+app.use(middleware2);
+app.use(middleware3);
+// will log `Middleware 1` -&gt; `Middleware 2` and send a response with the text "Response from Middleware 2"</code></pre>
+<p>Here we have <code>middleware1</code>, <code>middleware2</code>, and <code>middleware3</code>. <code>middleware1</code> calls the <code>next</code> function, and since we are not yet sending a response, we pass the control to the next middleware function - <code>middleware2</code> (as indicated by the order of <code>app.use</code> calls). In <code>middleware2</code>, we send a response which ends the request-response cycle. Since it has ended, the third middleware function (<code>middleware3</code>) does not run. But if we somehow did not call the <code>next</code> function in <code>middleware1</code>, do you know what would happen? Perhaps pop in the <a href="https://discord.gg/fbFCkYabZB">TOP Discord server</a> and let us know what you think!</p>
+<p>Also, as we've discussed earlier with regards to calling the <code>next</code> function. We have the following arguments that we can pass to it:</p>
+<ol>
+<li>No argument <code>next()</code> - Will pass control to the next middleware function. Very simple and straightforward.</li>
+<li>With an error argument <code>next(new Error(...))</code> - Will pass control directly to the error middleware function.</li>
+<li>With the string <code>next('route')</code> - Will pass control to the next route handler with the same matching path (if there is one). This only works for <code>app.METHOD</code> or <code>router.METHOD</code>. Potentially, it can also be the same as just calling <code>next</code> with no argument.</li>
+<li>With the string <code>next('router')</code> - Will skip all middleware functions attached to the specific router instance and pass control back out of the router instance. Basically, we exit the router and go back to the parent router, e.g. <code>app</code> (yes, the Express app is also just a router under the hood).</li>
+</ol>
+<p>Out of the four, we will likely only use the first two, unless we have a very specific need that requires the other two.</p>
+<h3>Consolidating what we've learned</h3>
+<p>The following is the folder structure you'd end up with if you had been coding along:</p>
+<pre class="highlight"><code class="language-text">express-app/
+├─ errors/
+│  ├─ CustomNotFoundError.js
+├─ controllers/
+│  ├─ authorController.js
+├─ routes/
+│  ├─ authorRouter.js
+│  ├─ ... other routers
+├─ app.js
+├─ db.js</code></pre>
+<p>As an exercise, feel free to create more sample data in our <code>db.js</code> file and controllers for the other routes we've previously created.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>This article <a href="https://medium.com/@viral_shah/express-middlewares-demystified-f0c2c37ea6a1">Express Middlewares, Demystified</a> Written by Viral Shah will help understand how middlewares work in a deeper way. The article also encourages you to read the source code of Express which you can likely do by now.</p>
+<div class="lesson-note" markdown="1">
+<h4>Asynchronous Handlers</h4>
+<p>While reading the article attached above, you might notice this paragraph:</p>
+<blockquote>
+<p>— Express was not built to await on handlers or handle returned promises. Hence, when a handler function is an async function, it will return a promise. When we throw an error, we are simply rejecting that promise. So, the only way to pass an error is via ‘next(err)’ function</p>
+</blockquote>
+<p>As of the current version of Express (v5), async route handlers are now natively supported. Please note that this article is outdated in this regard.</p>
+</li>
+</ol>
+</div>
+<ol>
+<li>Watch this short 10 minutes <a href="https://www.youtube.com/watch?v=Cgvopu9zg8Y">video tutorial of the MVC pattern</a>. There is not much to this other than consolidating what you already know.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#handling-responses">What are the common response methods and their use cases?</a></li>
+<li><a href="#middleware">What are the types of middleware?</a></li>
+<li><a href="#middleware">How does a middleware get executed? In which order?</a></li>
+<li><a href="#what-is-the-next-function">What does calling the next function do? What if we pass an error argument?</a></li>
+<li><a href="#what-is-the-next-function">What are the other arguments you can pass to the next function?</a></li>
+<li><a href="#controllers">What is a controller?</a></li>
+<li><a href="#controllers">What is the difference between a controller and a middleware?</a></li>
+<li><a href="#error-handler-middleware">What happens if you define a middleware function with four parameters?</a></li>
+<li><a href="#creating-custom-errors">What would you do to create a custom error?</a></li>
+</ul>
+<h3>Additional resources</h3>
+<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<ul>
+<li>The Express documentation for <a href="https://expressjs.com/en/guide/using-middleware.html">Using Express Middleware</a> is a short one with the same information, but has more examples that you can run through.</li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

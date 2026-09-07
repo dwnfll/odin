@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linting</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Linting <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Linting</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>さらにコードに深く入っていく前に、少し時間を取って、あなたのエディタのセットアップと全体的な生産性を改善していきます。今これを行っておくことで、この先のことがずっと楽になります。このレッスンでは、コードスタイルについての情報をいくつか紹介し、それからプロジェクト全体を通して一貫したコードスタイルを維持するのに役立つツールをいくつか紹介します。場合によっては、インデントのようなものを自動的に調整してくれることさえあります!</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>スタイルガイドとは何で、なぜそれが重要なのかを学びます。</li>
+<li>あなたのコードをより良くするために、linterとprettierをセットアップします。</li>
+</ul>
+<h3>スタイルガイド</h3>
+<p>コードスタイルは重要です!インデント、好まれる引用符のスタイル、あるいは一般的なコード構造の慣行といったことについて、一貫したスタイルルールのセットを持つことで、あなたのコードはより保守しやすく、読みやすくなります。ネット上には、この種のことについての標準を定めた、いくつかの人気のあるJavaScriptのスタイルガイドがあり、それらが何を強制するかはしばしば異なることに気づくでしょう。どれも「正しい」あるいは「間違っている」わけではなく、ただコードベース全体にわたって一貫性を促進するために<em>何か</em>を強制しているだけです。</p>
+<p>以下は、特定の企業が使っているものを含む、スタイルガイドのいくつかの例です:</p>
+<ol>
+<li><a href="https://github.com/airbnb/javascript">Airbnb Style Guide</a>は、最も人気のあるものの一つです。</li>
+<li><a href="https://google.github.io/styleguide/jsguide.html">Googleで使われているJavaScriptスタイルガイド</a>もあります。</li>
+<li><a href="https://standardjs.com/rules.html">JavaScript Standard Style</a>。</li>
+</ol>
+<h3 id="linting">Linting</h3>
+<p>上記で言及したスタイルガイドは、あなたのコードをフォーマット・整理・構成するための、本当に役立つアドバイスに満ちています。しかし、ルールが<em>たくさん</em>あります - それらすべてを内面化するのは難しいことがあります。<strong>Linter</strong>とは、あなたのコードを一連のスタイルルールでスキャンし、見つけたエラーを報告してくれるツールです。場合によっては、エラーを自動修正してくれることさえあります!JavaScriptには多くのlinterが存在しますが、断然最も一般的なのは<a href="https://eslint.org/">ESLint</a>です。</p>
+<p>ESLintはプロジェクトに開発時の依存関係としてインストールされ、コマンドラインを通してどのファイルに対してもチェックを実行できるようにしてくれます。<a href="https://eslint.org/docs/user-guide/getting-started">ESLintの公式「Getting Started」ページ</a>は、インストールと基本的な設定をカバーしている、始めるのに良い場所です。デフォルトのルールセットは、賢明なデフォルト設定で、最も一般的なシナリオの多くをカバーしています。</p>
+<p>特定のフォルダやファイルを含めたり除外したりするなど、変更できるオプションのリストや、特定のルールについての詳細については、<a href="https://eslint.org/docs/latest/use/configure/">ESLintの設定についてのドキュメント</a>も見ておくとよいでしょう。</p>
+<h3 id="formatters">Formatter</h3>
+<p>Formatterは<em>素晴らしい</em>ものです。それらはlinterと似ていますが、少し異なる機能を果たします。Formatterは、あなたのJavaScriptコードを受け取り、それから一連のルールに従って自動的にそれをフォーマットします。linterとは異なり、スタイルのエラーを探すのではなく、特にコードのレイアウトをターゲットにし、スペース、インデントのレベル、改行といったことについて、賢い決定を下します。</p>
+<p>いつも通り、世の中には複数のフォーマッターが存在します。<a href="https://prettier.io/">Prettier</a>は、非常に独断的で人気のある選択肢です。いくつかのオプションを除いて、そのフォーマットに関する決定のほとんどはカスタマイズできません。これらの決定の多くがすでにあなたのために決められているため、インデントのサイズやスペースのようなことを決めるのに費やす時間が減り、実際に重要な問題により多くの時間を使えるようになります。</p>
+<p>ESLintと同様に、Prettierもプロジェクトに開発時の依存関係としてインストールされるので、その方法については<a href="https://prettier.io/docs/en/install.html">Prettierのインストールガイド</a>を読んでください。通常はデフォルトのルールで実行されますが、<a href="https://prettier.io/docs/configuration">Prettierの設定ファイル</a>でその設定を変更することもできます。デフォルトのESLint推奨ルールセットを使っているなら、lint/formatのルールが衝突することはないので、<code>eslint-config-prettier</code>を設定することなく、そのままPrettierをインストールするだけで構いません。</p>
+<p>Prettierを使うと、コーディングがより速く、簡単になります!インデントを正確に決めることや、すべてのセミコロンを覚えておくことを心配する必要はありません。それらの詳細はPrettierが処理してくれるからです。</p>
+<h3 id="ide-extensions-for-linting-and-formatting">lintingとformattingのためのIDE拡張機能</h3>
+<p>LinterとFormatterは、通常プロジェクトにインストールしてコマンドラインを通して使うパッケージですが、多くの人気のあるツールにはIDE拡張機能もあり、ESLintとPrettierはどちらも、あなたのマシンでlintingとformattingをずっと便利にしてくれる、Visual Studio Code用の拡張機能を持っています。</p>
+<p>例えば、インストールすると、<a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint拡張機能</a>は、開いているファイルの中に直接、色分けされた波線としてlinterの警告やエラーを表示でき、コマンドラインでESLintを実行する必要なく、破られた特定のルールについての詳細さえ教えてくれます。<a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier拡張機能</a>を使うと、こちらもターミナルでコマンドを実行する必要なく、IDEのコマンドやカスタムのキーボードショートカットでファイルをフォーマットできます。</p>
+<p>それでも、あなたのプロジェクトに、どんな設定ファイルと共に、依存関係としてパッケージがインストールされていることが重要です。拡張機能にはフォールバックのルールが設定されている場合がありますが、もしそれらがあなたのプロジェクトの中に対応するパッケージと設定ファイルを検出したら、それらのルールとインストールされたパッケージのバージョンを使います。そうすることで、プロジェクトは常にどのlinting・formattingルールが適用されるべきかについての信頼できる情報源を保持することになり、もし他のプロジェクトで作業することになっても、あなたのローカル設定から望ましくないスタイルの変更を持ち込んでしまう可能性が低くなります。</p>
+<p>要約すると、これらの拡張機能は利便性のための素晴らしいツールですが、プロジェクトのlinting・formattingセットアップについての信頼できる情報源として使われるべきではありません。</p>
+<div class="lesson-note lesson-note--tip">
+<h4>テンプレートリポジトリにセットアップを追加する</h4>
+<p><a href="https://www.theodinproject.com/lessons/node-path-javascript-revisiting-webpack#template-repositories">テンプレートリポジトリ</a>を覚えていますか?linterとformatterのセットアップをあなたのどのテンプレートにも含めておくことで、将来のことがより速く、簡単になります!</p>
+</div>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://blog.codacy.com/what-is-a-linter">linterの価値とその仕組み</a>についてさらに詳しく扱った、この記事を読んでください。</li>
+<li>Prettierの作成者による、この<a href="https://www.youtube.com/watch?v=hkfBvpEfWdA">Prettierへの短い入門</a>を見てください。</li>
+<li><a href="https://prettier.io/playground">Prettierのオンラインプレイグラウンド</a>に行って、試してみてください。あなたの古いJavaScriptコードのいくつかをそのエディタにコピー&amp;ペーストして、何が起こるか見てみてください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#linting">Lintingとは何ですか?</a></li>
+<li><a href="https://hackernoon.com/how-linting-and-eslint-improve-code-quality-fa83d2469efe">Lintingはどんな問題を防いでくれますか?</a></li>
+<li><a href="#formatters">Formatterを使うことの利点にはどのようなものがありますか?</a></li>
+<li><a href="https://www.youtube.com/watch?v=hkfBvpEfWdA">Prettierとは何ですか?</a></li>
+<li><a href="#ide-extensions-for-linting-and-formatting">なぜプロジェクトにlinterやformatterを開発時の依存関係としてインストールすべきなのですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

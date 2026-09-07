@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form Validation with JavaScript</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Form Validation with JavaScript <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">This lesson will cover the Constraint Validation API</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>フォームはほとんどのウェブサイトにとって重要な部分です。ほとんどすべての主要なサイトには、サインアップフォーム、お問い合わせフォーム、検索フォームなどがあります!幸運なことに、HTML5とJavaScriptには便利な組み込みのメソッドがいくつかあります。Intermediate HTML and CSSコースの<a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/intermediate-html-and-css/lessons/form-validation">Form Validations</a>のレッスンで、すでにHTMLでのバリデーションとCSSでのバリデーションのスタイリングについて学びました。</p>
+<p>このレッスンでは、Constraint Validation APIを扱います。これは、JavaScriptを使ってフロントエンドでフォームを検証する方法です。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>HTMLフォームにおけるバリデーションの重要性。</li>
+<li>Constraint Validation API。</li>
+<li>JavaScriptのみのバリデーション。</li>
+</ul>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>Constraint Validation APIを含め、フォームを検証するためにJavaScriptをどう使えるかを扱った、この<a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation#validating_forms_using_javascript">フォームバリデーションについてのチュートリアル</a>に従ってください。</p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation">Constraint Validationのドキュメント</a>にも目を通しておくと有益です。</p>
+</li>
+</ol>
+<h4>もう少し練習</h4>
+<ol>
+<li>
+<p>Email、Country、Postal Code、Password、Password Confirmationのフィールドを集めるブラウザフォームを構築してください。フィールドが適切に入力されているかどうかをユーザーに知らせるために、ライブなインラインバリデーションを使うべきです。つまり、フォーム送信時だけでなく、入力しながら検証するということです。フィールドが無効な場合、それは赤くハイライトされ、ユーザーを導くためのエラーメッセージを表示すべきです。</p>
+<p>フォームは実際にどこかに送信される必要はありませんが、ユーザーが何らかの有効なエラーや未入力の必須フィールドがある状態でフォームを送信しようとした場合、カスタムのエラーメッセージを表示すべきです。このレッスンのために、<code>&lt;form&gt;</code>要素に<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#novalidate"><code>novalidate</code>属性</a>を必ず付けてください。これにより、<strong>すべての</strong>バリデーションをJavaScriptファイルで行えるようになります。さまざまな<code>&lt;input&gt;</code>のtypeを引き続き使うことはできますが、その有効性をチェックして報告するにはJavaScriptを使う必要があります。すべてが問題なく、フォームが「送信」されたら、ユーザーにハイタッチしてあげてください。</p>
+</li>
+<li>
+<p>空のHTMLドキュメントをセットアップしてください。</p>
+</li>
+<li>さまざまなフォーム要素とそれに付随するバリデーターをどうセットアップするか考えてみてください。どんなオブジェクトや関数が必要になるでしょうか?数分間考える時間を取ることで、1時間のコーディングを無駄にせずに済むかもしれません。あなたにできる最善のことは、コンピューターに触れる前に、解決策全体をホワイトボードに書き出してみることです。</li>
+<li>フォーム要素を書いてください。</li>
+<li>ユーザーがフォームを進めていくにつれてバリデーションをチェックするJavaScriptコードを追加してください。ユーザーがフォームフィールドから離れたとき、そのフィールドを自動的に検証すべきです。</li>
+<li>考えられるすべてのケースをテストしてください。</li>
+<li>
+<p><code>:user-valid</code>と<code>:user-invalid</code>疑似クラスを使って、バリデーションをCSSでスタイリングするのを忘れないでください!</p>
+</li>
+<li>
+<p>あなたのLibraryプロジェクトに戻り、そのフォームにカスタムバリデーションを追加してください!ユーザーが空のフォームフィールドでフォームを送信しようとしたとき、カスタムのエラーメッセージを表示してください(例えば「著者名は入力必須です!」など)。新しい機能に取り組むために、FoundationsのRevisiting Rock Paper Scissorsで学んだ<a href="https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors">gitのブランチワークフロー</a>を使うのを忘れないでください。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation#what_is_form_validation">HTMLフォームをサーバーに送信する前に検証することの重要性は何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation#different_types_of_client-side_validation">クライアントサイドのフォームバリデーションの2つの種類は何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation#validating_forms_using_javascript">JavaScriptのConstraint Validation APIは、フォームバリデーションのコントロールとカスタマイズをどう向上させてくれますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

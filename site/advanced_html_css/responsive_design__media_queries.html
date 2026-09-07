@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Media Queries</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Media Queries <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Finally, let&#x27;s learn about media queries so you can change the layout of your site based on the size of the browser window.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>メディアクエリを使うと、ユーザーの画面サイズに基づいて、ウェブプロジェクトを完全にスタイルし直すことが可能になります。ここまでのレッスンはすべて、レイアウトの個々の要素ができるだけ柔軟であることを確実にすることに焦点を当ててきましたが、時には特定の画面サイズに対応するために、実際にCSSの値のいくつかを<em>変更する</em>必要があります。これらの変更は、より多くのコンテンツを画面に詰め込むためにmargin、padding、font-sizeを調整するといった微妙な変化かもしれませんし、レイアウトの大きく明白な変化かもしれません。正確な変更の性質はあなたのデザインによりますが、その根底にあるテクニックは同じです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>メディアクエリを通してスタイルを条件付きで適用します。</li>
+<li>コンテナクエリ。</li>
+</ul>
+<h3 id="media-query-syntax">メディアクエリの構文</h3>
+<p>メディアクエリの基本的な構文は次の通りです:</p>
+<pre class="highlight"><code class="language-css">body {
+  margin: 24px;
+}
+
+@media (max-width: 600px) {
+  body {
+    margin: 8px;
+  }
+}</code></pre>
+<p>上記の例では、marginは画面サイズに基づいて変化します。具体的には、600px<em>以下の</em>すべての画面ではmarginは<code>8px</code>になり、<code>600px</code><em>より大きい</em>すべての画面では<code>24px</code>になります。</p>
+<p>本当に、それだけです。この知識だけでも、いくつかの複雑に変化するレイアウトを作ることができます。単一のドキュメント内に無制限の数のメディアクエリを作成できます(画面をリサイズして変化を見られるように、「Edit on CodePen」ボタンをクリックしてください):</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="yLzYgZw" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/yLzYgZw">
+  Media Queries 1 | CSS Responsiveness</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>一つのメディアクエリの中に、好きなだけたくさんのスタイル定義を入れることもできます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="XWempGr" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/XWempGr">
+  Media Queries 2 | CSS Responsiveness</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4 id="other-queries">他のクエリ</h4>
+<p>上記のすべての例では、私たちのクエリは<code>max-width</code>を指定しており、これは指定された値<em>以下</em>のあらゆる画面解像度にスタイルを適用します。別の言い方をすると: <code>max-width</code>クエリは、定義された<code>max-width</code>までのあらゆる画面に適用されます。また、<code>min-width</code>を定義することも可能で、これは与えられた値<em>以上</em>のあらゆる画面解像度に適用されます。<code>max-height</code>と<code>min-height</code>も有効です。</p>
+<h3>メディアクエリを制限する</h3>
+<p>先ほど述べたように、あらゆる可能な画面サイズに対して無制限の数のメディアクエリを作成することが可能です。しかし、メディアクエリの使用は最小限に抑え、レイアウトの自然な柔軟性により多く頼るのが最善です。上記の2番目の埋め込み例(「my cool site」)を考えてみてください。デスクトップとモバイルのすべてのサイズに対応するために<em>必要な</em>メディアクエリはたった一つだけで、それ以上作る本当の必要はありません。</p>
+<h3>一般的なブレークポイント</h3>
+<p>「ブレークポイント」とは、メディアクエリをトリガーする画面サイズを表す用語です。ブレークポイントを正確にどこに設定すべきかについては、かなり多くの異なる意見があることに気づくでしょう。一般的に、ユーザーが使うことになるであろうデバイスや画面の種類について考えることが役立ちます。携帯電話は通常<code>500px</code>未満です。タブレットはしばしば<code>500px</code>から<code>1000px</code>の間です。<code>1000px</code>より大きいものは、おそらく通常のブラウザ画面でしょう。超ワイドな画面もより一般的になってきているので、あなたのサイトが<code>2000px</code>より広い画面で見られることに<em>なり得る</em>ということです!</p>
+<p>これは、各デバイス向けにメディアクエリを使ってプロジェクトを始めるべきだという意味では<em>ありません</em>。それぞれのプロジェクトは、達成しようとしているデザインに基づいて異なる要件を持つことになります。上記で述べたように、あなたのブレークポイントを、あなたが<em>必要な</em>ものだけに限定するようにしてください。多くの比較的基本的なレイアウトでは、<code>500</code>〜<code>600px</code>あたりに、モバイル中心のブレークポイントを一つだけ設けるだけで十分でしょう。より複雑なレイアウトでは、<code>1200px</code>より上でフルサイズのレイアウトを、<code>600px</code>から<code>1200px</code>の間で変更された「タブレット」レイアウトを、<code>600px</code>未満でモバイルレイアウトを用意することが役立つかもしれません。ここで本当に持ち帰るべきポイントは、ブレークポイントを正確にどこに設定するかはそれほど重要ではなく、あなたのプロジェクトにとって理にかなうことをすればよいということです。</p>
+<h3>ズーム!</h3>
+<p>ほとんどのブラウザでは、<strong>ウェブページをズームインすると、そのページの実効解像度が変わります</strong>。もしブラウザウィンドウがちょうど<code>1000px</code>幅であれば、ズームインすると、ページはあたかも画面が<em>より小さい</em>かのように振る舞い、シミュレートされた/ズームされた画面解像度に基づいてメディアクエリがトリガーされます。ズーム<em>アウト</em>は、自分のコンピューター画面より大きい画面で発生する問題をデバッグする際に便利です。ウェブページをズームインまたはズームアウトしたことを忘れてしまうと、ブレークポイントが正しいポイントでトリガーされなくなり、本当に混乱してしまうことがあります。</p>
+<h3>印刷スタイル</h3>
+<p>メディアクエリが次のように<code>screen</code>キーワードと共に定義されているのをよく見かけるでしょう:</p>
+<pre class="highlight"><code class="language-css">@media screen and (max-width: 480px) {
+}</code></pre>
+<p>これは必須ではありませんが、メディアクエリのもう一つの非常に便利な機能、つまりメディアタイプに基づいてスタイルを変更するということを示しています。ここまで扱ってきたことはすべて、何らかの画面での表示を特に意図したものだったので、<code>screen</code>を指定するのは冗長です。しかし、<code>print</code>キーワードを使うことで、ウェブサイトがプリンターに送られたり印刷プレビューモードで見られたりするときのために、異なるスタイルのセットを作成することが可能です。</p>
+<pre class="highlight"><code class="language-css">@media print {
+  /* print styles go here! */
+}</code></pre>
+<p>これは私たちのカリキュラムで焦点を当てるものではありませんが、場合によっては活用を検討したいものかもしれません。いくつかの色を変える(つまり、ものを白黒にする)ことや、印刷された環境では役に立たない要素(ボタン、ナビゲーションリンクなど)を隠すために<code>display: none</code>を追加することは、かなり一般的です。</p>
+<h3 id="container-queries">コンテナクエリ</h3>
+<p>メディアクエリを使うと、ビューポートやデバイスなどの特性に基づいてスタイルを条件付きで適用できますが、コンテナクエリ(<code>@container</code>)を使うことで、代わりに「コンテナ」要素の特性に基づいて同じことを行うこともできます。条件付きで適用しようとしている正確なスタイルによっては、どちらか一方を条件のベースにする方がより理にかなうかもしれません。もちろん構文には微妙な違いがありますが、最終的には概念は同じであり、いつも通り豊富なドキュメントが存在します。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>MDNの<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries">Using media queries</a>にざっと目を通してください。メディアクエリでできる、知っておく価値のあるいくつかの追加のことがありますが、それらの使用頻度はずっと少ないです。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#media-query-syntax">あなたのサイトのモバイルレイアウトを作るために、メディアクエリをどう定義しますか?</a></li>
+<li><a href="#other-queries">メディアクエリの定義において、<code>max-width</code>と<code>min-width</code>の違いは何ですか?</a></li>
+<li><a href="#container-queries">メディアクエリとコンテナクエリの違いは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

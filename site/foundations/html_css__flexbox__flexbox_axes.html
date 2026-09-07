@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Axes</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Axes <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn about flexbox axes, and how to manipulate them.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p><code>flex-direction</code>プロパティを使って、フレックスコンテナ内のアイテムの向きをどのように制御できるかを見ていきましょう。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>フレックスコンテナの2つの「軸」について学びます。</li>
+<li>コンテンツを行ではなく列に配置するために、それらの軸を変更する方法を学びます。</li>
+</ul>
+<h3 id="axes">軸</h3>
+<p>flexboxについて最も分かりにくいのは、水平方向にも垂直方向にも機能するということであり、扱っている方向によっていくつかのルールが少し変わってくることです。
+フレックスコンテナのデフォルトの方向は水平、つまり<code>row</code>ですが、方向を垂直、つまり<code>column</code>に変更することもできます。方向はCSSで次のように指定できます:</p>
+<pre class="highlight"><code class="language-css">.flex-container {
+  flex-direction: column;
+}</code></pre>
+<p><span id='flex-axes'>どちらの方向を使用していても、フレックスコンテナには2つの軸、つまりメイン軸とクロス軸があると考える必要があります。<code>flex-direction</code>を変更したときに変わるのは、これらの軸の向きです。<em>ほとんど</em>の場合、<code>flex-direction: row</code>はメイン軸を水平(左から右)にし、<code>column</code>はメイン軸を垂直(上から下)にします。</span></p>
+<p>言い換えると、私たちの一番最初の例では、divに<code>display: flex</code>を設定し、それがその子要素を水平に配置しました。これはデフォルト設定である<code>flex-direction: row</code>のデモンストレーションです。次の例は非常によく似ています。<code>flex-direction: column</code>と書かれた行のコメントを解除すると、それらのdivは垂直に積み重なります。</p>
+<p class="codepen" data-height="400" data-default-tab="html,result" data-slug-hash="BaZKPdw" data-editable="true" data-user="TheOdinProjectExamples" style="height: 400px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen [flex-direction example](https://codepen.io/TheOdinProjectExamples/pen/BaZKPdw) by TheOdinProject ([@TheOdinProjectExamples](https://codepen.io/TheOdinProjectExamples))
+  on [CodePen](https://codepen.io).</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>注意すべき点として、この例では、ショートハンドの<code>flex: 1</code>を使用すると、<code>flex-direction: column</code>は期待通りには機能しません。今すぐ試してみてください(つまり、<code>flex: 1 1 auto;</code>の行のflexの値を変更してみてください)。<code>flex: 1</code>を使用した場合になぜうまくいかないのか分かりますか?それらのdivには<em>明らかに</em><code>height</code>が定義されているにもかかわらず、潰れてしまいます。</p>
+<p>この理由は、<span id='row-flex-basis'> flexショートハンドが<code>flex-basis</code>を<code>0</code>に展開するためであり、これはすべての<code>flex-grow</code>と<code>flex-shrink</code>の計算が<code>0</code>から始まることを意味します。</span>空のdivはデフォルトで高さが0であるため、私たちのフレックスアイテムがコンテナの高さを満たすためには、実際には高さがまったく必要ないのです。</p>
+<p>上記の例では、<code>flex: 1 1 auto</code>を指定することでこれを修正し、フレックスアイテムに与えられた<code>height</code>をデフォルトにするよう指示しています。親の<code>.flex-container</code>に高さを設定するか、ショートハンドの代わりに<code>flex-grow: 1</code>を使うことでも修正できたでしょう。</p>
+<p>もう一つ気づくべき詳細があります。flex-directionを<span id='column-flex-basis'><code>column</code>に変更すると、<code>flex-basis</code>は<code>width</code>ではなく<code>height</code>を指すようになります。</span>文脈からすると明らかかもしれませんが、意識しておくべきことです。</p>
+<p>少し話が逸れてしまいました……flex-directionと軸について話していたのでした。話を戻すと、デフォルトの動作は<code>flex-direction: row</code>であり、これは物事を水平に配置します。これがCSSの他の詳細を変更しなくてもうまくいくことが多い理由は、ブロックレベル要素がデフォルトで親の幅いっぱいになるからです。<code>flex-direction: column</code>を使って垂直に変更すると複雑さが増します。なぜなら、ブロックレベル要素はデフォルトでそのコンテンツの高さになりますが、この場合コンテンツが<em>存在しない</em>からです。</p>
+<p>右から左に書かれる言語、あるいは縦書きの言語を使用している場合、<code>flex-direction</code>の動作が変わる可能性がある状況もありますが、アラビア語や満洲語でウェブサイトを作り始める準備ができるまでは、それについて心配する必要はありません。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>いつものように、MDNのドキュメントが頼りになるので、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/flex-direction"><code>flex-direction</code>のMDNドキュメント</a>とその例を見てみましょう。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#axes">フレックスアイテムを水平方向ではなく垂直方向に配置するにはどうすればよいですか?</a></li>
+<li><a href="#column-flex-basis"><code>column</code>のフレックスコンテナでは、<code>flex-basis</code>は何を指しますか?</a></li>
+<li><a href="#row-flex-basis"><code>row</code>のフレックスコンテナでは、<code>flex-basis</code>は何を指しますか?</a></li>
+<li><a href="#flex-axes">前の2つの質問の答えが異なるのはなぜですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

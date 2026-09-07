@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Refs And Memoization</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Refs And Memoization <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Refs And Memoization</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>How can we do DOM manipulations that we usually do in vanilla JavaScript? Is it even possible in React because of its declarative nature? How about performance optimization? As we all know, when a state has been changed, React will try to re-render the component, which means that it will destroy all local variables not controlled by React and re-execute them. This mental model also works for a regular function that you create, as a component is just a function. Since this is the case, wouldn't it slow down the app if we have a very expensive calculation re-executed with each re-render?</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li><code>useRef</code> hook and its use cases.</li>
+<li>Memoization and how <code>useCallback</code> and <code>useMemo</code> can be used.</li>
+<li>Automatic memoization with React Compiler.</li>
+</ul>
+<h3>The useRef hook</h3>
+<p>The <code>useRef</code> hook lets you manage a value that's not needed for rendering. They are an alternative to state, as when you want a component to “remember” some information, but you don't want that information to trigger new renders, you can use this hook.</p>
+<p>They are often used when performing imperative actions or accessing specific elements rendered in the DOM. Refs can also <em>persist</em> values throughout the component's lifecycle, meaning that the value of the ref will not be destroyed every time a component re-renders. This is very useful when you want to store a value that you want to persist throughout the component's lifecycle without storing it in a state.</p>
+<h4>DOM manipulation</h4>
+<p>When building web applications, sometimes you need more direct control over specific elements in the DOM. The <code>useRef</code> hook comes to the rescue by providing a way to access and interact with those elements.</p>
+<p>Imagine a button on a web page, and you want to focus on that button when the page loads. You could achieve this using the <code>useRef</code> hook. Here's how it works:</p>
+<pre class="highlight"><code class="language-jsx">import { useRef, useEffect } from "react";
+
+function ButtonComponent() {
+  const buttonRef = useRef(null);
+
+  useEffect(() =&gt; {
+    buttonRef.current.focus();
+  }, []);
+
+  return &lt;button ref={buttonRef}&gt;Click Me!&lt;/button&gt;;
+}</code></pre>
+<p>The implementation is straightforward:</p>
+<ol>
+<li>We imported <code>useRef</code> and <code>useEffect</code> in the <code>react</code> module.</li>
+<li>We call <code>useRef</code> with an argument of <code>null</code>, which returns an object with a property called <code>current</code> whose initial value is set to the passed argument (which in this case, is <code>null</code>). This argument—like the passed argument for <code>useState</code>—is ignored in subsequent renders.</li>
+<li>Created a <code>useEffect</code> to be executed once on the mount of the component that will try to call the <code>focus</code> method of the button element.</li>
+<li>We've attached <code>buttonRef</code> to the <code>ref</code> attribute of the button element. This establishes the connection between the <code>buttonRef</code> and the button in the DOM.</li>
+</ol>
+<p>Whenever your website loads, it will automatically focus on the button element. You might ask, how can it have the <code>focus</code> method when the initial value is <code>null</code>? You should by now know that <code>rendering</code> and <code>painting of the screen</code> comes first before React runs the <code>useEffect</code>. It has already established the connection between the ref and the button before the effect is executed.</p>
+<p>Also, remember that <code>useRef</code> hook isn't just limited to focusing elements. It can be used for various other DOM manipulation scenarios, such as scrolling to a specific position, measuring the dimensions of an element, triggering animations, and basically <em>any</em> DOM manipulation that you've done before with vanilla JavaScript. The possibilities are endless! For example, we can change the <code>useEffect</code> in the above snippet to do the following. Change the button's text, and after 2 seconds, change the text back. You <strong>should not</strong> do this and only use <code>useRef</code> for non-destructive DOM operations, but just an example:</p>
+<pre class="highlight"><code class="language-jsx">useEffect(() =&gt; {
+  buttonRef.current.focus();
+  buttonRef.current.textContent = "Hey, I'm different!";
+  let timeout = setTimeout(() =&gt; {
+    buttonRef.current.textContent = "Click Me!";
+  }, 2000);
+
+  return () =&gt; {
+    clearTimeout(timeout);
+  };
+}, []);</code></pre>
+<p>The interesting thing about this is that this will <strong>never</strong> trigger a component re-render!</p>
+<p>Another question that might pop up in your mind is, "Why not just use <code>querySelector</code> or other DOM manipulation methods that we've done previously in vanilla JavaScript?" Dealing with the DOM ourselves defeats the purpose of using React, and wherever possible we should let React <em>commit</em> to the DOM itself.</p>
+<p>We can also see that it's similar to the <code>useState</code> hook in that it can store some values. The main difference is that <code>useRef</code> creates a mutable reference, allowing you to update its value without triggering a re-render. But, <code>useState</code> manages an immutable state that triggers re-renders when updated.</p>
+<h3>The useMemo hook</h3>
+<p>In all of the examples, we would advise you to use the <a href="https://react.dev/reference/react/Profiler">Profiler component</a> that is provided in the <code>react</code> module. If you want a more interactive alternative, use the <code>Profiler</code> in the <a href="https://react.dev/learn/react-developer-tools">React Developer Tools</a> to measure rendering performance. Note that sometimes you don't need to optimize anything because of how fast things are already. As the famous saying goes in software development:</p>
+<blockquote>
+<p>Premature optimization is the root of all evil -- The Art of Computer Programming by Donald Knuth</p>
+</blockquote>
+<p><span id="optimization-description"></span>
+The <code>useMemo</code> hook provides a way to add memoization inside our components. It's used to optimize expensive or complex calculations where it caches the result of a function call and stores it to be used later without recalculating it. The memoized value is, however, recalculated <em>only</em> when the dependencies of the <code>useMemo</code> hook change. And yes, this hook's parameters are the same as the <code>useEffect</code> hook you already know. The hook takes in two arguments: a <code>calculateValue</code> callback and a <code>dependencies</code> array.</p>
+<h4>Memoizing expensive calculations</h4>
+<p>In the previous Shopping Cart Project, you have some logic where you calculate the total price of the products added to the cart. You might or might not have a <code>Cart</code> component that functions as a drawer, where the user can open the cart every time they either click on the <code>Add to Cart</code> button or the Cart icon in the header.</p>
+<p>An example of a <code>Cart</code> component:</p>
+<pre class="highlight"><code class="language-jsx">function Cart({ products }) {
+  const totalPrice = products.reduce(
+    (total, product) =&gt; total + product.price * product.quantity,
+    0
+  );
+
+  return (
+    &lt;div&gt;
+      {/* Some other content in the cart */}
+      {/* Products to display */}
+      &lt;p&gt;
+        Total Price: &lt;strong&gt;${totalPrice}&lt;/strong&gt;
+      &lt;/p&gt;
+      {/* Some button to checkout */}
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>In our <code>Cart</code> component, we have the total price of the products calculated directly inside the component. Every time the component is rendered or updated, the calculation is performed from scratch! That doesn't sound good... What if the user has added hundreds of thousands of products to the cart? Then it will lead to a sluggish user experience.</p>
+<p>The <code>reduce</code> method iterates over each product and performs multiplication and addition for every item in the cart. This operation becomes <em>increasingly</em> time-consuming as the number of products increases.</p>
+<p>Now imagine a user who frequently opens/closes the cart. Every time the drawer is opened, the <code>Cart</code> component is rendered, executing everything inside the component. This results in unnecessary recomputations of the same value even if the cart's content hasn't changed.</p>
+<p>Let's see how we can use <code>useMemo</code> to address this:</p>
+<pre class="highlight"><code class="language-jsx">import { useMemo } from "react";
+
+function Cart({ products }) {
+  const totalPrice = useMemo(() =&gt; {
+    return products.reduce(
+      (total, product) =&gt; total + product.price * product.quantity,
+      0
+    );
+  }, [products]);
+
+  return (
+    &lt;div&gt;
+      {/* Some other content in the cart */}
+      {/* Products to display */}
+      &lt;p&gt;
+        Total Price: &lt;strong&gt;${totalPrice}&lt;/strong&gt;
+      &lt;/p&gt;
+      {/* Some button to checkout */}
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>In the example above, we can easily memoize the calculated value by wrapping it in a <code>useMemo</code>, as the syntax is pretty much the same as <code>useEffect</code> and almost works the same. <code>useMemo</code> will run the callback on mount. On subsequent re-renders, it will only re-run the callback if a dependency changes, otherwise it will return the cached value from whenever it was last run. In our case, whenever the <code>products</code> prop changes.</p>
+<p>This way, whenever a user opens/closes the cart multiple times, it will not recalculate the <code>totalPrice</code> and use the cached value as long as <code>products</code> did not change.</p>
+<h4>Referential equality checks</h4>
+<p>For this example, we will use the <code>Profiler</code> component in the <code>react</code> module to measure the component's performance. We will also introduce <code>memo</code>.</p>
+<p>You do not need to start a React application for this as we've already got you covered. A bit later, we will be sharing an interactive example, but for now, think through the code about what you think will happen, what could happen, and so on. This could also be a great exercise in reading code and visualizing how it works.</p>
+<p>Do note that this is just a very basic example. You will encounter a lot of passing of values to other components as props, components that are very heavy to render.</p>
+<pre class="highlight"><code class="language-jsx">import { useState } from "react";
+
+const ButtonComponent = ({ children, onClick }) =&gt; {
+  let i = 0;
+  let j = 0;
+  const ITERATION_COUNT = 10_000;
+  while (i &lt; ITERATION_COUNT) {
+    while (j &lt; ITERATION_COUNT) {
+      j += 1;
+    }
+    i += 1;
+    j = 0;
+  }
+
+  return (
+    &lt;button type="button" onClick={onClick}&gt;
+      {children}
+    &lt;/button&gt;
+  );
+};
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () =&gt; {
+    setCount((prevState) =&gt; prevState + 1);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{count}&lt;/h1&gt;
+      &lt;ButtonComponent onClick={handleClick}&gt;Click me!&lt;/ButtonComponent&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<p>You will likely want to have a separate button component where you can handle stylings and other things in it. So we have created a component called <code>ButtonComponent</code> as an example. This component takes the <code>children</code> and <code>onClick</code> props.</p>
+<p>We can see that the click handler is defined in the <code>Counter</code> component, and we've passed it to the <code>onClick</code> prop of the <code>ButtonComponent</code>.</p>
+<p>We know that a component renders whenever either state changes or prop changes. Anything inside that is not controlled by React is destroyed and re-executed. Functions, variables, etc. As a result, the function <code>handleClick</code> is re-created each time, and the prop <code>onClick</code> of the <code>ButtonComponent</code> also changes. Alright, so how can <code>useMemo</code> help in here?</p>
+<p>We already know we can memoize a value using <code>useMemo</code>, right? Then we can just cache the function reference and use an empty dependency array so that it won't change.</p>
+<p>Let's create a new function and name it <code>memoizedHandleClick</code>:</p>
+<pre class="highlight"><code class="language-jsx">const memoizedHandleClick = useMemo(() =&gt; handleClick, []);</code></pre>
+<p>We don't need to create a new function, but this is just to test these two functions. You can also directly do the following:</p>
+<pre class="highlight"><code class="language-jsx">// Syntax might be weird, but just remember that `useMemo` can take any value, and a function is also just a value `() =&gt; setCount((prevState) =&gt; prevState + 1)`
+
+const handleClick = useMemo(
+  // first arrow function is useMemo's callback
+  // second arrow function is our function that will be called later, this one is going to be the cached value and what's going to be stored in `handleClick`
+  () =&gt; () =&gt; setCount((prevState) =&gt; prevState + 1),
+  []
+);</code></pre>
+<p>Great, <code>useMemo</code> should help us here right? It shouldn't possibly re-render the <code>ButtonComponent</code> again correct? Nope, it will still re-render because whenever a component's <code>state</code> changes, it will also re-render its children, which could also be said differently - a component will re-render itself if its parent re-renders. Is there a way to fix this? Yes, there is! React in one of its APIs provides the <a href="https://react.dev/reference/react/memo">memo wrapper function</a> that lets you skip re-rendering a component when its props are unchanged (yes, even if the parent re-renders). We can use this <code>memo</code> and wrap the <code>ButtonComponent</code> in it.</p>
+<pre class="highlight"><code class="language-jsx">import { useState, memo } from "react";
+
+const ButtonComponent = memo(({ children, onClick }) =&gt; {
+  let i = 0;
+  let j = 0;
+  const ITERATION_COUNT = 10_000;
+  while (i &lt; ITERATION_COUNT) {
+    while (j &lt; ITERATION_COUNT) {
+      j += 1;
+    }
+    i += 1;
+    j = 0;
+  }
+
+  return (
+    &lt;button type="button" onClick={onClick}&gt;
+      {children}
+    &lt;/button&gt;
+  );
+});</code></pre>
+<p>Wrapping the component with a <code>memo</code> prevents the downward update that is triggered above the component. So, this component will only re-render when its <code>props</code> change or if its own <code>state</code> changes.</p>
+<p>With all that said and done, go to our <a href="https://github.com/TheOdinProject/react-examples">react-examples repo</a> (fork and clone it if you haven't already), <code>cd</code> into the <code>memoization/</code> directory and run <code>npm install</code> then <code>npm run dev</code>. Take some time to play around with the code. Experiment! Test things out and break stuff!</p>
+<p>These are some scenarios that could happen:</p>
+<ol>
+<li>If you've passed <code>handleClick</code> and the <code>ButtonComponent</code> has a <code>memo</code>. It will still re-render. Referential equality check fails (previous prop is <em>not equal</em> to the current prop).</li>
+<li>If you've passed <code>memoizedHandleClick</code> and the <code>ButtonComponent</code> has a <code>memo</code>. It will not re-render. Referential equality check passes (previous prop is <em>equal</em> to the current prop).</li>
+</ol>
+<p>This works with all values that will be passed as a prop. You might see it being used frequently with the Context API:</p>
+<pre class="highlight"><code class="language-jsx">const value = useMemo(
+  () =&gt; ({ someState, someFunction }),
+  [someState, someFunction]
+);
+
+return &lt;Context value={value}&gt;{children}&lt;/Context&gt;;</code></pre>
+<h3>The useCallback hook</h3>
+<p>The <code>useCallback</code> hook provides another way to memoize a value, not just <strong>any</strong> value like <code>useMemo</code>. It can only memoize a function. Did you see the previous snippet that we have with memoizing a function reference with <code>useMemo</code>?</p>
+<pre class="highlight"><code class="language-jsx">const handleClick = useMemo(
+  () =&gt; () =&gt; setCount((prevState) =&gt; prevState + 1),
+  []
+);
+// or
+const memoizedHandleClick = useMemo(() =&gt; handleClick, []);</code></pre>
+<p>With <code>useCallback</code>, we don't need to do that. It's specifically made for functions:</p>
+<pre class="highlight"><code class="language-jsx">import { useCallback } from "react";
+
+// Inside a component
+// Without useCallback
+const handleClick = () =&gt; setCount((prevState) =&gt; prevState + 1);
+// With useCallback
+const handleClick = useCallback(
+  () =&gt; setCount((prevState) =&gt; prevState + 1),
+  []
+);
+// or
+const memoizedHandleClick = useCallback(handleClick, []);</code></pre>
+<p><span id="usememo-or-usecallback"></span>
+Yay, there's only one arrow function, and it's simpler to read. There's nothing extra to <code>useCallback</code> other than it only memoizes functions. So the main difference between <code>useMemo</code> and <code>useCallback</code> is just the type of value it returns.</p>
+<p>Which one should we use, then? Use <code>useMemo</code> for <em>any</em> value types, and use <code>useCallback</code> specifically for functions. At the end of the day, they both do similar things with a tiny difference, so use whatever you prefer.</p>
+<h3>React Compiler</h3>
+<p>We now also have React Compiler, which is a relatively new build-time tool that can automatically optimize our React app. It will analyze our code and memoize appropriate components and hooks, primarily focusing on improving update performance (re-rendering existing components). This means that in most cases, we <em>don't have to</em> manually memoize components or hooks.</p>
+<p>So if React Compiler memoizes our hooks and components automatically, do we need to know about <code>React.memo</code>, or hooks like <code>useMemo</code> and <code>useCallback</code>? Short answer - yes. Understanding manual memoization helps us understand what React Compiler does under the hood, not to mention that you will almost certainly run into manual memoization techniques in existing codebases. Lastly, there may be cases where we need more control over what gets memoized and how compared to what React Compiler will automatically do, such as making sure a <code>useEffect</code> dependency is memoized to ensure it doesn't change unnecessarily and fire the effect.</p>
+<h3>Conclusion</h3>
+<p>Phew, this was a long lesson. Refs and memoization are difficult concepts to grasp, but we're sure you'll understand them with practice. Refs particularly are really useful for some use cases. As for automatic memoization, it can help optimize our app without needing to write any additional code. Manual memoization may also be necessary in certain cases, but you should only reach out for it when you absolutely need it. These topics also make for great interview questions, so make sure you know the difference between <code>useMemo</code> and <code>useCallback</code>!</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>The article <a href="https://kentcdodds.com/blog/usememo-and-usecallback">When to useMemo and useCallback</a> by Kent C. Dodds further introduces more examples of when to use <code>useMemo</code> and <code>useCallback</code> and when you shouldn't bother using them.</li>
+<li>We've only learned about a basic implementation of the <code>useRef</code> hook. For more examples about its usage and why we should be wary of using the hook (more on the links they provided in the guide), check out the interactive guide of the React documentation for <a href="https://react.dev/reference/react/useRef">useRef hook</a> .</li>
+<li>For a deeper dive into how to safely access and modify DOM nodes, check out the React documentation on <a href="https://react.dev/learn/manipulating-the-dom-with-refs">Manipulating the DOM with Refs</a>.</li>
+<li>As we have learned, the <code>useRef</code> hook has other uses other than what we've primarily covered which is DOM Manipulation. Get to know more about its use-cases in this great article by Dan Abramov <a href="https://overreacted.io/making-setinterval-declarative-with-react-hooks/">Making setInterval Declarative with React Hooks</a>.</li>
+<li>Go through <a href="https://react.dev/learn/react-compiler">React Compiler docs</a> to learn a bit more about it, and to find out how to install and configure it in your projects.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="https://react.dev/learn/manipulating-the-dom-with-refs">Why should you prefer useRef hook over other DOM manipulation methods like querySelector?</a></li>
+<li><a href="#usememo-or-usecallback">What is the difference between useMemo and useCallback?</a></li>
+<li><a href="#optimization-description">How do useMemo and useCallback help optimize the performance of React components?</a></li>
+<li><a href="https://kentcdodds.com/blog/usememo-and-usecallback">When should you memoize a value?</a></li>
+<li><a href="https://react.dev/learn/react-compiler/introduction">What is React Compiler and how does it optimize React applications?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

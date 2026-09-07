@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recipes</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Recipes <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Create a full HTML project.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>これまでに身につけたHTMLの知識をすべて実践する時が来ました。このプロジェクトでは、基本的なレシピウェブサイトを構築します。</p>
+<p>このウェブサイトは、いくつかのレシピへのリンクを持つメインのindexページで構成されます。完成した時点でウェブサイトはあまり見栄えの良いものにはなりませんが、このプロジェクトの目的はあなたのHTMLの腕を磨くことにあるという点を心に留めておくことが重要です。このプロジェクトには、後でCSSを使ってスタイルを付けるために再び戻ってきます。</p>
+<h3>プロジェクトのGitHubリポジトリをセットアップする</h3>
+<p><a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/introduction-to-git">Introduction to Gitのレッスン</a>で述べた通り、あなたはすべてのプロジェクトをポートフォリオのように整理し、他の人に見てもらえるようGitHubにリンクさせたいと思うでしょう。</p>
+<div class="lesson-note lesson-note--warning">
+<h4>GitHub上でファイルを作成する際の注意</h4>
+<p>GitHubでは、サイト上で直接変更を加えることができます。リポジトリをマシンにクローンした後にこれを行うと、あなたのローカルコードがリモートより1バージョン古くなってしまい、作業をプッシュする際に余計な問題が生じます。ほとんどの場合、ファイルはローカルで作成するべきです。</p>
+<p>コースを進めていく中で、こうした状況への対処法を学んでいきますが、今のところは、シンプルな道筋にとどまるために、指示を注意深く守ることが重要です。</p>
+</div>
+<p>リポジトリのセットアップ方法が分からない場合は、以下のステップに進む前に、<a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/git-basics">Git Basics</a>にあるステップ1と2の指示に従って、その方法を学んでください:</p>
+<ol>
+<li>
+<p>GitHub.com上でこのプロジェクト用の新しいリポジトリを作成し、<code>odin-recipes</code>という名前を付けてください。</p>
+</li>
+<li>
+<p>Git Basicsのレッスンで以前作成した<code>repos</code>フォルダの中に、そのリポジトリをローカルマシンにクローンしてください。コマンドは<code>git clone git@github.com:username/odin-recipes.git</code>のようになるはずです(SSHを使用してください)。</p>
+</li>
+<li>
+<p>次に、ローカルマシン上にできた<code>odin-recipes</code>プロジェクトディレクトリに<code>cd</code>で移動してください。</p>
+</li>
+<li>
+<p><code>README.md</code>ファイルをセットアップし、現在のプロジェクトが何であるか、そして完成させたときにどのようなスキルを示せているかについての簡単な紹介を書いてください。(これはプロジェクトの終わりに自己振り返りとして行うこともでき、学んだことを復習する良い方法になります。)</p>
+</li>
+</ol>
+<p>うまくいかない場合:</p>
+<ul>
+<li>
+<p>すべてのGitコマンドは、プロジェクトのフォルダ内から実行する必要があります(<code>odin-recipes</code>フォルダに<code>cd</code>で移動するのを忘れていませんか?)。</p>
+</li>
+<li>
+<p>GitHubからSSHでクローンするために、<a href="https://www.theodinproject.com/lessons/foundations-setting-up-git#step-2-configure-git-and-github:~:text=Step%202.3%3A%20Create%20an%20SSH%20key">SSHキーを作成する</a>方法の手順に従ったか確認してください。</p>
+</li>
+<li>
+<p><a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/git-basics">Git Basicsのレッスン</a>にあるワークフローを参照してください。</p>
+</li>
+</ul>
+<h4>いつコミットすべきかのヒント</h4>
+<p><a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/commit-messages">Commit Messagesのレッスン</a>で扱ったことをすべて忘れないでください!</p>
+<p>プロジェクトを構築する際、<code>git push origin main</code>でGitHubにプッシュする準備ができるまでに、おそらく<code>git add</code> + <code>git commit</code>のサイクルを何度も行うことになるでしょう。</p>
+<p>コードを書くとき、早めに、こまめにコミットすることがベストプラクティスとされています。コードに意味のある変更があるたびにコミットしてください。これにより、あなたの進捗のタイムラインが作られ、完成したコードが何もないところから突然現れたわけではないことが示されます。</p>
+<p><code>git push origin main</code>を入力したら、ブラウザに切り替えてGitHub上のリポジトリを開いてください。プッシュしたばかりのすべてのファイルが表示されているはずです。</p>
+<p>さて、Gitについてはこれで十分です---いよいよ実際に何かを作る時間です!</p>
+<h3>自分のプロジェクトを完成させる前に、他人の完成したプロジェクトコードを見ることについての警告</h3>
+<p>しかし先に進む前に:私たちのすべてのプロジェクトには、完成したコードやプロジェクトの実際のウェブサイトを投稿するための「Student Solutions(受講生の解答)」セクションが下部にあります。これらは、あなたが完成させたコードと比較したり、他の人がプロジェクトのコードやデザインでどのような別のルートを選んだかを見たりするために用意されています。</p>
+<p>行き詰まったときやどこから始めればいいか分からないとき、解答を見たくなる誘惑があるのは承知していますが、それは<strong>しないでください</strong>!その理由をいくつか挙げます:</p>
+<ul>
+<li>投稿されたプロジェクトはすべて、<em>他の学習者</em>の解答です。つまり、それらは同じくまだ学習中の他の人々によって書かれたものであり、必ずしも「ベストプラクティス」や質の高いコードを代表しているとは限りません。</li>
+<li>解答を見ることは、問題解決力や調査力を伸ばす機会をあなたから奪ってしまいます。現実の世界では、参照できる「解答」が常にあるとは限らず、自分自身で編み出さなければなりません。</li>
+<li>同じ最終結果に到達する方法はたくさんあります---「万人に合う唯一の正解」というものはありません。</li>
+<li>たとえ話をすると:「完成したコードを見てコーディングの仕方を学ぶのは、焼き上がったピザを見てピザ生地の作り方を学ぶようなものだ。」最終的な成果物だけを見て、そこに至るまでのプロセスを見ないと想像する以上に、実際にはもっと多くのことが関わっています。</li>
+</ul>
+<p>プロジェクトを完成させたら、他の解答を自由に見て、プロジェクトの別の完成のさせ方を確認してみてください。</p>
+<p><strong>覗き見しないでください。私たちの<a href="https://discord.com/channels/505093832157691914/516751477306294273">Discordサーバー</a>に来て助けを求めましょう!<em>(そのチャンネルを見るには、まず<a href="https://discord.gg/fbFCkYabZB">Discordサーバーに参加する</a>必要があります)。</em></strong></p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<h4>イテレーション1: 初期構造</h4>
+<ol>
+<li><code>odin-recipes</code>ディレクトリ内に、<code>index.html</code>ファイルを作成してください。</li>
+<li>いつものボイラープレートHTMLを記述し、bodyに「Odin Recipes」という<code>h1</code>見出しを追加してください。</li>
+</ol>
+<h4>イテレーション2: レシピページ</h4>
+<ol>
+<li><code>odin-recipes</code>ディレクトリ内に新しいディレクトリを作成し、<code>recipes</code>という名前を付けてください。</li>
+<li><code>recipes</code>ディレクトリ内に新しいHTMLファイルを作成し、それが含むレシピにちなんだ名前を付けてください。例えば<code>lasagna.html</code>のようにです。自分の好きな料理の名前を使っても構いませんし、アイデアが必要な場合は<a href="https://www.allrecipes.com/">Allrecipes</a>で使えるレシピを見つけることもできます。いつものボイラープレートHTMLを必ず含めてください。このボイラープレートコードは、あなたが作成するすべての<code>.html</code>ファイルに含まれているべきです。</li>
+<li>今のところは、レシピの名前を内容とする<code>h1</code>見出しだけを含めてください。</li>
+<li><code>index.html</code>ファイルに戻って、先ほど作成したレシピページへのリンクを追加してください。例:<code>&lt;h1&gt;Odin Recipes&lt;/h1&gt;</code>見出しの下に、次のようにリンクを書き出します:<code>&lt;a href="recipes/recipename.html"&gt;Recipe Title&lt;/a&gt;</code>。リンクのテキストは、やはりレシピの名前にしてください。</li>
+<li>
+<p>ナビゲーションを簡単にするために、レシピページに<strong>indexページへのリンクを追加してください</strong>。このリンクは、レシピページ(例:<code>lasagna.html</code>)の上部か下部に配置できます。以下は例です:</p>
+<pre class="highlight"><code class="language-html">&lt;a href="../index.html"&gt;Home&lt;/a&gt;</code></pre>
+<p>これにより、ユーザーはレシピを見た後、すばやくホームページに戻ることができます。</p>
+</li>
+</ol>
+<h4>イテレーション3: レシピページのコンテンツ</h4>
+<p>新しいレシピページには、以下のコンテンツを含めるべきです:</p>
+<ol>
+<li>
+<p>先ほど追加した<code>h1</code>見出しの下に、完成した料理の無料画像を配置してください。</p>
+</li>
+<li>
+<p>画像の下に、適切なサイズの「Description(説明)」見出しを配置し、その後にレシピを説明する1〜2段落を続けてください。</p>
+</li>
+<li>
+<p>説明の下に、「Ingredients(材料)」見出しを追加し、その後にレシピに必要な材料の<strong>順序なしリスト</strong>を続けてください。</p>
+</li>
+<li>
+<p>最後に、材料リストの下に、「Steps(手順)」見出しを追加し、その後に料理を作るために必要な手順の<strong>順序ありリスト</strong>を続けてください。</p>
+</li>
+</ol>
+<h4>イテレーション4: レシピを追加する</h4>
+<ol>
+<li>さらに2つのレシピページを作成してください。最初のレシピページとまったく同じレイアウトになるようにしてください。</li>
+<li>indexページに新しいレシピへのリンクを追加するのを忘れないでください。また、すべてのリンクが1行に並ばないよう、順序なしリストにまとめることも検討してください。</li>
+</ol>
+<p>例:</p>
+<pre class="highlight"><code class="language-html"> &lt;ul&gt;
+    &lt;li&gt;&lt;a href="recipes/yourrecipe.html"&gt;Recipe Title 1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="recipes/yourrecipe.html"&gt;Recipe Title 2&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="recipes/yourrecipe.html"&gt;Recipe Title 3&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;</code></pre>
+<p>あなたのリンクは派手にはなりませんが、今のところはそれらを組み立てることだけに集中してください。</p>
+</div>
+<h3>ウェブ上でプロジェクトを表示する</h3>
+<p>自分の作品(プロジェクト)を他の人に見せたい場合や、以下で解答を提出したい場合は、あなたのサイトをローカルマシン上だけでなく、他の人がウェブからアクセスできるように公開する必要があります。良いニュースは、(上記で説明したように)プロジェクトをGitHubに置いているなら、これは簡単に行えるということです。</p>
+<p>GitHubでは、GitHubリポジトリから直接ウェブプロジェクトを公開できます。これを行うと、<code>your-github-username.github.io/your-github-repo-name</code>からあなたのプロジェクトにアクセスできるようになります。</p>
+<div class="lesson-note">
+<h4>プライベートリポジトリからの公開</h4>
+<p>プライベートリポジトリからウェブプロジェクトを公開するには、GitHubの有料アカウントが必要です。無料アカウントはパブリックリポジトリからのみ公開できます。</p>
+</div>
+<p>これを行う方法はいくつかありますが、最も簡単なのは次の方法です:</p>
+<ol>
+<li>メインのHTMLファイルが<code>index.html</code>という名前であり、<strong>かつ</strong>リポジトリのルート(最上位)ディレクトリに置かれていることを確認してください。</li>
+<li>ウェブ上であなたのGitHubリポジトリに移動し、下のスクリーンショットのように<strong>Settings</strong>ボタンをクリックしてください。
+    <img alt="サンプルリポジトリ内のSettingsを指し示すスクリーンショット" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/90b1a362af0bb8635af9593cd8911c9aefb68569/foundations/html_css/html-foundations/imgs/01.png" /></li>
+<li>左サイドバーの<strong>Pages</strong>をクリックしてください。</li>
+<li><strong>Branch</strong>を<em>none</em>から<em>main branch</em>に変更し、<strong>Save</strong>をクリックしてください。</li>
+<li>数分かかる場合があります(GitHubのウェブサイトには最大10分と書かれていますが、1時間かかるのを見たこともあります。プロジェクトに「theme」を追加しないでください。git競合が発生する可能性があります。代わりに辛抱強く待ってください。)が、あなたのプロジェクトは<code>your-github-username.github.io/your-github-repo-name</code>からウェブ上でアクセスできるようになるはずです(もちろん、リンク内はご自身の詳細に置き換えてください)。</li>
+<li>1時間経ってもプロジェクトが公開されない場合は、リポジトリのルートに<code>index.html</code>という名前のファイルがあること、そしてすべての設定が正しく行われていることを確認してください。GitHub上であなたのリポジトリに移動してActionsをクリックし、エントリが何もなければ、設定に戻って<strong>Branch</strong>を<em>main branch</em>から<em>none</em>に変更して<strong>Save</strong>をクリックし、それから<strong>Branch</strong>を<em>none</em>から<em>main branch</em>に戻して<strong>Save</strong>をクリックしてください。</li>
+</ol>
+<!-- Note: this header gets referenced in https://github.com/TheOdinProject/theodinproject/blob/main/app/views/lessons/project_submissions/index.html.erb. If you change it, make sure to make a corresponding change there as well. -->
+<h3 id="community-submissions">コミュニティからの提出作品</h3>
+<div class="lesson-note">
+<h4>多くのコミュニティ提出作品にはスタイルが適用されている</h4>
+<p>今後のレッスンでは、CSSを学び、このプロジェクトにスタイルを追加します。コミュニティの提出作品を見ると、すでにこのスタイルを追加しているものが多いことに気づくでしょう。</p>
+</div>
+<p>(プロジェクトを完成させた後に)コミュニティの解答を見る際は、いくつかのことを心に留めておいてください:</p>
+<ul>
+<li>学習者は、ポートフォリオのために古いプロジェクトを改善しようと後で見直すことがよくあります。</li>
+<li>カリキュラムを始める前にすでにプログラミング経験がある人もいます。</li>
+<li>プロジェクトの要件は時間の経過とともに変わることがあります。</li>
+</ul>
+<p><strong>自分を他人と比較するのではなく、プロジェクトの要件を満たすことに集中してください。</strong>コミュニティの提出作品は、さまざまなアプローチを見るのに役立ちますが、この段階であなたのプロジェクトが「どうあるべきか」を表しているわけではありません。</p>
+<p>これは今後のプロジェクトにも当てはまります。詳しくは<a href="https://dev.to/theodinproject/learning-code-f56">"Becoming a TOP Success Story"の「Learning Code」</a>を読んでみてください。</p>
+  </div>
+</div>
+
+</body>
+</html>

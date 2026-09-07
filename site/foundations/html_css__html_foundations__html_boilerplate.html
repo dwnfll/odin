@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HTML Boilerplate</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">HTML Boilerplate <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Create your first HTML file.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>すべてのHTMLドキュメントは、何か役立つことをする前に整えておく必要がある、同じ基本構造、つまりボイラープレートを持っています。このレッスンでは、このボイラープレートのさまざまな部分を見ていき、それらがどのように組み合わさっているかを確認します。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>HTMLドキュメントの基本的なボイラープレートの書き方。</li>
+<li>ブラウザでHTMLドキュメントを開く方法。</li>
+</ul>
+<h3>HTMLファイルを作成する</h3>
+<p>HTMLのボイラープレートを示すために、まず作業対象となるHTMLファイルが必要です。</p>
+<p>コンピューター上に新しいフォルダを作成し、<code>html-boilerplate</code>という名前を付けてください。そのフォルダの中に新しいファイルを作成し、<code>index.html</code>という名前を付けてください。</p>
+<p>あなたはおそらく、docファイル、pdfファイル、画像ファイルなど、すでに多くの種類のファイルに慣れ親しんでいることでしょう。</p>
+<p>コンピューターにHTMLファイルを作成したいことを伝えるには、<code>index.html</code>ファイルを作成したときのように、ファイル名の末尾に<code>.html</code>拡張子を付ける必要があります。</p>
+<p>私たちがHTMLファイルに<code>index</code>という名前を付けたことは、注目に値します。ウェブサイトのホームページとなるHTMLファイルには、常に<code>index.html</code>という名前を付けるべきです。これは、ユーザーがあなたのウェブサイトにアクセスしたとき、ウェブサーバーがデフォルトで<code>index.html</code>ページを探すためです---それがないと、大きな問題を引き起こします。</p>
+<h3 id="the-doctype">DOCTYPE</h3>
+<p>すべてのHTMLページは、doctype宣言から始まります。doctypeの目的は、ドキュメントをレンダリングする際にどのバージョンのHTMLを使うべきかをブラウザに伝えることです。最新版のHTMLはHTML5であり、そのバージョンのdoctypeは<code>&lt;!DOCTYPE html&gt;</code>です。</p>
+<p>より古いバージョンのHTMLのdoctypeは、もう少し複雑でした。例えば、これはHTML4のdoctype宣言です:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</code></pre>
+<p>しかし、私たちが古いバージョンのHTMLを使いたくなることはおそらくないので、常に<code>&lt;!DOCTYPE html&gt;</code>を使用します。</p>
+<p>先ほど作成した<code>index.html</code>ファイルをテキストエディタで開き、最初の行に<code>&lt;!DOCTYPE html&gt;</code>を追加してください。</p>
+<h3 id="html-element">HTML要素</h3>
+<p>doctypeを宣言した後、<code>&lt;html&gt;</code>要素を用意する必要があります。これはドキュメントのルート要素として知られているもので、ドキュメント内の他のすべての要素がその子孫になるということを意味します。</p>
+<p>これは、後でJavaScriptを使ったHTMLの操作について学ぶときに、より重要になります。今のところは、<code>&lt;html&gt;</code>要素がすべてのHTMLドキュメントに含まれているべきだということだけ知っておいてください。</p>
+<p><code>index.html</code>ファイルに戻って、開始タグと終了タグを入力することで<code>&lt;html&gt;</code>要素を追加しましょう。次のようにです:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;/html&gt;</code></pre>
+<p>ここで<code>lang</code>という単語に気づきましたか?これは、与えられたHTMLタグ(この場合は<code>&lt;html&gt;</code>)に関連付けられたHTML属性を表しています。これらの属性は、HTML要素についての追加情報を提供します。(<code>HTML属性</code>については次のレッスンで詳しく扱います。)</p>
+<h4>lang属性とは何か?</h4>
+<p><code>lang</code>は、その要素内のテキストコンテンツの言語を指定します。この属性は、主にウェブページのアクセシビリティを向上させるために使用されます。これにより、スクリーンリーダーなどの支援技術が言語に応じて適応し、正しい発音を呼び出すことができるようになります。</p>
+<h3 id="head-element">head要素</h3>
+<p><code>&lt;head&gt;</code>要素は、私たちのウェブページ<strong>についての</strong>重要なメタ情報や、ウェブページがブラウザで正しくレンダリングされるために必要なものを配置する場所です。
+<code>&lt;head&gt;</code>の中では、ウェブページ上にコンテンツを表示するような要素を<strong>使うべきではありません</strong>。</p>
+<p><code>index.html</code>ファイルに戻って、<code>&lt;meta&gt;</code>要素とtitleを含む<code>&lt;head&gt;</code>要素を追加しましょう。<code>&lt;head&gt;</code>要素は<code>&lt;html&gt;</code>要素の中に置かれ、常に開始<code>&lt;html&gt;</code>タグの直下の最初の要素であるべきです:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+  &lt;/head&gt;
+&lt;/html&gt;</code></pre>
+<h4>meta要素</h4>
+<p><code>&lt;head&gt;</code>要素内には、常にウェブページの文字コードを指定する<code>&lt;meta&gt;</code>タグを含めておくべきです: <code>&lt;meta charset="UTF-8"&gt;</code>。</p>
+<p>エンコーディングを設定することは非常に重要です。なぜなら、それによってウェブページがブラウザ上でさまざまな言語の特殊記号や文字を正しく表示できるようになるからです。</p>
+<h4>title要素</h4>
+<p>HTMLドキュメントのheadに常に含めるべきもう一つの要素は、<code>&lt;title&gt;</code>要素です:</p>
+<p><code>&lt;title&gt;My First Webpage&lt;/title&gt;</code></p>
+<p><code>&lt;title&gt;</code>要素は、ウェブページに人間が読める形のタイトルを付けるために使われ、それはウェブページのブラウザタブに表示されます。例えば、現在のブラウザタブの名前を見ると、「HTML Boilerplate &#124; The Odin Project」と表示されているはずです。これが現在の<code>.html</code>ファイルの<code>&lt;title&gt;</code>です。</p>
+<p>もし<code>&lt;title&gt;</code>要素を含めなかった場合、ウェブページのタイトルはデフォルトでファイル名になります。私たちの場合それは<code>index.html</code>となり、ユーザーにとってあまり意味のあるものではありません。これでは、ユーザーが多くのブラウザタブを開いている場合、私たちのウェブページを見つけるのが非常に難しくなってしまいます。</p>
+<p>HTMLドキュメントのheadの中に配置できる要素は、他にもたくさんあります。しかし、今のところはここで扱った2つの要素について知っておくことだけが重要です。headに入る他の要素については、カリキュラムの残りの部分を通して紹介していきます。</p>
+<h3 id="body-element">body要素</h3>
+<p>HTMLのボイラープレートを完成させるために必要な最後の要素は、<code>&lt;body&gt;</code>要素です。ここには、ユーザーに表示されるすべてのコンテンツ---テキスト、画像、リスト、リンクなど---が入ります。</p>
+<p>ボイラープレートを完成させるために、<code>index.html</code>ファイルに<code>&lt;body&gt;</code>要素を追加してください。<code>&lt;body&gt;</code>要素も<code>&lt;html&gt;</code>要素の中に置かれ、常に<code>&lt;head&gt;</code>要素の下に来ます。次のようにです:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h3>ブラウザでHTMLファイルを表示する</h3>
+<p>この時点で<code>index.html</code>ファイル内のHTMLボイラープレートは完成していますが、これをブラウザで表示するにはどうすればよいのでしょうか?いくつかの異なる方法があります:</p>
+<ul>
+<li>テキストエディタからHTMLファイルをブラウザのアドレスバーにドラッグ&amp;ドロップすることができます。</li>
+<li><kbd>Ctrl + O</kbd>(macOSでは<kbd>Cmd + O</kbd>)を押してブラウザから直接ファイルを開き、HTMLファイルまで移動することができます。</li>
+<li>ファイルシステム内でHTMLファイルを見つけて、それをダブルクリックすることができます。これにより、システムが使用しているデフォルトのブラウザでファイルが開かれます。</li>
+<li>ターミナルを使ってブラウザでファイルを開くこともできます:</li>
+<li>Ubuntu: ファイルを含むディレクトリに移動し、<code>google-chrome index.html</code>と入力します。</li>
+<li>macOS: ファイルを含むディレクトリに移動し、<code>open ./index.html</code>と入力します。</li>
+<li>WSL: ファイルを含むディレクトリに移動し、<code>explorer.exe index.html</code>と入力します。これにより、システムのデフォルトブラウザでファイルが開かれます。なお、ファイル名だけを使用する必要があります。パス(例:<code>./index.html</code>や絶対パス)を使用すると、代わりにWindowsのファイルエクスプローラーが開いてしまいます。</li>
+</ul>
+<div class="lesson-note lesson-note--warning">
+<h4>Google Chromeを使用する</h4>
+<p>ブラウザ間のあらゆる違いに対応するためにレッスンの説明を分岐させることを避けるため、このコースの残りの部分では、Google Chromeを主要なブラウザとして使用します。ブラウザへの言及はすべて、特にGoogle Chromeを指すものとします。今後のすべてのテストにはGoogle Chromeを使用することを<strong>強く</strong>お勧めします。</p>
+</div>
+<p>上記の方法のいずれかを使って、私たちが取り組んできた<code>index.html</code>ファイルを開いてみてください。画面が空白であることに気づくでしょう。これは、bodyの中に表示するものが何もないためです。</p>
+<p><code>index.html</code>ファイルに戻って、bodyに見出し(これについては後で詳しく扱います)を追加し、ファイルを保存しましょう:</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;h1&gt;Hello World!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>さて、ブラウザでページを更新すると、変更が反映されているのが分かり、「Hello World!」という見出しが表示されるはずです。</p>
+<h3>VSCodeのショートカット</h3>
+<p>VSCodeには、ボイラープレートを一度にすべて生成するために使える組み込みのショートカットがあります。このショートカットは、<code>.html</code>拡張子のファイル、またはすでにHTML言語が選択されているテキストファイルを編集しているときにのみ機能することに注意してください。ショートカットを起動するには、<code>index.html</code>ファイルの中身をすべて削除し、最初の行に<code>!</code>だけを入力してください。これにより、いくつかの選択肢が表示されます。<kbd>Enter</kbd>キーを押して最初のものを選ぶと、ほら、ボイラープレートがすべて自動で入力されているはずです。</p>
+<p>このショートカットによって生成されたボイラープレートには、まだ触れていない行が含まれていることに気づくかもしれません:</p>
+<pre class="highlight"><code class="language-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+<p>これは、さまざまな画面サイズに関わる高度なトピックであるレスポンシブデザインについて、カリキュラムのずっと後で扱うまでは知る必要のないものです。今のところは、その行はそのままにしておいて構いません。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>
+<p>Kevin Powellの素晴らしい<a href="https://www.youtube.com/watch?v=V8UAEoOvqFg&amp;t=93s">Building Your First Web Page動画</a>を見て、一緒に手を動かしてみましょう。</p>
+</li>
+<li>
+<p>あなたのボイラープレートをW3の<a href="https://validator.w3.org/#validate_by_input">HTMLバリデーター</a>にかけてみましょう。バリデーターはあなたのマークアップが正しいことを確認してくれ、閉じタグの欠落や余分なスペースなど、あなたが頻繁に犯しているのに気づいていないかもしれない構文エラーについてのフィードバックを提供してくれる、優れた学習ツールです。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#the-doctype">doctype宣言の目的は何ですか?</a></li>
+<li><a href="#html-element">HTML要素とは何ですか?</a></li>
+<li><a href="#head-element">head要素の目的は何ですか?</a></li>
+<li><a href="#body-element">body要素の目的は何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

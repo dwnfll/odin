@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keyframes</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Keyframes <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">More flexible than transitions are Keyframes</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>それでは、keyframesを使ったCSSアニメーションを探っていきましょう。これは、あなたがすでに触れたCSS transitionの知識を拡張し、両者の違いを深く掘り下げるものです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>CSS transitionとCSSアニメーションの違い。</li>
+<li>アニメーションのサブプロパティを設定する方法。</li>
+<li>keyframesを使ってアニメーションの順序を組み立てる方法。</li>
+</ul>
+<h3 id="animations-vs-transitions">アニメーションとtransitionの比較</h3>
+<p>アニメーションを使うと、要素をあるスタイル構成から別のスタイル構成へとアニメーションさせることができます。これは聞き覚えがありますか?「transitionと基本的に同じなら、アニメーションを学ぶ意味は何なのか?」と思ってもおかしくありませんが、アニメーションはtransitionにはないいくつかの機能を大きく拡張しています。いくつかの違いを挙げると:</p>
+<ul>
+<li>
+<p>transitionは、ある状態から別の状態へと要素をアニメーションさせるために設計されました。ループさせることも<em>できます</em>が、そのために設計されたわけではありません。一方でアニメーションは、明示的にループを可能にするという目的をもって設計<em>されました</em>。</p>
+</li>
+<li>
+<p>transitionには、<code>:hover</code>や<code>:focus</code>のような疑似クラスの使用や、JavaScriptを使ったクラスの追加・削除といった、トリガーが必要です。一方でアニメーションには、そのようなトリガーは必要ありません。要素を配置してCSSを定義すれば、そう指定した場合はアニメーションはすぐに実行され始めます。</p>
+</li>
+<li>
+<p>transitionは、アニメーションを使うほど柔軟ではありません。transitionを定義するとき、それはその要素をポイントAからポイントBへと一直線の旅に送り出しているようなものだと想像してください。確かに<code>transition-timing-function</code>は、この変化のタイミングに多少のバリエーションを加えることができますが、アニメーションを使うことで加わる柔軟性の量には及びません。</p>
+</li>
+</ul>
+<p>結局のところ、アニメーションとtransitionにはどちらもそれぞれの使いどころがあるので、上記の違いを考慮することに加えて、あなた自身の最善の判断も使うべきです。例えば、要素がアクティブになったときに不透明度を変える必要があるだけなら、アニメーションはやり過ぎですが、もっと複雑なことを行う必要があるなら、アニメーションが必要なツールを提供してくれます。</p>
+<h3>アニメーションのプロパティ</h3>
+<p>私たちがここまで話してきたことを実際に見るために、あるアニメーションを見てみましょう。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="jOGENZz" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/jOGENZz">
+  keyframes 1 longhand</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>このアニメーションがすでに実行されていて、繰り返し続けていることに注目してください。例の下部にある<code>@keyframes</code>ルールについては後ほど扱うので、今のところは上記の例で使われている実際のアニメーションプロパティに注目してください:</p>
+<pre class="highlight"><code class="language-css">#ball {
+  /* ... other CSS properties ... */
+  animation-duration: 2s;
+  animation-name: change-color;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}</code></pre>
+<p>これは設定段階として知られており、<code>#ball</code>要素にアニメーションプロパティを定義していますが、これはアニメーションの定義の前半部分にすぎません。この例では、次のようになっています:</p>
+<ul>
+<li>
+<p><code>animation-duration</code>は2秒です。これは、<code>#ball</code>要素が一つのアニメーションサイクルを完了するのに2秒かかることを意味します。</p>
+</li>
+<li>
+<p><code>animation-name</code>を「change-color」と定義しました。これは、次に出てくる<code>@keyframes</code>セクションにとって不可欠です。これは特定のCSSの値ではない、単なるカスタムの名前です。望むなら「pineapples」と呼ぶこともできましたが、私たちの目的には「change-color」がよく合っています。</p>
+</li>
+<li>
+<p><code>animation-iteration-count</code>を<code>infinite</code>に設定しました。これは、このアニメーションが永遠に実行され続けることを意味します。これを1、2、あるいは好きなだけの反復回数に設定することもできます。</p>
+</li>
+<li>
+<p><code>animation-direction</code>を<code>alternate</code>に設定しました。このプロパティは、一つのサイクルが完了したときにアニメーションの方向を交互に入れ替えるべきか、それとも開始地点にリセットして繰り返すべきかを決めます。ここでは、<code>#ball</code>が元の色に直接「ジャンプ」して戻る代わりに、滑らかに元の色に戻ることを意味します。</p>
+</li>
+</ul>
+<h3>Keyframes</h3>
+<p>さて、<code>@keyframes</code>アットルールを探ることで、私たちのアニメーション定義の後半部分に取り組む時が来ました。</p>
+<pre class="highlight"><code class="language-css">@keyframes change-color {
+  from {
+    background-color: red;
+  }
+
+  to {
+    background-color: green;
+  }
+}</code></pre>
+<p><code>@keyframes</code>アットルールは、先ほど定義した「change-color」という名前を参照します。それから、<code>from</code>と<code>to</code>プロパティを使って、<code>#ball</code>の<code>background-color</code>を赤から緑に変化させます。</p>
+<p>keyframesは、アニメーションが発生する時間をパーセンテージで示すこと、そして<code>from</code>と<code>to</code>という記述は、実はそれぞれ<code>0%</code>と<code>100%</code>のエイリアスであるということを知っておくことが重要です。上記の例では、<code>animation-duration</code>に従って、<code>from</code>/<code>0%</code>は「0秒の時点で」、<code>to</code>/<code>100%</code>は「2秒の時点で」を意味すると読むことができます。<code>from</code>/<code>to</code>を使うべきか<code>0%</code>/<code>100%</code>を使うべきかについて、厳格なルールはありません。ただ一つのスタイルを選んで、それに一貫性を持たせてください。</p>
+<p><code>@keyframes</code>アットルールはまた、一つのアニメーションサイクルも定義します。ですので、もし先ほどの<code>animation-iteration-count</code>を2に変更したとすると、ボールは<code>background-color</code>を赤から緑に、それから緑から赤に変化させ、それからアニメーションが停止します。一つの反復を完全なループだと考えるのではなく、始まりから終わりまでの(あるいは方向が入れ替わっているときは終わりから始まりまでの)単一のサイクルだと考えるように気をつけてください。</p>
+<p>さて、アニメーションプロパティのショートハンド記法を紹介し、keyframes記法によって加わる柔軟性を少し垣間見てみましょう。以下のライブ例を見てから、その記法を見てみてください。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="zYExOLQ" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/zYExOLQ">
+  keyframes 2 shorthand</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<pre class="highlight"><code class="language-css">#ball {
+  /* ... other CSS properties ... */
+  background-color: red;
+  animation: 2s change-color infinite alternate;
+}
+
+@keyframes change-color {
+  from {
+    background-color: red;
+  }
+
+  50% {
+    transform: scale(2);
+    background-color: blue;
+  }
+
+  to {
+    background-color: green;
+  }
+}</code></pre>
+<p>ここでは、<code>animation-duration</code>が50%、つまり1秒の時点のための別のkeyframeを追加しました。これは、<code>background-color</code>が追加の値に変化することに加えて、ボールが2倍の大きさになることも指定したことを意味します。追加のkeyframeは常にパーセンテージで定義されることに注意してください。<code>0%</code>/<code>100%</code>の値だけが<code>from</code>/<code>to</code>のエイリアスを使うことができます。</p>
+<p>これで、要素のプロパティのアニメーションをコントロールすることに関して<code>@keyframes</code>構文が提供してくれる力を、少し垣間見ることができたと思います。好きなときにkeyframesを追加でき、好きなCSSアニメーション可能なプロパティをコントロールでき、あなたのウェブサイトの要素に本当に創造的な華やかさを加える力を持つことができます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>この<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations">CSSアニメーションの使用についてのMDNの記事</a>を一緒に手を動かしながら読んでください。</li>
+<li>keyframesがどう実装されているかをより深く理解するために、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes">@keyframesのリファレンス</a>を読んでください。</li>
+<li>この<a href="https://www.joshwcomeau.com/animation/keyframe-animations/">keyframesについてのインタラクティブなガイド</a>を読んでください。</li>
+<li>では、いくつかクールなアニメーションを作ってみましょう!私たちの<a href="https://github.com/TheOdinProject/css-exercises/tree/main/advanced-html-css/animation">CSS演習リポジトリの<code>advanced-html-css/animation</code>ディレクトリ</a>にある演習に、次の順序で取り組んでください(READMEに指示があることを忘れないでください):
+   - <code>01-button-hover</code>
+   - <code>02-pop-up</code>
+   - <code>03-dropdown-menu</code></li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation">CSSアニメーションのロングハンド記法とショートハンド記法は何ですか?</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations#defining_the_animation_sequence_using_keyframes">アニメーションにkeyframesをどうやって追加しますか?</a></li>
+<li><a href="#animations-vs-transitions">transitionではなくアニメーションを使うのはどんなときですか?(またその逆は?)</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

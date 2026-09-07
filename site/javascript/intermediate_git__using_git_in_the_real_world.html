@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Using Git in the Real World</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Using Git in the Real World <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">We&#x27;ve just scratched the surface, so here&#x27;s what to be aware of as you start developing more and more using Git.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>Git basics are very straightforward, but it sometimes feels like a bottomless pit when you find yourself on the wrong side of a confusing error situation. It's doubly frustrating because you think that messing up or trying the wrong solution can lose data. It's actually very hard to "lose" data with Git but it can certainly be hiding somewhere you wouldn't think to look without an experienced dev poking around.</p>
+<p>The thing about Git is that, unless you've got a seriously impressive memory, you can't just master it by reading about it; you need hands-on practice! For example, find a problem you want to fix, run into a merge error, and then dive into Google to learn a new Git technique along the way to help you fix that problem.</p>
+<p>To help you out, come back and refer to this lesson again when you're in trouble. We'll first have a reminder about commit messages, then cover a real-world example of a GitHub workflow used on this very project.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>A reminder about commit messages.</li>
+<li>Using Git to make open source contributions.</li>
+</ul>
+<h3>Commit messages for collaboration</h3>
+<p>Before we dive into workflows, take a minute to remind yourself about good commit messages. You can check the <a href="https://www.theodinproject.com/lessons/foundations-commit-messages">Commit Messages lesson</a> for a reminder. This is a good time to draw particular attention to <a href="https://www.conventionalcommits.org">Conventional Commits</a>, a standard for commits that is gaining more and more popularity for collaborative projects. It helps to make sure your commit message gives a clear description of its purpose to anyone reading. Going forward, you may like to implement these (if you aren't already!), or at least be aware of them for when you read other repos.</p>
+<h3>Workflow diagram</h3>
+<p>Here is a visual representation of the workflow with Git and GitHub that illustrates how changes flow between repositories during collaboration.</p>
+<pre class="mermaid">
+
+graph TD;
+    A[Upstream Repository: TheOdinProject/curriculum] -->|git fetch upstream/main| B[Local Repository: main];
+    B -->|git checkout your_branch_name| C[Local Repository: your_branch_name];
+    C -->|git push origin your_branch_name| D[Your Fork on GitHub];
+    D -->|Create Pull Request to Upstream| E[Pull Request on GitHub];
+    E -->|Maintainers Merge PR to Upstream| A[Upstream Repository: TheOdinProject/curriculum];
+
+</pre>
+
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<p>Let's say you want to contribute to <a href="https://github.com/TheOdinProject/curriculum/">our curriculum repo</a>.</p>
+<p>How do you contribute when you do not have write access to the repository? Below is a production-ready workflow that is actually used by contributors to this website. We'll assume here that you have commented on an <a href="https://github.com/TheOdinProject/curriculum/issues">open issue on our repo</a> and that it has been assigned to you. If you don't have an issue assigned to you, you can still follow along with some arbitrary updates, just stop before step 3 in the <strong>Sending your pull request</strong> section since your changes aren't legitimate.</p>
+<p>The key players in this story will be the <code>upstream</code> (the original GitHub repository), the <code>origin</code> (your fork of that repo), and the "local" repository (your local clone of <code>origin</code>). Think of it as a happy triangle... except that "local" can only pull from <code>upstream</code>, not push, as illustrated in the workflow diagram above.</p>
+<h4>Initial setup</h4>
+<ol>
+<li>Read <a href="https://github.com/TheOdinProject/curriculum/blob/main/CONTRIBUTING.md">the TOP contributing guide</a> for the project.</li>
+<li>Open the <a href="https://github.com/TheOdinProject/curriculum/tree/main">curriculum repository</a> in your browser. Use the "Fork" button at the top-right of the repository's page to create a copy of the entire repository (not just one file) in your own GitHub account.</li>
+<li>Clone your forked repository onto your local machine using something like <code>git clone git@github.com:your_user_name_here/curriculum.git</code> (you can get the url from the little widget on the sidebar on the right of that repo's page on GitHub).</li>
+<li>Because you cloned the repository, you've already got a remote that points to <code>origin</code>, which is your fork on GitHub. You will use this to push changes back up to GitHub. You'll also want to be able to pull directly from the original repository on GitHub, which we'll call <code>upstream</code>, by setting it up as another remote. Do this by using the git command below inside the project folder <code>curriculum</code>:</li>
+</ol>
+<pre class="highlight"><code class="language-bash">git remote add upstream git@github.com:TheOdinProject/curriculum.git</code></pre>
+<h4>Ongoing workflow</h4>
+<p>We've got one main branch -- <code>main</code>. <code>main</code> is for production-ready code. Any code deployed to <code>main</code> (on the original repo, not on your fork) will be tested in staging and shipped to production. You'll be working in a feature branch and submitting your pull requests to the <code>main</code> branch.</p>
+<ol>
+<li>Create a new feature branch for whatever feature you want to build, and add commits following the same practices that you learned about in the <a href="https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors#using-branches">branching section of our Revisiting Rock Paper Scissors lesson</a>.</li>
+<li>When you're done with your feature, odds are that someone has made changes to the upstream repository in the meantime. That means that your <code>main</code> branch is probably out of date. Fetch the most updated copy using <code>git fetch upstream</code>.</li>
+<li>Now merge the upstream's changes into your local version of <code>main</code> using <code>git merge</code>. Specifically, you'll first want to make sure you're on your <code>main</code> branch using <code>git checkout main</code> and then <code>git merge upstream/main</code> to merge in those upstream changes that we just fetched.</li>
+<li>Now that your <code>main</code> branch is up-to-date with upstream, you need to merge it into your feature branch. Yes, that is correct and it seems odd at first. Don't you want to merge the feature branch into the <code>main</code> branch instead? Yes, you do, <em>but not yet</em>. <strong>Your feature branch is dirty.</strong> You don't know if it has any conflicts which might creep up. Any time you are merging in more "senior" branches (e.g. merging the feature into <code>main</code>), you want it to be a clean and conflict-free merge if possible. So you first merge the "senior" branch into your dirty branch to resolve those conflicts. Run <code>git checkout your_feature_name</code> to jump back onto your feature branch, then <code>git merge main</code> to merge <code>main</code> into it.</li>
+<li>You may have merge conflicts... resolve those using the skills you learned in <a href="https://www.theodinproject.com/lessons/javascript-working-with-remotes">the Working with Remotes lesson</a>!</li>
+</ol>
+<div class="lesson-note">
+<h4>Using fetch and merge to be explicit</h4>
+<p>Note that a <code>git fetch upstream</code> followed by a <code>git merge upstream/some_branch</code> is the EXACT same thing as doing a <code>git pull upstream some_branch</code>. We prefer to split it up here so that we can explicitly walk through the steps.</p>
+</div>
+<h4>Sending your pull request</h4>
+<ol>
+<li>Now that your feature branch is squeaky clean and you know it'll merge cleanly into <code>main</code>, the hard part is all over. All that's left is to make the Pull Request (often abbreviated as PR) against our <code>upstream</code> repo on GitHub!</li>
+<li>
+<p>Now you want to send your feature branch back up to your <code>origin</code> (your fork of the <code>upstream</code> repository). You can't send directly to <code>upstream</code> because you don't have access, so you'll need to make a pull request. Use <code>git push origin your_feature_name</code> to ship your feature branch up to your fork on GitHub.</p>
+<div class="lesson-note lesson-note--critical" markdown="1">
+<h4>Don't open unnecessary PRs</h4>
+<p><strong>If you have not been assigned an issue to work on, stop here.</strong> Do not open a test/practice PR, and any such PRs will be treated as spam and closed by a maintainer without review.</p>
+<p>If you have been assigned to work on an issue by a maintainer, feel free to continue with the next step.</p>
+</li>
+</ol>
+</div>
+<ol>
+<li><strong>If you have completed an assigned issue</strong>, the final step is to submit a pull request to merge your feature branch into the original <code>upstream</code> repository's <code>main</code> branch. This can be done using GitHub's interface.</li>
+<li>Shake your moneymaker, you're an OSS contributor!</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#initial-setup">What name is typically given for a Git remote that points to a repo that's been forked?</a></li>
+<li><a href="#sending-your-pull-request">Can you directly send your changes to a repository that you don't own/have write access to?</a></li>
+<li><a href="#ongoing-workflow">What should you do immediately before merging main into your feature branch?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

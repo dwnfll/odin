@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revisiting Rock Paper Scissors</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Revisiting Rock Paper Scissors <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Let\&#x27;s apply our newfound knowledge of DOM and build our RPS\&#x27;s UI</p>
+  </div>
+  <div class="lesson-content">
+    <h3 id="introduction">イントロダクション</h3>
+<p>DOMを操作できるようになったところで、<a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/rock-paper-scissors">Rock Paper Scissors</a>を再び訪れ、UIを追加する時が来ました。</p>
+<p>Rock Paper Scissorsプロジェクトに変更を加え始める前に、現在あるものを壊してしまう心配をせずに変更を加えられるように、Gitの<strong>ブランチ</strong>という概念について学ぶ必要があります。</p>
+<p>Gitのブランチを使うと、リポジトリはあなたのファイルの複数の<em>別世界</em>バージョンを同時に保持できます。実は、最初のコミットをした時からあなたは(ある意味)すでにブランチを使っていたのです。ただ知らなかっただけかもしれません<img alt="Setting up Gitのレッスン" src="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/setting-up-git" />で<code>git config --global init.defaultBranch main</code>を実行したとき、あなたはリポジトリの<em>デフォルト</em>ブランチと呼ばれるものの名前を設定していました。デフォルトブランチとは、プロジェクトで最初のコミットを行ったときに作成されるブランチを指す呼び方であり、あのコマンドでは、現在の標準である<code>main</code>という名前を設定していました。</p>
+<p>木の枝のように(それがこの名前の由来です)、プロジェクトのすべてのブランチは「幹」(<code>main</code>ブランチ)から、あるいは<em>他の</em>ブランチから枝分かれしています。</p>
+<p>特定のブランチでコミットを行うと、その変更は<strong>そのブランチにのみ</strong>存在し、他のすべてのブランチは、そこから分岐した時点のままの状態で残ります。</p>
+<p>つまり、<code>main</code>ブランチを、正しく動作すると分かっている完成した機能だけを置く場所として保っておき、私たちが<em>フィーチャーブランチ</em>と呼ぶ専用のブランチを使って、それぞれの機能をプロジェクトに追加できるということです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>新しいブランチを作成する方法。</li>
+<li>ブランチをマージする方法。</li>
+<li>ブランチのベストプラクティスとユースケース。</li>
+</ul>
+<h3 id="using-branches">ブランチを使う</h3>
+<p><code>git branch &lt;branch_name&gt;</code>というコマンドを使って新しいブランチを作成できます。それから<code>git checkout &lt;branch_name&gt;</code>を使って新しいブランチに切り替えることができます。また、<code>checkout</code>に<code>-b</code>フラグを付けて、<code>git checkout -b &lt;branch_name&gt;</code>という形式で、新しいブランチを作成して切り替えることを1つのコマンドで行うこともできます。</p>
+<p>他の引数なしで<code>git branch</code>を使うと、現在のすべてのブランチを確認できます。現在いるブランチにはアスタリスクが付いて示されます。他のブランチから<code>main</code>に戻りたい場合は、<code>git checkout main</code>を使って他のブランチに切り替えるのとまったく同じように行えます。</p>
+<p>フィーチャーブランチでの作業が終わり、そこで行ったコミットをmainブランチに持っていく準備ができたら、<code>merge</code>(マージ)として知られる操作を行う必要があります。</p>
+<p>マージは<code>git merge &lt;branch_name&gt;</code>というコマンドを使って行われ、これは<code>branch_name</code>でコミットした変更を取り、現在いるブランチに追加します。以下の図で、<code>develop</code>ブランチが作成され、コミットされ、それから<code>main</code>にマージされる例を見ることができます。</p>
+<pre class="mermaid">
+
+---
+title: Example of Git Branching
+---
+gitGraph
+   commit id: "commit1"
+   commit id: "commit2"
+   branch develop
+   checkout develop
+   commit id: "commit1a"
+   commit id: "commit2a"
+   checkout main
+   merge develop id: "merge to main"
+
+</pre>
+
+<p>時には、ファイル内の同じ行が2つの異なるブランチによって変更されていることがあります。これが起きると、それらのブランチを一緒にマージしようとしたときにマージコンフリクト(競合)が発生します。ブランチのマージを完了するには、まずそのコンフリクトを解決する必要があり、これは今後のレッスンで扱います。</p>
+<p>ブランチがもう不要になったら、そのブランチがすでに<code>main</code>にマージされている場合は<code>git branch -d &lt;branch_name&gt;</code>を使って、まだマージされていない場合は<code>git branch -D &lt;branch_name&gt;</code>を使って削除できます。通常、ブランチが不要になったら削除したくなるでしょう。そうしないと、ブランチが積み重なってしまい、必要なときに探しているブランチを見つけるのが難しくなってしまいます。</p>
+<h3 id="sharing-code">コードを共有する</h3>
+<p>ブランチのもう一つの素晴らしいユースケースは、mainブランチ(やフィーチャーブランチ)にはまったくコミットしたくないかもしれないコードを、他の人と共有することです。</p>
+<p>例えば、取り組んでいる新しい機能に、原因が分からないバグがあり、それによってコードが壊れてしまう場合、その壊れたコードをコミットしてプロジェクトの「永続的な記録」に残したくはないでしょう。代わりに、新しい一時的なブランチを作成し、そこに切り替えて、そのコードを新しいブランチにコミットすることができます。それから、この新しい一時的なブランチをGitHubにプッシュすれば、問題の解決を手伝ってくれるかもしれない他の人と共有できます。以下の課題では、新しいブランチを作る実践的な練習ができます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<h4>ウォームアップ</h4>
+<ol>
+<li>まずは少しブランチの練習をしましょう。Peter Cottleによるこの<a href="https://learngitbranching.js.org/">インタラクティブなGitブランチ可視化ツール</a>は見事なものです。「Introduction Sequence」のレベル1〜3だけを完了してください。</li>
+</ol>
+<h4>Rock Paper ScissorsにUIを追加する</h4>
+<ol>
+<li>以前のRock Paper Scissorsリポジトリに新しいブランチをセットアップしてください。</li>
+<li>Rock Paper ScissorsゲームのUIを作ることになるので、<code>git checkout -b rps-ui</code>というコマンドで新しいブランチを作成し、それに切り替えてください。</li>
+<li>
+<p>これで、あなたはローカルで<code>rps-ui</code>ブランチで作業しています。しかし、このブランチはまだリモートリポジトリには存在していません。GitHubのリポジトリページに行くと、ブランチが1つ、つまり<code>main</code>しかないことが分かるでしょう。<code>git push origin rps-ui</code>というコマンドで、この新しいブランチをリモートリポジトリにプッシュしましょう。これで、あなたのGitHubリポジトリに2つのブランチが表示されるようになります!以下のスクリーンショットに示されているドロップダウンのブランチセレクタを使って、GitHub上で新しいブランチを選択できます。</p>
+<pre><code>![GitHub上のブランチのドロップダウンメニュー](https://cdn.statically.io/gh/TheOdinProject/curriculum/46c18d8445051e016b1e415fe0227a0fa33cc825/foundations/javascript_basics/revisiting_rock_paper_scissors/imgs/00.png)
+</code></pre>
+</li>
+<li>
+<p><code>rps-ui</code>ブランチにいることを確認してください。これは<code>git branch</code>コマンドで確認できます。現在いるブランチには、隣に(*)アスタリスクが付きます。何らかの理由で別のブランチにいる場合は、<code>git checkout rps-ui</code>というコマンドで<code>rps-ui</code>に切り替えてください。これで新しい機能に取り組む準備が整いました!注:mainブランチと同じように、このブランチにファイルを追加したり、コミットしたり、リポジトリに変更をプッシュしたりできます。変更をプッシュする際に、新しいブランチにプッシュしているため<code>git push origin main</code>の代わりに<code>git push origin rps-ui</code>を使う点を除いて、すべて同じです。</p>
+</li>
+<li>私たちのUIでは、プレイヤーはプロンプトに答えを入力するのではなく、ボタンをクリックしてゲームをプレイできるようにするべきです。</li>
+<li>今のところ、ちょうど5ラウンドをプレイするロジックは削除してください。</li>
+<li>それぞれの選択肢用に、3つのボタンを作成してください。ボタンがクリックされるたびに、正しい<code>playerSelection</code>で<code>playRound</code>関数を呼び出すイベントリスナーをボタンに追加してください。(このステップでは<code>console.log</code>を残しておいて構いません)</li>
+<li>結果を表示するための<code>div</code>を追加し、すべての<code>console.log</code>をDOMメソッドに変更してください。</li>
+<li>現在のスコアを表示し、どちらかのプレイヤーが5ポイントに達したらゲームの勝者を発表してください。</li>
+<li>これを機能させるために、おそらく元のコードをリファクタリング(作り直し/書き直し)する必要があるでしょう。それで構いません!古いコードを作り直すことは、プログラマーの人生の重要な一部です。</li>
+<li>UIがすべて完成し、すべてが満足のいくものであることを確認したら、先に進む前に<code>git status</code>ですべての変更が<code>rps-ui</code>ブランチにコミットされていることを確認してください。</li>
+<li>さて、<code>rps-ui</code>ブランチの変更を<code>main</code>ブランチにマージする方法を見てみましょう。</li>
+<li><code>git checkout main</code>というコマンドで、マージ「先」のブランチ、つまり<code>main</code>にチェックアウトしてください。</li>
+<li>では、<code>git merge rps-ui</code>で、現在のブランチである<code>main</code>に<code>rps-ui</code>ブランチをマージしましょう。</li>
+<li>すべてがうまくいけば、<code>rps-ui</code>ブランチはこれでmainに正常にマージされました!<code>git log</code>を使うと、mainブランチに行ったコミットの上に、フィーチャーブランチに行ったすべてのコミットが表示されるでしょう。さあ最後のステップです!</li>
+<li><code>git push origin main</code>を実行して、<code>main</code>ブランチをリモートリポジトリにプッシュしましょう。GitHubのリポジトリに行くと、あなたの<code>main</code>ブランチに<code>rps-ui</code>ブランチで行ったすべての変更とコミットが反映されていることが分かるでしょう。おめでとうございます!最初の機能をプロダクションブランチに正常にプッシュできました!</li>
+<li>これで私たちのコードはすべてmainブランチにあるので、<code>rps-ui</code>ブランチはもう本当に必要ありません。ローカルとリモートリポジトリの両方で、少し片付けをしましょう。<code>git branch -d rps-ui</code>でローカルリポジトリからブランチを削除し、<code>git push origin --delete rps-ui</code>でGitHub上のリモートリポジトリからも削除してください。おめでとうございます、片付けはこれですべて終わりです!</li>
+<li>プロジェクトをGitHub Pagesで必ず公開し、<a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/rock-paper-scissors">プロジェクトのレッスン</a>にライブプレビューのリンクを追加してください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#introduction">gitにおけるブランチとは何ですか?</a></li>
+<li><a href="#using-branches">新しいブランチを作成するにはどうすればよいですか?</a></li>
+<li><a href="#using-branches">ブランチをmainにマージし直すにはどうすればよいですか?</a></li>
+<li><a href="#sharing-code">ブランチのユースケースの一つは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

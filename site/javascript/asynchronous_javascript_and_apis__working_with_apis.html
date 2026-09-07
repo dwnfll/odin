@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Working with APIs</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Working with APIs <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Working with APIs</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ウェブ開発者ができる最も強力なことの一つは、サーバーからデータを取得し、それを自分のサイトで創造的に表示することです。多くの場合、サーバーはその特定のサイトのためだけに存在します。サーバーはブログ記事、ユーザーデータ、ゲームのハイスコア、あるいは他の何でも含むことができます。他の場合では、サーバーはそれを使いたい誰にでもデータを提供する、オープンなサービスです(例えば天気データや株価など)。どちらの場合でも、そのデータにアクセスしてから使う方法は基本的に同じです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>APIとは何かを説明します。</li>
+<li>APIへのアクセスがどう機能するかを大まかに説明します。</li>
+<li>APIからデータを取得・抽出する方法を説明します。</li>
+<li>なぜあなたのAPIリクエストがブラウザにブロックされるかもしれないのか、そしてそれをどう修正するかを説明します。</li>
+</ul>
+<h3 id="apis">API</h3>
+<p>外部での使用(ウェブサイトやアプリ)のために機能を提供しデータを提供するために作られたサーバーは、しばしばAPI、つまり<a href="https://www.youtube.com/watch?v=s7wmiS2mSXY">「Application Programming Interfaces」</a>を使ってそれを行います。</p>
+<p>APIからデータをリクエストする方法は複数ありますが、それらはすべて基本的に同じことを行います。ほとんどの場合、APIはURLを通してアクセスされ、これらのURLをどうクエリするかの詳細は、使っている特定のサービスによって異なります。例えば、<a href="https://www.visualcrossing.com/weather-api">Visual Crossing</a>には、リクエストできるいくつかの種類のデータを持つ天気APIがあります。特定の場所の現在の天気を取得するには、次のように、URLのパスに都市の名前を渡すことができます:</p>
+<pre class="highlight"><code class="language-text">https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london</code></pre>
+<p>どんなAPIを使う際の詳細も、通常はそのサービスのウェブサイトに記載されています。<a href="https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/">Visual Crossing APIのドキュメント</a>をチェックしてみてください。まだであれば、上記の天気のURLに、好きな都市を入れて、ブラウザに貼り付けてみてください…(お待ちしています)。</p>
+<p>おそらく、次のようなエラーが出るでしょう:</p>
+<pre class="highlight"><code class="language-text">No API key or session found. Please verify that your API key parameter is correct.</code></pre>
+<p>これで、APIについてのもう一つのポイントに辿り着きました。ほとんどの場合、APIのエンドポイント(APIの中で特定の機能やデータにアクセスするために使う特定のURL)からデータを取得しようとする前に、アカウントを作成し、そのAPIサービスに「APIキー」をリクエストする必要があります。取得したら、APIキーは通常、すべてのデータリクエストに含める必要があります。Visual Crossingでは、それはクエリ文字列パラメータとしてです:</p>
+<pre class="highlight"><code class="language-text">https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london?key=11111111111111111</code></pre>
+<p>ご想像の通り、APIキーはランダムで、あなただけのユニークなものです。そのため、Visual Crossingのようなサービスは、あなたのAPIキーを、あなたが彼らのデータをどれだけ、どれくらいの頻度でリクエストしているかを含め、あなたのリクエストと関連付けることができます。</p>
+<p>APIキーを発行することで、APIサービスは自分たちのシステムやデータの乱用をより良く追跡できるようになります。さらに、それはそれらのサービスが運用コストを緩和し、回収する方法にもなり得ます。例えばVisual Crossingは、無料枠だけでなく、月額150米ドルにもなり得るさまざまな有料プランも提供しています!結局のところ、サーバーを運用するにはお金がかかり、APIも例外ではありません。APIへの単一のリクエストは1セントの何分の一かのコストしかかからないかもしれませんが、そのAPIを使って世界中で使われる素晴らしい天気アプリを作ることを想像してみてください…毎分何千人もの人々がそのデータにアクセスすることになるかもしれません!そのトラフィックを処理するコストは、APIサービスにとってすぐにかなりの金額に膨れ上がる可能性があります。</p>
+<p>そのため、すべてとは言わないまでも、ほとんどのAPIサービスが、より頻繁にリクエストできる能力や、より下位のプランでは利用できないより多くの情報へのアクセスが付いてくる、有料プランを提供していることに気づくでしょう。例えば、Visual Crossingの無料版では、限られた量の情報(それでも個人プロジェクトには十分ですが)で1日あたり1000回の呼び出し/リクエストが許可されています。一方、Enterprise版は月間無制限のAPI呼び出しを提供し、エネルギーデータ、海洋データ…そういったすべての付加機能があります(気になる場合は<a href="https://www.visualcrossing.com/weather-data-editions">Visual Crossingの価格設定についての詳細</a>)。ですので、もしあなたのアプリが成功して追加の機能が必要になったら、おそらくより良いアカウントにお金を払う必要があるでしょう。</p>
+<p>あなたのAPIキーは<strong>あなたの</strong>、これらのサービスとデータへの鍵であるため、それを保護することは重要な習慣です。特に有料プランを使っている場合はなおさらです。ハードコードされた/保護されていないAPIキーだけを目的にGitHubのリポジトリをクロールするボットがたくさんあり、悪意のある人物が<a href="https://web.archive.org/web/20150102022540/http://www.devfactor.net/2014/12/30/2375-amazon-mistake/">あなたがお金を払って手に入れたサービスやデータを利用する</a>ことを可能にしてしまいます。実際、より目ざとい読者は、上記のデモンストレーションの問題にすでに気づいたかもしれません: APIキーがまさにそのURLリクエストの中にあります。インターネットトラフィックのスニファーがAPIキーを拾い上げるのに、大した労力は要りませんし、まして肩越しに見ている人にとってはなおさらです!</p>
+<p>とはいえ、カリキュラムのこの時点では、この点は大部分どうでもよいことです。結局のところ、私たちはAPIへの無料アクセスを利用しているだけであり、私たちのアプリのほとんどは私たちとポートフォリオを見る人だけに使われることになるからです。今のところは、上記で示したようにAPIキーを使うことの深刻な限界を心に留めておくだけにしてください。APIキーを保護するには、サーバーサイドで物事を扱う必要がありますが、私たちはここではフロントエンドの概念だけに焦点を当てています。もしFull Stack JavaScriptパスウェイにいるなら、バックエンドについてはカリキュラムの後の方で扱います。</p>
+<p>Visual Crossingに戻りましょう。<a href="https://www.visualcrossing.com/sign-up">無料のVisual Crossingアカウントを作成</a>して、APIキーを取得してください。APIキーは、あなたのアカウントのプロフィールページで見つけることができます。キーを手に入れたら、上記の例のように、好きな都市とクエリ文字列パラメータとして渡したAPIキーで、新しいリクエストを試してみてください。うまくいけば、次のような適切なレスポンスが見えるはずです:</p>
+<pre class="highlight"><code class="language-JSON">{"queryCost":1,"latitude":51.5064,"longitude":-0.12721,"resolvedAddress":"London, England, United Kingdom","address":"london","timezone":"Europe/London","tzoffset":1.0,"description":"Similar temperatures continuing with a chance of rain tomorrow, Tuesday &amp; Thursday.","days":[{"datetime":"2024-07-06","datetimeEpoch":1720220400,"tempmax":61.4,"tempmin":53.1,"temp":57.8,"feelslikemax":61.4,"feelslikemin":53.1,"feelslike":57.8,"dew":51.3,"humidity":79.7,"precip":0.457,"precipprob":100.0,"precipcover":75.0,"preciptype":["rain"],"snow":0.0,"snowdepth":0.0,"windgust":35.3,"windspeed":21.9,"winddir":262.6,"pressure":1001.8,"cloudcover":70.5,"visibility":8.3,"solarradiation":147.5,"solarenergy":12.9,"uvindex":6.0,"severerisk":10.0,"sunrise":"04:52:02","sunriseEpoch":1720237922,"sunset":"21:18:20","sunsetEpoch":1720297100,"moonphase":0.02,"conditions":"Rain, Partially cloudy","description":"Partly cloudy throughout the day with a chance of rain throughout the day.","icon":"rain","stations":["EGWU","EGLL","D5621","EGLC"]}]}</code></pre>
+<p>(上記のプレビューは氷山の一角に過ぎず、実際のレスポンスはもっとずっと長いです!)</p>
+<div class="lesson-note">
+<h4>Visual Crossingのクエリビルダー</h4>
+<p>クエリの組み立て方に興味がありますか?<a href="https://www.visualcrossing.com/weather/weather-data-services">Visual Crossingのクエリビルダー</a>をチェックしてみてください!これは、地域だけを入力としてクエリを構築するのに役立ちます。場所とクエリのオプションをいろいろ試してみてください。素敵でしょう?出力は「Grid」タブを使っていますが、私たちのクエリは「API」タブにあり、そのクエリが<em>どう</em>構成されたかを学びたいのです。「API」タブをクリックすると、たった今見たグリッド形式につながったクエリが表示されます。</p>
+</div>
+<p>最初のAPIリクエストに成功したこと、おめでとうございます!</p>
+<h3 id="fetching-data">データを取得する</h3>
+<p>では、実際にどうやってAPIからのデータを自分のコードに取り込むのでしょうか?</p>
+<p>数年前は、コード内でAPIデータにアクセスする主な方法は<code>XMLHttpRequest</code>を使うことでした。この関数は今でもすべてのブラウザで機能しますが、残念ながら、使い勝手が特に良いわけではありません。構文は次のようなものになります:</p>
+<pre class="highlight"><code class="language-javascript">// Just getting XHR is a mess!
+if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+  request = new XMLHttpRequest();
+} else if (window.ActiveXObject) { // IE
+  try {
+    request = new ActiveXObject('Msxml2.XMLHTTP');
+  }
+  catch (e) {
+    try {
+      request = new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    catch (e) {}
+  }
+}
+
+// Open, send.
+request.open('GET', 'https://url.com/some/url', true);
+request.send(null);</code></pre>
+<p>うっ。それは辛かったですね。</p>
+<p>開発者たちは、そのようなものを書き出さなければならない痛みを感じ、それを処理してずっと使いやすくするためのサードパーティのライブラリを書き始めました。より人気のあるライブラリのいくつかには、<a href="https://github.com/mzabriskie/axios">axios</a>と<a href="https://github.com/visionmedia/superagent">superagent</a>があり、どちらもそれぞれの長所と短所があります。</p>
+<p>しかし、より最近では、ウェブブラウザは、HTTPリクエストを行うための新しいネイティブ関数を実装し始めています。それが、今のところ私たちが使い続けることになるものです。fetchに会いましょう:</p>
+<pre class="highlight"><code class="language-javascript">// URL (required), options (optional)
+fetch('https://url.com/some/url')
+  .then(function(response) {
+    // Successful response :)
+  })
+  .catch(function(err) {
+    // Error :(
+  });</code></pre>
+<p>もし忘れてしまっていたら、上にスクロールして戻り、同じことをするのにXHRをどう使うかを見てみてください。そのコードがいかに素敵ですっきりしているかを称賛しつつ、そこにある<code>.then()</code>と<code>.catch()</code>関数に注目してください。それらが何だったか覚えていますか?(Promiseです!)</p>
+<p>この例のために、使うAPIを変えてみましょう。ウェブページにランダムなgifを表示するために、<a href="https://giphy.com/">giphy</a> APIでfetchを使う例を見ていきます。このAPIは、<a href="https://developers.giphy.com/docs/api/#quick-start-guide">giphyにサインアップして無料のAPIキーを取得する</a>ことを要求します。</p>
+<p>Giphyには、GIFを検索・発見するためのいくつかのメソッドがあり、それらについては彼らのドキュメントで読むことができます。今日は、私たちの目的にとって最もシンプルな'translate'エンドポイントだけを使います。適切なURLは、彼らのドキュメントで<a href="https://developers.giphy.com/docs/api/endpoint#translate">Giphyのtranslateエンドポイント情報</a>まで下にスクロールすると見つけることができます。それが教えてくれるのは、正しいURLは<code>api.giphy.com/v1/gifs/translate</code>であり、<code>api_key</code>と<code>search term</code>という2つのパラメータを必要とするということです。結果を絞り込むためにクエリに含められる、他のオプションのパラメータもあります。例えば、<code>rating</code>パラメータを使うと、異なるレベルのセンシティブさのコンテンツを探すことができます。すべてを(あなたのAPIキーで)正しく組み合わせると、次のようなものが得られるはずです::</p>
+<pre class="highlight"><code class="language-javascript">'https://api.giphy.com/v1/gifs/translate?api_key=YOUR_KEY_HERE&amp;s=cats&amp;rating=g'
+// of course we're searching for cats</code></pre>
+<p>そのURLを(あなたのAPIキーで)ブラウザで試してみてください。すべてがうまくいけば、比較的長いデータの文字列が得られ、エラーは出ないはずです。</p>
+<h3>やってみましょう</h3>
+<p>今のところ、これらすべてを単一のHTMLファイルに保っておきます。ですので、bodyに単一の空のimgタグと空のscriptタグを持つファイルを作成してください。</p>
+<pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;img src="#"&gt;
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>scriptタグの中で、まずimg要素を選択し、Giphy APIからそれを受け取った後にURLを変更できるように、それを変数に割り当てることから始めましょう。</p>
+<pre class="highlight"><code class="language-html">&lt;script&gt;
+  const img = document.querySelector('img');
+&lt;/script&gt;</code></pre>
+<p>上記のURLでfetchを追加するのも比較的簡単です:</p>
+<pre class="highlight"><code class="language-html">&lt;script&gt;
+  const img = document.querySelector('img');
+  fetch('https://api.giphy.com/v1/gifs/translate?api_key=YOUR_KEY_HERE&amp;s=cats&amp;rating=g')
+    .then(function(response) {
+      console.log(response.json());
+    });
+&lt;/script&gt;</code></pre>
+<p>これで、ブラウザでHTMLファイルを開けるはずです。ページには何も表示されませんが、コンソールには何かログ出力されている<em>はず</em>です。このプロセス全体で最もトリッキーな部分は、サーバーのレスポンスから望むデータにどうたどり着くかを解読することです。この場合、ブラウザのコンソールを検査すると、返ってきているのは<em>さらに別の</em>Promiseであることが分かります…必要なデータを取得するには、もう一つ<code>.then()</code>関数が必要です。</p>
+<pre class="highlight"><code class="language-html">&lt;script&gt;
+  const img = document.querySelector('img');
+  fetch('https://api.giphy.com/v1/gifs/translate?api_key=YOUR_KEY_HERE&amp;s=cats&amp;rating=g')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+      console.log(response);
+    });
+&lt;/script&gt;</code></pre>
+<p>これでJavaScriptオブジェクトが手に入りました。十分に注意深く調べてみると、私たちが必要とするデータ(画像のURL)がオブジェクトの中にかなり深くネストされていることに気づくでしょう:</p>
+<p><img alt="レスポンス" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/284f0cdc998be7e4751e29e8458323ad5d320303/javascript/async-apis/APIs/imgs/00.png" /></p>
+<p>データにたどり着くには、望むものを見つけるまでオブジェクトの層をドリルダウンしていく必要があります!</p>
+<pre class="highlight"><code class="language-html">&lt;script&gt;
+  const img = document.querySelector('img');
+  fetch('https://api.giphy.com/v1/gifs/translate?api_key=YOUR_KEY_HERE&amp;s=cats&amp;rating=g')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+      console.log(response.data.images.original.url);
+    });
+&lt;/script&gt;</code></pre>
+<p>これでファイルを実行すると、画像のURLがログ出力されるはずです。あとは、ページ上の画像のsrcを、たった今アクセスしたURLに設定するだけです:</p>
+<pre class="highlight"><code class="language-html">&lt;script&gt;
+  const img = document.querySelector('img');
+  fetch('https://api.giphy.com/v1/gifs/translate?api_key=YOUR_KEY_HERE&amp;s=cats&amp;rating=g')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+      img.src = response.data.images.original.url;
+    });
+&lt;/script&gt;</code></pre>
+<p>すべてがうまくいけば、リフレッシュするたびにページに新しい画像が表示されるはずです!</p>
+<p>途中で迷ってしまった場合は、この<a href="http://jsbin.com/canofar/edit?html,output">giphyからのフェッチを実演しているjsbinプロジェクト</a>をチェックしてみてください。素晴らしいスタイリングは別として、これがあなたのバージョンがどう見えるべきかです。</p>
+<p>このAPIキーをフロントエンドにプッシュしていますが、これは無料でないキーに対して行うべきことではありません。クライアントサイドで使われるキーは公開情報とみなされるため、機密性が高く無料でないキーには注意が必要です。キーをフロントエンドにプッシュせずに扱う方法は、もしRubyのコースですでに学んでいなければ、後のセクションで教えます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>この<a href="https://github.com/n0shake/Public-APIs">Public APIsのリスト</a>をチェックして、想像力を膨らませてみてください。</li>
+<li>ページをリフレッシュせずに新しい画像を取得するボタンを追加して、ここでの私たちの小さなプロジェクトを拡張してください。</li>
+<li>
+<p>ユーザーが特定のgifを検索できるように、検索ボックスを追加してください。いくつかのエラー(例えば無効なURLなど)を管理するために、<code>.catch()</code>を追加することも調べておくべきです。APIが応答する限り、たとえ<code>404 Not Found</code>や他の何らかの2XX以外のステータスレスポンスであっても、それは依然として有効なレスポンスであり、そのため<code>fetch</code>はエラーを投げず、つまり<code>.catch()</code>は実行されないということを心に留めておいてください。それでも、<code>undefined</code>のプロパティにアクセスしようとするなど、続くJavaScriptコードがエラーを投げた場合や、自分自身で手動でエラーを投げた場合には、それでも実行されることになるかもしれません。</p>
+<p>もしAPIが望むレスポンス(例えば<code>404 Not Found</code>など)を与えてくれない状況を条件付きで処理したい場合、<code>.then()</code>の中で手動でこれを行う必要があります。いくつかの便利なプロパティについては、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Response">Responseオブジェクトについての MDNのドキュメント</a>をチェックしてみてください。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#apis">APIとは何ですか?</a></li>
+<li><a href="#apis">APIへのアクセスはどう制限されていますか?</a></li>
+<li><a href="#fetching-data">APIからデータをどう取得・抽出しますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meaningful Text</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">advanced_html_css</a></p>
+    <h1 class="lesson-header__title">Meaningful Text <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn the importance of being clear when labeling items on your website.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>意味のあるテキストというのはかなりシンプルです: ユーザーがテキストを読んだり、それがアナウンスされたりしたとき、周囲のコンテキストがなくても、それが何を意味するのかをすぐに理解できるべきだということです。意味のあるテキストが不足していると、すべてのユーザーに影響を与える可能性がありますが、特に支援技術に頼っているユーザーに影響します。このレッスンでは、ユーザーに意味のあるテキストを提供することを意識し始めるべきいくつかの場面を扱っていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>意味のあるリンクを提供する方法を知ります。</li>
+<li>フォームで意味のあるテキストを提供する方法を知ります。</li>
+<li>画像に意味のある<code>alt</code>属性を提供する方法を知ります。</li>
+</ul>
+<h3>リンク</h3>
+<p>リンクの2つの異なる例を見てみましょう:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- Example 1: Where's "here"? --&gt;
+&lt;a href='...'&gt;Click here&lt;/a&gt; to start your career in web development!
+
+&lt;!-- Example 2: I love that place! --&gt;
+Visit &lt;a href='...'&gt;The Odin Project&lt;/a&gt; to start your career in web development!</code></pre>
+<p>目の見えるユーザーにとって、例1のリンクは完全に理にかなっています。しかし、(セマンティックHTMLのレッスンで述べたように)ランドマークや見出しを通してページをナビゲートできることに加えて、スクリーンリーダーは、リンクのような特定のタイプの要素間をナビゲートできることがあります。もしユーザーがページ上のすべてのリンク間をナビゲートしたとしたら、例1でアナウンスされる唯一のものは「Click here, link」です。正確に「here」とはどこなのでしょうか?周囲のコンテキストがなければ、そのリンクは無意味です。それだけでなく、もしページ内に同じテキストコンテンツを持つ複数のリンクがあれば、ユーザーは何度も「click here」と言われることになります。</p>
+<p>しかし、例2のリンクは、すべてのユーザーにとって文脈の中で理にかなっているだけでなく、アナウンスされたときにスクリーンリーダーのユーザーにとって<em>コンテキストの外でも</em>理にかなっています: 「The Odin Project, link」というようにです。</p>
+<p><span id="meaningful-links-rules">ページにリンクを追加する際、従うべきいくつかのルールがあります:</span></p>
+<ol>
+<li><code>&lt;a&gt;</code>要素のテキストコンテンツが、リンクがどこにリダイレクトするかを何らかの形で示していること、そしてそれが簡潔である(約100文字程度)ことを確認してください。ですので、「click here」や「this page」のようなフレーズを使うのは避けてください。</li>
+<li>リンクがファイルを開いたりダウンロードしたりする場合は、それがどんな種類のファイルであるかとそのファイルサイズをユーザーに伝えるテキストを含めてください。</li>
+<li>リンクが<code>target="_blank"</code>属性で自動的に新しいタブやウィンドウで開く場合は、何らかの方法でこれをユーザーに示すべきです。</li>
+</ol>
+<pre class="highlight"><code class="language-html">&lt;!-- Example 1: Now the user is aware that this link will open or download a PDF file. --&gt;
+&lt;a href='...'&gt;2021 Sign Up Statistics (PDF, 1MB)&lt;/a&gt;
+
+&lt;!-- Example 2: And now the user knows this link opens in a new tab! --&gt;
+&lt;a href='...'&gt;GitHub (opens in new tab)&lt;/a&gt;</code></pre>
+<p>次にリンクを使う必要があるときは、その要素の内容を自分自身で声に出して言ってみてください。それは、ページ、記事、動画のタイトルのように、そのリンクがあなたをどこに連れて行くのかを合理的に示していますか?それが自動的に新しいタブで開くかどうか、あるいはダウンロードダイアログを開くかどうかを認識できていますか?もしここまでスクリーンリーダーを使ってテストしてきたなら、リンクが意味のあるテキストを持っているかどうかをテストするさらに良い方法は、スクリーンリーダー自体を使うことです!</p>
+<h3>フォーム</h3>
+<p>ユーザーがフォームに記入したり送信したりする際に、意味のあるエラーを提供することは、その体験をイライラするものから…まあ、楽しいとまでは言えないかもしれませんが、少なくとも少しはイライラしないものに変えることができます。まったく役に立たないものから非常に役立つものまで、いくつかのエラーの例を見てみましょう:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- Example 1: Huh? --&gt;
+&lt;div class='input-error'&gt;Error: Invalid input.&lt;/div&gt;
+
+&lt;!-- Example 2: That makes more sense. --&gt;
+&lt;div class='input-error'&gt;Error: Email is invalid.&lt;/div&gt;
+
+&lt;!-- Example 3: Even better! --&gt;
+&lt;div class='input-error'&gt;Error: 'JohnSmith@@test.com' is not valid. Example of a valid email: example@yourdomain.com.&lt;/div&gt;</code></pre>
+<p>たとえ例1でどのinputがエラーを引き起こしたか分かったとしても(それが常に当てはまるとは限りませんが)、そのエラーは意味のあるテキストを何も提供していません。どのinputが無効なのでしょうか?なぜ無効なのでしょうか?どうすれば修正できるのでしょうか?これらの質問はどれも答えられていません。では、このエラーが、ページ上のどこにエラーが描画されているかを見ることができず、「invalid input」とだけアナウンスされるかもしれない、支援技術のユーザーにとってどれほど無意味であるに違いないか想像してみてください。</p>
+<p>例2のエラーは、どのinputが無効かを明確に伝えているので、どこに行けばよいか正確に分かります。これがユーザーが知る必要のあるすべてかもしれませんが、それでもまだかなり漠然としたエラーであるということは心に留めておく価値があります。私たちのメールが<em>なぜ</em>無効なのかは分かりません。</p>
+<p>例3のエラーはさらに意味があります。どのinputが無効かを伝えるだけでなく、そのエラーをどう修正すればよいかも伝えてくれます。<span id="meaningful-error-msg">一般的に、ユーザーにフォームのエラーを伝える際は、どのinputがそのエラーを引き起こしたか、そして可能であれば、そのエラーをどう修正すればよいか、あるいはなぜそのエラーが発生したのかを何らかの形で伝えるべきです。</span></p>
+<p>フォームで意味のあるテキストを提供するもう一つの方法は、パスワードのinputがパスワードに含まれていなければならない文字をリストする(「大文字を少なくとも1文字、数字を少なくとも1つ含める必要があります…」)ときのような指示です。あるinputに固有の指示は、そのinput自体のそばに配置すべきです。どのinputが必須かを示すような、フォーム全体にわたるより一般的な指示は、フォームの先頭に配置する(「* は必須項目を示します」)か、input自体かそのラベルのそばに配置する(「Name (required)」)べきです。</p>
+<h3>代替テキスト</h3>
+<p>この時点で、あなたは<code>img</code>要素の<code>alt</code>属性にかなり馴染んでいるはずです。そうであってもなくても、以下の例のどちらが有効か分かるか試してみましょう:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- Example 1 --&gt;
+&lt;img src='...' alt='' /&gt;
+
+&lt;!-- Example 2 --&gt;
+&lt;img src='...' alt='Odin' /&gt;</code></pre>
+<p>信じられないかもしれませんが、上記の例はどちらも有効です!例1は実際には意味のあるテキストを何も持っていません(おそらく意味のある<em>テキストの不在</em>と言えるでしょう)が、それでもその重要性を理解しておくべきです。<span id="empty-alt-attribute">画像を純粋に装飾のためだけに使っている場合、あるいはその画像がユーザーにとって本当に重要ではない場合、一般的には支援技術のユーザーにそれを認識させたくないはずです。</span>そのような場合は、例1に見られるように、<code>alt</code>属性の値として空の文字列を<strong>常に</strong>使うべきです(これはnull値としても知られていますが、JavaScriptのデータ型と混同しないでください)。もし<code>alt</code>属性を省略していたら、画像の存在が依然としてアナウンスされてしまう可能性があり、これはユーザーを混乱させるかもしれません(特にファイル名が文字と数字のランダムな文字列だった場合)。</p>
+<p>例2では、スクリーンリーダーは「Odin, graphic」とアナウンスし、画像があることとそれが何の画像であるかをユーザーに知らせます。しかし、画像の代替テキストが何であるべきかは、最終的にはさまざまな要因によります。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://webaim.org/techniques/alttext">Alternative Text - WebAIM</a>を読んで、画像の機能とその周囲のコンテキストに基づいて、いつ、どのように画像に代替テキストを追加すべきかを学んでください。</li>
+<li><a href="https://webaim.org/techniques/formvalidation/">Usable and Accessible Form Validation and Error Recovery</a>を読んで、ユーザーにエラーを提供するさまざまな方法と、それぞれの長所と短所について学んでください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#meaningful-links-rules">意味のあるリンクを提供するために従うべき3つのルールは何ですか?</a></li>
+<li><a href="#meaningful-error-msg">フォームで意味のあるエラーメッセージを提供するために、ユーザーにどんな情報を伝えるべきですか?</a></li>
+<li><a href="#empty-alt-attribute"><code>alt</code>属性に空の文字列/null値を使うべきなのはどんなときですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mocking Callbacks And Components</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">react</a></p>
+    <h1 class="lesson-header__title">Mocking Callbacks And Components <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Mocking Callbacks And Components</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>We've already covered some basics of React testing. Now's the time to dive deeper.</p>
+<p>In this lesson, we'll learn about mocking. Furthermore, we'll discuss a React component from this (<a href="https://theodinproject.com">theodinproject.com</a>) website and understand how React tests are written in a real world application.</p>
+<h3>Lesson overview</h3>
+<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+<ul>
+<li>Carry out mocks in the context of React testing.</li>
+</ul>
+<h3>What is mocking?</h3>
+<p>If you've been following along with our lessons so far, the concept of mocking has already been introduced in an earlier section and you might have even incorporated mocks in your <a href="https://www.theodinproject.com/lessons/javascript-battleship">Battleship project</a>. Let's look at how mocks will help in testing React components.</p>
+<h4>Testing callback handlers</h4>
+<p>Callbacks are ubiquitous. Every avenue of user interaction involves callbacks. Sometimes they're passed in as props to alter state of the parent component. Consider this button component:</p>
+<pre class="highlight"><code class="language-jsx">// CustomButton.jsx
+
+const CustomButton = ({ onClick }) =&gt; {
+  return (
+    &lt;button onClick={onClick}&gt;Click me&lt;/button&gt; 
+  );
+};
+
+export default CustomButton;</code></pre>
+<p>Nothing fancy. <code>CustomButton</code> is a component with a prop passed in. We're interested in the <code>onClick</code> prop. We have no idea what the function does. We have no idea how the function will affect the application. All we know is it must be called when the user clicks the button. Let's test it.</p>
+<p><span id="testing-callback-handlers">Notice how we mock and test the <code>onClick</code> function</span>:</p>
+<pre class="highlight"><code class="language-jsx">// CustomButton.test.jsx
+
+import { vi, describe, it, expect } from 'vitest'
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import CustomButton from "./CustomButton";
+
+describe("CustomButton", () =&gt; {
+  it("should render a button with the text 'Click me'", () =&gt; {
+    render(&lt;CustomButton onClick={() =&gt; {}} /&gt;);
+
+    const button = screen.getByRole("button", { name: "Click me" });
+
+    expect(button).toBeInTheDocument();
+  });
+
+  it("should call the onClick function when clicked", async () =&gt; {
+    const onClick = vi.fn();
+    const user = userEvent.setup()
+    render(&lt;CustomButton onClick={onClick} /&gt;);
+
+    const button = screen.getByRole("button", { name: "Click me" });
+
+    await user.click(button);
+
+    expect(onClick).toHaveBeenCalled();
+  });
+
+  it("should not call the onClick function when it isn't clicked", () =&gt; {
+    const onClick = vi.fn();
+    render(&lt;CustomButton onClick={onClick} /&gt;);
+
+    expect(onClick).not.toHaveBeenCalled();
+  });
+});</code></pre>
+<p>Three tests and we are done with this component. You should be already familiar with how the first test works. Take some time to figure out what functions come from which package.</p>
+<p>For the second and third tests, we mock the <code>onClick</code> handler using one of Vitest's functions, <code>vi.fn()</code>. Then we assert that it is called/not called when the button is clicked or not.</p>
+<p>You could also set up your mocks in a <code>beforeEach</code> block instead of in every test block. This may be suitable for some situations. However, for better readability, it is recommended that all setups be done in the same test block.  Doing so eliminates the need to search through the entire file for context, making it easier to review future changes. This also reduces the chance of leakage causing problems throughout the test suite. Unless your test file is particularly long and the test preparation takes up dozens of lines, it is recommended to set up your mocks in each test block; otherwise, you may use <code>beforeEach</code>.</p>
+<p>It is recommended to invoke <code>userEvent.setup()</code> before rendering the component. It is discouraged to call renders and <code>userEvent</code> functions outside of the test itself, (for example, in a <code>beforeEach</code> block). If you find yourself repeating the same code in multiple tests, the recommended approach to shorten each test is to <a href="https://testing-library.com/docs/user-event/intro/#writing-tests-with-userevent">write a setup function</a>.</p>
+<h4>Mocking child components</h4>
+<p>You might have come across the concept of mocking modules. In React, when the component tree gets large, tests can become convoluted. Especially for components higher up the tree. That's why we mock child components. This is not something you'll come across often, nevertheless, it's beneficial to realize the concept in case you might need it in your own testing pursuits.</p>
+<h3>React testing in the real world</h3>
+<p>If you're logged in on this (<a href="https://theodinproject.com">theodinproject.com</a>) website, you've probably come across the project submissions list under every project. Those components were written in React and tested with the React Testing Library. They have since been removed, but they still serve as great examples. This'll be fun. Your task is:</p>
+<p>Read and try to comprehend the <a href="https://github.com/TheOdinProject/theodinproject/blob/0886578d5b27a967e6bba2b31f212efe284d9413/app/javascript/components/project-submissions/components/submissions-list.jsx">submissions-list.jsx</a> component. It's okay if you don't understand everything. And the good news is that we don't have to understand it all to follow along with this lesson!</p>
+<h4>submissions-list.jsx</h4>
+<p>We start by importing a bunch of stuff like any other decent React component. There might be a couple of unfamiliar things on there; we don't have to worry too much about them. If we take a glance at the props, there are some functions in there, presumably event handlers. Let's look at what the component renders.</p>
+<ol>
+<li>If there's a <code>userSubmission</code>, it renders the <code>Submission</code> component.</li>
+<li>If <code>hasSubmissions</code> is true, sort the submissions and render them with <code>Submission</code>. Otherwise, a heading that says "No Submissions yet, be the first!"</li>
+<li>If  <code>allSubmissionsPath</code> is true, it renders a <code>&lt;p&gt;</code> tag.</li>
+</ol>
+<p>Just going through the code, it should give us some idea of what to test. It will be rewarding if you take a couple of seconds to map out what tests we could need for <code>SubmissionsList</code>.</p>
+<p>Go through its test file, <a href="https://github.com/TheOdinProject/theodinproject/blob/0886578d5b27a967e6bba2b31f212efe284d9413/app/javascript/components/project-submissions/components/__tests__/submissions-list.test.jsx">submissions-list.test.jsx</a>. Again, don't worry if all of it doesn't make sense, we'll chew over it shortly.</p>
+<div class="lesson-note">
+<h4>React Testing Library test ID</h4>
+<p>While the test suite above uses <code>data-test-id</code> to identify mocked child components, it must be remembered that the React Testing Library instead uses <code>data-testid</code> by default.</p>
+</div>
+<h4>submissions-list.test.jsx</h4>
+<p>We notice there are two child components of <code>SubmissionsList</code>. One of them is from a package called <code>react-flip-move</code>. External Code. We'll mock it.</p>
+<p><span id="mock-child-component">Notice how we mock the <code>Submission</code> component</span>:</p>
+<pre class="highlight"><code class="language-jsx">jest.mock('../submission', () =&gt; ({ submission, isDashboardView }) =&gt; (
+  &lt;&gt;
+    &lt;div data-test-id="submission"&gt;{submission.id}&lt;/div&gt;
+    &lt;div data-test-id="dashboard"&gt;{isDashboardView.toString()}&lt;/div&gt;
+  &lt;/&gt;
+));</code></pre>
+<p>We only render the bare minimum to realize the validity of the component we're testing. Next, we set up our props with fake data and mocked functions.</p>
+<div class="lesson-note">
+<h4>Note - Vitest mocks</h4>
+<p>The test here used <code>jest.mock()</code>. If you followed along and set up your test using Vitest, you may use <code>vi.mock()</code> instead. See <a href="https://vitest.dev/api/vi.html#vi-mock"><code>vi.mock()</code> API</a>.</p>
+</div>
+<p>Let's move toward our first assertion. Don't worry too much about the <code>ProjectSubmissionContext.Provider</code>. In the context of this test, its purpose is to act as a route to pass in the <code>allSubmissionsPath</code> prop. We've already identified the three points of interest that we want to test. We divide them into three test suites for readability purposes using <code>describe</code>.</p>
+<p>In the first suite, we make some assertions if the user has a submission and then some assertions if the user does not. The other suites follow a similar pattern.</p>
+<h4>Exploring further</h4>
+<p>Feel free to flick through the other components and their tests. You'll see mocked functions. You'll see some unseen functions like <code>act</code>. You'll see custom render functions. It's fine if you don't understand it all, the goal is to gain familiarity.</p>
+<p>The other important thing to note is almost all the tests follow a certain pattern in terms of the way they're written. They follow the <a href="http://wiki.c2.com/?ArrangeActAssert">Arrange-Act-Assert</a> pattern. It's a good idea to adopt this pattern sooner or later to make your tests more readable and ultimately better.</p>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>Read this article about <a href="https://medium.com/@taylormclean15/jest-testing-mocking-child-components-to-make-your-unit-tests-more-concise-18691ef6a0c2">mocking child components</a>. It extensively covers the "how" of mocking child components. (You might need to sign up to read)</li>
+<li>This <a href="https://academind.com/tutorials/testing-react-apps">tutorial on Testing React Apps by Academind</a> is a great overview of what you've learned. The <code>userEvent</code> API in this tutorial is synchronous, unlike our current asynchronous one. However, you should be able to follow along using your previous knowledge and you can still use Vite and Vitest as before.</li>
+</ol>
+</div>
+<h3>Knowledge check</h3>
+<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<ul>
+<li><a href="#testing-callback-handlers">How can you mock a callback handler?</a></li>
+<li><a href="#mock-child-component">How can you mock a child component?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

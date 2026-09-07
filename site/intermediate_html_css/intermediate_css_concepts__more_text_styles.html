@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>More Text Styles</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">More Text Styles <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Here we cover some more properties you can use to style text on your websites.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>私たちのFoundationsのレッスンで、すでに少しテキストの操作を行いました。このレッスンでは、テキストを扱う際に使用できる、さらにいくつかの便利なCSSプロパティを扱います。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>ウェブプロジェクトでカスタムフォントを使用する方法を学びます。</li>
+<li>テキストに関連するさらなるCSSプロパティを学びます。</li>
+</ul>
+<h3>フォント</h3>
+<p>Foundationsのレッスンでは、要素の<code>font-family</code>を変更する方法を扱いましたが、その時には省いたニュアンスや詳細がいくつかあります。</p>
+<h4 id="the-system-font-stack">システムフォントスタック</h4>
+<p><code>font-family</code>プロパティを使って<code>Impact</code>や<code>Times New Roman</code>のようなフォントに変更し、それらのフォントがたまたまユーザーのコンピューターにインストールされていない場合、フォールバックフォントが表示されます。フォールバックを定義していない場合、デフォルトのHTMLフォントが使用されますが、これはしばしば多少見苦しいものです。このため、プロジェクトでは多少長いフォントのスタックがリストされているのをよく見かけます。</p>
+<p>人気のあるスタックの一つが、CSS Tricksの<a href="https://css-tricks.com/snippets/css/system-font-stack/">システムフォントスタック</a>です。</p>
+<pre class="highlight"><code class="language-css">body {
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}</code></pre>
+<p>このいくらかばかげたfont-familyの文字列の目的は、システムのユーザーインターフェースのデフォルトフォントを使おうとすることです。システムにインストールされているものが見つかるまで、それらのフォントを一つずつ試していき、それを使用します。このようなスタックを使うことで、特にある程度「ニュートラル」なフォントスタイルを目指している場合、心地よい結果が得られることがよくあります。</p>
+<h4 id="web-fonts">ウェブフォント</h4>
+<p>ユーザーのデバイスで利用できないフォントを使いたい場合、フォントライブラリか、あなたのサイト上のアセットのいずれかの、オンラインのソースからフォントをインポートする必要があります。どちらの方法も、フォントをインポートし、あなたのCSSの<code>font-family</code>プロパティでアクセスできるようにします。</p>
+<p>フォールバックフォントを追加することが重要であることを心に留めておいてください。外部APIにリンクしている場合、URLが変わらない保証も、外部APIがいつか停止しない保証もありません。妥当なフォールバックを用意しておくことで、何か問題が起きても、少なくともあなたのサイトが完全に壊れて見えることはなくなります。</p>
+<p>インポートされたファイルを使用することには、パフォーマンス上の問題があり、これについては課題でさらに詳しく読みます。そのため、デザインが許すのであれば、インポートされたフォントの代わりにフォントスタックを使うのが最善です。しかし、インポートされたフォントを使いたい場合もあります。</p>
+<h4>オンラインフォントライブラリ</h4>
+<p>ユーザーのデバイスにインストールされて<em>いない</em>フォントを入手するための、人気があり簡単な方法の一つは、オンラインフォントライブラリを使うことです。</p>
+<p>これらのライブラリの一つからフォントを使うには、ウェブサイトに行き、フォントを選択し、それからそのサーバーからあなたのウェブサイトへそのフォントをインポートするためのコードの断片を、そのウェブサイトからコピーします。次のような<code>&lt;link&gt;</code>タグをHTMLに入れるよう指示されるか……</p>
+<pre class="highlight"><code class="language-html">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet"&gt;</code></pre>
+<p>……あるいは、CSSファイルの先頭に入れられる<code>@import</code>タグが与えられます。</p>
+<pre class="highlight"><code class="language-css">@import url('https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap');</code></pre>
+<p>一般的なオンラインフォントライブラリには、<a href="https://fontlibrary.org/">Font Library</a>、<a href="https://fonts.bunny.net/">Font Bunny</a>、<a href="https://fonts.google.com/">Google Fonts</a>などがあります(これらに限定されるわけではありません)。</p>
+<p>しかし、フォントライブラリを使用する際の重要な考慮事項は、そのライブラリのプライバシーポリシーと、あなたが遵守する必要があるかもしれない規制です。例えば、<a href="https://thehackernews.com/2022/01/german-court-rules-websites-embedding.html">Google Fonts APIの使用は欧州のGDPRに違反します</a>。そのような規制の遵守が心配な場合は、ライブラリからフォントをダウンロードして自分でホストすることができます。</p>
+<h4>セルフホストフォント</h4>
+<p>ウェブからダウンロードしたフォントを使用することも可能です。CSSファイルで、<code>@font-face</code>ルールを使ってカスタムフォントをインポートし定義し、それから他のfont-familyと同じように使用します。フォントファイル形式には複数の種類があり、<a href="https://fileinfo.com/filetypes/font">fileinfo.comのFont File Formatsのページ</a>でそれらについてさらに詳しく読むことができます。ただし、一部のフォントファイル形式はブラウザで普遍的にサポートされているわけではないので、選ぶ際は注意してください。ブラウザとそれらがサポートするフォント形式の一覧は、<a href="https://www.w3schools.com/css/css3_fonts.asp">W3SchoolsのCSS Web Fontsのページ</a>にあります。</p>
+<pre class="highlight"><code class="language-css">@font-face {
+  font-family: my-cool-font;
+  src: url(../fonts/the-font-file.woff);
+}
+
+h1 {
+  font-family: my-cool-font, sans-serif;
+}</code></pre>
+<p>この方法はサードパーティのフォントAPIに頼るよりも信頼性が高い<em>かもしれません</em>が、常にフォールバックを含めておくのが賢明です。</p>
+<h3>テキストスタイル</h3>
+<p>Foundationsのレッスンでフォントを操作する基本を学びましたが、テキストスタイルの操作に関しては、CSSでできることがまだたくさんあります。これらのルールはどれも比較的シンプルで自明です。疑問があれば、ドキュメントを参照してください。</p>
+<h4>font-style</h4>
+<p>通常、フォントを斜体にするために使用されます。斜体フォントを使用するHTMLの<code>&lt;em&gt;</code>タグについて学びましたが、<code>&lt;em&gt;</code>は<em>また</em>、それが囲むテキストが重要であること、あるいは何らかの形で強調されるべきであることも示します。従うべき良い経験則は、単にテキストを斜体(あるいは太字、下線、ハイライトなど)にしたいだけならCSSプロパティを使うということです。そうでなく、テキストに何らかの意味的な強調を持たせるべきなら、正しいHTML要素を使ってください。</p>
+<p>例えば、すべての見出しのテキストを斜体にしたい場合は、それを達成するために<code>font-style</code>を使うべきです。<em>文の途中の</em>一部のテキストを強調するために斜体で表示したい場合は、<code>em</code>要素を使うのが適切です。<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/em">Emphasis要素についてのMDNドキュメント</a>は、上記の私たちの論点を強調しています。</p>
+<p>スタイリングの目的で斜体が必要な場合は、<code>font-style: italic;</code>を使用すべきです。</p>
+<pre class="highlight"><code class="language-css">h1 {
+  font-style: italic;
+}</code></pre>
+<p>強調のために斜体が必要な場合は、<code>em</code>要素を使用すべきです。</p>
+<pre class="highlight"><code class="language-html">&lt;p&gt;I &lt;em&gt;never&lt;/em&gt; said he stole your money&lt;/p&gt;
+&lt;p&gt;I never said &lt;em&gt;he&lt;/em&gt; stole your money&lt;/p&gt;
+&lt;p&gt;I never said he stole &lt;em&gt;your&lt;/em&gt; money&lt;/p&gt;</code></pre>
+<h4 id="letter-spacing">letter-spacing</h4>
+<p>letter-spacingは、想像通りのことをします……単語内の文字間のスペースを変更します。これは、スペースが多すぎる、あるいは少なすぎると感じるカスタムフォントを調整するのに役立ちます。また、見出しなど、場合によっては美的に心地よいこともあります。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="MWomjGr" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/MWomjGr">
+  Letter Spacing | CSS Text Styles</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>言うまでもなく、これは控えめに、注意して使用してください。サイトを読みにくくしないでください!</p>
+<h4 id="line-height">line-height</h4>
+<p>line-heightは、折り返されたテキストの行間のスペースを調整します。少しline-heightを加えることで、可読性を高めることができます。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="vYZmXzY" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/vYZmXzY">
+  Line Height | CSS Text Styles</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4>text-transform</h4>
+<p>text-transformは、与えられたテキストの大文字・小文字を変更します。例えば、これを使って見出しタグをすべて大文字にしたり、すべての単語の先頭を大文字にしたりできます。</p>
+<p>使い方は、これらの<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform">MDN web docs</a>にある分かりやすい例で見ることができます。</p>
+<h4>text-shadow</h4>
+<p>想像通り、<code>text-shadow</code>は選択した要素内のテキストの周りに影を追加します。これは控えめに使うのが最善ですが、見出しやその他の装飾的なテキストで非常に効果的に使用できます。</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow">text-shadowについてのMDNリファレンスページ</a>の例が、その使い方を示しています。</p>
+<h4>ellipsis(省略記号)</h4>
+<p>これは単一のプロパティではありませんが、ツールボックスに入れておくと便利なテクニックです。<code>text-overflow</code>プロパティを使うと、はみ出したテキストを省略記号で切り詰めることができます。しかし、オーバーフローを発生させるには、他にいくつかのプロパティを使う必要があります。なぜなら、コンテナの外にテキストが表示されるデフォルトの動作は、技術的には<code>overflow</code>とはみなされないからです(分かりにくいですよね。すみません。)</p>
+<p>完全なコードの断片は次の通りです:</p>
+<pre class="highlight"><code class="language-css">.overflowing {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}</code></pre>
+<p>詳細と例は、この<a href="https://css-tricks.com/snippets/css/truncate-string-with-ellipsis/">ellipsisオーバーフローについてのCSS Tricksの記事</a>で見ることができます。(これを使いたいと思うたびに、その記事を調べに行く準備をしておいてください。)</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts">MDNのウェブフォントについての記事</a>を読んで、演習に取り組んでください。</li>
+<li><a href="https://web.dev/articles/font-best-practices">Font Best Practices</a>を読んで、インポートされたフォントのパフォーマンス上の考慮事項と、それに関する問題を軽減する方法を理解してください。</li>
+<li><a href="https://web.dev/learn/design/typography">web.dev Typography</a>を読んで、タイポグラフィに関する開発者にとっての重要な考慮事項を理解してください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#web-fonts">ユーザーのコンピューターにインストールされていないフォントを追加する2つの方法は何ですか?</a></li>
+<li><a href="#the-system-font-stack">「システムフォントスタック」とは何で、なぜそれを使いたいと思うのでしょうか?</a></li>
+<li><a href="#letter-spacing">単語内の文字間のスペースを増減させるにはどのプロパティを使いますか?</a></li>
+<li><a href="#line-height">段落内の行間のスペースを増減させるにはどのプロパティを使いますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

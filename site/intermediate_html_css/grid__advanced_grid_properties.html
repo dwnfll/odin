@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advanced Grid Properties</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">Advanced Grid Properties <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn some of the more useful, but advanced grid properties.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>ここまでで、グリッドの作成方法、トラックのサイズの調整方法、特定の行と列にグリッド要素を位置指定する方法を学びました。今、あなたはどんな種類の静的なグリッドレイアウトでも作れるだけのツールをすべて持っています。しかし、グリッドをよりレスポンシブに、動的に、あるいは再利用可能にしたい場合はどうすればよいでしょうか?</p>
+<p>このレッスンでは、それを助けてくれる、もう少し高度なGridのプロパティについて学びます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li><code>repeat</code>関数を使って、複数のグリッドトラックをより簡単に作成します。</li>
+<li>明示的なサイズの代わりに<code>fr</code>単位を使ってグリッドトラックを作成します。</li>
+<li>最小・最大・理想のトラックサイズの境界を設定します。</li>
+<li><code>auto-fit</code>と<code>auto-fill</code>を使って、動的な数の行や列を持つグリッドを作成します。</li>
+<li><code>auto-fit</code>/<code>auto-fill</code>と<code>minmax()</code>を組み合わせて、レスポンシブなグリッドを作成します。</li>
+</ul>
+<h3>セットアップ</h3>
+<p>このレッスンには実践的に取り組んでいきます。5列2行のグリッドをセットアップし、すべてが見やすくなるようにいくつかのスタイルを適用しましょう。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="wvrBBXK" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/wvrBBXK">
+  Advanced Properties | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>この例では、HTMLはかなりシンプルですが、なぜそれが使われているのかを理解できるように、このレッスンに<em>関係のない</em>、使われているCSSのいくつかについてさっと話しておきましょう。</p>
+<h4>grid-item、p、imgセレクタ</h4>
+<p>ここにあるすべてのプロパティは、グリッドアイテムを少し見栄えよくするためのものです。どれも比較的シンプルなので、詳細に踏み込む必要はありません。</p>
+<h4>grid-container</h4>
+<p>コンテナには、当然ながらコンテナをCSS Gridとして描画するために<code>display: grid</code>を使っています。しかし、次のプロパティはあなたにとって馴染みがないかもしれません: <code>resize: both</code>です。これは、右下の角をクリックしてドラッグすることで、ユーザーがコンテナをリサイズできるようにするプロパティです。これは、グリッドのサイズに基づいてグリッドトラックをリサイズするプロパティを使い始めるときに役立ちます。</p>
+<p><strong>ズームレベルを変更する:</strong> コンテナをリサイズする余地ができるように、CodePenの埋め込みを0.5倍か0.25倍で表示することを忘れないでください。</p>
+<p>コンテナをグリッドが収まる大きさより小さくリサイズした場合にスクロールを有効にするために、<code>overflow: auto</code>を使っています。</p>
+<p>グリッドアイテムをよりよく視覚化できるように、「gutter」エリアを確立するために<code>gap</code>と<code>padding</code>プロパティを使っています。</p>
+<p><code>border</code>と<code>background-color</code>は、コンテナを見栄えよくするために含まれています。</p>
+<pre class="highlight"><code class="language-css">grid-template-rows: 150px 150px;
+grid-template-columns: 150px 150px 150px 150px 150px;</code></pre>
+<p>ここが、このレッスンで注目したい場所です。2行5列を作るために、それぞれの行と列のトラックサイズを個別に手動で定義しています。</p>
+<p>うわあ、なんて面倒なんでしょう!</p>
+<p>まあ、それほど面倒ではなかったかもしれません。しかし、この場合、私たちは2x5のグリッドしか作っておらず、これは合計10個のアイテムを保持できます。何百ものアイテムを保持できるグリッドのすべての列と行を定義するのに、この方法を使うことを想像してみてください!</p>
+<p>そこで登場するのが<code>repeat()</code>です。</p>
+<h3 id="repeat">Repeat</h3>
+<p><code>repeat()</code>は、CSS Gridのtemplateプロパティで利用できるCSS関数で、それぞれのトラックのサイズを個別に手動で入力することなく、行や列の数とその望むサイズを定義できるようにしてくれます。例えば、上記の私たちのセットアップでは:</p>
+<pre class="highlight"><code class="language-css">.grid-container {
+  grid-template-rows: 150px 150px;
+  grid-template-columns: 150px 150px 150px 150px 150px;
+}</code></pre>
+<p>は、次のように書き換えられます:</p>
+<pre class="highlight"><code class="language-css">.grid-container {
+  grid-template-rows: repeat(2, 150px);
+  grid-template-columns: repeat(5, 150px);
+}</code></pre>
+<p>自分で確認してみてください!</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="wvrBBxK" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/wvrBBxK">
+  repeat | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h3 id="fractional-units">フラクショナル単位</h3>
+<p>たくさんのグリッドトラックを素早く作る方法が分かったので、次はそれらを<em>動的に</em>し始める方法を学ぶ番です。この文脈で動的とは、「柔軟である」あるいは「何らかの形でレスポンシブである」ことを意味します。動的の反対は<em>静的</em>、つまり、このサンプルグリッドのセットアップで使った<code>150px</code>のように、特定の定義された高さに固定されていることです。</p>
+<p>グリッドアイテムを動的にする最も基本的な方法は、<code>fr</code>とも呼ばれる<strong>フラクショナル単位</strong>を使うことです。</p>
+<p><code>fr</code>単位は、グリッドに残っている<em>残りのスペース</em>を分配する方法です。例えば、合計幅<code>400px</code>の4列グリッドがあり、それぞれの列トラックに割り当てられた4つのグリッドアイテムがサイズとして<code>1fr</code>を持っている場合、すべてのグリッドアイテムには、その<code>400px</code>のスペースの<strong>1フラクション(分数)分</strong>、つまり100ピクセルが与えられるはずです。</p>
+<p>私たちが作成したサンプルグリッドの列と行のトラックに、150pxという静的な幅の代わりに<code>1fr</code>という動的な幅を与えたらどうなるか見てみましょう:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="WNZbbgG" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/WNZbbgG">
+  fr Unit 1 | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>私たちのグリッドアイテムがすべて、グリッドの幅と高さいっぱいを埋めるようになったことに気づきましたか?素敵ですよね?では、その例をリサイズしてみて、何が起こるか見てみてください。もっとクールですよ!</p>
+<p>グリッドアイテムに、残りのスペースを不均等に分配するよう指示することもできます。例えば、5つの列を分割するときに、最初の2つのトラックサイズを<code>2fr</code>、残りの3つを<code>1fr</code>にすると、最初の2つのトラックは他のトラックの2倍の残りスペースを与えられます。この例を前の例と比較してみてください:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="QWqwwJG" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/QWqwwJG">
+  fr Unit 2 | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>この例では、私たちの<code>grid-template-columns</code>にはいろいろなことが起きていますが、少し時間を取って何が書かれているか理解してください:</p>
+<pre class="highlight"><code class="language-css">grid-template-columns: repeat(2, 2fr) repeat(3, 1fr);</code></pre>
+<div class="lesson-note">
+<h4>グリッドトラックを定義するさまざまな方法</h4>
+<p>ここでは<code>repeat()</code>関数を使い続けていますが、これは昔ながらのやり方で書くこともできます!</p>
+</div>
+<p>ここでのポイントは、最初の2列には<code>2fr</code>単位が割り当てられ、残りの3列には<code>1fr</code>が割り当てられているということです。これはつまり、グリッドが動的に大きくなったり小さくなったりするにつれて、スペースはこれらの列の間で異なる量に分配されるということです。具体的には、最初の2列は残りの3列の2倍のピクセル数を得ることになります。</p>
+<p>リサイズすると、上記で述べたように、グリッドアイテムがそれぞれに割り当てられた<code>fr</code>単位の数に比例して大きくなることに注目してください。</p>
+<p>静的な単位(<code>px</code>など)と動的な単位(<code>fr</code>など)を混在させることもできます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="RwLNNqX" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/RwLNNqX">
+  fr and px Units | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>ここまでで、グリッドをできる限り大きくリサイズすると、グリッドアイテムがどれだけ大きくなるかに制限がないことに気づいたかもしれません。しかし、できる限り小さくリサイズすると、グリッドがアイテムに許す明確な「最小」サイズがあります。この場合、それは<code>&lt;p&gt;</code>要素か<code>&lt;img&gt;</code>要素のどちらかが、はみ出さずになれる最小のサイズです。このブレークポイントは、アイテムの<code>min-content</code>の値です。このCSSキーワードは<strong>非常に</strong>便利ですが、このレッスンの範囲を超えています。詳細については、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/min-content">min-contentについてのMDNのドキュメント</a>をチェックしてみてください。</p>
+<h3 id="minimum-and-maximum-track-sizes-min-and-max">最小・最大トラックサイズ: min()とmax()</h3>
+<p>グリッドを非常に小さくリサイズしたとき、ブラウザがアイテムを<code>min-content</code>の値より縮小させないようにしてくれることを知っておくと安心です。しかし、ほとんどの場合、それに頼りたくはありません。開発者として、最も極端な状況であっても、コンテンツがどれだけ小さく、あるいは大きくなるべきかを明示的に決めておく方がずっと良いのです。</p>
+<p><code>min()</code>と<code>max()</code>については、前の<a href="https://www.theodinproject.com/lessons/intermediate-html-and-css-css-functions">CSS関数についてのレッスン</a>で学びましたが、少し復習しても害はないでしょう。これらの関数はどちらも、あなたが与える引数に基づいて値を返します。<code>min()</code>は渡されたすべての値の中で最も小さいものを返し、<code>max()</code>は最も大きいものを返します。例えば、<code>min(100px, 200px)</code>は毎回<code>100px</code>という値を返し、<code>max(100px, 200px)</code>は毎回<code>200px</code>という値を返します。</p>
+<p>これらの関数には、好きなだけたくさんの引数を与えることができます:</p>
+<pre class="highlight"><code class="language-css">.grid-container {
+  grid-template-rows: repeat(2, min(100px, 200px, 300px, 400px, 500px));
+  grid-template-columns: repeat(5, max(100px, 200px, 300px, 400px, 500px));
+}</code></pre>
+<p>もちろん、これらの関数に静的な単位を与えるのは、計算に意味がなくなるため馬鹿げています。最小値または最大値が常に返されるだけです。上記の例では、グリッドの行は常に<code>100px</code>(5つの値のうち最小)のサイズになり、グリッドの列は常に<code>500px</code>(5つのうち最大)のサイズになります。しかし、これらの引数の一つとして動的な値を与えると、特にGridの文脈において、これらの関数の本当の潜在能力が解き放たれます:</p>
+<pre class="highlight"><code class="language-css">.grid-container {
+  grid-template-rows: repeat(2, min(200px, 50%));
+  grid-template-columns: repeat(5, max(120px, 15%));
+}</code></pre>
+<p>この場合、グリッドの行のサイズは、<code>200px</code>という値とグリッドコンテナの高さの<code>50%</code>という値から計算されます。リアルタイムで、ブラウザはこれら両方の値を比較し、どちらか小さい方をグリッドの行のサイズに適用します。基本的に、これがこのグリッドに伝えているのは、トラックのサイズはグリッドの縦方向の全スペースの50%であるべきだ(行のサイズを定義しているため)ということですが、<em>ただし</em>その数値が<code>200px</code>を超える場合は除く、ということです。基本的には、トラックの最大高さを設定していることになります。</p>
+<p>逆に、グリッドの列のサイズは、<code>120px</code>とグリッドコンテナの幅の<code>15%</code>という2つの値のうち大きい方に基づいて計算されます。そうすることで、私たちは基本的に、グリッドの列サイズの<em>最小</em>幅を<code>120px</code>に設定していることになります。ここにある例をチェックし、クリックしてドラッグしてグリッドの寸法を変え、グリッドアイテムがどう反応するか見てみてください:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="PoJwwLq" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/PoJwwLq">
+  min and max | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h3 id="dynamic-minimum-and-maximum-sizes">動的な最小・最大サイズ</h3>
+<h4>minmax()</h4>
+<p><code>minmax()</code>は、特にGridで使われるCSS関数です。以下のCSSプロパティでのみ使うことができます:</p>
+<ul>
+<li><code>grid-template-columns</code></li>
+<li><code>grid-template-rows</code></li>
+<li><code>grid-auto-columns</code></li>
+<li><code>grid-auto-rows</code></li>
+</ul>
+<p>これは比較的シンプルな関数で、2つの引数しか取りません:</p>
+<ol>
+<li>グリッドトラックが取り得る最小のサイズ</li>
+<li>グリッドトラックが取り得る最大のサイズ</li>
+</ol>
+<p><code>min()</code>や<code>max()</code>とは異なり、両方の引数に静的な値を使うことが理にかなう<em>場合があります</em>。以下は、これまで使ってきたグリッドを<code>minmax()</code>といくつかの静的な値で書いた例です:</p>
+<pre class="highlight"><code class="language-css">.grid-container {
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(5, minmax(150px, 200px));
+}</code></pre>
+<p><code>grid-template-columns</code>が<code>minmax()</code>の値で設定されているため、それぞれのグリッドアイテムの幅は、グリッドコンテナが水平方向にリサイズされるにつれて大きくなったり小さくなったりします。しかし、グリッドが縮小していくと、列トラックは<code>150px</code>で縮小するのをやめ、グリッドが大きくなっていくと、<code>200px</code>で大きくなるのをやめます。まさに柔軟性の極みです!以下で自分でも確認してみてください:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="poWvvmr" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/poWvvmr">
+  minmax | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h4>clamp()</h4>
+<p><code>minmax()</code>とは異なり、<code>clamp()</code>はグリッドコンテナ内だけでなく、どこでも使えるCSS関数です。<code>min()</code>や<code>max()</code>と同様に、これについても前のレッスンで学びましたが、簡単に復習しましょう。構文は次の通りです:</p>
+<p><code>clamp(minimum-size, ideal-size, maximum-size)</code></p>
+<p>これが行うのは、アイテムに最小または最大のしきい値のいずれかに達するまで、自身をリサイズさせることです。</p>
+<p><code>clamp()</code>の目的は、制約付きの柔軟にサイズ変更できるトラックを作ることなので、「理想のサイズ」の引数には動的な値を使いたいところですが、最小と最大のサイズには<em>通常</em>静的なサイズを使います。ただし、ここでも動的な値を使うことは可能です。</p>
+<p>以下はグリッドではない例です。グリッドについては後ほど改めて見ていきます:</p>
+<pre class="highlight"><code class="language-css">.non-grid-example {
+  width: clamp(500px, 80%, 1000px);
+}</code></pre>
+<p>この要素は、単なる<code>div</code>だと考えることができますが、親の幅の80%に等しい幅で描画されます。ただし、その数値が<code>500px</code>より小さい場合や<code>1000px</code>より大きい場合は、その数値を幅として使います。</p>
+<p>さて、私たちのグリッドに戻りましょう:</p>
+<pre class="highlight"><code class="language-css">.grid-container {
+  grid-template-columns: repeat(5, clamp(150px, 20%, 200px));
+}</code></pre>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="dyVPPEL" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/dyVPPEL">
+  clamp | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>トラックが最小または最大のしきい値に達するまで、コンテナの幅の<code>20%</code>を保ち続けることに気づきましたか?</p>
+<p><code>clamp()</code>と<code>minmax()</code>を使うことは、私たちのウェブサイトを見栄え悪くしてしまう重要なブレークポイントに達しないようにしながら、グリッドをよりレスポンシブにするための素晴らしい方法です。これは、極端なサイズに追いやられたときにはみ出したり望ましくない形で描画されたりする傾向がある画像や要素を使うときには、不可欠です。</p>
+<h3 id="auto-fit-and-auto-fill">auto-fitとauto-fill</h3>
+<p>この2つの値は、実は<code>repeat()</code>関数の仕様の一部ですが、その有用性は<code>minmax()</code>関数を理解するまでは明らかにならないため、レッスンの最後に取っておきました。ユースケースはこうです: グリッドの列数を、グリッドのサイズに応じて柔軟にしたいとします。例えば、グリッドの幅が<code>200px</code>しかない場合は、列を1つだけにしたいかもしれません。幅が<code>400px</code>なら2つ、というようにです。ありがたいことに、<code>auto-fit</code>と<code>auto-fill</code>がここで救いの手を差し伸べてくれます!</p>
+<p><a href="https://www.w3.org/TR/css-grid-1/#auto-repeat">auto-fillとauto-fitについてのW3の仕様</a>によると、これら両方の関数は、グリッドアイテムがコンテナからはみ出さない範囲で「可能な限り最大の正の整数」を返します。以下は例です:</p>
+<pre class="highlight"><code class="language-css">.example {
+  display: grid;
+  width: 1000px;
+  grid-template-columns: repeat(auto-fit, 200px);
+}</code></pre>
+<p>このグリッドでは、<code>1000px</code>という固定の幅があり、それぞれ<code>200px</code>のトラックで列を埋めるように指示しています。少なくとも5つのグリッドアイテムがある限り、これは何であれ5列のレイアウトになります。この場合、<code>auto-fill</code>も実際には同じことを行います。その違いについてはすぐ後で扱います。</p>
+<p><code>auto-fit</code>と<code>auto-fill</code>の本当の魔法は、<code>minmax()</code>をその方程式に組み込んだときに発揮されます。<code>minmax()</code>を使うと、グリッドがはみ出さないように<code>minmax()</code>関数の制約を使って各列のサイズを決めながら、できるだけ多くの列を持ちたいということをグリッドに伝えることができます。今、リサイズしたときに私たちのグリッドがどれだけかっこよく見えるか見てみてください!</p>
+<pre class="highlight"><code class="language-css">.grid-container {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}</code></pre>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="abLzzgR" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/abLzzgR">
+  autofit 1 | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>リサイズすると、列が自動的にいくつ横に並べられるかを把握することに気づきましたか?もし<em>それが</em>かっこいいと思わないなら、脈を測ってみた方がいいですよ!</p>
+<p>では、<code>repeat(auto-fit, minmax(150px, 1fr));</code>では具体的に何が起きているのでしょうか?<code>auto-fit</code>は、グリッドをはみ出さない<strong>最も大きい正の整数</strong>を返すことを思い出してください。まず、ブラウザはグリッドのコンテンツボックス(つまり、マージン、ボーダー、パディングを無視したもの)の幅を知る必要があります。</p>
+<p>この例のために、私たちのグリッドのコンテンツボックスが現在<code>500px</code>の幅だと仮定しましょう。次に、ブラウザはその幅にいくつのグリッド列トラックが収まり得るかを知る必要があります。これを行うために、<code>minmax()</code>関数の最小値、つまり<code>150px</code>を使います。これが最も多くのアイテム数をもたらすからです。もし私たちのウィンドウが<code>500px</code>の幅なら、これは私たちのグリッドが3列を描画することを意味します。しかし、それだけではありません!ブラウザが何列収まるかを決定したら、次に<code>minmax()</code>関数によって許される最大値まで列をリサイズします。この場合、最大サイズは<code>1fr</code>なので、3つの列すべてに利用可能なスペースが均等に割り当てられます。ウィンドウをリサイズするたびに、これらの計算がリアルタイムで行われ、その結果が上記の例で見たものです!</p>
+<h4>auto-fillはどうか?</h4>
+<p>ほとんどの場合、<code>auto-fill</code>は<code>auto-fit</code>とまったく同じように機能します。違いが目立つのは、グリッドの行を一度に埋めきるにはアイテムの数が足りない場合だけです。グリッドが、別のグリッドアイテムが<em>収まるかもしれない</em>サイズまで広がっても、収まるアイテムがそれ以上残っていない場合、<code>auto-fit</code>はグリッドアイテムをその<code>max</code>サイズに保ち続けます。<code>auto-fill</code>を使うと、たとえ描画するアイテムがなくても、別のグリッドアイテムを追加できるスペースができた時点で、グリッドアイテムはその<code>min</code>サイズにサッと戻ります。グリッドが拡大し、新しいグリッドトラックのためのスペースがさらに利用可能になるにつれて、<code>max</code>まで成長してから<code>min</code>にサッと戻るというパターンを続けていきます。</p>
+<p>これが実際に動作するのを見るために、次の2つの例、1つ目は<code>auto-fit</code>、2つ目は<code>auto-fill</code>を見て、グリッドを水平方向にリサイズしたときに何が起こるか見てみてください:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="mdByJyJ" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/mdByJyJ">
+  autofit 2 | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="KKXwpwX" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/KKXwpwX">
+  autofill | CSS Grid</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>そして、以上です!おめでとうございます、ここまでたどり着いたなら、あなたはGridマスターへの道を順調に歩んでいます!</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://css-tricks.com/css-grid-layout-guide">CSS-Tricks Grid Layout Guide</a>の「CSS Grid Properties」、「Special Units, Values, &amp; Functions」、「Subgrid」のセクションを読んでください。</li>
+<li><a href="https://cssgridgarden.com/">CSS Grid Garden</a>のレベル18から28まで進めて、アイテムの位置指定を練習してください。</li>
+<li>
+<p>私たちの<a href="https://github.com/TheOdinProject/css-exercises/tree/main/intermediate-html-css/advanced-grid">CSS演習リポジトリの<code>intermediate-html-css/advanced-grid</code>ディレクトリ</a>にある演習に、次の順序で取り組んでください(READMEに指示があることを忘れないでください):
+   - <code>01-responsive-holy-grail</code>
+   - <code>02-holy-grail-mockup</code></p>
+<p>注意: これらの演習に取り組む際は、必要なすべてのドキュメントとリソースを自由に使ってください。この段階でこれらのことをすべて暗記していることは<em>期待されていません</em>。ドキュメントを確認し、Googleを使い、それを終わらせるために必要なことを(解答を確認すること以外は)何でもしてください。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#repeat">それぞれを手動で入力することなく、同じサイズの複数のグリッドトラックを作成するにはどうすればよいですか?</a></li>
+<li><a href="#fractional-units">静的なサイズの値と動的なサイズの値の違いは何ですか?</a></li>
+<li><a href="#fractional-units">グリッドで利用可能な残りのスペースに応じて変化する柔軟な値を、グリッドトラックに割り当てるにはどうすればよいですか?</a></li>
+<li><a href="#fractional-units">グリッド内の残りのスペースを不均等にグリッドトラックに分配するにはどうすればよいですか?</a></li>
+<li><a href="#minimum-and-maximum-track-sizes-min-and-max">与えられた値の中で<em>最小</em>または<em>最大</em>の値を返すCSS関数はどれですか?</a></li>
+<li><a href="#dynamic-minimum-and-maximum-sizes">リアルタイムで計算される最小・最大のトラックサイズを与えることができる、CSS Grid専用の関数はどれですか?</a></li>
+<li><a href="#dynamic-minimum-and-maximum-sizes">リアルタイムで計算される最小・理想・最大の値を与えることができる、グローバルなCSS関数はどれですか?</a></li>
+<li><a href="#auto-fit-and-auto-fill"><code>repeat()</code>のどの属性を使うと、特定の制約の下でできるだけ多くのグリッドトラックを埋めることができますか?</a></li>
+<li><a href="#auto-fit-and-auto-fill"><code>auto-fit</code>と<code>auto-fill</code>の違いは何ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

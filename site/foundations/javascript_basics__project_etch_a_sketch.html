@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Etch-a-Sketch</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Etch-a-Sketch <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">etch-a-sketch</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>このプロジェクトでは、あなたのDOM操作スキルを発揮できる、かなり洒落たおもちゃを作ります。スケッチパッドとEtch-A-Sketch(エッチ・ア・スケッチ)の中間のようなものの、ブラウザ版を構築します。</p>
+<p>このプロジェクトは簡単では<em>ない</em>はずです。適切なJavaScriptメソッドや使うべきCSSを見つけるために、頻繁にGoogle検索をする必要があるでしょう---実はそれこそがポイントなのです!あなたはすでに学んだツールを使ってこれを構築<em>できます</em>。必要だと感じた場合、まだ扱っていないことを学ぶためのリソースはネット上にたくさんあります。基本的なステップは案内しますが、実際にそれらを実装するのはあなた次第です。</p>
+<p>完全に行き詰まってしまったら、<a href="https://discord.gg/fbFCkYabZB">私たちのDiscordサーバー</a>に立ち寄って助けを求めてください。誰かが正しい方向を示してくれるでしょう。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<p>早めに、こまめにコミットするのを忘れないでください<img alt="Commit Messagesのレッスン" src="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/commit-messages" />を参照できます!</p>
+<ol>
+<li><a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/recipes#setting-up-your-projects-github-repository">プロジェクトのGitHubリポジトリをセットアップする</a>についての私たちの説明に従ってください。</li>
+<li>16x16の正方形divのグリッドを持つウェブページを作成してください。<ul>
+<li>JavaScriptを使ってdivを作成してください。HTMLファイルにコピー&amp;ペーストして手作業で作成しようとしないでください!</li>
+<li>グリッドの正方形は「container」div の中に入れるのが最善です。このdivはHTMLファイルに書くことができます。</li>
+<li>Flexboxを使って、divが(各行に1つずつ並ぶのではなく)グリッドとして表示されるようにしてください。名前とは裏腹に、CSS Gridを調べたり使ったりしたくなっても我慢してください。それはfoundationsパスの後の、後のレッスンで教えます。このプロジェクトは、特にFlexboxを練習するための機会です!</li>
+<li>borderとmarginには注意してください。正方形のサイズを変えてしまうことがあります!</li>
+<li>「あれ、なんでグリッドが作られないの???」<ul>
+<li>CSSスタイルシートをリンクしましたか?</li>
+<li>ブラウザの開発者ツールを開いてください。</li>
+<li>JavaScriptコンソールにエラーがないか確認してください。</li>
+<li>「elements」パネルを確認して、要素が実際に表示されているのに何らかの理由で隠れていないか確認してください。</li>
+<li>JavaScriptに<code>console.log</code>文を手当たり次第に追加して、実際に読み込まれているか確認してください。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>マウスがグリッドのdivの上を通過したときに色が変わる「ホバー」効果を設定し、ペンのようにグリッドを通る(ピクセル化された)軌跡を残すようにしてください。<ul>
+<li><strong>ヒント</strong>: 「ホバー」とは、マウスがdivに入ったときに発生し、マウスがそこから離れたときに終わるものです。出発点として、これらのどちらかのイベントに対してイベントリスナーを設定できます。</li>
+<li>divの色を変える方法は複数あります。例えば:<ul>
+<li>divに新しいクラスを追加する。</li>
+<li>JavaScriptを使ってdivの背景色を変更する。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>画面上部に、新しいグリッドの1辺あたりの正方形の数をユーザーに尋ねるポップアップを表示するボタンを追加してください。入力されたら、既存のグリッドは<em>削除</em>され、新しいスケッチパッドが得られるように、新しいグリッドが<em>以前と同じ合計スペースの中に</em>(例:幅960px)生成されるべきです。<ul>
+<li><strong>ヒント</strong>: ユーザー入力の上限を最大100に設定してください。正方形の数が多いほど、より多くのコンピューターリソースが使われることになり、私たちが防ぎたい遅延、フリーズ、クラッシュを引き起こす可能性があります。</li>
+<li><code>prompt</code>を確認してみてください。</li>
+<li><code>64</code>と入力すると、使用されるピクセルの合計量を変えることなく、まったく新しい64x64のグリッドがポップアップするはずです。</li>
+</ul>
+</li>
+<li>プロジェクトをGitHubにプッシュしましょう!</li>
+</ol>
+<h4>追加課題</h4>
+<p>一連の変更を導入することで、マウスと相互作用したときの正方形の振る舞いを変化させましょう。</p>
+<ol>
+<li>グリッド全体で正方形が同じ色になるのではなく、相互作用のたびに正方形のRGB値をランダム化してください。</li>
+<li>さらに、相互作用のたびに正方形が10%ずつ暗くなっていく、段階的な暗化効果を実装してください。目標は、わずか10回の相互作用で完全に黒(あるいは完全に色が付いた状態)の正方形を実現することです。<ul>
+<li><strong>ヒント</strong>: opacity CSSプロパティがここで役立ちます。その使い方を学ぶには、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/opacity">opacity CSSプロパティについてのMDNドキュメントの記事</a>を確認してください。</li>
+</ul>
+</li>
+</ol>
+<p>これらの課題のどちらか一方、あるいは両方に取り組むかは、あなた次第です。</p>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

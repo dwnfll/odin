@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form Validation</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">intermediate_html_css</a></p>
+    <h1 class="lesson-header__title">Form Validation <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn the basics of validating forms in HTML.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>バリデーションを使うと、ユーザーが入力にどんなデータを入力できるかを決める、特定の制約やルールを設定できます。ユーザーがルールを破るデータを入力すると、メッセージが表示され、入力されたデータの何が間違っていたか、どう修正すればよいかについてフィードバックが提供されます。</p>
+<p>バリデーションは、うまく設計されたフォームにおける重要な要素です。バックエンドシステムが不正なデータを受け取ることから守る助けとなり、ユーザーがフォームとやり取りする体験を、できる限り馬鹿正直にシンプルなものにする助けとなります。</p>
+<p>このレッスンでは、HTMLフォームで使えるいくつかの組み込みバリデーションを探っていきます。また、CSSでバリデーションをスタイリングすることについても深く掘り下げていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>フォームバリデーションとは何かを説明します。</li>
+<li>基本的な組み込みHTMLバリデーションのいくつかを使う方法を知ります。</li>
+<li>カスタムバリデーションを構築する方法を知ります。</li>
+</ul>
+<h3 id="required-validation">必須バリデーション</h3>
+<p>例えばログインフォームのメールアドレスとパスワードのように、フォームを送信する前に特定のフィールドが入力されていることを確認したい場合がよくあります。</p>
+<p>フィールドを必須にするには、<code>required</code>属性を追加します:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="vYeZGzB" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+<span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/vYeZGzB">
+forms-required-validation</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>良いユーザー体験を確保し、アクセシビリティのガイドラインを満たすために、どのフィールドが必須であるかを常に示すべきです。これは、例のように、必須フィールドのラベルにアスタリスク(*)を追加することでよく行われます。アスタリスク(*)の意味をユーザーに明確にするメッセージを追加することもできます。</p>
+<h3 id="text-length-validations">テキスト長のバリデーション</h3>
+<p>時には、フィールドに最小または最大の文字数を入力してもらいたい場合があります。これらのバリデーションを使う実世界の例としては、X(旧Twitter)のステータスフィールドがかつて持っていた140文字制限や、ユーザー名フィールドの最小・最大文字数の制約などがあります。</p>
+<h4>最小長のバリデーション</h4>
+<p>最小長のバリデーションを追加するには、フォームコントロールに、そのフォームコントロールで許可したい最小文字数を表す整数値を持つ<code>minlength</code>属性を与えます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="WNZOwgp" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/WNZOwgp">
+  forms-min-length-validation</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>テキストエリアに3文字未満を入力してpostボタンをクリックし、バリデーションが実際に動作するのを見てみてください。</p>
+<div class="lesson-note lesson-note--tip">
+<h4>minlengthはrequiredを意味しない</h4>
+<p>上記の例で、入力に何も入力せずに試してみると、それでも送信されてしまいます。これは、<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/minlength">MDNのminlengthについてのドキュメント</a>に記載されている通り、「制約バリデーションは、値がユーザーによって変更されたときにのみ適用される」ためです。</p>
+</div>
+<h4>最大長のバリデーション</h4>
+<p>最大長のバリデーションを追加するには、フォームコントロールに、そのフォームコントロールで許可したい最大文字数を表す整数値を持つ<code>maxlength</code>属性を与えます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="zYEzqJJ" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/zYEzqJJ">
+  forms-maximum-length-validations</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>最大長のバリデーションを使うと、ブラウザは、ユーザーがmax length属性の値より多くの文字を入力するのを防ぎます。上記の例で自分でも試してみてください。</p>
+<h4>バリデーションを組み合わせる</h4>
+<p>HTMLでは、フォームコントロールに好きなだけたくさんのバリデーションを適用できます。例えば、投稿用の<code>&lt;textarea&gt;</code>に<code>minlength</code>と<code>maxlength</code>の両方のバリデーションを与えることができます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="vYeZGVY" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/vYeZGVY">
+  forms-combining-validations</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>これにより、ユーザーの入力をコントロールする幅がずっと広がります。</p>
+<h3 id="number-range-validations">数値範囲のバリデーション</h3>
+<p>テキストベースのフォームコントロールの長さをコントロールする必要があることがよくあるのと同じように、数値ベースのフォームコントロールにユーザーが入力できる値の範囲をコントロールしたい状況もたくさんあります。</p>
+<p>これは、min属性とmax属性を使うことで行うことができ、これによりフォームコントロールに入力される値の下限と上限を設定できます。min属性とmax属性は、number、日付、時間の入力のような、数値ベースのフォームコントロールでのみ機能します。サポートされている要素の完全なリストは、<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max#syntax">MDNの<code>max</code>属性についてのドキュメント</a>で見ることができます。</p>
+<p>これらのバリデーションを使う実世界のユースケースとしては、商品注文フォームでの数量制限や、フライト予約フォームでの乗客数の選択などがあります。</p>
+<h4>最小値のバリデーション</h4>
+<p>最小値のバリデーションを追加するには、フォームコントロールに、そのフォームコントロールに受け付けさせたい最小の数値を表す整数値を持つ<code>min</code>属性を与えます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="poWwyxd" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/poWwyxd">
+  forms-min-validation</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>数量を0にしてフォームを送信してみて、バリデーションが実際に動作するのを見てみてください。</p>
+<h4>最大値のバリデーション</h4>
+<p>最大値のバリデーションを追加するには、フォームコントロールに、そのフォームコントロールに受け付けさせたい最大の数値を表す整数値を持つ<code>max</code>属性を与えます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="XWegdxB" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/XWegdxB">
+  forms-max-validation</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>乗客数を7人にしてフォームを送信してみて、バリデーションが実際に動作するのを見てみてください。</p>
+<h3 id="pattern-validations">パターンのバリデーション</h3>
+<p>ユーザーから正しい情報を確実に得るために、データが特定のパターンにマッチすることを確認したい場合がよくあります。実世界での応用例には、パスワード、クレジットカード番号、郵便番号が正しい形式であるかをチェックすることなどがあります。</p>
+<p>パターンのバリデーションを追加するには、フォームコントロールに、値として<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">正規表現</a>(regex)を持つ<code>pattern</code>属性を与えます。この例では、パターンのバリデーションを使って、米国の郵便番号が正しい形式(5桁の数字の後に、オプションのハイフンと、さらに4桁の数字が続く)であることを確認しています:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="YzrQqRK" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/YzrQqRK">
+  forms-pattern-basic-validation</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<div class="lesson-note lesson-note--tip">
+<h4>パターンのバリデーションのための正規表現</h4>
+<p>これについて正規表現を深く学ぶ必要は実際にはありません。正規表現がどれほど複雑になり得るか、特にHTML属性、JavaScriptの文字列、JavaScriptの正規表現リテラルなどで書くときに正確な構文が異なり得ることを考えると、実際には自分で一から構築しようとするよりも、必要なものに合った実績のある正規表現を探す方が良いでしょう。</p>
+</div>
+<p>不正な郵便番号を入力してフォームを送信すると、ブラウザは「Please match the requested format」というバリデーションエラーを表示します。これは、問題をどう修正すればよいかを伝えてくれないため、あまり役に立ちません。</p>
+<p><code>placeholder</code>属性を使って、ユーザーに入力してもらいたい期待されるパターンの例を示すのは良いプラクティスです:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="LYzLNXv" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/LYzLNXv">
+  forms-pattern-with-placeholder-validation</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>pattern属性は<code>&lt;input&gt;</code>要素にのみ使うことができます。一部の入力要素は、すでに特定のパターンにマッチするデータを検証してくれます。例えば、email入力フィールドは有効なメールアドレスが入力されていることを確認し、url入力要素はURLがhttpまたはhttpsで始まっていることを確認してくれます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="eYGRZbK" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/eYGRZbK">
+  forms-built-in-pattern-validations</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h3 id="styling-validations">バリデーションのスタイリング</h3>
+<p><code>:user-valid</code>と<code>:user-invalid</code>疑似クラスを使うと、バリデーションに合格したフォームコントロールと失敗したフォームコントロールをターゲットにでき、ユーザーがやり取りするまでは入力フィールドをニュートラルな状態に保つことができます。</p>
+<p>これが実際に動作するのを見るために、以前見たemailとwebsiteの例を使ってみます:</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="dyVRMwx" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/dyVRMwx">
+  forms-styling-validations</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>最初、emailとURLのフィールドはデフォルトのブラウザスタイルを維持しており、これはユーザーがまだそれらとやり取りしていないニュートラルな状態を表しています。まず、有効な入力をターゲットにして、対応する入力フィールドに緑色の枠線を設定するところから始めます。</p>
+<p>ユーザーが無効な値を入力し、その入力からクリックまたはタブで離れると(これは完全なユーザーのやり取りを構成します)、枠線は赤に変わります。それ以降、枠線はその内容の有効性に応じて自動的に緑と赤の間で切り替わります。不正な形式のメールアドレスやURLを入力し、クリックして離れることでバリデーションを発動させ、それから正しい形式と不正な形式の間で値を編集して、これを試してみてください。</p>
+<h3>まとめ</h3>
+<p>組み込みのバリデーションは、ユーザーが正しいデータを入力することを確保する上で、あなたを大きく助けてくれます。それらは素早く簡単に追加できます。しかし、限界もあります。</p>
+<p>時には、組み込みのバリデーションではできないバリデーションを含める必要があります。例えば、パスワード入力とパスワード確認入力が同じ値を持つことを検証したり、ユーザー名がまだ使われていないことを検証したりすることです。また、バリデーションメッセージとその中のコンテンツをスタイリングできることにも限りがあります。</p>
+<p>この場合、JavaScriptとCSSを使ってカスタムバリデーションを作成する、創造的な工夫が必要になります。JavaScriptを通してバリデーションを実現する方法については、今後のレッスンで深く掘り下げます。</p>
+<p>クライアントサイドのバリデーションは、ユーザーが正しいデータを入力することを確保するための万能薬ではないことも、覚えておく価値があります。私たちのシステムに入ってくるあらゆるユーザーデータの整合性を確保するために、サーバーサイドのバリデーションも用意しておくべきです。バリデーションのこちらの側面については、カリキュラムの後の方で扱います。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation">MDNのClient-Side Form Validation Guide</a>を読んで、一緒に手を動かしてみてください。「Validating forms using JavaScript」のセクションはスキップしてください。これは今後のレッスンで扱われます。</li>
+<li>SitePointの<a href="https://www.sitepoint.com/html-forms-constraint-validation-complete-guide/">Complete Guide to HTML Forms and Constraint Validation Guide</a>に目を通してください。「JavaScript and the Constraint Validation API」と「Creating a Custom Form Validator」のセクションはスキップできます。</li>
+<li><a href="https://threadreaderapp.com/thread/1400388896136040454.html">フォームバリデーションUXのdoとdon't</a>についてのこのXスレッドを見てみてください。</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#required-validation"><code>required</code>バリデーションは何をしますか?</a></li>
+<li><a href="#text-length-validations">テキスト長をチェックするためにどのバリデーションを使えますか?</a></li>
+<li><a href="#number-range-validations">数値入力の最小値と最大値をどうやって検証できますか?</a></li>
+<li><a href="#pattern-validations">patternバリデーションは何に使えますか?</a></li>
+<li><a href="#styling-validations">有効な入力と無効な入力をスタイリングするために、どんな疑似CSSセレクタが利用可能ですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

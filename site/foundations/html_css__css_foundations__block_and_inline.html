@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Block and Inline</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">Block and Inline <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn about two common CSS display modes.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>前のレッスンでは、異なるdisplayタイプはそれぞれ独自のボックスモデルを持っていること、そして<code>box-sizing</code>プロパティを変更することでボックスの計算方法を変更できることを学びました。CSSには<code>block</code>と<code>inline</code>という2種類のボックスタイプがあり、これらが要素の振る舞いと相互作用を決定します。<code>display</code>プロパティは、HTML要素がウェブページ上にどのように表示されるかを制御します。このレッスンでは、そのさまざまなオプションについてさらに詳しく見ていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>「通常のフロー(Normal flow)」について学びます。</li>
+<li><code>block</code>要素と<code>inline</code>要素の違いを学びます。</li>
+<li>どの要素がデフォルトで<code>block</code>になり、どの要素がデフォルトで<code>inline</code>になるかを学びます。</li>
+<li>divとspanとは何かを学びます。</li>
+</ul>
+<h3>ブロックとインライン</h3>
+<p>これまでに学んできた要素のほとんどは、ブロック要素です。言い換えると、それらのデフォルトのスタイルは<code>display: block</code>です。<span id="block-inline-difference"></span>デフォルトでは、ブロック要素はページ上で互いに積み重なるように表示され、新しい要素はそれぞれ新しい行から始まります。</p>
+<p>しかし、インライン要素は新しい行から始まりません。それらは、隣に配置されている要素と同じ行の中に表示されます。インライン要素の分かりやすい例は、リンク、つまり<code>&lt;a&gt;</code>タグです。これをテキストの段落の途中に置くと、<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">リンクはその段落の一部であるかのように振る舞います</a>。さらに、paddingとmarginはインライン要素上では異なる振る舞いをします。一般的に、インライン要素に余分なpaddingやmarginを付けようとするのは避けるべきです。</p>
+<h4>中間的な存在、inline-block</h4>
+<p>inline-block要素はインライン要素のように振る舞いますが、ブロックスタイルのpaddingとmarginを持ちます。<code>display: inline-block</code>は知っておくと便利なツールですが、実際には、多数のボックスを並べようとする場合、おそらくもっと頻繁にflexboxに手を伸ばすことになるでしょう。flexboxについては次のレッスンで詳しく扱います。</p>
+<h3>divとspan</h3>
+<p>ウェブページを構築する際、すべてのコンテンツが特定のセマンティックタグを持っているわけではありません。時には、スタイルや配置ができるコンテナだけが必要なこともあります!そこで登場するのが<code>div</code>と<code>span</code>です。</p>
+<p><code>div</code>は汎用のブロックレベルコンテナです。デフォルトでは、その親の幅いっぱいに広がり、新しい行から始まる、長方形のセクションのように振る舞います。通常、<code>div</code>はカード、セクション、サイドバー、ナビゲーションバーのグループ化など、ページコンポーネント内の関連する要素をグループ化するために使用します。</p>
+<p>この場合、コンテンツを<code>div</code>で囲み、<code>class</code>や<code>id</code>を付けることで、CSSのレイアウトやスタイリングのための便利なフックを作ることができます!</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="KKXXbwR" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/KKXXbwR">
+  block-inline-lesson-div-example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p><code>span</code>は汎用のインラインコンテナです。テキストの行の中に収まり、そのコンテンツと同じだけのスペースしか占有しません。<code>div</code>とは異なり、新しい行から始まることはありません。文章の一部だけをスタイリングしたり対象にしたりしたいときに<code>span</code>を使用します。例えば、単一の単語を強調表示したり、フレーズにツールチップを付けたりしたい場合、それを<code>span</code>で囲み、<code>class</code>や<code>id</code>を追加することで、CSSがそれを見つけて操作できるようになります。</p>
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html,result" data-slug-hash="abLLPor" data-preview="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+
+  <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/abLLPor">
+  block-inline-lesson-span-example</a> by TheOdinProject (<a href="https://codepen.io/TheOdinProjectExamples">@TheOdinProjectExamples</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+
+</p>
+
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p><code>div</code>も<code>span</code>も、セマンティックタグのようにコンテンツに意味を加えるものではありません。それらは、柔軟な「構成要素」を提供するために存在しているからです。重要な違いは、レイアウトの中でどう振る舞うかです。<code>div</code>はブロックレベル要素としてフローに参加し、<code>span</code>はインライン要素として振る舞います。それさえ理解すれば、どちらを使うかを選ぶのは簡単です!より大きなコンテンツのブロックをグループ化して配置する場合は<code>div</code>を、行の中の小さな部分をスタイリングしたりスクリプトで操作したりする場合は<code>span</code>を使用できます。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>「通常のフロー(Normal flow)」という概念は、ボックスモデルのリソースの中で暗に示されてはいますが、それほど明確には説明されていません。要素がデフォルトでどのように自分自身を配置するかを確実に理解するために、<a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Normal_Flow">MDNの「Normal Flow」</a>を読んでみてください。</li>
+<li>W3schoolsの<a href="https://www.w3schools.com/html/html_blocks.asp">「HTML Block and Inline Elements」</a>には、すべてのデフォルトのブロック要素とインライン要素についての説明と一覧があります。</li>
+<li>Digital Oceanのチュートリアル<a href="https://www.digitalocean.com/community/tutorials/css-display-inline-vs-inline-block">「Inline vs Inline-block Display in CSS」</a>には、<code>inline</code>と<code>inline-block</code>の違いを明確にしてくれる、いくつかの優れた例があります。</li>
+<li>
+<p><a href="https://github.com/TheOdinProject/css-exercises/tree/main/foundations/block-and-inline">CSS演習リポジトリの<code>foundations/block-and-inline</code>ディレクトリ</a>にある演習を(指示はREADMEに書かれていることを忘れずに)以下の順番で行ってください:
+   - <code>01-margin-and-padding-1</code>
+   - <code>02-margin-and-padding-2</code></p>
+<p>注:これらの演習の解答は、各演習の<code>solution</code>フォルダにあります。
+1. HTML Foundationsセクションで練習用に作成したレシピページを覚えていますか?かなり<em>シンプル</em>な見た目ですよね?CSSを追加して、それを直していきましょう!
+   - 実際にどうスタイリングするかは完全に自由ですが、(この練習でも、そしてこの先も)外部CSSの方法を使うべきです。また、前のレッスンで触れたプロパティ(color、background-color、タイポグラフィ関連のプロパティなど)をいくつか使ってみるようにしてください。さまざまなプロパティをいろいろ試してみて、それらが何をするのか感覚をつかむのに時間をかけてください。今のところは、見た目を<em>良く</em>することはまったく気にしなくて構いません。これは単に、CSSを書くことに慣れるための練習であり、履歴書に載せて自慢するようなものを作るためのものではありません。
+   - <code>font-family</code>プロパティでカスタムフォントを使う方法はまだ扱っていないので、今のところは、使用できるジェネリックフォントファミリーの一覧については<a href="https://www.w3schools.com/Css/css_font.asp">CSS Fonts</a>を、ウェブセーフなフォントの一覧については<a href="https://www.w3schools.com/cssref/css_websafe_fonts.asp">CSS Web Safe Fonts</a>を見てみてください。ウェブセーフとは、基本的にどんなコンピューターやデバイスにもインストールされているフォントであることを意味します(ただし、フォールバックとしてジェネリックフォントファミリーも必ず含めてください)。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#block-inline-difference">ブロック要素とインライン要素の違いは何ですか?</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/css-display-inline-vs-inline-block">インライン要素とinline-block要素の違いは何ですか?</a></li>
+<li><a href="https://www.w3schools.com/html/html_blocks.asp"><code>h1</code>はブロックですか、インラインですか?</a></li>
+<li><a href="https://www.w3schools.com/html/html_blocks.asp"><code>button</code>はブロックですか、インラインですか?</a></li>
+<li><a href="https://www.w3schools.com/html/html_blocks.asp"><code>div</code>はブロックですか、インラインですか?</a></li>
+<li><a href="https://www.w3schools.com/html/html_blocks.asp"><code>span</code>はブロックですか、インラインですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

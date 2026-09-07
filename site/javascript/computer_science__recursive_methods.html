@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recursive Methods</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Recursive Methods <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn how making a function call itself can be helpful for making big problems into smaller problems</p>
+  </div>
+  <div class="lesson-content">
+    <h3 id="introduction">イントロダクション</h3>
+<p>再帰とは、関数が自分自身を呼び出すという考え方です。それがすべてです。これは、大きな問題を取り、それをどんどん小さな部分に分解していき(「分割統治」)、何らかの答えが得られてチェーン全体が巻き戻されるまで、その解決策を元の関数に戻し続けるために使われます。</p>
+<p><a href="http://en.wikipedia.org/wiki/Divide_and_conquer_algorithm">分割統治アルゴリズムについてのWikipediaの項目</a>より:</p>
+<blockquote>
+<p>コンピューターサイエンスにおいて、分割統治(D&amp;C)は、多分岐の再帰に基づく重要なアルゴリズム設計パラダイムです。分割統治アルゴリズムは、問題を、直接解けるほど単純になるまで、同じ(あるいは関連する)種類の2つ以上の部分問題に再帰的に分解することで機能します。それから、部分問題への解答が組み合わされ、元の問題への解答が与えられます。</p>
+</blockquote>
+<p>再帰を使う正しい方法と間違った方法もあります。実のところ、再帰的に解決できるどんな問題も、あなたがすでに知っていて愛用しているイテレータを使って解決することもできます。もし「ここでは単に<code>while</code>ループを使えばよかったのでは?」と自分に問いかけているなら、おそらくそうすべきだったのでしょう。問題に対して再帰的な解決策を使うことになることはそれほど多くありませんが、それがいつ良いアイデアになり得るかについての感覚はつかんでおくべきです。一部の問題はまた、あまりにも多くの部分に分解されすぎて、あなたのコンピューターのメモリを完全に圧迫してしまいます。そこにはバランスがあります。</p>
+<p>この短いレッスンでは、いつ、どうやって再帰を使うかについてさらに学ぶ機会があり、それから次のプロジェクトで、それを実際に応用する機会があります(実際に試してみるまでは、おそらく本当には身につかないでしょうから)。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>なぜ再帰が大きな問題を解決するのに役立つテクニックなのかを理解します。</li>
+<li>再帰的な解決策を使うことの限界を認識します。</li>
+<li>どんな種類の問題が、再帰の代わりにループを使う方がうまく解決できるかを見分けます。</li>
+<li>「再帰の深さ」という概念が何を意味するかを学びます。</li>
+<li>「スタックオーバーフロー」とは何か(ウェブサイトの方ではなく、概念としての)を理解します。</li>
+<li>なぜスタックオーバーフローが再帰の問題に関連するのかを学びます。</li>
+</ul>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>この<a href="https://javascript.info/recursion">再帰への入門</a>を読んでください。記事の最後にある演習を完了させる<em>必要はありません</em>。</li>
+<li>この<a href="https://www.youtube.com/watch?v=6oDQaB2one8">Web Dev Simplifiedによる再帰の説明</a>を見てください。</li>
+<li><a href="https://www.youtube.com/watch?v=ngCos392W4w">5 Simple Steps for Solving Any Recursive Problem</a>を見てください。</li>
+<li>CS50からのこの<a href="https://www.youtube.com/watch?v=mz6tAJMVmfM">再帰についての動画</a>を見てください。</li>
+<li>再帰のいくつかの限界についての概要を知るために、<a href="http://en.wikipedia.org/wiki/Divide_and_conquer_algorithm#Implementation_issues">wikiの記事の「Implementation Issues」のセクション</a>を読んでください。</li>
+<li>
+<p><a href="https://github.com/TheOdinProject/javascript-exercises/tree/main/computer_science/recursion">The Odin ProjectのJavaScript演習リポジトリの<code>computer_science/recursion/</code>ディレクトリ</a>に行き、それぞれの演習を順番に完了させてください。それぞれの演習に取り組む前に、必ずそのREADMEを確認してください。必要であれば、演習のフォーク・クローン・使用についての一般的な指示については、リポジトリのREADMEを再訪してください。</p>
+<div class="lesson-note lesson-note--tip" markdown="1">
+<h4>デバッガーを使おう!</h4>
+<p>再帰関数の中で何が起きているかを層ごとに追跡しようとするのは、かなり難しいことがあります。そんな苦労をする必要はありません!もしまだ、いくつかの問題を解決する際にデバッガーを活用していなければ(もしそうなら、多くのものを見逃してきたことになります!)、コードフローのナビゲートをずっと簡単にしてくれるデバッガーに慣れておくのに、今ほど良いタイミングはありません。</p>
+</li>
+</ol>
+</div>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#introduction">再帰関数を簡潔に定義するとしたらどうなりますか?</a></li>
+<li><a href="http://ruby.bastardsbook.com/chapters/recursion/">再帰のポイントは何ですか?単純なループを使うより効率的ですか?</a></li>
+<li><a href="https://youtu.be/mz6tAJMVmfM?t=193">再帰関数における2つの必須の部分は何ですか?</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Divide-and-conquer_algorithm#Stack_size">なぜ「スタックオーバーフロー」が再帰の問題に関連するのですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

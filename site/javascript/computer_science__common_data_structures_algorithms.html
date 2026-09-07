@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Common Data Structures and Algorithms</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">Common Data Structures and Algorithms <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Learn why we use different data structures to handle our data and some classic algorithms for searching through them to help solve problems</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p><strong>データ構造</strong>の基本的な考え方は、あなたの特定のアプリケーションのニーズに合った方法でデータを保存することです。特定の種類のデータを一つの巨大な配列に保存したくなるかもしれませんが、もしかなりの数と深さのアイテムがあれば、特定の値を見つけるのはかなり時間がかかってしまうでしょう。ですので、他の選択肢を探す必要があります。</p>
+<p>アプリケーションによっては、あなたを助けてくれる、他の基本的なデータ構造がひとまとまりあります。それらの間の違いは、通常、構造に最初にデータを入れるのにどれだけ時間がかかるか、要素を追加・検索するのにどれだけ時間がかかるか、そして構造がメモリ内でどれだけ大きいかの間のトレードオフに関係しています。</p>
+<p>データ構造の詳細は、よりコンピューターサイエンス志向のコースのために取っておきますが、この導入は、単純な配列やハッシュ、セットではうまく対応できない特定の問題を特定し解決できるように、再びあなたの道具箱を少し広げてくれるはずです。新しい構造や戦略は、特に、特定の値のために大量のデータを検索しようとしているときや、何手も先の戦略を計画しているときに、特に関連性が高くなります。</p>
+<p>あなたはすでに、他のいくつかのレッスンを通して<strong>アルゴリズム</strong>について簡単な紹介を受けており、前回のプロジェクトでは自分自身のマージソートアルゴリズムを書くことさえしました。ソートアルゴリズムはかなり一般的だと気づくでしょう。アルゴリズムのもう一つの主要な分野は検索であり、そこではミリ秒が重要です。膨大な量のデータを検索しているとき、あなたの検索アルゴリズムの品質は非常に重要です。特定の要素を探してデータツリーを辿ることは、データ集約型のアプリケーションでよく見られる、関連する問題です。</p>
+<p>あなたにとって幸運なことに、これらの複雑なアルゴリズムの問題は、過去に何度も解決されてきました。それらが<em>どう</em>解決されているかを理解することで、他の(似たような)問題に自分で応用できる、素晴らしいツールが手に入ります。アルゴリズムとは実のところ、問題を体系的に解決する方法に過ぎません。この短い導入では、自分でコーディングしているときに出会うかもしれない、いくつかのアルゴリズム、幅優先探索と深さ優先探索に焦点を当てていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>データ構造についての導入を受けます。</li>
+<li>スタックとキューについて学びます。</li>
+<li>なぜアルゴリズムを学ぶべきかを知ります。</li>
+<li>さまざまな検索アルゴリズムを探ります。</li>
+</ul>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li>物事の大まかな概要をつかむために、<a href="http://en.wikipedia.org/wiki/Data_structure">データ構造についてのWikipediaの項目</a>にざっと目を通してください。</li>
+<li><a href="https://www.youtube.com/watch?v=u2TwK3fED8A">Why Study Algorithms</a>の最初の10分を見てください。残りは、興味があればより数学的な内容です。</li>
+<li>YouTubeのハーバード大学CS50から、<a href="https://www.youtube.com/watch?v=DSffdCT5Cx4">二分探索がどう機能するか</a>について学んでください。</li>
+<li>次に、二分探索木について学ぶことに焦点を当てていきます。まず、この動画を見て、<a href="https://www.youtube.com/watch?v=FvdPo8PBQtc">順序付けられていない配列から二分探索木がどう構築されるか</a>を学んでください。</li>
+<li>次に、それぞれ幅優先探索と深さ優先探索で使われる概念である、<a href="https://www.youtube.com/watch?v=6QS_Cup1YoI">キューとスタックの原則</a>について学んでください。</li>
+<li>最後に、YouTubeのこの動画シリーズから、二分探索木の幅優先探索と深さ優先探索について学んでください:<ul>
+<li><a href="https://www.youtube.com/watch?v=9RHO6jU--GU">二分木の走査</a></li>
+<li><a href="https://www.youtube.com/watch?v=86g8jAQug04">幅優先探索</a></li>
+<li><a href="https://www.youtube.com/watch?v=gm8DUJJhmY4">深さ優先探索</a></li>
+</ul>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=6QS_Cup1YoI">スタックとキューの違いは何ですか?</a></li>
+<li><a href="https://web.archive.org/web/20231223233808/http://blog.thefirehoseproject.com/posts/what-is-an-algorithm/">enqueueとdequeueのプロパティとは何ですか?</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Data_structure#Examples">連結リストとは何ですか?ノードとは何ですか?</a></li>
+<li><a href="https://youtu.be/T98PIp4omUA?t=20">二分探索はどの再帰的な問題解決の方法/アルゴリズム設計原則を実装していますか?</a></li>
+<li><a href="https://youtu.be/86g8jAQug04?t=103">幅優先の木の走査でノードを遅延・保存するには、どのデータ構造を使いますか?</a></li>
+<li><a href="https://youtu.be/gm8DUJJhmY4?t=499">深さ優先の木の走査でノードを遅延・保存するには、どのデータ構造を使いますか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>

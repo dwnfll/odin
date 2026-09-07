@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HashMap</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
+    <h1 class="lesson-header__title">HashMap <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
+    <p class="lesson-header__desc">Build your very first hash map data structure from scratch</p>
+  </div>
+  <div class="lesson-content">
+    <h3>Introduction</h3>
+<p>You already know the magic behind hash maps. Now it's time to write your own implementation!</p>
+<h4>Limitation</h4>
+<p>Before we get started, we need to lay down some ground rules. JavaScript's dynamic nature of arrays allows us to insert and retrieve indexes that are outside our array size range. Example: if we create an array of size <code>16</code> to represent our buckets, nothing stops us from storing items at index <code>500</code>. This defeats the purpose of limiting storage size in hash maps, so we need to enforce some restrictions.</p>
+<p>Use the following snippet whenever you access a bucket through an index. We want to throw an error if we try to access an out-of-bounds index:</p>
+<pre class="highlight"><code class="language-javascript">if (index &lt; 0 || index &gt;= buckets.length) {
+  throw new Error("Trying to access index out of bounds");
+}</code></pre>
+<h3>Assignment</h3>
+<div class="lesson-content__panel">
+<p>Start by creating a <code>HashMap</code> class or factory function. It's up to you which you want to use. It should have at least two variables for <code>load factor</code> and <code>capacity</code>. For a <code>load factor</code> of <code>0.75</code> you should have an initial <code>capacity</code> of size <code>16</code>. Then proceed to create the following methods:</p>
+<ol>
+<li>
+<p><code>hash(key)</code> takes a string key and produces a hash code with it (in the real world, hash maps can accommodate various data types as keys, such as numbers or even other objects, but we'll keep it simple for now). We already implemented a fairly good <code>hash</code> function in the previous lesson. As a reminder:</p>
+<pre class="highlight"><code class="language-javascript">function hash(key) {
+  let hashCode = 0;
+
+  const primeNumber = 31;
+  for (let i = 0; i &lt; key.length; i++) {
+    hashCode = primeNumber * hashCode + key.charCodeAt(i);
+  }
+
+  return hashCode;
+} </code></pre>
+<p>You are free to use that, or you can conduct your own research on hashing algorithms. Beware, this is a deep, deep rabbit hole. Remember that to ensure we get an index that fits in our buckets (regardless of growth), we need to modulo (<code>%</code>) the hash code by our current capacity before we return it. An important edge case to note is that with very long keys, we may end up exceeding the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER">maximum safe integer</a> and calculations end up inaccurate. Therefore, it'd be sensible to modulo the hash code by the current capacity on every iteration in the loop, rather than only once after the loop has completed.</p>
+<p>You might find yourself confusing keys with hash codes while accessing key-value pairs later. We would like to stress that the key is what your <code>hash</code> function will take as an input. In a way, we could say that the key is important for us <em>only</em> inside the <code>hash</code> function, as we never access a bucket directly with the key. Instead, we always do so with the hash code.</p>
+</li>
+<li>
+<p><code>set(key, value)</code> takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten, and we can say that we <em>update</em> the key's value (e.g. <code>Carlos</code> is our key but it is called twice: once with value <code>I am the old value.</code>, and once with value <code>I am the new value.</code>. Following this logic, <code>Carlos</code> should contain only the latter value).</p>
+<p>Recall that collisions occur when <em>TWO DIFFERENT</em> keys generate the same hash code and get assigned to the same bucket. (e.g. <code>Rama</code> and <code>Sita</code> are both hashed to <code>3</code>, so <code>3</code> becomes a location for <code>Rama</code> AND <code>Sita</code>. However, we know that this is not an update because the keys are different). Review the <a href="https://www.theodinproject.com/lessons/javascript-hashmap-data-structure#collisions">dealing with collisions</a> section of the previous lesson to find a way to handle our collisions.</p>
+</li>
+</ol>
+<ul>
+<li>Remember to grow your buckets to double their capacity when your hash map reaches the <code>load factor</code>. The methods mentioned later in this assignment can help you handle the growth logic, so you may want to implement this feature near the end. However, we mention this with <code>set()</code> because it's important to grow buckets exactly as they are being expanded.</li>
+</ul>
+<ol>
+<li>
+<p><code>get(key)</code> takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return <code>null</code>.</p>
+</li>
+<li>
+<p><code>has(key)</code> takes a key as an argument and returns <code>true</code> or <code>false</code> based on whether or not the key is in the hash map.</p>
+</li>
+<li>
+<p><code>remove(key)</code> takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return <code>true</code>. If the key isn't in the hash map, it should return <code>false</code>.</p>
+</li>
+<li>
+<p><code>length()</code> returns the number of stored keys in the hash map.</p>
+</li>
+<li>
+<p><code>clear()</code> removes all entries in the hash map.</p>
+</li>
+<li>
+<p><code>keys()</code> returns an array containing all the keys inside the hash map.</p>
+</li>
+<li>
+<p><code>values()</code> returns an array containing all the values.</p>
+</li>
+<li>
+<p><code>entries()</code> returns an array that contains each <code>key, value</code> pair. Example: <code>[[firstKey, firstValue], [secondKey, secondValue]]</code></p>
+</li>
+</ol>
+<p>Remember that a hash map does not preserve insertion order when you are retrieving your hash map's data. It is normal and expected for keys and values to appear out of the order you inserted them in.</p>
+<h4>Test Your Hash Map</h4>
+<ol>
+<li>
+<p>Create a new JavaScript file.</p>
+</li>
+<li>
+<p>Create a new instance of your hash map and set the load factor to be <code>0.75</code>.</p>
+<pre class="highlight"><code class="language-javascript">const test = new HashMap() // or HashMap() if using a factory</code></pre>
+</li>
+<li>
+<p>Populate your hash map using the <code>set(key, value)</code> method by copying the following:</p>
+<pre class="highlight"><code class="language-javascript">test.set('apple', 'red')
+test.set('banana', 'yellow')
+test.set('carrot', 'orange')
+test.set('dog', 'brown')
+test.set('elephant', 'gray')
+test.set('frog', 'green')
+test.set('grape', 'purple')
+test.set('hat', 'black')
+test.set('ice cream', 'white')
+test.set('jacket', 'blue')
+test.set('kite', 'pink')
+test.set('lion', 'golden')</code></pre>
+</li>
+<li>
+<p>After populating your hash map with the data above, your hash map's current load levels should now be at <code>0.75</code> (full capacity).</p>
+</li>
+<li>
+<p>Now with a full hash map, try overwriting a few nodes using <code>set(key, value)</code>. This should only overwrite the existing <code>values</code> of your nodes and not add new ones, so <code>length()</code> should still return the same value and <code>capacity</code> should remain the same.</p>
+</li>
+<li>
+<p>After that, populate your hash map with the last node below. This will make your load levels exceed your <code>load factor</code>, triggering your hash map's growth functionality and doubling its <code>capacity</code>:</p>
+<pre class="highlight"><code class="language-javascript">test.set('moon', 'silver')</code></pre>
+</li>
+<li>
+<p>If you have implemented your hash map correctly, the load levels of your expanded hash map should drop well below your load factor, and the entries should be spread evenly among the expanded buckets.</p>
+</li>
+<li>
+<p>With your new hash map, try overwriting a few nodes using <code>set(key, value)</code>. Again, this should only overwrite existing <code>values</code> of your nodes.</p>
+</li>
+<li>
+<p>Test the other methods of your hash map, such as <code>get(key)</code>, <code>has(key)</code>, <code>remove(key)</code>, <code>length()</code>, <code>clear()</code>, <code>keys()</code>, <code>values()</code>, and <code>entries()</code>, to check if they are still working as expected after expanding your hash map.</p>
+</li>
+</ol>
+<h4>Extra Credit</h4>
+<ul>
+<li>Create a <code>HashSet</code> class or factory function that behaves the same as a <code>HashMap</code> but only contains <code>keys</code> with no <code>values</code>.</li>
+</ul>
+</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Cascade</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
+</header>
+
+<div class="lesson">
+  <div class="lesson-header">
+    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
+    <h1 class="lesson-header__title">The Cascade <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
+    <p class="lesson-header__desc">Use the cascade to apply styles by specificity.</p>
+  </div>
+  <div class="lesson-content">
+    <h3>イントロダクション</h3>
+<p>前のレッスンでは、CSSの基本構文とセレクタについて扱いました。今度は、セレクタについての知識と、CSSの<em>C</em>、つまりカスケードとを組み合わせる番です。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
+<ul>
+<li>カスケードが何をするか。</li>
+<li>詳細度と、CSSセレクタの組み合わせ方。</li>
+<li>継承が特定のプロパティにどう影響するか。</li>
+</ul>
+<h3>CSSのカスケード</h3>
+<p>時には互いに競合するルールがあり、予期しない結果になってしまうことがあります。「でも<em>この</em>段落は青にしたかったのに、なんで他の段落と同じ赤色になっているの?!」これはもどかしいことですが、CSSが私たちの意図に反して勝手に何かを<em>する</em>わけではないということを理解しておくのが重要です。CSSは私たちが指示したことしか行いません。この例外の一つが、ブラウザによって提供されるデフォルトのスタイルです。これらのデフォルトスタイルはブラウザによって異なり、一部の要素が他の要素との間に大きな「隙間」を作ったり、そのようにスタイルするCSSルールを書いていないにもかかわらずボタンがあのような見た目になっていたりする理由です。</p>
+<p>そのため、このような予期しない動作に遭遇した場合、それはこれらのデフォルトスタイルのせいか、あるプロパティの働き方を理解していないせいか、あるいはカスケードと呼ばれるこの小さな存在を理解していないせいのいずれかです。</p>
+<p>カスケードとは、実際にどのルールが私たちのHTMLに適用されるかを決定するものです。カスケードがこれを決定するために使用する要因にはいくつかの種類があります。ここではそのうち3つの要因を検討していきます。これによって、「CSSなんて大嫌い」というもどかしい瞬間を避ける助けになれば幸いです。</p>
+<h4>詳細度</h4>
+<p>より詳細度の高いCSS宣言は、詳細度の低いものよりも優先されます。前のレッスンで扱ったインラインスタイルは、セレクタと比較して最も高い詳細度を持ち、それぞれのタイプのセレクタは、宣言がどれだけ詳細であるかに寄与する独自の詳細度レベルを持っています。他のセレクタも詳細度に寄与しますが、ここではこれまでに扱ったものだけに焦点を当てます:</p>
+<ol>
+<li>IDセレクタ(最も詳細度の高いセレクタ)</li>
+<li>クラスセレクタ</li>
+<li>タイプセレクタ</li>
+</ol>
+<p>詳細度は、ある要素を対象とする複数の競合する宣言がある場合にのみ、いわばタイブレーカーのような形で考慮されます。IDセレクタは、いくつのクラスセレクタに対しても常に勝ちます。<span id="high-specificity-class-type">クラスセレクタは、いくつのタイプセレクタに対しても常に勝ちます</span>。そして、タイプセレクタは、それより詳細度の低いどんなセレクタに対しても常に勝ちます。詳細度の比較で勝敗が決まらない場合は、同じカテゴリ(ID、クラス、またはタイプセレクタ)内のセレクタの数を比較します。セレクタの数が多いルールが優先されます。</p>
+<p>詳細度がどのように機能するかを視覚的に理解するために、いくつかの簡単な例を見てみましょう。
+以下のHTMLとCSSのコードを考えてみてください:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- index.html --&gt;
+
+&lt;div class="main"&gt;
+  &lt;div class="list subsection"&gt;Red text&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-css">/* rule 1 */
+.subsection {
+  color: blue;
+}
+
+/* rule 2 */
+.main .list {
+  color: red;
+}</code></pre>
+<p>上記の例では、両方のルールがクラスセレクタのみを使用していますが、ルール2はより多くのクラスセレクタを使用しているためより詳細度が高く、<code>color: red</code>宣言が優先されます。</p>
+<p>では、少し内容を変えてみましょう:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- index.html --&gt;
+
+&lt;div class="main"&gt;
+  &lt;div class="list" id="subsection"&gt;Blue text&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-css">/* rule 1 */
+#subsection {
+  color: blue;
+}
+
+/* rule 2 */
+.main .list {
+  color: red;
+}</code></pre>
+<p>上記の例では、ルール2の方がルール1よりも多くのクラスセレクタを持っているにもかかわらず、IDはクラスに勝つため、ルール1の方が詳細度が高くなります。この場合、<code>color: blue</code>宣言が優先されます。</p>
+<p>そして、もう少し複雑な例です:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- index.html --&gt;
+
+&lt;div class="main"&gt;
+  &lt;div class="list" id="subsection"&gt;Red text on yellow background&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-css">/* rule 1 */
+#subsection {
+  background-color: yellow;
+  color: blue;
+}
+
+/* rule 2 */
+.main #subsection {
+ color: red;
+}</code></pre>
+<p>この最後の例では、最初のルールはIDセレクタを使用しており、2つ目のルールはIDセレクタとクラスセレクタを組み合わせています。そのため、どちらのルールも、もう一方より詳細度の高いセレクタを使用しているわけではありません。そこでカスケードは、各セレクタタイプの数を確認します。両方のルールとも、IDセレクタは1つずつしかありませんが、ルール2にはIDセレクタに加えてクラスセレクタもあるため、ルール2の方が詳細度が高くなります!</p>
+<p><code>color: red</code>宣言が優先される一方で、<code>background-color: yellow</code>宣言についてはそれと競合する宣言がないため、そのまま適用されます。</p>
+<h4>すべてが詳細度に加算されるわけではない</h4>
+<p>セレクタを比較していると、ユニバーサルセレクタ(<code>*</code>)や、結合子(<code>+</code>、<code>~</code>、<code>&gt;</code>、そして空白)といった特殊な記号に出くわすことがあります。まだ見たことのないものについては、カリキュラムの後半で扱うので、今はまだ深く掘り下げる必要はありません。核心となる考え方は、これらの記号は本質的に追加の詳細度を伝えるものではないということです。</p>
+<pre class="highlight"><code class="language-css">/* rule 1 */
+.class.second-class {
+  font-size: 12px;
+}
+
+/* rule 2 */
+.class .second-class {
+  font-size: 24px;
+}</code></pre>
+<p>ここでは、ルール1とルール2はどちらも同じ詳細度を持っています。ルール1はチェインセレクタ(スペースなし)を使用し、ルール2は子孫結合子(空白)を使用しています。しかし、どちらのルールも2つのクラスを持っており、結合子の記号自体は詳細度に加算されません。</p>
+<pre class="highlight"><code class="language-css">/* rule 1 */
+.class.second-class {
+  font-size: 12px;
+}
+
+/* rule 2 */
+.class &gt; .second-class {
+  font-size: 24px;
+}</code></pre>
+<p>この例も同じことを示しています。ルール2が子結合子(<code>&gt;</code>)を使用しているにもかかわらず、これは詳細度の値を変えません。どちらのルールも2つのクラスを持っているため、同じ詳細度の値になります。</p>
+<pre class="highlight"><code class="language-css">/* rule 1 */
+* {
+    color: black;
+}
+
+/* rule 2 */
+h1 {
+  color: orange;
+}</code></pre>
+<p>この例では、ルール2の方が詳細度が高く、この要素については<code>orange</code>という値が優先されます。ルール2は最も低い詳細度の値を持つタイプセレクタを使用しています。しかし、ルール1は詳細度の値を持たないユニバーサルセレクタ(<code>*</code>)を使用しています。</p>
+<h4>継承</h4>
+<p>継承とは、ある要素に適用された特定のCSSプロパティが、その子孫に対して明示的にルールを書いていなくても、その要素の子孫に継承されることを指します。タイポグラフィ関連のプロパティ(<code>color</code>、<code>font-size</code>、<code>font-family</code>など)は通常継承されますが、他のほとんどのプロパティは継承されません。あるプロパティが継承されるかどうかは、MDNのそのプロパティのドキュメントを開き、<strong>Formal Definition(正式な定義)</strong>セクションを見ることで確認できます。例えば、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color#formal_definition">CSSの<code>color</code>プロパティの正式な定義</a>では<code>color</code>が継承されるプロパティであることが示されており、一方<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/display#formal_definition"><code>display</code>プロパティの正式な定義</a>では<code>display</code>が継承されないことが示されています。</p>
+<p>この例外となるのは、要素を直接対象とする場合です。これは常に継承に勝ちます:</p>
+<pre class="highlight"><code class="language-html">&lt;!-- index.html --&gt;
+
+&lt;div id="parent"&gt;
+  &lt;div class="child"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre class="highlight"><code class="language-css">/* styles.css */
+
+#parent {
+  color: red;
+}
+
+.child {
+  color: blue;
+}</code></pre>
+<p><code>parent</code>要素がIDによってより高い詳細度を持っているにもかかわらず、<code>child</code>要素には<code>color: blue</code>スタイルが適用されます。その宣言が<code>child</code>要素を直接対象としているのに対し、親からの<code>color: red</code>は継承されているだけだからです。</p>
+<h4>ルールの順序</h4>
+<p>最後の要因、行き着く先、タイブレーカーの中のタイブレーカーです。他のすべての要因が考慮された後でも、ある要素を対象とする複数の競合するルールがまだ残っているとしましょう。カスケードはどのルールを適用するかをどうやって決めるのでしょうか?</p>
+<p><em>最後に</em>定義されたルールが勝者になります。</p>
+<pre class="highlight"><code class="language-css">/* styles.css */
+
+.alert {
+  color: red;
+}
+
+.warning {
+  color: yellow;
+}</code></pre>
+<p><code>alert</code>クラスと<code>warning</code>クラスの両方を持つ要素の場合、カスケードは継承(ここでは該当なし)や詳細度(どちらのルールももう一方より詳細というわけではない)を含む他のすべての要因を確認していきます。<code>.warning</code>ルールが最後に定義されたものであり、他のどの要因もどちらのルールを適用すべきかを決められなかったため、この要素にはこちらが適用されることになります。</p>
+<h3>課題</h3>
+<div class="lesson-content__panel">
+<ol>
+<li><a href="https://2019.wattenberger.com/blog/css-cascade">The CSS Cascade</a>は、実際にどのCSSルールが最終的に適用されるかに影響する他の要因について、もう少し詳しく説明してくれる、インタラクティブで優れた読み物です。</li>
+<li>
+<p><a href="https://github.com/TheOdinProject/css-exercises/tree/main/foundations/cascade">CSS演習リポジトリの<code>foundations/cascade</code>ディレクトリ</a>にある演習に取り組んでください(指示はREADMEに書かれていることを忘れずに):
+   - <code>01-cascade-fix</code></p>
+<p>注:これらの演習の解答は、各演習の<code>solution</code>フォルダにあります。</p>
+</li>
+</ol>
+</div>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
+<ul>
+<li><a href="#high-specificity-class-type">1つのクラスセレクタを使うルールと、3つのタイプセレクタを使うルールでは、どちらの詳細度が高いですか?</a></li>
+</ul>
+  </div>
+</div>
+
+</body>
+</html>
