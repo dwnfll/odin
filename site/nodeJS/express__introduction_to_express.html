@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Introduction to Express</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Express | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
-    <h1 class="lesson-header__title">Introduction to Express <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
-    <p class="lesson-header__desc">We look at Express for the first time and learn what it does for us</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>Introduction</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Introduction to Express</h1>
+        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
+    </header>
+    <p class="tvp-lesson__desc">We look at Express for the first time and learn what it does for us</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>Introduction</h3>
 <p>In the previous section, you got up and running with Node. You learned how to read and write data from files on the server, allowing you to serve up a multi-page website. You may have found this process somewhat verbose and cumbersome, and may have even wondered how on Earth we would manage more complex use cases.</p>
 <p>In this course, we will be using a backend framework called <a href="https://expressjs.com/">Express</a>, which will handle many of the implementation details for us. Express itself is an intentionally barebones and unopinionated framework; it allows us to do many things how we want, and to extend it with only the features we need. However, while this gives us great flexibility in how we do things, it can be a little tricky deciding between multiple viable options at times.</p>
 <p>Going forward, we will be diving into how we can use Express in various ways, such as to create a full-stack application using the Model View Controller (MVC) pattern, as well as to create a REST API just like ones you will have used before for things such as the Weather App or the React Shopping Cart projects. There is a lot to take in, so take it steady, and do not be afraid to ask our community for help in the <a href="https://discord.gg/fbFCkYabZB">TOP Discord server</a>!</p>
@@ -88,8 +105,12 @@ app.listen(PORT, (error) =&gt; {
 <li><a href="https://expressjs.com/en/5x/api/response/#ressendfile">What can we use to tell Express to send a file in response to a request?</a></li>
 <li><a href="#auto-restarting-your-server-upon-file-changes">What can you use to automatically restart your server when you make changes to a file?</a></li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

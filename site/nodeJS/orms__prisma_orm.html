@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prisma ORM</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prisma ORM | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
-    <h1 class="lesson-header__title">Prisma ORM <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
-    <p class="lesson-header__desc">Introduction to Prisma ORM and how to use it</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>Introduction</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Prisma ORM</h1>
+        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Introduction to Prisma ORM and how to use it</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>Introduction</h3>
 <p>Tired of writing raw SQL queries in your projects? In this lesson, we'll talk about Object Relational Mappers (ORM for short). ORMs are tools that let you manipulate data in your database and are widely used in the software industry. We'll dive deep into one ORM popular in the Node.js landscape: <a href="https://www.prisma.io/orm">Prisma ORM</a>.</p>
 <h3>Lesson overview</h3>
 <p>This section contains a general overview of topics that you will learn in this lesson.</p>
@@ -129,16 +146,18 @@ npx tsc --init</code></pre>
 <p><strong>Step 9:</strong> No changes necessary.</p>
 </li>
 <li>
-<p>Read the following articles from Prisma's documentation. Try to code along with the examples. Don't worry if things don't stick yet, we'll be practicing <em>a lot</em> of Prisma in the coming projects.
-   - <a href="https://www.prisma.io/docs/orm/v7">What is Prisma ORM?</a>
-   - <a href="https://www.prisma.io/docs/orm/v7/prisma-schema/overview">Prisma schema overview</a>
-   - <a href="https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/models">Data models</a>
-   - <a href="https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/relations">Relations</a>
-   - <a href="https://www.prisma.io/docs/orm/v7/prisma-client/queries/crud">Prisma client CRUD</a>
-   - <a href="https://www.prisma.io/docs/orm/v7/prisma-client/using-raw-sql">Raw SQL</a>
-   - <a href="https://www.prisma.io/docs/orm/v7/prisma-migrate/getting-started">Prisma migrate getting started</a>
-   - <a href="https://www.prisma.io/docs/orm/v7/prisma-migrate/understanding-prisma-migrate/mental-model">Prisma migrate mental model</a>
-   - <a href="https://www.prisma.io/docs/guides/data-migration">Data migrations</a></p>
+<p>Read the following articles from Prisma's documentation. Try to code along with the examples. Don't worry if things don't stick yet, we'll be practicing <em>a lot</em> of Prisma in the coming projects.</p>
+<ul>
+<li><a href="https://www.prisma.io/docs/orm/v7">What is Prisma ORM?</a></li>
+<li><a href="https://www.prisma.io/docs/orm/v7/prisma-schema/overview">Prisma schema overview</a></li>
+<li><a href="https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/models">Data models</a></li>
+<li><a href="https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/relations">Relations</a></li>
+<li><a href="https://www.prisma.io/docs/orm/v7/prisma-client/queries/crud">Prisma client CRUD</a></li>
+<li><a href="https://www.prisma.io/docs/orm/v7/prisma-client/using-raw-sql">Raw SQL</a></li>
+<li><a href="https://www.prisma.io/docs/orm/v7/prisma-migrate/getting-started">Prisma migrate getting started</a></li>
+<li><a href="https://www.prisma.io/docs/orm/v7/prisma-migrate/understanding-prisma-migrate/mental-model">Prisma migrate mental model</a></li>
+<li><a href="https://www.prisma.io/docs/guides/data-migration">Data migrations</a></li>
+</ul>
 </li>
 </ol>
 </div>
@@ -158,8 +177,12 @@ npx tsc --init</code></pre>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=CYH04BJzamo">Prisma Crash Course</a> by Traversy Media.</li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

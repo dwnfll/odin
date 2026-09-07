@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Testing Practice</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testing Practice | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
-    <h1 class="lesson-header__title">Testing Practice <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Testing Practice</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Testing Practice</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Testing Practice</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>練習しましょう!このテストというもの自体は、それほど難しくはありませんが、かなり新しいものでは<em>あります</em>。それに慣れる唯一の方法は、それをすることに時間を費やすことです。</p>
 <h3>課題</h3>
 <div class="lesson-content__panel">
@@ -27,11 +44,13 @@
 <li>文字列を受け取り、最初の文字を大文字にして返す<code>capitalize</code>関数。</li>
 <li>文字列を受け取り、それを反転させて返す<code>reverseString</code>関数。</li>
 <li>基本的な演算のための関数、<code>add</code>、<code>subtract</code>、<code>divide</code>、<code>multiply</code>を含む<code>calculator</code>オブジェクト。これらの関数はそれぞれ2つの数値を受け取り、正しい計算結果を返すべきです。</li>
-<li>文字列とシフトの量を受け取り、それぞれの文字を「シフト」させて返す<code>caesarCipher</code>関数。<a href="https://crypto.interactive-maths.com/caesar-shift-cipher.html">シーザー暗号がどう機能するか</a>についてさらに読んでみてください。</li>
+<li>文字列とシフトの量を受け取り、それぞれの文字を「シフト」させて返す<code>caesarCipher</code>関数。<a href="https://crypto.interactive-maths.com/caesar-shift-cipher.html">シーザー暗号がどう機能するか</a>についてさらに読んでみてください。<ol>
 <li><code>z</code>から<code>a</code>への折り返しをテストするのを忘れないでください。例えば、<code>caesarCipher('xyz', 3)</code>は<code>'abc'</code>を返すべきです。</li>
 <li>大文字・小文字の保持をテストするのを忘れないでください。シフトされた文字の大文字・小文字は、元の文字の大文字・小文字に従うべきです。例えば、<code>caesarCipher('HeLLo', 3)</code>は<code>'KhOOr'</code>を返すべきです。</li>
 <li>句読点をテストするのを忘れないでください。句読点、スペース、その他のアルファベット以外の文字は変更されないままであるべきです。例えば、<code>caesarCipher('Hello, World!', 3)</code>は<code>'Khoor, Zruog!'</code>を返すべきです。</li>
 <li>これについては、最終的な関数をいくつかの小さな関数に分割したいと思うかもしれません。テストの一つの考え方は、書いたすべての関数を明示的にテストする必要はないというものです…パブリックなものだけです。ですので、この場合、最終的な<code>caesarCipher</code>関数のためのテストだけが必要です。それが期待通りに機能すれば、より小さなヘルパー関数もそれぞれ意図した通りのことをしていると確信できます。</li>
+</ol>
+</li>
 <li>
 <p>数値の配列を受け取り、<code>average</code>、<code>min</code>、<code>max</code>、<code>length</code>というプロパティを持つオブジェクトを返す<code>analyzeArray</code>関数。</p>
 <pre class="highlight"><code class="language-javascript">const object = analyzeArray([1,8,3,4,2,6]);
@@ -46,8 +65,12 @@
 </li>
 </ol>
 </div>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

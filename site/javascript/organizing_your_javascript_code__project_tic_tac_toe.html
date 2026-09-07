@@ -1,41 +1,64 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tic Tac Toe</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic Tac Toe | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
-    <h1 class="lesson-header__title">Tic Tac Toe <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Tic Tac Toe</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Tic Tac Toe</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Tic Tac Toe</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>ブラウザでプレイできるTic Tac Toeゲームを作っていきます!</p>
 <h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
 <li>HTML、CSS、JavaScriptファイルでプロジェクトをセットアップし、Gitリポジトリもすべてセットアップしてください。</li>
-<li>ゲームボードは、Gameboardオブジェクトの中の配列として保存することになるので、そこから始めましょう!プレイヤーも同様にオブジェクトとして保存されることになり、そしておそらく、ゲーム自体の流れをコントロールするオブジェクトも欲しくなるでしょう。</li>
+<li>ゲームボードは、Gameboardオブジェクトの中の配列として保存することになるので、そこから始めましょう!プレイヤーも同様にオブジェクトとして保存されることになり、そしておそらく、ゲーム自体の流れをコントロールするオブジェクトも欲しくなるでしょう。<ol>
 <li>ここでのあなたの主な目標は、グローバルなコードをできるだけ少なくすることです。できるだけ多くのものをファクトリーの中に押し込んでみてください。もし何かの単一のインスタンスだけが必要な場合(例えばgameboardやdisplayControllerなど)、追加のインスタンスを作成するために再利用されることのないよう、ファクトリーをIIFE(モジュールパターン)でラップしてください。</li>
 <li>このプロジェクトでは、それぞれのロジックがどこに置かれるべきかを慎重に考えてください。それぞれの小さな機能は、game、player、gameboardオブジェクトのいずれかに収まるはずです。それらを「論理的な」場所に置くよう気を配ってください。ここで少し時間をかけてブレインストーミングすることで、後々の作業がずっと楽になります!</li>
 <li>もし困っているなら、<a href="https://www.ayweb.dev/blog/building-a-house-from-the-inside-out">Building a house from the inside out</a>は、このプロジェクトにどう取り組むか、そしてコードをどう整理・構造化するかについての、非常に応用の利く例を示してくれる素晴らしい記事です。</li>
+</ol>
+</li>
 <li>まずはコンソールで動作するゲームを作ることに集中してください。ゲームが終了したときをチェックするロジックを必ず含めてください!3つ並んだすべての勝利パターンと引き分けをチェックすべきです。ゲームが動作するまでは、DOMやHTML/CSSについて考えるのは避けるようにしてください。この時点では、ユーザー入力を受け取ることについても心配しなくて構いません。自分で関数を呼び出し、引数を渡すことでゲームをプレイし、すべてが意図通りに動作しているか確認できます。</li>
 <li>コンソールで動作するゲームができたら、表示/DOMのロジックを扱うオブジェクトを作成してください。ゲームボード配列の内容をウェブページに描画する関数を書いてください(今のところ、何が起きているか確認するためだけに、ゲームボード配列を<code>"X"</code>と<code>"O"</code>で埋めておくだけでも構いません)。</li>
 <li>適切なDOM要素とやり取りすることで、プレイヤーがボードの特定のマスにマークを追加できるようにする関数を書いてください(例えば、プレイヤーがボードのマスをクリックしてマーカーを置けるようにするなど)。すでに埋まっているマスにプレイヤーがプレイできないようにするロジックを忘れないでください!</li>
 <li>プレイヤーが自分の名前を入力できるようにインターフェースを整え、ゲームを開始/リスタートするボタンを含め、ゲーム終了時に結果を表示する表示要素を追加してください!</li>
 </ol>
 </div>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

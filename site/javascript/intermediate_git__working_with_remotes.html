@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Working with Remotes</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Working with Remotes | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
-    <h1 class="lesson-header__title">Working with Remotes <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
-    <p class="lesson-header__desc">So far, you&#x27;ve been working with remote repositories...</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>Introduction</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Working with Remotes</h1>
+        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
+    </header>
+    <p class="tvp-lesson__desc">So far, you&#x27;ve been working with remote repositories...</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>Introduction</h3>
 <p>So far, you've been working with remote repositories each time you've pushed or pulled from your own GitHub repository while working on the curriculum's various projects. In this section, we're going to cover  slightly more advanced topics, which you might not have yet encountered or had to use.</p>
 <h3>Lesson overview</h3>
 <p>This section contains a general overview of topics that you will learn in this lesson.</p>
@@ -88,8 +105,12 @@ git push origin main</code></pre>
 <li><a href="#dangers">What are the dangers of history-changing operations?</a></li>
 <li><a href="#best-practices">What are best practices of history-changing operations?</a></li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

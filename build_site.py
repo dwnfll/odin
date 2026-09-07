@@ -25,7 +25,14 @@ Output:
     site/index.html                        top-level course list
     site/<course>/index.html               section + lesson nav for a course
     site/<course>/<lesson-slug>.html       one rendered lesson
-    site/assets/style.css                  static stylesheet
+    site/assets/application.css            the real site's compiled Tailwind/prose bundle
+    site/assets/viewer.css                 local-viewer shell (navbar/index) styles
+    site/assets/{logo.svg,icons/}          logo + note-box/anchor icons
+
+The lesson body is wrapped in the same classes the live app uses (see
+build_lesson_page and app/components/content_container_component.html.erb), so the
+copied application.css styles it identically. application.css itself is a build
+artifact of theodinproject_ja (`yarn build:css`); copy_static_assets() consumes it.
 """
 import html
 import re
@@ -72,44 +79,50 @@ EXCLUDED_LESSON_FAMILIES = {"ruby", "ruby_on_rails"}
 #     a list item -- superfences is list/blockquote-aware and can absorb an indented
 #     fence into the enclosing <li> when the indent is a multiple of Markdown's 4-space
 #     tab_length. See normalize_list_continuation_indentation() below for the other
-#     half of this fix: nudging list-continuation content indented to a *marker-width*
-#     multiple (2-3 spaces, as valid CommonMark authors it under "- "/"1. ") up to a
-#     tab_length multiple so it's actually recognized as part of the list item.
+#     half of this fix: remapping the marker-width indentation CommonMark authors use
+#     under "- "/"1. " onto the fixed 4-space steps python-markdown expects.
 MD_EXTENSIONS = ["extra", "md_in_html", "sane_lists", "pymdownx.superfences"]
 
 _LIST_MARKER_RE = re.compile(r"^( *)(?:[-*+]|\d{1,9}[.)])( +)")
-_TOP_FENCE_RE = re.compile(r"^(`{3,}|~{3,})")
 _INDENTED_FENCE_RE = re.compile(r"^( +)(`{3,}|~{3,})")
 
 
 def normalize_list_continuation_indentation(text: str) -> str:
-    """Re-indent list-item continuation content (paragraphs, fenced code, anything
-    else) so python-markdown's list processor -- which reasons in fixed 4-space
-    "tab_length" steps, unlike CommonMark's marker-width-based model -- recognizes it
-    as part of the list item instead of dropping it back to loose top-level content
-    (which, for a fenced block specifically, also means the fence marker itself no
-    longer gets recognized and leaks through as literal text).
+    """Remap list indentation from CommonMark's marker-width model onto the fixed
+    4-space "tab_length" steps python-markdown reasons in, so nested lists and every
+    kind of list-item continuation content (paragraphs, fenced code, raw-HTML blocks
+    with markdown="1", ...) are recognized as belonging to their list item instead of
+    being dropped back to loose top-level content. For a fenced block that drop also
+    means the fence markers themselves stop being recognized and leak through as
+    literal ``` text; for a nested list it means the sublist detaches into a sibling.
 
-    Continuation content indented 2-3 spaces -- correct, valid CommonMark under "- "
-    or "1. " -- sits *inside* python-markdown's first 4-space indent step but doesn't
-    *equal* it, so it's invisible to the list processor; the same is true one level
-    deeper at 5-7 spaces, and so on. Rounding such an indent up to the next multiple
-    of 4 (2,3->4; 5,6,7->8; ...) is what makes each level of nesting land on a step
-    boundary the list processor actually checks for, while an indent that's already
-    an exact multiple of 4 is left untouched.
+    CommonMark nests by *marker width*: content continuing "- " starts at column 2,
+    "1. " at column 3, and a second level of nesting a further 2-3 columns in.
+    python-markdown instead only sees a continuation/nesting step at each exact
+    multiple of 4. A continuation indented 3 spaces therefore sits *inside* its first
+    step without *equalling* it and is invisible to the list processor. Rather than
+    round each line's raw indent up independently (which mishandles genuine multi-level
+    nesting, where each level's shift has to compound on top of its parent's), we track
+    the open list levels on a stack and map level k's continuation column to 4*(k+1),
+    shifting every line by its level's delta. Marker lines are re-indented too (a
+    nested marker at column 3 -> 4), which is what lets sublists actually nest.
 
-    This tracks open list levels by column (pushed on each marker line, popped on
-    dedent) purely so it only ever touches indentation that's actually inside a list
-    item's continuation zone -- never top-level content that merely happens to be
-    indented for other reasons (which could otherwise be misread as "should be a
-    code block" once nudged to a 4-space multiple). It only ever adds whitespace
-    ahead of lines already identified as being in-scope -- it never touches file
-    contents on disk, and column-0 fences are left completely alone (handled
-    correctly already, and copied through verbatim so a code sample that itself
-    *contains* example lines looking like an indented fence is never misread)."""
+    Only indentation genuinely inside a list item's continuation zone is touched --
+    top-level content that merely happens to be indented for other reasons is left
+    alone (so it can't be misread as "should be a code block" once shifted). Shifts
+    only ever *add* leading whitespace to in-scope lines; the file on disk is never
+    modified, and a fenced block is shifted as a unit so the code's own interior
+    indentation is preserved. Column-0 fences are inherently out of scope and pass
+    through untouched, so a code sample that itself contains lines looking like an
+    indented fence is never misinterpreted."""
     lines = text.split("\n")
     out = []
-    stack = []  # ascending list of open list levels' continuation-start columns
+    # One entry per open list level: (cont_orig, cont_new). cont_orig is the column
+    # where that level's continuation content begins in the source (marker-width
+    # based); cont_new is where it should begin for python-markdown (always a multiple
+    # of 4), so depth 0,1,2,... maps to continuation columns 4,8,12,... whatever
+    # marker widths were actually used.
+    stack = []
     i, n = 0, len(lines)
 
     while i < n:
@@ -124,13 +137,12 @@ def normalize_list_continuation_indentation(text: str) -> str:
 
         m = _LIST_MARKER_RE.match(line)
         if m:
-            marker_col = len(m.group(1))
-            while stack and marker_col < stack[-1]:
+            marker_orig = len(m.group(1))
+            while stack and marker_orig < stack[-1][0]:
                 stack.pop()
-            cont_col = len(m.group(0))
-            if not stack or stack[-1] != cont_col:
-                stack.append(cont_col)
-            out.append(line)
+            marker_new = stack[-1][1] if stack else marker_orig
+            stack.append((len(m.group(0)), marker_new + 4))
+            out.append((" " * marker_new) + line[marker_orig:])
             i += 1
             continue
 
@@ -140,38 +152,43 @@ def normalize_list_continuation_indentation(text: str) -> str:
             i += 1
             continue
 
-        while stack and indent < stack[-1]:
+        while stack and indent < stack[-1][0]:
             stack.pop()
 
-        if not stack or indent % 4 == 0:
+        if not stack:
             out.append(line)
             i += 1
             continue
 
-        new_indent = -(-indent // 4) * 4  # ceil to next multiple of 4
-        delta = new_indent - indent
+        cont_orig, cont_new = stack[-1]
+        delta = (cont_new + (indent - cont_orig)) - indent
         pad = " " * delta
 
         m_fence = _INDENTED_FENCE_RE.match(line)
         if m_fence:
             fence = m_fence.group(2)
             close_re = re.compile(r"^ {" + str(indent) + "}" + re.escape(fence[0]) + "{" + str(len(fence)) + r",}\s*$")
-            out.append(pad + line)
+            out.append(pad + line if delta else line)
             i += 1
             while i < n and not close_re.match(lines[i]):
-                out.append(pad + lines[i])
+                out.append(pad + lines[i] if delta else lines[i])
                 i += 1
             if i < n:
-                out.append(pad + lines[i])
+                out.append(pad + lines[i] if delta else lines[i])
                 i += 1
             continue
 
-        # Any other continuation block (a paragraph, most commonly): shift this line
-        # and every directly-following line indented at least this much -- i.e. the
-        # same block, including any of its own further-nested content -- stopping at
-        # a blank line or a dedent back out of it.
-        while i < n and lines[i].strip() != "" and (len(lines[i]) - len(lines[i].lstrip(" "))) >= indent:
-            out.append(pad + lines[i])
+        # Any other continuation block (a paragraph, a raw-HTML line, ...): shift this
+        # line and the directly-following lines of the same block by the same delta,
+        # stopping at a blank line, a dedent out of the block, or a nested list marker
+        # (which the main loop must handle so it gets its own depth-correct remapping).
+        while (
+            i < n
+            and lines[i].strip() != ""
+            and (len(lines[i]) - len(lines[i].lstrip(" "))) >= indent
+            and not _LIST_MARKER_RE.match(lines[i])
+        ):
+            out.append(pad + lines[i] if delta else lines[i])
             i += 1
 
     return "\n".join(out)
@@ -280,30 +297,48 @@ def render_markdown(path: Path) -> str:
     return md.Markdown(extensions=MD_EXTENSIONS).convert(text)
 
 
+# The <head>/<body> shell mirrors theodinproject_ja's app/views/layouts/application.html.erb:
+# the same Inter webfont, the compiled Tailwind + prose + custom_styles bundle
+# (assets/application.css), a light-mode <html> (dark styles are gated on .dark, which we
+# never set), and Prism for the exact same code-token colors the real site ships. viewer.css
+# adds only the surrounding shell (navbar / index pages). {prefix} is "" for the top page and
+# "../" for pages one directory deep, so every asset href resolves under file://.
 PAGE_TEMPLATE = """<!doctype html>
-<html lang="{lang}">
+<html lang="{lang}" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
-<link rel="stylesheet" href="{css_path}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title} | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{prefix}assets/application.css">
+<link rel="stylesheet" href="{prefix}assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="{home_path}">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="{prefix}index.html">
+      <img class="tvp-nav__logo" src="{prefix}assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="{prefix}index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
+  </div>
+</nav>
 {body}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>
 """
 
 
-def write_page(path: Path, title: str, body: str, css_path: str, home_path: str, lang="ja"):
+def write_page(path: Path, title: str, body: str, prefix: str, lang="ja"):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        PAGE_TEMPLATE.format(
-            lang=lang, title=html.escape(title or ""), body=body, css_path=css_path, home_path=home_path
-        ),
+        PAGE_TEMPLATE.format(lang=lang, title=html.escape(title or ""), body=body, prefix=prefix),
         encoding="utf-8",
     )
 
@@ -328,19 +363,31 @@ def build_lesson_page(course_slug: str, lesson: dict, out_dir: Path):
         "en": '<span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>',
     }.get(lang, "")
 
+    # The inner wrapper uses the SAME classes as theodinproject_ja's
+    # app/components/content_container_component.html.erb, so the compiled application.css
+    # styles this prose exactly as it does on the live site (link/code/pre variants, note
+    # boxes, the lesson-content__panel assignment box, sub-numbered lists, etc.). Everything
+    # outside it (title, breadcrumb) is our own tvp-* shell.
     body = f"""
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">{html.escape(course_slug)}</a></p>
-    <h1 class="lesson-header__title">{html.escape(lesson['title'] or '')} {badge}</h1>
-    {'<p class="lesson-header__desc">' + html.escape(lesson['description']) + '</p>' if lesson['description'] else ''}
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">{html.escape(lesson['title'] or '')}</h1>
+        {badge}
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← {html.escape(course_slug)}</a></p>
+    </header>
+    {'<p class="tvp-lesson__desc">' + html.escape(lesson['description']) + '</p>' if lesson['description'] else ''}
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        {content_html}
+      </div>
+    </article>
   </div>
-  <div class="lesson-content">
-    {content_html}
-  </div>
-</div>
+</main>
 """
-    write_page(out_path, lesson["title"] or slug, body, "../assets/style.css", "../index.html", lang=lang)
+    write_page(out_path, lesson["title"] or slug, body, "../", lang=lang)
     return slug
 
 
@@ -352,28 +399,32 @@ def build_course_index(course_key: str, course: dict, out_dir: Path):
             _, lang = resolve_source(lesson["url"])
             slug = slug_for(lesson["url"]) if lesson["url"] else re.sub(r"\W+", "_", lesson["title"] or "untitled") + ".html"
             badge_class = "done" if lang == "ja" else ("fallback" if lang == "en" else "missing")
-            project_tag = " 🛠" if lesson["is_project"] else ""
+            project_tag = ' <span class="tvp-proj">🛠 Project</span>' if lesson["is_project"] else ""
             items.append(
                 f'<li class="nav-lesson nav-lesson--{badge_class}">'
-                f'<a href="{slug}">{html.escape(lesson["title"] or slug)}{project_tag}</a></li>'
+                f'<a href="{slug}">{html.escape(lesson["title"] or slug)}</a>{project_tag}</li>'
             )
         rows.append(
-            f'<section class="nav-section"><h2>{html.escape(section["title"] or "")}</h2>'
-            f'<ul>{"".join(items)}</ul></section>'
+            f'<section class="tvp-section"><h2>{html.escape(section["title"] or "")}</h2>'
+            f'<ul class="tvp-lessons">{"".join(items)}</ul></section>'
         )
 
     body = f"""
-<div class="course-index">
-  <h1>{html.escape(course['title'] or course_key)}</h1>
-  <p class="legend">
-    <span class="nav-lesson--done">■</span> 翻訳済み &nbsp;
-    <span class="nav-lesson--fallback">■</span> 未翻訳 (英語) &nbsp;
-    <span class="nav-lesson--missing">■</span> ファイルが見つかりません
-  </p>
-  {''.join(rows)}
-</div>
+<main class="tvp-main">
+  <div class="tvp-index">
+    <div class="tvp-hero">
+      <h1>{html.escape(course['title'] or course_key)}</h1>
+      <p class="tvp-legend">
+        <span><span class="dot dot--done"></span>翻訳済み</span>
+        <span><span class="dot dot--fallback"></span>未翻訳 (英語)</span>
+        <span><span class="dot dot--missing"></span>ファイルが見つかりません</span>
+      </p>
+    </div>
+    {''.join(rows)}
+  </div>
+</main>
 """
-    write_page(out_dir / "index.html", course["title"] or course_key, body, "../assets/style.css", "../index.html")
+    write_page(out_dir / "index.html", course["title"] or course_key, body, "../")
 
 
 def build_top_index(built_courses):
@@ -382,73 +433,164 @@ def build_top_index(built_courses):
         for key, course in built_courses
     )
     body = f"""
-<div class="top-index">
-  <h1>The Odin Project — 日本語版 (ローカルプレビュー)</h1>
-  <p>これは翻訳作業を確認するためのローカル専用プレビューです。公開・配布はしないでください。</p>
-  <ul>{items}</ul>
-</div>
+<main class="tvp-main">
+  <div class="tvp-index">
+    <div class="tvp-hero">
+      <h1>The Odin Project — 日本語版</h1>
+      <p>これは翻訳作業を確認するためのローカル専用プレビューです。公開・配布はしないでください。</p>
+    </div>
+    <ul class="tvp-course-list">{items}</ul>
+  </div>
+</main>
 """
-    write_page(SITE / "index.html", "The Odin Project 日本語版", body, "assets/style.css", "index.html")
+    write_page(SITE / "index.html", "The Odin Project 日本語版", body, "")
 
 
-CSS = """
+# Where the real app keeps the compiled stylesheet and its image assets. application.css
+# is produced by theodinproject_ja's `yarn build:css` (Tailwind v4 CLI) -- we consume it as
+# a build artifact rather than recompiling it here.
+TAILWIND_BUILD = THEODINPROJECT / "app" / "assets" / "builds" / "application.css"
+APP_IMAGES = THEODINPROJECT / "app" / "assets" / "images"
+# Icons the compiled CSS references as mask-image: url('/icons/<name>.svg') for the
+# lesson-note boxes and heading anchor links. We copy them next to application.css and
+# rewrite the absolute '/icons/' to a relative 'icons/' so they resolve under file://.
+NOTE_ICONS = [
+    "link.svg",
+    "pencil-square-solid.svg",
+    "light-bulb-solid.svg",
+    "exclamation-triangle-solid.svg",
+    "exclamation-circle-solid.svg",
+]
+
+# Only the surrounding shell (navbar / breadcrumb / index pages). The lesson body itself is
+# styled by the copied application.css. See site/assets/viewer.css comments for rationale.
+VIEWER_CSS = """\
+/* Local-viewer chrome for the Odin Project JA preview.
+   The lesson BODY is styled entirely by application.css (the real, compiled
+   Tailwind + @tailwindcss/typography "prose" + the app's own custom_styles).
+   This file only styles the surrounding shell -- navbar, breadcrumb, lesson
+   header, and the index/course listing pages -- using plain CSS classes
+   (tvp-*) so it never depends on Tailwind having scanned these generated
+   pages. Colors/spacing here mirror the real site's palette. */
+
 :root {
-  --bg: #ffffff; --fg: #24292e; --muted: #6a737d; --panel: #f3f3f3;
-  --accent: #1e5a8a; --border: #e1e4e8; --done: #2e8b57; --fallback: #b8860b; --missing: #c0392b;
+  --tvp-border: #e5e7eb; --tvp-gray-900: #111827; --tvp-gray-800: #1f2937;
+  --tvp-gray-700: #374151; --tvp-gray-600: #4b5563; --tvp-gray-500: #6b7280;
+  --tvp-canvas: #f9fafb; --tvp-gold: #ce973e; --tvp-gold-600: #a9792b;
+  --tvp-gold-50: #f3e6d0; --tvp-gold-800: #503914;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0; background: var(--bg); color: var(--fg);
-  font-family: system-ui, "Segoe UI", "Yu Gothic", "Hiragino Sans", sans-serif;
-  line-height: 1.7;
-}
-.site-header {
-  padding: 12px 24px; border-bottom: 1px solid var(--border); background: #fafbfc;
-}
-.site-header__home { color: var(--accent); text-decoration: none; font-weight: 600; }
-.top-index, .course-index, .lesson { max-width: 840px; margin: 0 auto; padding: 32px 24px 80px; }
-h1 { font-size: 1.8em; }
-.legend { color: var(--muted); font-size: 0.9em; }
-.nav-lesson--done, .nav-lesson--fallback, .nav-lesson--missing { font-weight: bold; }
-.nav-lesson--done { color: var(--done); }
-.nav-lesson--fallback { color: var(--fallback); }
-.nav-lesson--missing { color: var(--missing); }
-.nav-lesson--done a { color: var(--fg); }
-.nav-lesson--fallback a { color: var(--fg); }
-.nav-lesson--missing a { color: var(--muted); }
-.nav-section ul { list-style: none; padding-left: 0; }
-.nav-section li { padding: 4px 0; }
-.lesson-header__course a { color: var(--muted); text-decoration: none; font-size: 0.9em; }
-.lesson-header__title { margin-bottom: 4px; }
-.lesson-header__desc { color: var(--muted); }
-.lang-badge { font-size: 0.5em; padding: 2px 8px; border-radius: 10px; vertical-align: middle; }
-.lang-badge--ja { background: #e6f4ea; color: var(--done); }
-.lang-badge--en { background: #fdf3d8; color: var(--fallback); }
-.lesson-content h3 { margin-top: 2.2em; font-size: 1.4em; }
-.lesson-content h3:first-child { margin-top: 0; }
-.lesson-content h4 { font-size: 1.1em; }
-.lesson-content pre {
-  background: #282c34; color: #eee; padding: 14px 16px; overflow-x: auto; border-radius: 6px;
-}
-.lesson-content code { background: var(--panel); padding: 0.15em 0.4em; border-radius: 4px; }
-.lesson-content pre code { background: none; padding: 0; }
-.lesson-content img { max-width: 100%; }
-.lesson-content .lesson-content__panel {
-  background: var(--panel); padding: 1.4em 1.6em; margin: 20px 0 40px; border-radius: 6px;
-}
-.lesson-content details {
-  border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; margin: 10px 0;
-}
-.lesson-content summary { cursor: pointer; font-weight: 600; }
-.notice { padding: 14px 18px; border-radius: 6px; }
-.notice--missing { background: #fdecea; color: var(--missing); }
+
+body { font-family: Inter, "Helvetica Neue", Helvetica, Arial, "Yu Gothic",
+       "Hiragino Sans", "Noto Sans JP", sans-serif; background: var(--tvp-canvas); }
+
+/* Navbar */
+.tvp-nav { background: #fff; border-bottom: 1px solid var(--tvp-border);
+           position: sticky; top: 0; z-index: 50; }
+.tvp-nav__inner { max-width: 80rem; margin: 0 auto; padding: 0.5rem 1.5rem;
+                  display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.tvp-nav__brand { display: flex; align-items: center; }
+.tvp-nav__logo { height: 2.75rem; width: auto; display: block; }
+.tvp-nav__links { display: flex; align-items: center; gap: 1.25rem; font-size: 0.9rem; }
+.tvp-nav__links a { color: var(--tvp-gray-600); text-decoration: none; font-weight: 500; }
+.tvp-nav__links a:hover { color: var(--tvp-gray-900); }
+.tvp-badge { background: var(--tvp-gold-50); color: var(--tvp-gold-800);
+             font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.6rem;
+             border-radius: 9999px; white-space: nowrap; }
+
+/* Shared page containers */
+.tvp-main { padding: 2.5rem 1.5rem 5rem; }
+.tvp-lesson { max-width: 70ch; margin: 0 auto; }
+.tvp-index { max-width: 64rem; margin: 0 auto; }
+
+/* Lesson header */
+.tvp-lesson__head { display: flex; align-items: center; gap: 0.75rem;
+                    flex-wrap: wrap; margin-bottom: 0.5rem; }
+.tvp-lesson__title { font-size: 1.875rem; line-height: 2.35rem; font-weight: 600;
+                     color: var(--tvp-gray-800); margin: 0; }
+.tvp-breadcrumb { margin: 0 0 2rem; font-size: 0.85rem; }
+.tvp-breadcrumb a { color: var(--tvp-gray-500); text-decoration: none; }
+.tvp-breadcrumb a:hover { color: var(--tvp-gold-600); }
+.tvp-lesson__desc { color: var(--tvp-gray-500); margin: 0 0 2rem; }
+
+.lang-badge { font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 600; }
+.lang-badge--ja { background: #e6f4ea; color: #2e8b57; }
+.lang-badge--en { background: #fdf3d8; color: #b8860b; }
+
+/* Top index (course list) */
+.tvp-hero h1 { font-size: 2rem; font-weight: 700; color: var(--tvp-gray-800); margin: 0 0 0.5rem; }
+.tvp-hero p { color: var(--tvp-gray-500); margin: 0; }
+.tvp-course-list { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 0.75rem; }
+.tvp-course-list a { display: block; padding: 1rem 1.25rem; border: 1px solid var(--tvp-border);
+                     border-radius: 0.75rem; background: #fff; text-decoration: none;
+                     color: var(--tvp-gray-800); font-weight: 600;
+                     transition: border-color 0.15s, box-shadow 0.15s; }
+.tvp-course-list a:hover { border-color: var(--tvp-gold); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+/* Course index (sections + lessons) */
+.tvp-section { margin-top: 2.5rem; }
+.tvp-section > h2 { font-size: 1.25rem; font-weight: 600; color: var(--tvp-gray-800);
+                    padding-bottom: 0.5rem; border-bottom: 1px solid var(--tvp-border); margin: 0; }
+.tvp-lessons { list-style: none; padding: 0; margin: 0.75rem 0 0; }
+.tvp-lessons li { padding: 0.35rem 0; }
+.tvp-lessons a { text-decoration: none; }
+.tvp-lessons a:hover { text-decoration: underline; }
+.nav-lesson--done a { color: var(--tvp-gray-800); }
+.nav-lesson--fallback a { color: var(--tvp-gray-600); }
+.nav-lesson--missing a { color: var(--tvp-gray-500); }
+.tvp-proj { color: var(--tvp-gold-600); font-size: 0.8rem; }
+.tvp-legend { color: var(--tvp-gray-500); font-size: 0.85rem; display: flex;
+              gap: 1.25rem; flex-wrap: wrap; margin-top: 0.75rem; }
+.dot { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 2px;
+       vertical-align: middle; margin-right: 0.3rem; }
+.dot--done { background: #2e8b57; }
+.dot--fallback { background: #b8860b; }
+.dot--missing { background: #c0392b; }
+
+/* Misc */
+.notice { padding: 1rem 1.25rem; border-radius: 0.5rem; }
+.notice--missing { background: #fdecea; color: #c0392b; }
 """
+
+
+def copy_static_assets():
+    """Populate site/assets/ so a clean `rm -rf site && python build_site.py` fully
+    reproduces the styled site: the real compiled Tailwind bundle (with '/icons/' rewritten
+    to a file://-relative 'icons/'), our viewer.css shell, the Odin logo, and the note-box /
+    anchor icons. application.css is a prerequisite artifact -- if it's missing we still
+    build (pages just render unstyled) and print how to produce it."""
+    assets = SITE / "assets"
+    icons = assets / "icons"
+    icons.mkdir(parents=True, exist_ok=True)
+
+    (assets / "viewer.css").write_text(VIEWER_CSS, encoding="utf-8")
+
+    if TAILWIND_BUILD.is_file():
+        css = TAILWIND_BUILD.read_text(encoding="utf-8").replace("url('/icons/", "url('icons/")
+        (assets / "application.css").write_text(css, encoding="utf-8")
+    else:
+        print(
+            "WARNING: compiled Tailwind not found at\n"
+            f"  {TAILWIND_BUILD}\n"
+            "Lesson pages will render unstyled. Build it once with bun (Node 15 can't run\n"
+            "the Tailwind v4 CLI):\n"
+            "  cd theodinproject_ja && bun install && \\\n"
+            "    bun node_modules/@tailwindcss/cli/dist/index.mjs \\\n"
+            "      -i app/assets/stylesheets/application.tailwind.css \\\n"
+            "      -o app/assets/builds/application.css"
+        )
+
+    logo = APP_IMAGES / "logo.svg"
+    if logo.is_file():
+        (assets / "logo.svg").write_bytes(logo.read_bytes())
+    for name in NOTE_ICONS:
+        src = APP_IMAGES / "icons" / name
+        if src.is_file():
+            (icons / name).write_bytes(src.read_bytes())
 
 
 def main():
     SITE.mkdir(exist_ok=True)
-    (SITE / "assets").mkdir(exist_ok=True)
-    (SITE / "assets" / "style.css").write_text(CSS, encoding="utf-8")
+    copy_static_assets()
 
     lesson_table = parse_lesson_families()
 

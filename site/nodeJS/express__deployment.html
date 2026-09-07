@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Deployment</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deployment | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
-    <h1 class="lesson-header__title">Deployment <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
-    <p class="lesson-header__desc">There&#x27;s nothing quite like seeing your application on a real website. We&#x27;ll show you how it&#x27;s done.</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>Introduction</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Deployment</h1>
+        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
+    </header>
+    <p class="tvp-lesson__desc">There&#x27;s nothing quite like seeing your application on a real website. We&#x27;ll show you how it&#x27;s done.</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>Introduction</h3>
 <p>Before continuing our web development journey, we must address one important task - showcasing our hard work to the world.</p>
 <p>Whether it's to share our creations with friends, create a portfolio for future employers, or launch an online business, we need to host our applications somewhere others can publicly access on the internet.</p>
 <p>In this lesson, we will learn how to deploy our apps to a hosting provider, allowing us to run, build, and operate our web applications in the cloud.</p>
@@ -184,9 +201,11 @@
 <h3>Assignment</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Deploy your <a href="https://www.theodinproject.com/lessons/node-path-nodejs-mini-message-board">Mini Message Board project</a> to one of the hosting providers we've mentioned. Any of the free options will work for curriculum purposes, so it doesn’t matter which you pick for your projects. The important thing to take away from this first deployment is getting experience deploying. Don’t worry if you don’t understand everything that’s happening. That will come with time.
-   - Use one of the linked deploy guides for your PaaS provider to help you through the process.
-   - If you're having trouble deploying, check out the <a href="#debugging-and-troubleshooting-deployments">Debugging and Troubleshooting Deployments</a> section for some tips.</li>
+<li>Deploy your <a href="https://www.theodinproject.com/lessons/node-path-nodejs-mini-message-board">Mini Message Board project</a> to one of the hosting providers we've mentioned. Any of the free options will work for curriculum purposes, so it doesn’t matter which you pick for your projects. The important thing to take away from this first deployment is getting experience deploying. Don’t worry if you don’t understand everything that’s happening. That will come with time.<ul>
+<li>Use one of the linked deploy guides for your PaaS provider to help you through the process.</li>
+<li>If you're having trouble deploying, check out the <a href="#debugging-and-troubleshooting-deployments">Debugging and Troubleshooting Deployments</a> section for some tips.</li>
+</ul>
+</li>
 </ol>
 </div>
 <h3>Knowledge check</h3>
@@ -204,8 +223,12 @@
 <ul>
 <li><a href="https://free-for.dev/">free-for.dev</a>. This is a huge repository of software such as SaaS, PaaS, IaaS, etc. and other offerings with free developer tiers.</li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

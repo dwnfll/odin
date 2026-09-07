@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Databases and SQL</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Databases and SQL | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">databases</a></p>
-    <h1 class="lesson-header__title">Databases and SQL <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
-    <p class="lesson-header__desc">Data is the core of every major web app and here you&#x27;ll learn how to speak SQL. Being able to properly query a database will go a long way to minimising any problems your website&#x27;s users might encounter with slow response times.</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>Introduction</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Databases and SQL</h1>
+        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← databases</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Data is the core of every major web app and here you&#x27;ll learn how to speak SQL. Being able to properly query a database will go a long way to minimising any problems your website&#x27;s users might encounter with slow response times.</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>Introduction</h3>
 <p>Data is the core of any good web app and a good working knowledge of SQL will take you a long way.  That knowledge lets you not just understand what’s going on behind the scenes when you use an Object-Relational Mapper (ORM; e.g. Active Record in Rails, or Prisma in Node.js), but also to feel comfortable asking more complicated questions of your data.  And that's really what SQL is all about -- asking questions of your database and occasionally also adding or changing things in it.  Querying can be incredibly useful for you.</p>
 <p>In more straightforward cases, you might want to display all users who signed up in December via the promotion code "FREESTUFF."  You might want to display all comments created by the current user and sorted by topic and creation date.  In more complex cases, you may want to show a list of all the orders shipped to states with more than 1,000 users by quantity and total order value.  Or, for internal reasons, you might ask marketing analysis questions like which promotion channels produce users who meet your specified engagement criteria of reading five articles per work week.</p>
 <p>All of those examples involve you engaging with your database.  Luckily, many databases (the ones we'll be focusing on) speak SQL and luckily SQL really only has a dozen or so words that you'll consistently use out of a few dozen total.  So it's not a large language, it's much more about the concepts behind it.</p>
@@ -121,8 +138,12 @@ See <a href="http://www.w3schools.com/sql/trysql.asp?filename=trysql_select_grou
 <li><a href="#having-clause">In which situation would you use the <code>HAVING</code> clause?</a></li>
 <li><a href="#sql-is-faster-than-your-code">Why can't I just use code to process my database data?</a></li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

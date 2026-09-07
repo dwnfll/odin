@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Links and Images</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Links and Images | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
-    <h1 class="lesson-header__title">Links and Images <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Work with links and images in HTML</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Links and Images</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← foundations</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Work with links and images in HTML</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>リンクはHTMLの主要な機能の一つです。リンクによって、ウェブ上の他のHTMLページにリンクできます。実際、これこそが「ウェブ」と呼ばれる理由です。</p>
 <p>このレッスンでは、リンクの作り方と、画像を埋め込むことでウェブサイトに視覚的な華やかさを加える方法を学びます。</p>
 <h3>レッスン概要</h3>
@@ -144,16 +161,16 @@
 </li>
 <li>
 <p>Chromeウィンドウ下部にある新しいダウンロードを右クリックし、「Show in folder」を選択してください。</p>
-</li>
-<li>
-<p>あるいは、Chromeウィンドウの下部に何も表示されない場合は、「Customize and control Google Chrome」の三点リーダーメニューを開き、「Downloads」の項目を選択してください。これにより、すべてのダウンロードが表示され、それぞれに「Show in folder」ボタンが付いています。</p>
+<ol>
+<li>あるいは、Chromeウィンドウの下部に何も表示されない場合は、「Customize and control Google Chrome」の三点リーダーメニューを開き、「Downloads」の項目を選択してください。これにより、すべてのダウンロードが表示され、それぞれに「Show in folder」ボタンが付いています。</li>
+</ol>
 </li>
 <li>
 <p>画像の名前を<code>dog.jpg</code>に変更してください。</p>
 </li>
 <li>
 <p>ダウンロードフォルダからVSCodeのファイルブラウザへ、新しい<code>images</code>ディレクトリの中にファイルをドラッグしてください。</p>
-</li>
+<ol>
 <li>
 <p>あるいは、Ubuntuターミナルを使って、画像をコピーしたいフォルダに移動してください(例:<code>cd ~/odin-links-and-images</code>)。</p>
 </li>
@@ -165,10 +182,12 @@
 </li>
 <li>
 <p><code>&lt;space&gt; .</code>と入力して、現在の作業ディレクトリにファイルをコピーしたいことをcpに伝えます。完全なコマンドは次のようになります:</p>
-<pre class="highlight"><code class="language-bash">cp "/mnt/c/users/username/Downloads/dog.jpg" .</code></pre>
 </li>
-<li>
-<p><kbd>Enter</kbd>を押してコマンドを完了させ、<code>ls</code>を使ってファイルが存在することを確認してください。</p>
+</ol>
+<pre class="highlight"><code class="language-bash">cp "/mnt/c/users/username/Downloads/dog.jpg" .</code></pre>
+<ol>
+<li><kbd>Enter</kbd>を押してコマンドを完了させ、<code>ls</code>を使ってファイルが存在することを確認してください。</li>
+</ol>
 </li>
 </ol>
 <p>WindowsからVSCodeのファイルブラウザにファイルをドラッグすることで、<code>Zone.Identifier</code>ファイルがコピーされてしまうのを防げます。今後、このような写真やその他のダウンロードしたファイルをWSL2にコピーする必要があるときは、いつでもこの方法で行うことができます。万が一これらの<code>Zone.Identifier</code>ファイルを誤ってWSL2にコピーしてしまっても、問題なく安全に削除できます。</p>
@@ -234,10 +253,12 @@
 <h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Kevin Powellの動画を見てみましょう:
-   - <a href="https://www.youtube.com/watch?v=tsEQgGjSmkM">HTML Links</a>。
-   - <a href="https://www.youtube.com/watch?v=0xoztJCHpbQ">HTML Images</a>。
-   - <a href="https://www.youtube.com/watch?v=ta3Oxx7Yqbo">File Structure</a>。</li>
+<li>Kevin Powellの動画を見てみましょう:<ul>
+<li><a href="https://www.youtube.com/watch?v=tsEQgGjSmkM">HTML Links</a>。</li>
+<li><a href="https://www.youtube.com/watch?v=0xoztJCHpbQ">HTML Images</a>。</li>
+<li><a href="https://www.youtube.com/watch?v=ta3Oxx7Yqbo">File Structure</a>。</li>
+</ul>
+</li>
 <li>Interneting is Hardの<a href="https://internetingishard.netlify.app/html-and-css/links-and-images">Links and Images</a>の記事を読んで、一緒にコードを書いてみましょう。4つの主要な画像フォーマットを扱っているセクションには特に注意を払ってください。この記事では、画像の寸法はCSSで設定する方が良いと提案されています。それでも私たちは、このレッスンの前半で述べた通り、すべての画像にwidthとheight属性を設定することをお勧めします。</li>
 </ol>
 </div>
@@ -254,8 +275,12 @@
 <li><a href="#parent-filepath">ファイルパスで親ディレクトリにアクセスするにはどうすればよいですか?</a></li>
 <li><a href="https://internetingishard.netlify.app/html-and-css/links-and-images/#image-formats">ウェブ上の画像に使用できる4つの主要な画像フォーマットは何ですか?</a></li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

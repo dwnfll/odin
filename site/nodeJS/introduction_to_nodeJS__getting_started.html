@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Getting Started</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getting Started | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
-    <h1 class="lesson-header__title">Getting Started <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
-    <p class="lesson-header__desc">You&#x27;ll go through a basic Node tutorial and write some real server-side code.</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>Introduction</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Getting Started</h1>
+        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
+    </header>
+    <p class="tvp-lesson__desc">You&#x27;ll go through a basic Node tutorial and write some real server-side code.</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>Introduction</h3>
 <p>Like we learned in the introduction lesson, Node.js is really just JavaScript. So a basic understanding of JavaScript is necessary in order to understand Node. For this reason, it is highly recommended that you take our prerequisite <a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript">JavaScript course</a> before continuing with this course.</p>
 <p>This lesson will take you through a tutorial that will teach you the basic modules and functions that you need to get up and running with Node.js. The project that comes at the end of this section will ask you to use Node to create a basic website that will include an <code>Index</code>, <code>About</code> and <code>Contact Me</code> page. So while learning the topics in this lesson, be on the lookout for things that might help you complete the project.</p>
 <h3>Lesson overview</h3>
@@ -41,18 +58,26 @@
 <p>Let's dive in and start looking at Node server-side code! We will be hopping around lessons in the <a href="https://nodejs.org/en/learn">NodeJS.org</a> docs which you should follow along.</p>
 <ol>
 <li>Learn <a href="https://nodejs.org/en/learn/command-line/run-nodejs-scripts-from-the-command-line">how to run Node.js scripts from the terminal</a>.</li>
-<li>HTTP Module
-   - Learn <a href="https://nodejs.org/learn/getting-started/fetch">how to make HTTP requests with Node</a>.
-   - Check out the docs for <a href="https://nodejs.org/api/http.html">Node's http module</a>. In particular, check out <code>http.createServer</code>. The documentation shows optional parameters it can accept which you may or may not use. For now, you just need to know that the <code>createServer</code> method creates an HTTP server that accepts handlers that will be executed every time we get a request.</li>
-<li>File System
-   - First, take a look at the <a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-fs.en.md">fs module</a> that we use heavily for working with files in Node.
-   - Then, let’s start <a href="https://nodejs.org/en/learn/manipulating-files/writing-files-with-nodejs">writing files with Node</a>.
-   - Finally, we’ll learn how to <a href="https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs">read files with Node</a>.</li>
-<li>The URL Class
-   - Check out this <a href="https://nodejs.org/api/url.html#url_the_whatwg_url_api">documentation on the URL class</a>. Play with the code samples to see how it works!</li>
-<li>Events
-   - Follow along the <a href="https://nodejs.org/en/learn/asynchronous-work/the-nodejs-event-emitter">Event Emitter</a> section.
-   - Look into the <a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-events.en.md">Node events module</a>.</li>
+<li>HTTP Module<ul>
+<li>Learn <a href="https://nodejs.org/learn/getting-started/fetch">how to make HTTP requests with Node</a>.</li>
+<li>Check out the docs for <a href="https://nodejs.org/api/http.html">Node's http module</a>. In particular, check out <code>http.createServer</code>. The documentation shows optional parameters it can accept which you may or may not use. For now, you just need to know that the <code>createServer</code> method creates an HTTP server that accepts handlers that will be executed every time we get a request.</li>
+</ul>
+</li>
+<li>File System<ul>
+<li>First, take a look at the <a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-fs.en.md">fs module</a> that we use heavily for working with files in Node.</li>
+<li>Then, let’s start <a href="https://nodejs.org/en/learn/manipulating-files/writing-files-with-nodejs">writing files with Node</a>.</li>
+<li>Finally, we’ll learn how to <a href="https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs">read files with Node</a>.</li>
+</ul>
+</li>
+<li>The URL Class<ul>
+<li>Check out this <a href="https://nodejs.org/api/url.html#url_the_whatwg_url_api">documentation on the URL class</a>. Play with the code samples to see how it works!</li>
+</ul>
+</li>
+<li>Events<ul>
+<li>Follow along the <a href="https://nodejs.org/en/learn/asynchronous-work/the-nodejs-event-emitter">Event Emitter</a> section.</li>
+<li>Look into the <a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-events.en.md">Node events module</a>.</li>
+</ul>
+</li>
 </ol>
 </div>
 <h3>Knowledge check</h3>
@@ -65,8 +90,12 @@
 <ul>
 <li>This <a href="https://www.youtube.com/watch?v=zb3Qk8SG5Ms&amp;list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU">Node crash course playlist of 12 episodes</a> from Net Ninja is a great resource to learn Node.js. There are 12 videos in this playlist, you can consider them all.</li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

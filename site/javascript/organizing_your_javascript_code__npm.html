@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>npm</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>npm | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
-    <h1 class="lesson-header__title">npm <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">npm</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">npm</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
+    </header>
+    <p class="tvp-lesson__desc">npm</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>前のレッスンでは、ES6モジュールと、モジュール間で何かをインポート・エクスポートするために使われる構文について学びました。より大きく、より複雑なアプリケーションを構築していく中で、<em>すべて</em>を自分自身で書きたいとは思わないかもしれません。他の人が書いたヘルパー関数から、アプリケーションを構築するための完全なフレームワークまで、さまざまな範囲の、何かを私たちの代わりに処理してくれるサードパーティのコードをインポートしたいと思うかもしれません。これらのサードパーティのパッケージを簡単に見つけてインポートするには、npmのようなパッケージマネージャの助けが必要です!</p>
 <h3>レッスン概要</h3>
 <p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
@@ -52,10 +69,12 @@
 <h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>npm、パッケージ、依存関係についてもう少し読んでみてください:</li>
+<li>npm、パッケージ、依存関係についてもう少し読んでみてください:<ol>
 <li><a href="https://docs.npmjs.com/downloading-and-installing-packages-locally">npmでパッケージをインストールする</a>。</li>
 <li>私たちのアプリケーションの情報の多くを保存するファイルである、<a href="https://docs.npmjs.com/creating-a-package-json-file"><code>package.json</code>ファイル</a>について読んでください。</li>
 <li>インストールするパッケージはすべて「依存関係(dependencies)」と呼ばれますが、もしあるパッケージが開発プロセス中にのみ使われ、そのコードがユーザー向けのアプリには必要ない場合(Jestテストフレームワークのように)、それらは<a href="https://dev.to/mshertzberg/demystifying-devdependencies-and-dependencies-5ege">開発時の依存関係(development dependencies)</a>と呼ばれます。</li>
+</ol>
+</li>
 <li>こちらは、<a href="https://peterxjang.com/blog/modern-javascript-explained-for-dinosaurs.html">JavaScriptと複数のファイルにまたがるパッケージ管理についての、素晴らしい小さな歴史のレッスン</a>です。「Using a JavaScript module bundler (webpack)」までだけ読んでください。バンドラーとwebpackについては次のレッスンで扱います。</li>
 </ol>
 </div>
@@ -65,8 +84,12 @@
 <li><a href="#npm">npmとは何ですか?</a></li>
 <li><a href="https://docs.npmjs.com/creating-a-package-json-file">依存関係についてのすべての情報を含む、npmが使うファイルは何ですか?</a></li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

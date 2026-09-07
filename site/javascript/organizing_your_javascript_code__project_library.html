@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Library</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
-    <h1 class="lesson-header__title">Library <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Library</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Library</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Library</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>前のレッスンの「Book」の例を拡張して、小さなLibraryアプリに変えていきましょう。</p>
 <h3>課題</h3>
 <div class="lesson-content__panel">
@@ -37,22 +54,32 @@ function addBookToLibrary() {
 }</code></pre>
 </li>
 <li>
-<p>配列をループして、それぞれのbookをページに表示する関数を書いてください。何らかのテーブルに表示しても構いませんし、それぞれを独自の「カード」に表示しても構いません。表示を確認できるように、今のところは手動で配列にいくつかのbookを追加しておくと役立つかもしれません。
-   - bookのデータをまず配列に保存するよりも、bookの表示を直接操作する方が簡単に見えるかもしれませんが、ここから先は、これらの責務を分けて考えるべきです。この概念については後でさらに深く掘り下げますが、アプリケーションを開発する際、私たちは同じ基盤となるデータを使って、さまざまな方法で要素(私たちのlibraryやそのbookのような)を再作成できる柔軟性を望みます。したがって、ユーザーにbookを表示するためのロジックと、すべての情報を保持するbookの構造体は、別個のものとして考えてください。この分離により、あなたのコードの保守性と拡張性が向上します。</p>
+<p>配列をループして、それぞれのbookをページに表示する関数を書いてください。何らかのテーブルに表示しても構いませんし、それぞれを独自の「カード」に表示しても構いません。表示を確認できるように、今のところは手動で配列にいくつかのbookを追加しておくと役立つかもしれません。</p>
+<ul>
+<li>bookのデータをまず配列に保存するよりも、bookの表示を直接操作する方が簡単に見えるかもしれませんが、ここから先は、これらの責務を分けて考えるべきです。この概念については後でさらに深く掘り下げますが、アプリケーションを開発する際、私たちは同じ基盤となるデータを使って、さまざまな方法で要素(私たちのlibraryやそのbookのような)を再作成できる柔軟性を望みます。したがって、ユーザーにbookを表示するためのロジックと、すべての情報を保持するbookの構造体は、別個のものとして考えてください。この分離により、あなたのコードの保守性と拡張性が向上します。</li>
+</ul>
 </li>
 <li>ユーザーが新しいbookの詳細(著者、タイトル、ページ数、読んだかどうか、その他あなたが望むもの)を入力し、それをlibraryに追加できるようにするフォームを表示する「New Book」ボタンを追加してください。このフォームをどう表示するかはあなた次第です。例えば、サイドバーにフォームを表示したいと思うかもしれませんし、<code>&lt;dialog&gt;</code>タグを使って<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog">ダイアログとモーダル</a>を探ってみたいと思うかもしれません。どうやるにせよ、フォームを送信すると期待通りのことが起こらないという問題に、おそらく遭遇するでしょう。それは、<code>submit</code>のinputがデフォルトでデータをサーバーに送信しようとするからです。ここで<code>event.preventDefault();</code>が役立ちます。<a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault">event.preventDefaultのドキュメント</a>をチェックして、この問題をどう解決できるか見てみてください!</li>
-<li>それぞれのbookの表示に、そのbookをlibraryから削除するボタンを追加してください。
-   - あなたのDOM要素を、何らかの方法で実際のbookオブジェクトと関連付ける必要があります。一つの簡単な解決策は、それぞれのbookオブジェクトの一意の<code>id</code>に対応する<a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Solve_HTML_problems/Use_data_attributes">data属性</a>を与えることです。</li>
-<li>それぞれのbookの表示に、その<code>read</code>ステータスを変更するボタンを追加してください。
-   - これを実現するには、bookインスタンスの<code>read</code>ステータスを切り替える<code>Book</code>プロトタイプ関数を作成したいところです。</li>
+<li>それぞれのbookの表示に、そのbookをlibraryから削除するボタンを追加してください。<ul>
+<li>あなたのDOM要素を、何らかの方法で実際のbookオブジェクトと関連付ける必要があります。一つの簡単な解決策は、それぞれのbookオブジェクトの一意の<code>id</code>に対応する<a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Solve_HTML_problems/Use_data_attributes">data属性</a>を与えることです。</li>
+</ul>
+</li>
+<li>それぞれのbookの表示に、その<code>read</code>ステータスを変更するボタンを追加してください。<ul>
+<li>これを実現するには、bookインスタンスの<code>read</code>ステータスを切り替える<code>Book</code>プロトタイプ関数を作成したいところです。</li>
+</ul>
+</li>
 </ol>
 <div class="lesson-note">
 <h4>永続的なストレージは不要です</h4>
 <p>ページの再読み込みの間、情報を保存するための何らかのストレージを追加する必要はありません。</p>
 </div>
 </div>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

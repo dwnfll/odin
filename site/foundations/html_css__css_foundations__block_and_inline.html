@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Block and Inline</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Block and Inline | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
-    <h1 class="lesson-header__title">Block and Inline <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Learn about two common CSS display modes.</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Block and Inline</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← foundations</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Learn about two common CSS display modes.</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>前のレッスンでは、異なるdisplayタイプはそれぞれ独自のボックスモデルを持っていること、そして<code>box-sizing</code>プロパティを変更することでボックスの計算方法を変更できることを学びました。CSSには<code>block</code>と<code>inline</code>という2種類のボックスタイプがあり、これらが要素の振る舞いと相互作用を決定します。<code>display</code>プロパティは、HTML要素がウェブページ上にどのように表示されるかを制御します。このレッスンでは、そのさまざまなオプションについてさらに詳しく見ていきます。</p>
 <h3>レッスン概要</h3>
 <p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
@@ -66,13 +83,15 @@
 <li>W3schoolsの<a href="https://www.w3schools.com/html/html_blocks.asp">「HTML Block and Inline Elements」</a>には、すべてのデフォルトのブロック要素とインライン要素についての説明と一覧があります。</li>
 <li>Digital Oceanのチュートリアル<a href="https://www.digitalocean.com/community/tutorials/css-display-inline-vs-inline-block">「Inline vs Inline-block Display in CSS」</a>には、<code>inline</code>と<code>inline-block</code>の違いを明確にしてくれる、いくつかの優れた例があります。</li>
 <li>
-<p><a href="https://github.com/TheOdinProject/css-exercises/tree/main/foundations/block-and-inline">CSS演習リポジトリの<code>foundations/block-and-inline</code>ディレクトリ</a>にある演習を(指示はREADMEに書かれていることを忘れずに)以下の順番で行ってください:
-   - <code>01-margin-and-padding-1</code>
-   - <code>02-margin-and-padding-2</code></p>
+<p><a href="https://github.com/TheOdinProject/css-exercises/tree/main/foundations/block-and-inline">CSS演習リポジトリの<code>foundations/block-and-inline</code>ディレクトリ</a>にある演習を(指示はREADMEに書かれていることを忘れずに)以下の順番で行ってください:</p>
+<ul>
+<li><code>01-margin-and-padding-1</code></li>
+<li><code>02-margin-and-padding-2</code></li>
+</ul>
 <p>注:これらの演習の解答は、各演習の<code>solution</code>フォルダにあります。
 1. HTML Foundationsセクションで練習用に作成したレシピページを覚えていますか?かなり<em>シンプル</em>な見た目ですよね?CSSを追加して、それを直していきましょう!
-   - 実際にどうスタイリングするかは完全に自由ですが、(この練習でも、そしてこの先も)外部CSSの方法を使うべきです。また、前のレッスンで触れたプロパティ(color、background-color、タイポグラフィ関連のプロパティなど)をいくつか使ってみるようにしてください。さまざまなプロパティをいろいろ試してみて、それらが何をするのか感覚をつかむのに時間をかけてください。今のところは、見た目を<em>良く</em>することはまったく気にしなくて構いません。これは単に、CSSを書くことに慣れるための練習であり、履歴書に載せて自慢するようなものを作るためのものではありません。
-   - <code>font-family</code>プロパティでカスタムフォントを使う方法はまだ扱っていないので、今のところは、使用できるジェネリックフォントファミリーの一覧については<a href="https://www.w3schools.com/Css/css_font.asp">CSS Fonts</a>を、ウェブセーフなフォントの一覧については<a href="https://www.w3schools.com/cssref/css_websafe_fonts.asp">CSS Web Safe Fonts</a>を見てみてください。ウェブセーフとは、基本的にどんなコンピューターやデバイスにもインストールされているフォントであることを意味します(ただし、フォールバックとしてジェネリックフォントファミリーも必ず含めてください)。</p>
+- 実際にどうスタイリングするかは完全に自由ですが、(この練習でも、そしてこの先も)外部CSSの方法を使うべきです。また、前のレッスンで触れたプロパティ(color、background-color、タイポグラフィ関連のプロパティなど)をいくつか使ってみるようにしてください。さまざまなプロパティをいろいろ試してみて、それらが何をするのか感覚をつかむのに時間をかけてください。今のところは、見た目を<em>良く</em>することはまったく気にしなくて構いません。これは単に、CSSを書くことに慣れるための練習であり、履歴書に載せて自慢するようなものを作るためのものではありません。
+- <code>font-family</code>プロパティでカスタムフォントを使う方法はまだ扱っていないので、今のところは、使用できるジェネリックフォントファミリーの一覧については<a href="https://www.w3schools.com/Css/css_font.asp">CSS Fonts</a>を、ウェブセーフなフォントの一覧については<a href="https://www.w3schools.com/cssref/css_websafe_fonts.asp">CSS Web Safe Fonts</a>を見てみてください。ウェブセーフとは、基本的にどんなコンピューターやデバイスにもインストールされているフォントであることを意味します(ただし、フォールバックとしてジェネリックフォントファミリーも必ず含めてください)。</p>
 </li>
 </ol>
 </div>
@@ -86,8 +105,12 @@
 <li><a href="https://www.w3schools.com/html/html_blocks.asp"><code>div</code>はブロックですか、インラインですか?</a></li>
 <li><a href="https://www.w3schools.com/html/html_blocks.asp"><code>span</code>はブロックですか、インラインですか?</a></li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

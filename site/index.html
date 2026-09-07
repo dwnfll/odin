@@ -1,21 +1,39 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Odin Project 日本語版</title>
-<link rel="stylesheet" href="assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Odin Project 日本語版 | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/application.css">
+<link rel="stylesheet" href="assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="index.html">
+      <img class="tvp-nav__logo" src="assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
+  </div>
+</nav>
 
-<div class="top-index">
-  <h1>The Odin Project — 日本語版 (ローカルプレビュー)</h1>
-  <p>これは翻訳作業を確認するためのローカル専用プレビューです。公開・配布はしないでください。</p>
-  <ul><li><a href="foundations/index.html">Foundations</a></li><li><a href="intermediate_html_css/index.html">Intermediate HTML and CSS</a></li><li><a href="advanced_html_css/index.html">Advanced HTML and CSS</a></li><li><a href="javascript/index.html">JavaScript</a></li><li><a href="react/index.html">React</a></li><li><a href="databases/index.html">Databases</a></li><li><a href="nodeJS/index.html">NodeJS</a></li><li><a href="getting_hired/index.html">Getting Hired</a></li></ul>
-</div>
+<main class="tvp-main">
+  <div class="tvp-index">
+    <div class="tvp-hero">
+      <h1>The Odin Project — 日本語版</h1>
+      <p>これは翻訳作業を確認するためのローカル専用プレビューです。公開・配布はしないでください。</p>
+    </div>
+    <ul class="tvp-course-list"><li><a href="foundations/index.html">Foundations</a></li><li><a href="intermediate_html_css/index.html">Intermediate HTML and CSS</a></li><li><a href="advanced_html_css/index.html">Advanced HTML and CSS</a></li><li><a href="javascript/index.html">JavaScript</a></li><li><a href="react/index.html">React</a></li><li><a href="databases/index.html">Databases</a></li><li><a href="nodeJS/index.html">NodeJS</a></li><li><a href="getting_hired/index.html">Getting Hired</a></li></ul>
+  </div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

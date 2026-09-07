@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Revisiting Webpack</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisiting Webpack | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
-    <h1 class="lesson-header__title">Revisiting Webpack <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Revisiting Webpack</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Revisiting Webpack</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Revisiting Webpack</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>Restaurant Pageに取り組んだ、よくできました!すべてのローダーとプラグインを使ってWebpackをセットアップして使うことは、面倒に感じたかもしれませんし、今でもそのすべてのポイントが何なのか疑問に思っているかもしれません。先に進んでいくにつれて、これらの多くはあなたにとってより自然なものになっていきますし、これらの基本的な概念が、まだ来ぬ問題に対処するのに役立つことを願っています!</p>
 <p>Webpackを少しいじってみたところで、セットアップの体験と開発のワークフローを改善するのに役立ういくつかのことを見ていきましょう。これらのいくつかは、Webpackだけに限定されるものではなく、進んでいく中で他のツールでも使い続けられるものです。</p>
 <h3>レッスン概要</h3>
@@ -56,8 +73,10 @@
 <h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li><a href="https://webpack.js.org/guides/production/">Webpackの「Production」ガイド</a>を読んで、<code>webpack-merge</code>の使い方と設定ファイルの分割方法を見ていきましょう。そのガイドで使われている正確なコード例は、彼らが持っているより長いチュートリアルの前の部分から続いていますが、<code>webpack-merge</code>と設定ファイルの分割についての主な部分は、新しいプロジェクトでも十分に追っていけるはずですし、Restaurant Pageプロジェクトをこのやり方に変換してみることもできます!
-   - 「Specify the Mode」のセクションとその例は無視して構いません。</li>
+<li><a href="https://webpack.js.org/guides/production/">Webpackの「Production」ガイド</a>を読んで、<code>webpack-merge</code>の使い方と設定ファイルの分割方法を見ていきましょう。そのガイドで使われている正確なコード例は、彼らが持っているより長いチュートリアルの前の部分から続いていますが、<code>webpack-merge</code>と設定ファイルの分割についての主な部分は、新しいプロジェクトでも十分に追っていけるはずですし、Restaurant Pageプロジェクトをこのやり方に変換してみることもできます!<ul>
+<li>「Specify the Mode」のセクションとその例は無視して構いません。</li>
+</ul>
+</li>
 </ol>
 </div>
 <h3>知識の確認</h3>
@@ -69,8 +88,12 @@
 <li><a href="https://webpack.js.org/guides/production/">Webpackの設定ファイルを、重複を最小限にして分割できるツールは何ですか?</a></li>
 <li><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository">テンプレートリポジトリとは何で、どう作成しますか?</a></li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

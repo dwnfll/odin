@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Todo List</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo List | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
-    <h1 class="lesson-header__title">Todo List <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Todo List</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Todo List</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Todo List</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>この時点で、あなたはすでに私たちが示してきたさまざまなテクニックをかなり練習してきました。しかし、私たちはあなたにたくさんの情報を投げかけてきたので、先に進む前に少し立ち止まって、これらのテクニックを結びつける、もう一つの素晴らしいプロジェクトに取り組む時間を取りましょう。あなたが新しく身につけたスキルのほとんど(もしすべてでなければ)を披露する機会になるはずです!</p>
 <h3>Todoリスト</h3>
 <p>Todoリストは初心者向けのウェブ開発チュートリアルの定番であり、実装は基本的なものにできます。しかし、改善の余地や追加できる機能はたくさんあります。</p>
@@ -30,17 +47,23 @@
 <li>あなたのtodoアイテムがどんな種類のプロパティを持つべきか、ブレインストーミングしてみてください。最低限、<code>title</code>、<code>description</code>、<code>dueDate</code>、<code>priority</code>を持つべきです。<code>notes</code>や、<code>checklist</code>さえも含めたいと思うかもしれません。</li>
 <li>あなたのtodoリストは<code>projects</code>、つまり別々の<code>todos</code>のリストを持つべきです。ユーザーが最初にアプリを開いたとき、彼らのすべてのtodoが入る、何らかの「デフォルト」プロジェクトがあるべきです。ユーザーは新しいプロジェクトを作成でき、自分のtodoをどのプロジェクトに入れるか選べるべきです。</li>
 <li>アプリケーションロジック(つまり、新しいtodoの作成、todoを完了に設定すること、todoの優先度を変更することなど)をDOM関連のものから分離すべきなので、それらすべてを別々のモジュールに保ってください。</li>
-<li>ユーザーインターフェースの見た目はあなた次第ですが、次のことができるべきです:</li>
+<li>ユーザーインターフェースの見た目はあなた次第ですが、次のことができるべきです:<ol>
 <li>すべてのプロジェクトを表示する。</li>
 <li>それぞれのプロジェクト内のすべてのtodoを表示する(おそらくタイトルと期日だけ…もしかしたら優先度によって色を変えるのもいいかもしれません)。</li>
 <li>単一のtodoを展開して、その詳細を確認・編集する。</li>
 <li>todoを削除する。</li>
-<li>インスピレーションのために、次の素晴らしいtodoアプリをチェックしてみてください。(スクリーンショットを見たり、紹介動画を見たりしてみてください)</li>
+</ol>
+</li>
+<li>インスピレーションのために、次の素晴らしいtodoアプリをチェックしてみてください。(スクリーンショットを見たり、紹介動画を見たりしてみてください)<ol>
 <li><a href="https://en.todoist.com/">Todoist</a></li>
 <li><a href="https://culturedcode.com/things/">Things</a></li>
 <li><a href="https://www.any.do/">any.do</a></li>
-<li>おそらくすでにwebpackを使っているので、npmから外部ライブラリを追加するのは朝飯前です!コードで次の便利なライブラリを使うことを検討したくなるかもしれません:</li>
+</ol>
+</li>
+<li>おそらくすでにwebpackを使っているので、npmから外部ライブラリを追加するのは朝飯前です!コードで次の便利なライブラリを使うことを検討したくなるかもしれません:<ol>
 <li><a href="https://github.com/date-fns/date-fns">date-fns</a>は、日付や時間をフォーマット・操作するための便利な関数をたくさん与えてくれます。</li>
+</ol>
+</li>
 <li>
 <p>私たちはまだ、実際にデータをどこかに保存するテクニックを学んでいないので、ユーザーがページをリフレッシュすると、彼らのすべてのtodoが消えてしまいます!Web Storage APIを使って、このtodoアプリに何らかの永続性を追加すべきです。</p>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API">localStorage</a>を使うと、ユーザーのコンピューターにデータを保存できます。ここでの欠点は、そのデータが作成されたコンピューター上でしかアクセスできないということです。それでも、かなり便利です!新しいプロジェクト(またはtodo)が作成されるたびにプロジェクト(とtodo)をlocalStorageに保存する関数と、アプリが最初に読み込まれたときにlocalStorageの中にそのデータを探す別の関数をセットアップしてください。さらに、つまずかないようにするための、いくつかの簡単なヒントをここに示します:
@@ -50,8 +73,12 @@
 </li>
 </ol>
 </div>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

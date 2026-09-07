@@ -1,0 +1,84 @@
+/* Local-viewer chrome for the Odin Project JA preview.
+   The lesson BODY is styled entirely by application.css (the real, compiled
+   Tailwind + @tailwindcss/typography "prose" + the app's own custom_styles).
+   This file only styles the surrounding shell -- navbar, breadcrumb, lesson
+   header, and the index/course listing pages -- using plain CSS classes
+   (tvp-*) so it never depends on Tailwind having scanned these generated
+   pages. Colors/spacing here mirror the real site's palette. */
+
+:root {
+  --tvp-border: #e5e7eb; --tvp-gray-900: #111827; --tvp-gray-800: #1f2937;
+  --tvp-gray-700: #374151; --tvp-gray-600: #4b5563; --tvp-gray-500: #6b7280;
+  --tvp-canvas: #f9fafb; --tvp-gold: #ce973e; --tvp-gold-600: #a9792b;
+  --tvp-gold-50: #f3e6d0; --tvp-gold-800: #503914;
+}
+
+body { font-family: Inter, "Helvetica Neue", Helvetica, Arial, "Yu Gothic",
+       "Hiragino Sans", "Noto Sans JP", sans-serif; background: var(--tvp-canvas); }
+
+/* Navbar */
+.tvp-nav { background: #fff; border-bottom: 1px solid var(--tvp-border);
+           position: sticky; top: 0; z-index: 50; }
+.tvp-nav__inner { max-width: 80rem; margin: 0 auto; padding: 0.5rem 1.5rem;
+                  display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.tvp-nav__brand { display: flex; align-items: center; }
+.tvp-nav__logo { height: 2.75rem; width: auto; display: block; }
+.tvp-nav__links { display: flex; align-items: center; gap: 1.25rem; font-size: 0.9rem; }
+.tvp-nav__links a { color: var(--tvp-gray-600); text-decoration: none; font-weight: 500; }
+.tvp-nav__links a:hover { color: var(--tvp-gray-900); }
+.tvp-badge { background: var(--tvp-gold-50); color: var(--tvp-gold-800);
+             font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.6rem;
+             border-radius: 9999px; white-space: nowrap; }
+
+/* Shared page containers */
+.tvp-main { padding: 2.5rem 1.5rem 5rem; }
+.tvp-lesson { max-width: 70ch; margin: 0 auto; }
+.tvp-index { max-width: 64rem; margin: 0 auto; }
+
+/* Lesson header */
+.tvp-lesson__head { display: flex; align-items: center; gap: 0.75rem;
+                    flex-wrap: wrap; margin-bottom: 0.5rem; }
+.tvp-lesson__title { font-size: 1.875rem; line-height: 2.35rem; font-weight: 600;
+                     color: var(--tvp-gray-800); margin: 0; }
+.tvp-breadcrumb { margin: 0 0 2rem; font-size: 0.85rem; }
+.tvp-breadcrumb a { color: var(--tvp-gray-500); text-decoration: none; }
+.tvp-breadcrumb a:hover { color: var(--tvp-gold-600); }
+.tvp-lesson__desc { color: var(--tvp-gray-500); margin: 0 0 2rem; }
+
+.lang-badge { font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 600; }
+.lang-badge--ja { background: #e6f4ea; color: #2e8b57; }
+.lang-badge--en { background: #fdf3d8; color: #b8860b; }
+
+/* Top index (course list) */
+.tvp-hero h1 { font-size: 2rem; font-weight: 700; color: var(--tvp-gray-800); margin: 0 0 0.5rem; }
+.tvp-hero p { color: var(--tvp-gray-500); margin: 0; }
+.tvp-course-list { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 0.75rem; }
+.tvp-course-list a { display: block; padding: 1rem 1.25rem; border: 1px solid var(--tvp-border);
+                     border-radius: 0.75rem; background: #fff; text-decoration: none;
+                     color: var(--tvp-gray-800); font-weight: 600;
+                     transition: border-color 0.15s, box-shadow 0.15s; }
+.tvp-course-list a:hover { border-color: var(--tvp-gold); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+/* Course index (sections + lessons) */
+.tvp-section { margin-top: 2.5rem; }
+.tvp-section > h2 { font-size: 1.25rem; font-weight: 600; color: var(--tvp-gray-800);
+                    padding-bottom: 0.5rem; border-bottom: 1px solid var(--tvp-border); margin: 0; }
+.tvp-lessons { list-style: none; padding: 0; margin: 0.75rem 0 0; }
+.tvp-lessons li { padding: 0.35rem 0; }
+.tvp-lessons a { text-decoration: none; }
+.tvp-lessons a:hover { text-decoration: underline; }
+.nav-lesson--done a { color: var(--tvp-gray-800); }
+.nav-lesson--fallback a { color: var(--tvp-gray-600); }
+.nav-lesson--missing a { color: var(--tvp-gray-500); }
+.tvp-proj { color: var(--tvp-gold-600); font-size: 0.8rem; }
+.tvp-legend { color: var(--tvp-gray-500); font-size: 0.85rem; display: flex;
+              gap: 1.25rem; flex-wrap: wrap; margin-top: 0.75rem; }
+.dot { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 2px;
+       vertical-align: middle; margin-right: 0.3rem; }
+.dot--done { background: #2e8b57; }
+.dot--fallback { background: #b8860b; }
+.dot--missing { background: #c0392b; }
+
+/* Misc */
+.notice { padding: 1rem 1.25rem; border-radius: 0.5rem; }
+.notice--missing { background: #fdecea; color: #c0392b; }

@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Introduction to Frameworks</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Frameworks | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">nodeJS</a></p>
-    <h1 class="lesson-header__title">Introduction to Frameworks <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
-    <p class="lesson-header__desc">Let&#x27;s figure out what all the hubbub is all about.</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>Introduction</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Introduction to Frameworks</h1>
+        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Let&#x27;s figure out what all the hubbub is all about.</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>Introduction</h3>
 <p>Programmers, the best of whom are pretty lazy folk (in a good way), got tired of having to write the same code over and over and over again just to cover the basic tasks that they wanted their applications to perform.  So they batched that recycled code together and called it a framework.</p>
 <p>In addition to preventing repetition, frameworks provide great organization.  They tend to force you to organize your files and code in a way that keeps it highly modular and really clean.  When you start a new app with any framework, you're given dozens of folders already organized in a hierarchy which makes sense and follows good practice such as Model-View-Controller (MVC) separation principles.  It's not quite "color-by-numbers" for code, but it certainly keeps things ordered.</p>
 <p>There are often several different popular frameworks for a given language.  They can have exciting names like <a href="http://emberjs.com/">Ember</a>, <a href="http://www.meteor.com/">Meteor</a>, <a href="https://www.djangoproject.com/">Django</a>, <a href="http://rubyonrails.org/">Rails</a>, etc.  Wikipedia has a <a href="http://en.wikipedia.org/wiki/Comparison_of_web_application_frameworks">comprehensive comparison of frameworks</a> that should give you an appreciation of the number of them.  For Ruby alone, though Rails is the most popular, there are also <a href="http://www.sinatrarb.com/">Sinatra</a> and <a href="http://www.padrinorb.com/">Padrino</a> and more.</p>
@@ -42,8 +59,12 @@
 <li><a href="https://dev.to/aspittel/what-is-a-web-framework-and-why-should-i-use-one-38c0">What are some popular front-end and back-end frameworks?</a></li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Web_frameworks#how_to_select_a_web_framework">How can you describe the process of choosing a framework?</a></li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shopping Cart</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">react</a></p>
-    <h1 class="lesson-header__title">Shopping Cart <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
-    <p class="lesson-header__desc">Shopping Cart</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>Introduction</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Shopping Cart</h1>
+        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Shopping Cart</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>Introduction</h3>
 <p>By now you've come far from your React-baby days. You have tools like routers and testing frameworks under your belt but you still have a long way to go. Now is a great time to put these concepts to use with a classic project - a mock shopping cart.</p>
 <h3>Assignment</h3>
 <div class="lesson-content__panel">
@@ -33,37 +50,37 @@
 <li>Fetch your shop items from <a href="https://fakestoreapi.com">FakeStore API</a> or something similar.</li>
 <li>Make sure to test your app thoroughly using the React Testing Library. Be careful not to test <code>react-router</code> directly, since it is an external library and the developers working on it must have tested the library already.</li>
 <li>As usual, style your application so you can show it off! You have a host of options provided already.</li>
-<li>Lastly, it's time to deploy it! Depending on what hosting solution you're using, you may need some additional configuration so that your routing is handled correctly as a single page application (SPA).</li>
-</ol>
+<li>
+<p>Lastly, it's time to deploy it! Depending on what hosting solution you're using, you may need some additional configuration so that your routing is handled correctly as a single page application (SPA).</p>
 <ul>
 <li>
 <p><strong>Netlify</strong>: You need to add a <code>_redirects</code> file to the <code>public/</code> directory of your project. Copy the following to redirect all routes to the index page and let <code>react-router</code> handle the rest. You can read more about this at the <a href="https://docs.netlify.com/routing/redirects/">Netlify documentation on redirects</a>.</p>
-<pre><code>```text
-/* /index.html 200
-```
-</code></pre>
+<pre class="highlight"><code class="language-text">/* /index.html 200</code></pre>
 </li>
 <li>
 <p><strong>Vercel</strong>: You need to add a <code>vercel.json</code> file at the root of your project and copy the following configuration. Similar to Netlify, this redirects all routes to the index page and lets <code>react-router</code> handle the rest. More information can be found here at the <a href="https://vercel.com/docs/frameworks/vite#using-vite-to-make-spas">Vercel documentation for SPAs and Vite</a>.</p>
-<pre><code>```json
-{
+<pre class="highlight"><code class="language-json">{
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
-}
-```
-</code></pre>
+}</code></pre>
 </li>
 <li>
 <p><strong>Cloudflare Pages</strong>: As of the time of writing, unlike Netlify and Vercel, no additional steps are required as the default behavior will allow <code>react-router</code> to correctly handle redirects for SPAs. You can learn more about this at the <a href="https://developers.cloudflare.com/pages/platform/serving-pages/">Cloudflare documentation on serving pages</a>.</p>
 </li>
 </ul>
+</li>
+</ol>
 </div>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

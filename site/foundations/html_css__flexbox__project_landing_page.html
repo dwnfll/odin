@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Landing Page</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landing Page | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
-    <h1 class="lesson-header__title">Landing Page <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Build a complete landing page from a given web design.</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Landing Page</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← foundations</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Build a complete landing page from a given web design.</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>このプロジェクトでは、私たちが提供するデザインをもとに、ウェブページ全体を作成します。ここまでついてきていれば、これを達成するために必要なスキルは身についているはずですが、簡単ではないかもしれません!</p>
 <p>私たちが提供するデザインは、完成したウェブサイトの画像であり、以下の課題セクションにはフォントや色についての詳細も記載しています。</p>
 <p>何かを調べるためにGoogleを使ったり、前のレッスンに戻ったりすることを恐れ<em>ないで</em>ください。<strong>現実の世界では、プロの開発者も、何年もやってきたことについて<em>常に</em>Googleを使っています。</strong>この時点で、すべてを暗記していることは期待されていないので、心配しないでください。さらに、私たちのレッスンでまだ出会っていないかもしれない、いくつかの小さな詳細もあります。<em>これは意図的なものです。</em>これらの詳細は些細なものであり、簡単に検索できます(例:Google検索で<code>css rounded corners</code>)。</p>
@@ -35,30 +52,40 @@
 <div class="lesson-content__panel">
 <p>早めに、こまめにコミットするのを忘れないでください<img alt="Commit Messageのレッスンを参照" src="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/commit-messages" />できます!</p>
 <ol>
-<li><a href="https://cdn.statically.io/gh/TheOdinProject/curriculum/81a5d553f4073e593d23a6ab00d50eef8620796d/foundations/html_css/project/imgs/01.png">完全なデザイン画像をダウンロード</a>して、これから作成するものを見てみましょう。フォント、色、サイズの一部は以下の通りです(お好みで自分自身のものを使っても構いません):
-   - フォント: <code>Roboto</code>(まだ持っていない場合は、このフォントをダウンロードしてインストールする必要があります)
-   - 暗い背景色(ヘッダー、ヒーローセクション、フッター): <code>#1F2937</code>
-   - ロゴのテキスト:<ul>
+<li><a href="https://cdn.statically.io/gh/TheOdinProject/curriculum/81a5d553f4073e593d23a6ab00d50eef8620796d/foundations/html_css/project/imgs/01.png">完全なデザイン画像をダウンロード</a>して、これから作成するものを見てみましょう。フォント、色、サイズの一部は以下の通りです(お好みで自分自身のものを使っても構いません):<ul>
+<li>フォント: <code>Roboto</code>(まだ持っていない場合は、このフォントをダウンロードしてインストールする必要があります)</li>
+<li>暗い背景色(ヘッダー、ヒーローセクション、フッター): <code>#1F2937</code></li>
+<li>ロゴのテキスト:<ul>
 <li>フォントサイズ: <code>24px</code></li>
 <li>色: <code>#F9FAF8</code></li>
-<li>ヒーローセクションのメインテキスト(「This website is awesome」):</li>
+</ul>
+</li>
+<li>ヒーローセクションのメインテキスト(「This website is awesome」):<ul>
 <li>フォントサイズ: <code>48px</code></li>
 <li>色: <code>#F9FAF8</code></li>
 <li>ウェイト: <code>900</code></li>
-<li>ヒーローセクションのサブテキスト(「This website has some subtext...」)とヘッダーのリンク:</li>
+</ul>
+</li>
+<li>ヒーローセクションのサブテキスト(「This website has some subtext...」)とヘッダーのリンク:<ul>
 <li>フォントサイズ: <code>18px</code></li>
 <li>色: <code>#E5E7EB</code></li>
+</ul>
+</li>
 <li>ボタンと「Call to action」の背景色: <code>#3882F6</code></li>
-<li>Informationの見出し:</li>
+<li>Informationの見出し:<ul>
 <li>フォントサイズ: <code>36px</code></li>
 <li>色: <code>#1F2937</code></li>
 <li>ウェイト: <code>900</code></li>
-<li>引用:</li>
+</ul>
+</li>
+<li>引用:<ul>
 <li>背景色: <code>#E5E7EB</code></li>
 <li>フォントサイズ: <code>36px</code></li>
 <li>色: <code>#1F2937</code></li>
 <li>ウェイト: <code>300</code></li>
 <li>フォントスタイル: <code>italic</code></li>
+</ul>
+</li>
 </ul>
 </li>
 <li>このようなプロジェクトに取り組む方法はたくさんあり、白紙のHTMLドキュメントを見て何から始めればいいか分からなくなると、圧倒されてしまうことがあります。私たちからの提案は、一度に1つのセクションずつ取り組むことです。作成しているウェブサイトには4つの主なセクション(とフッター)があるので、1つを選び、次に進む前にかなり良い形に仕上げてください。上から始めるのは常に堅実な計画です。</li>
@@ -70,8 +97,12 @@
 <h4>ウェブ上でプロジェクトを表示する</h4>
 <p>ウェブサイトを他の人と共有するには、<strong>GitHub Pagesを使ってデプロイする</strong>必要があります。このプロセスの完全な手順は、<a href="https://www.theodinproject.com/lessons/foundations-recipes#viewing-your-project-on-the-web">Recipesプロジェクト</a>のレッスンにあります。</p>
 </div>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

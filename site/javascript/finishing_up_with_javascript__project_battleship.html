@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Battleship</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Battleship | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">javascript</a></p>
-    <h1 class="lesson-header__title">Battleship <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span></h1>
-    <p class="lesson-header__desc">Battleship</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>Introduction</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Battleship</h1>
+        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Battleship</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>Introduction</h3>
 <p>It's time to really flex your muscles. Test Driven Development (TDD) can certainly feel uncomfortable at first, but becomes more natural with practice. We're going to implement the classic game 'Battleship'. If you've never played it, or need a refresher, you can read about <a href="https://en.wikipedia.org/wiki/Battleship_(game)">Battleship's rules</a> and you can <a href="http://en.battleship-game.org/">play an online version of Battleship</a>.</p>
 <p>Since we're doing TDD, it's important that you don't get overwhelmed. Take it one step at a time. Write a test, then make it pass. Since this project has more moving parts across different modules compared to previous projects that utilized testing, if you are unsure what to test or how to approach the testing, consider revisiting the ideas and assignments from the <a href="https://www.theodinproject.com/lessons/node-path-javascript-more-testing">More Testing lesson</a>.</p>
 <p>We have not yet discussed testing the appearance of a webpage, which requires a separate set of tools and is outside the scope of this unit, but this is something we will cover later in the curriculum. Therefore, you should not test the DOM for this assignment. Instead, do your best to isolate every bit of application functionality from the actual DOM manipulation bits.</p>
@@ -29,21 +46,27 @@
 <p>Remember that Jest does not have built-in stable support for ESM, so you will need to <a href="https://www.theodinproject.com/lessons/node-path-javascript-testing-basics#using-es6-import-statements-with-jest">set up Babel for Jest ESM/CJS conversion</a>.</p>
 </div>
 <ol>
-<li>Begin your app by creating the <code>Ship</code> class/factory (your choice).</li>
+<li>Begin your app by creating the <code>Ship</code> class/factory (your choice).<ol>
 <li>Your 'ships' will be objects that include their length, the number of times they've been hit and whether or not they've been sunk.</li>
 <li><strong>REMEMBER</strong> you only have to test your object's public interface. Only methods or properties that are used outside of your 'ship' object need unit tests.</li>
 <li>Ships should have a <code>hit()</code> function that increases the number of 'hits' in your ship.</li>
 <li><code>isSunk()</code> should be a function that calculates whether a ship is considered sunk based on its length and the number of hits it has received.</li>
-<li>Create a <code>Gameboard</code> class/factory.</li>
+</ol>
+</li>
+<li>Create a <code>Gameboard</code> class/factory.<ol>
 <li>Note that we have not yet created any User Interface. We should know our code is coming together by running the tests. You shouldn't be relying on <code>console.log</code> or DOM methods to make sure your code is doing what you expect it to.</li>
 <li>Gameboards should be able to place ships at specific coordinates by calling the ship factory or class.</li>
 <li>Gameboards should have a <code>receiveAttack</code> function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the 'hit' function to the correct ship, or records the coordinates of the missed shot.</li>
 <li>Gameboards should keep track of missed attacks so they can display them properly.</li>
 <li>Gameboards should be able to report whether or not all of their ships have been sunk.</li>
-<li>Create a <code>Player</code> class/factory.</li>
+</ol>
+</li>
+<li>Create a <code>Player</code> class/factory.<ol>
 <li>There will be two types of players in the game, 'real' players and 'computer' players.</li>
 <li>Each player object should contain its own gameboard.</li>
-<li>Import your classes/factories into another file, and drive the game using event listeners to interact with your objects. Create a module that helps you manage actions that should happen in the DOM.</li>
+</ol>
+</li>
+<li>Import your classes/factories into another file, and drive the game using event listeners to interact with your objects. Create a module that helps you manage actions that should happen in the DOM.<ol>
 <li>At this point it is appropriate to begin crafting your User Interface.</li>
 <li>Set up a new game by creating Players. For now just populate each player's Gameboard with predetermined coordinates. You are going to implement a system for allowing players to place their ships later.</li>
 <li>We’ll leave the HTML implementation up to you for now, but you should display both the player’s boards and render them using information from the Gameboard class/factory.<ul>
@@ -57,6 +80,8 @@
 </ul>
 </li>
 <li>Create conditions so that the game ends once one player’s ships have all been sunk. This function is also appropriate for this module.</li>
+</ol>
+</li>
 <li>Finish it up by implementing a system that allows players to place their ships. For example, you can let them type coordinates for each ship or have a button to cycle through random placements.</li>
 </ol>
 <h4>Extra credit</h4>
@@ -67,8 +92,12 @@
 <li>Polish the intelligence of the computer player by having it try adjacent slots after getting a 'hit'.</li>
 </ul>
 </div>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

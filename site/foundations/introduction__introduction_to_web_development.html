@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Introduction to Web Development</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Web Development | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
-    <h1 class="lesson-header__title">Introduction to Web Development <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Learn a little about web development as a career.</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Introduction to Web Development</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← foundations</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Learn a little about web development as a career.</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>ウェブ開発者は何をするのでしょうか?簡単に言えば、ウェブサイトを構築し、保守します。</p>
 <p>ウェブ開発者は、自社の製品やサービスをウェブ上に展開しようとしているクライアントのために働くことがよくあります。この仕事は通常プロジェクト単位で進められ、クライアントのニーズを最終製品へとまとめ上げるためにチームで協力することが求められます。クライアントはテック企業、組織、あるいは政府機関である場合もあります。仕事の内容はフロントエンド、バックエンド、あるいはフルスタックのウェブ開発に及ぶことがあります。</p>
 <p>論理的な問題を解決すること、役に立つものを作ること、新しい技術を試すことが好きなら、ウェブ開発はあなたにとって良い職業になり得ます。ウェブ開発者の需要は高く、一般的にワークライフバランスも良好で、快適な給与を得られます。自分の住んでいる地域を調べて、地元のウェブ開発の求人事情をよりよく把握してみてください。</p>
@@ -84,8 +101,12 @@
 <li><a href="#types-of-careers">どのようなキャリアの種類がありますか?</a></li>
 <li><a href="#tools-of-the-trade">日常的に使用することになるツールにはどのようなものがありますか?</a></li>
 </ul>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>

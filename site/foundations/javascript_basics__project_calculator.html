@@ -1,24 +1,41 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calculator</title>
-<link rel="stylesheet" href="../assets/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator | The Odin Project 日本語版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/application.css">
+<link rel="stylesheet" href="../assets/viewer.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="site-header__home" href="../index.html">The Odin Project 日本語版 (ローカルプレビュー)</a>
-</header>
-
-<div class="lesson">
-  <div class="lesson-header">
-    <p class="lesson-header__course"><a href="index.html">foundations</a></p>
-    <h1 class="lesson-header__title">Calculator <span class="lang-badge lang-badge--ja">日本語訳</span></h1>
-    <p class="lesson-header__desc">Calculator</p>
+<body class="h-full bg-gray-50 text-gray-600">
+<nav class="tvp-nav">
+  <div class="tvp-nav__inner">
+    <a class="tvp-nav__brand" href="../index.html">
+      <img class="tvp-nav__logo" src="../assets/logo.svg" alt="The Odin Project">
+    </a>
+    <div class="tvp-nav__links">
+      <a href="../index.html">All Paths</a>
+      <span class="tvp-badge">日本語版 · ローカルプレビュー</span>
+    </div>
   </div>
-  <div class="lesson-content">
-    <h3>イントロダクション</h3>
+</nav>
+
+<main class="tvp-main">
+  <div class="tvp-lesson">
+    <header>
+      <div class="tvp-lesson__head">
+        <h1 class="tvp-lesson__title">Calculator</h1>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
+      </div>
+      <p class="tvp-breadcrumb"><a href="index.html">← foundations</a></p>
+    </header>
+    <p class="tvp-lesson__desc">Calculator</p>
+    <article>
+      <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
+        <h3>イントロダクション</h3>
 <p>やりましたね!ここまでで、JavaScriptの基礎について<em>本当に</em>しっかりとした理解ができているはずです。もちろん学ぶべきことはまだたくさんありますが、この時点でかなりのものを作れるようになっているはずです。最後のプロジェクトでは、これまでに学んだすべてを組み合わせます。JavaScript、HTML、CSSを使って、画面上の電卓を作ります。</p>
 <p>いつものことですが、このプロジェクトにはあなたにとって簡単ではない要素がいくつかありますが、ここまでコースについてきていれば、それを完成させるために必要なものは間違いなくすべて揃っています。取れるさまざまなステップを案内していきますが、繰り返しになりますが、実際にそれらをどう実装するかはあなた次第です!</p>
 <div class="lesson-note lesson-note--warning">
@@ -30,24 +47,30 @@
 <p>早めに、こまめにコミットするのを忘れないでください!ここで<a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/commit-messages">Commit Messagesのレッスン</a>を参照できます!</p>
 <p>以下はいくつかのユースケース(プロジェクトについての期待事項)です:</p>
 <ol>
-<li>あなたの電卓には、一般的に電卓で見られるすべての基本的な算術演算子のための関数が含まれることになります。まずは以下の項目の関数を作成し、ブラウザのコンソールでテストすることから始めてください:
-   - add(足し算)
-   - subtract(引き算)
-   - multiply(掛け算)
-   - divide(割り算)</li>
+<li>あなたの電卓には、一般的に電卓で見られるすべての基本的な算術演算子のための関数が含まれることになります。まずは以下の項目の関数を作成し、ブラウザのコンソールでテストすることから始めてください:<ul>
+<li>add(足し算)</li>
+<li>subtract(引き算)</li>
+<li>multiply(掛け算)</li>
+<li>divide(割り算)</li>
+</ul>
+</li>
 <li>電卓の演算は、数値、演算子、そして別の数値で構成されます。例えば、3 + 5のようにです。演算の各部分に対応する3つの変数を作成してください。これらの変数は、後でディスプレイを更新するために使用します。</li>
 <li>演算子と2つの数値を受け取り、それらの数値に対して上記の関数のいずれかを呼び出す、新しい<code>operate</code>関数を作成してください。</li>
-<li>各数字と演算子(<code>=</code>を含む)のボタンを持つ、基本的なHTML電卓を作成してください。
-   - まだそれらを機能させることは気にしなくて構いません。
-   - 電卓用のディスプレイもあるべきです。正しく見えるように、ダミーの数字で埋めてみてください。
-   - 「clear」ボタンを追加してください。</li>
+<li>各数字と演算子(<code>=</code>を含む)のボタンを持つ、基本的なHTML電卓を作成してください。<ul>
+<li>まだそれらを機能させることは気にしなくて構いません。</li>
+<li>電卓用のディスプレイもあるべきです。正しく見えるように、ダミーの数字で埋めてみてください。</li>
+<li>「clear」ボタンを追加してください。</li>
+</ul>
+</li>
 <li>電卓の数字ボタンがクリックされたときに、あなたの数値変数の一つを更新する関数を作成してください。電卓のディスプレイも、その数値変数の値を反映するように更新されるべきです。</li>
-<li>電卓を機能させましょう!ユーザーが入力した1番目と2番目の数値を保存し、ユーザーが<code>=</code>ボタンを押したときに、数値の間で選択された演算子に従ってそれらに対して<code>operate()</code>を行う必要があります。
-   - ディスプレイに値を反映させるコードはすでにあるはずなので、<code>operate</code>が呼び出されたら、演算の結果でディスプレイを更新してください。
-   - これはプロジェクトの中で最も難しい部分です。すべての値をどう保存し、それらを使って<code>operate</code>関数をどう呼び出すかを考え出す必要があります。ロジックを考え出すのに時間がかかっても、気に病まないでください。</li>
+<li>電卓を機能させましょう!ユーザーが入力した1番目と2番目の数値を保存し、ユーザーが<code>=</code>ボタンを押したときに、数値の間で選択された演算子に従ってそれらに対して<code>operate()</code>を行う必要があります。<ul>
+<li>ディスプレイに値を反映させるコードはすでにあるはずなので、<code>operate</code>が呼び出されたら、演算の結果でディスプレイを更新してください。</li>
+<li>これはプロジェクトの中で最も難しい部分です。すべての値をどう保存し、それらを使って<code>operate</code>関数をどう呼び出すかを考え出す必要があります。ロジックを考え出すのに時間がかかっても、気に病まないでください。</li>
+</ul>
+</li>
+<li>注意点:以下のバグがコードに現れたら、注意して修正してください:<ul>
 <li>
-<p>注意点:以下のバグがコードに現れたら、注意して修正してください:
-   - <strong>あなたの電卓は、一度に1組の数値ペアより多くを評価すべきではありません。</strong>例えば、あなたの電卓は次のように機能すべきです:</p>
+<p><strong>あなたの電卓は、一度に1組の数値ペアより多くを評価すべきではありません。</strong>例えば、あなたの電卓は次のように機能すべきです:</p>
 <ol>
 <li>数値(<code>12</code>)を入力する。</li>
 <li>演算子(<code>+</code>)を入力する。</li>
@@ -57,13 +80,17 @@
 <li>別の演算子、あるいはイコール記号(<code>=</code>)を入力する。この時点で、前の結果(<code>19</code>)を最初の数値として、演算子(<code>-</code>)、そして新しい数値(<code>1</code>)を使って、新しい式<code>19 - 1</code>を計算すべきです。ディスプレイには結果(<code>18</code>)が表示されるはずです。</li>
 </ol>
 <ul>
-<li>これが実際にどう動くかを見るために、遠慮なく、たった今説明した式<code>12 + 7 - 1 =</code>をこの<a href="https://www.calculatorsoup.com/calculators/math/basic.php">オンライン電卓</a>に入力してみてください。</li>
+<li>これが実際にどう動くかを見るために、遠慮なく、たった今説明した式<code>12 + 7 - 1 =</code>をこの<a href="https://www.calculatorsoup.com/calculators/math/basic.php">オンライン電卓</a>に入力してみてください。<ul>
 <li>長い小数の答えは、ディスプレイからはみ出さないように丸めるべきです。</li>
 <li>すべての数値や演算子を入力する前に<code>=</code>を押すと、問題を引き起こす可能性があります!</li>
 <li>「clear」を押すと、既存のデータがすべて消去されるべきです。「clear」を押した後、ユーザーが本当にまっさらな状態から始められることを確認してください。</li>
 <li>ユーザーが0で割ろうとした場合、皮肉の効いたエラーメッセージを表示してください……そして電卓をクラッシュさせないでください!</li>
 <li>あなたの電卓が、ユーザーによって2つの数値と1つの演算子が与えられたときにのみ演算を実行するようにしてください。例:数値(<code>2</code>)を入力し、続けて演算子ボタン(<code>+</code>)を入力します。演算子ボタン(<code>+</code>)を2回連続して押します。あなたの電卓はこれを(<code>2 + 2</code>)として評価すべきではなく、結果(<code>4</code>)を表示すべきではありません。演算子ボタンが連続して押された場合、電卓は何の評価も実行すべきではなく、次の演算に使用するために最後に入力された演算子だけを取るべきです。</li>
 <li>結果が表示されているとき、新しい数字を押すと、既存の結果に数字を追加するのではなく、結果をクリアして新しい計算を始めるべきです。あなたの電卓でこれが当てはまるか確認してください!</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
@@ -74,8 +101,12 @@
 <li>キーボード対応を追加しましょう!</li>
 </ul>
 </div>
+      </div>
+    </article>
   </div>
-</div>
+</main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
 </html>
