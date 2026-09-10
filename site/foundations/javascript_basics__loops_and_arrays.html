@@ -110,7 +110,7 @@ console.log(mappedArr); // Outputs [2, 3, 4, 5, 6]</code></pre>
 <p><code>map</code>は新しい配列を返し、元の配列を変更しません。</p>
 <pre class="highlight"><code class="language-javascript">// The original array has not been changed!
 console.log(arr); // Outputs [1, 2, 3, 4, 5]</code></pre>
-<p>このように<code>map</code>を使うことは、<code>for</code>ループを書いて配列を反復処理するよりエレガントかもしれません。しかし、さらに良くすることができます。<code>addOne</code>を他のどこでも使っておらず、単純な関数なので、次のようにアロー関数を使って<code>map</code>の中に直接インラインで定義できます:</p>
+<p>このように<code>map</code>を使うことは、<code>for</code>ループを書いて配列を反復処理するよりエレガントかもしれません。しかし、さらに良くできます。<code>addOne</code>を他のどこでも使っておらず、単純な関数なので、次のようにアロー関数を使って<code>map</code>の中に直接インラインで定義できます:</p>
 <pre class="highlight"><code class="language-javascript">const arr = [1, 2, 3, 4, 5];
 const mappedArr = arr.map((num) =&gt; num + 1);
 console.log(mappedArr); // Outputs [2, 3, 4, 5, 6]</code></pre>

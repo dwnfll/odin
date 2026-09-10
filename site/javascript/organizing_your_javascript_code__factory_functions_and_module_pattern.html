@@ -80,7 +80,7 @@ printAge(globalAge);
 console.log(varAge);</code></pre>
 <p>その例についてじっくり考える時間を取ってください。結局のところ、それほど驚くべき概念ではありませんが、そこにはたくさんの用語が詰まっています - それらすべてが、次の巨大なテーマ、クロージャを理解するのに役立ちます。</p>
 <h3 id="closures-arent-scary">クロージャは怖くない</h3>
-<p>何らかの入力に基づいて、ある値を繰り返し取得したり作成したりする必要がある場合、パラメータを持つ関数を使うことがあるのをご存知でしょう?例えば、引数を受け取り、それらの引数を使った結果として配列や文字列や数値を返す関数を書くことができます。関数も同じです。ある関数を使って別の関数を作成することができます。</p>
+<p>何らかの入力に基づいて、ある値を繰り返し取得したり作成したりする必要がある場合、パラメータを持つ関数を使うことがあるのをご存知でしょう?例えば、引数を受け取り、それらの引数を使った結果として配列や文字列や数値を返す関数を書くことができます。関数も同じです。ある関数を使って別の関数を作成できます。</p>
 <p>これに取り組む最良の方法は、例から始めることでしょう - 以下のコードの断片を見てみてください。</p>
 <pre class="highlight"><code class="language-javascript">function makeAddingFunction(firstNumber) {
   // firstNumber is scoped anywhere within makeAddingFunction,
@@ -160,7 +160,7 @@ const [zerothEle, firstEle] = array;</code></pre>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">分割代入についてのMDNのドキュメント</a>には素晴らしい例がいくつかあり、この概念について良い読み物になるはずです。</p>
 </div>
 <h3 id="private-variables-and-functions">プライベート変数とプライベート関数</h3>
-<p>さて、これらすべてのどこにクロージャが関わってくるのだろうと思っているかもしれません。ファクトリーはオブジェクトを返しているように見えます。ここで、私たちの<code>User</code>ファクトリーを拡張して、さらにいくつかの変数を追加し、「プライベート」なものを導入することができます。今度はこれを見てみてください:</p>
+<p>さて、これらすべてのどこにクロージャが関わってくるのだろうと思っているかもしれません。ファクトリーはオブジェクトを返しているように見えます。ここで、私たちの<code>User</code>ファクトリーを拡張して、さらにいくつかの変数を追加し、「プライベート」なものを導入できます。今度はこれを見てみてください:</p>
 <pre class="highlight"><code class="language-javascript">function createUser(name) {
   const discordName = "@" + name;
 

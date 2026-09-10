@@ -95,7 +95,7 @@ squash 92aa6f3 Create second file
 pick 05e5413 Create third file and create fourth file</code></pre>
 <p>エディタが開くと、スカッシュされるコミットのコミットメッセージが表示されます。コミットメッセージが<code>Create first and second file</code>だけを含むように編集し、それからエディタを保存して閉じ、スカッシュとリベースを完了させてください。これで完了です!<code>git log</code>を実行して、最初の2つのコミットがどのようにスカッシュされて1つになったかを確認してみましょう。</p>
 <h4 id="splitting-up-a-commit">コミットを分割する</h4>
-<p>リモートについて深く掘り下げる前に、<code>git reset</code>という便利なGitコマンドを見ていきましょう。<code>Create third file and create fourth file</code>というコミットを見てみましょう。今のところ、便宜上空のファイルを使っていますが、これらのファイルに何らかの機能が含まれていて、このコミットが一度に説明しようとしている内容が多すぎたとしましょう。その場合、再びインタラクティブな<code>rebase</code>ツールを使うことで、このコミットを2つの小さなコミットに分割することができます。</p>
+<p>リモートについて深く掘り下げる前に、<code>git reset</code>という便利なGitコマンドを見ていきましょう。<code>Create third file and create fourth file</code>というコミットを見てみましょう。今のところ、便宜上空のファイルを使っていますが、これらのファイルに何らかの機能が含まれていて、このコミットが一度に説明しようとしている内容が多すぎたとしましょう。その場合、再びインタラクティブな<code>rebase</code>ツールを使うことで、このコミットを2つの小さなコミットに分割できます。</p>
 <p>前回と同じようにツールを開き、分割しようとしているコミットの<code>pick</code>を<code>edit</code>に変更します。ただし今回は、代わりに<code>git reset HEAD~</code>を実行します。これは、コミットをHEADの直前のものにリセットします。これにより、ファイルを個別に追加し、個別にコミットできるようになります。全体としては、次のようになります:</p>
 <pre class="highlight"><code class="language-bash">git reset HEAD~
 git add test3.md &amp;&amp; git commit -m 'Create third file'

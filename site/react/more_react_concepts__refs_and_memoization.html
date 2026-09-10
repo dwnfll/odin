@@ -192,7 +192,7 @@ const handleClick = useMemo(
   () =&gt; () =&gt; setCount((prevState) =&gt; prevState + 1),
   []
 );</code></pre>
-<p>素晴らしい、これで<code>useMemo</code>が役立ってくれるはずですよね?もう<code>ButtonComponent</code>が再レンダーされることはないはずですよね?いいえ、それでも再レンダーされてしまいます。なぜなら、コンポーネントの<code>state</code>が変化するたびに、その子コンポーネントも再レンダーされるからです。これは別の言い方をすれば、親が再レンダーされれば、コンポーネント自身も再レンダーされる、ということです。これを解決する方法はあるのでしょうか?はい、あります!ReactはそのAPIの一つとして、<a href="https://react.dev/reference/react/memo">memoラッパー関数</a>を提供しています。これにより、コンポーネントのpropsが変化していない場合に、(そう、たとえ親が再レンダーされたとしても)そのコンポーネントの再レンダーをスキップできます。この<code>memo</code>を使って、<code>ButtonComponent</code>をラップすることができます。</p>
+<p>素晴らしい、これで<code>useMemo</code>が役立ってくれるはずですよね?もう<code>ButtonComponent</code>が再レンダーされることはないはずですよね?いいえ、それでも再レンダーされてしまいます。なぜなら、コンポーネントの<code>state</code>が変化するたびに、その子コンポーネントも再レンダーされるからです。これは別の言い方をすれば、親が再レンダーされれば、コンポーネント自身も再レンダーされる、ということです。これを解決する方法はあるのでしょうか?はい、あります!ReactはそのAPIの一つとして、<a href="https://react.dev/reference/react/memo">memoラッパー関数</a>を提供しています。これにより、コンポーネントのpropsが変化していない場合に、(そう、たとえ親が再レンダーされたとしても)そのコンポーネントの再レンダーをスキップできます。この<code>memo</code>を使って、<code>ButtonComponent</code>をラップできます。</p>
 <pre class="highlight"><code class="language-jsx">import { useState, memo } from "react";
 
 const ButtonComponent = memo(({ children, onClick }) =&gt; {

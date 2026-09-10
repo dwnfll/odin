@@ -83,7 +83,7 @@
 <pre class="highlight"><code class="language-html">&lt;button type="button" aria-label="Close menu"&gt;X&lt;/button&gt;</code></pre>
 <p>スクリーンリーダーがユーザーにとってほとんど意味をなさない「X, button」とアナウンスする代わりに、「Close menu, button」とアナウンスすることになります。<code>aria-label</code>を使えるもう一つの方法は、ランドマーク要素に対してです(<a href="https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-semantic-html">Semantic HTML</a>のレッスンがまた出てきましたね…また!):</p>
 <pre class="highlight"><code class="language-html">&lt;nav aria-label="main navigation"&gt;...&lt;/nav&gt;</code></pre>
-<p>スクリーンリーダーが上記のHTMLに到達すると、「Main navigation, navigation landmark」とアナウンスします。もしページに複数のnavigation要素があれば、それぞれに異なる<code>aria-label</code>の値を与えることで、互いを区別し、スクリーンリーダーのユーザーにとってより理解しやすくすることができます。かなり素敵ですよね?</p>
+<p>スクリーンリーダーが上記のHTMLに到達すると、「Main navigation, navigation landmark」とアナウンスします。もしページに複数のnavigation要素があれば、それぞれに異なる<code>aria-label</code>の値を与えることで、互いを区別し、スクリーンリーダーのユーザーにとってより理解しやすくできます。かなり素敵ですよね?</p>
 <p>ある単語がどう発音されてアナウンスされるかを変えるために<code>aria-label</code>を使うのは<strong>やめてください</strong>。特定の単語は、スクリーンリーダーによって正しくアナウンスされないことがあり、これを修正しようとしたくなるかもしれません。ある単語がスクリーンリーダーによってどうアナウンスされるかを修正できたとしても、その「修正」が、<a href="https://en.wikipedia.org/wiki/Braille">点字</a>リーダーのような他の支援技術によってアナウンスされたときには意味をなさなくなってしまう可能性があります。</p>
 <h4>aria-labelledby</h4>
 <p><code>aria-labelledby</code>属性は、ネイティブなラベルと<code>aria-label</code>属性の両方を上書きします。<code>aria-labelledby</code>を使うと、対象の要素のアクセシブルな名前は、<code>id</code>が参照されている要素のテキストコンテンツや<code>alt</code>属性を連結することで作られます。</p>
@@ -93,9 +93,9 @@
 
 &lt;!-- And here's the labeled element. Note the order of the ID references passed in --&gt;
 &lt;button type="button" id="shop-btn" aria-labelledby="label shop-btn"&gt;Shop Now&lt;/button&gt;</code></pre>
-<p>上記のHTMLは、スクリーンリーダーによって「Shirts, shop now, button」とアナウンスされます。これにより、ページ上の複数の「shop now」ボタンを互いに区別できるようになり、追加のコンテキストを提供して、ページをより理解しやすくすることができます。</p>
+<p>上記のHTMLは、スクリーンリーダーによって「Shirts, shop now, button」とアナウンスされます。これにより、ページ上の複数の「shop now」ボタンを互いに区別できるようになり、追加のコンテキストを提供して、ページをより理解しやすくできます。</p>
 <p><code>aria-labelledby</code>のもう一つの素晴らしいところは、ラベル付けする要素が<code>hidden</code> HTML属性やCSSによって視覚的に隠されていたとしても、ラベル付けされる要素のアクセシブルな名前を変更し続けるということです。これは、支援技術のユーザーのために要素にラベルを付けたいが、そのラベル(または複数のラベル)を目の見えるユーザーには見えないようにしたい場合に役立ちます。</p>
-<p>ネイティブの<code>&lt;label&gt;</code>要素と多少似たような働き方をするかもしれませんが、<code>aria-labelledby</code>はデフォルトでは同じイベントハンドリングを持っていません。これは、あなた自身がJavaScriptで追加する必要のある機能です。</p>
+<p>ネイティブの<code>&lt;label&gt;</code>要素と多少似たような働き方をするかもしれませんが、<code>aria-labelledby</code>はデフォルトでは同じイベントハンドリングを持っていません。これは、自分自身がJavaScriptで追加する必要のある機能です。</p>
 <pre class="highlight"><code class="language-html">&lt;!-- Clicking the &lt;label&gt; element gives focus to the input element --&gt;
 &lt;label for="name"&gt;Name:&lt;/label&gt;
 &lt;input id="name" type="text"&gt;

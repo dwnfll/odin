@@ -134,7 +134,7 @@ export default function App() {
   );
 }</code></pre>
 <h3 id="default-props">propsのデフォルト値</h3>
-<p>上の例で、<code>App</code>の中で<code>Button</code>コンポーネントにpropsを定義する際に、いくつか繰り返しがあることに気づいたかもしれません。これらの共通の値を何度も定義するのをやめ、アプリケーションを未定義の値から守るために、propsのデフォルト値を設定するデフォルトパラメータを定義することができます。</p>
+<p>上の例で、<code>App</code>の中で<code>Button</code>コンポーネントにpropsを定義する際に、いくつか繰り返しがあることに気づいたかもしれません。これらの共通の値を何度も定義するのをやめ、アプリケーションを未定義の値から守るために、propsのデフォルト値を設定するデフォルトパラメータを定義できます。</p>
 <pre class="highlight"><code class="language-jsx">function Button({ text = "Click Me!", color = "blue", fontSize = 12 }) {
   const buttonStyle = {
     color: color,

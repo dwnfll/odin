@@ -105,7 +105,7 @@
 <h3 id="the-await-keyword">awaitキーワード</h3>
 <p><code>await</code>は次のことを行います: それは、関数を続ける前に非同期のアクションが終わるのを待つよう、JavaScriptに伝えます。これは「終わるまで一時停止する」キーワードのようなものです。<code>await</code>キーワードは、通常<code>.then()</code>を使う関数から値を取得するために使われます。非同期関数の後に<code>.then()</code>を呼び出す代わりに、<code>await</code>を使って結果を変数に割り当てることになります。それから、同期コードでするのと同じように、その結果をコードで使うことができます。</p>
 <h3>エラーハンドリング</h3>
-<p><code>async</code>関数のエラーを処理するのは非常に簡単です。Promiseにはrejectされたpromiseを処理するための<code>.catch()</code>メソッドがあり、async関数は単にpromiseを返すだけなので、その関数を呼び出し、末尾に<code>.catch()</code>メソッドを追加することができます。</p>
+<p><code>async</code>関数のエラーを処理するのは非常に簡単です。Promiseにはrejectされたpromiseを処理するための<code>.catch()</code>メソッドがあり、async関数は単にpromiseを返すだけなので、その関数を呼び出し、末尾に<code>.catch()</code>メソッドを追加できます。</p>
 <pre class="highlight"><code class="language-javascript">asyncFunctionCall().catch(err =&gt; {
   console.error(err)
 });</code></pre>

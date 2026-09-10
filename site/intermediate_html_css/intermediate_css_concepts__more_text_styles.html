@@ -65,7 +65,7 @@
 <p>……あるいは、CSSファイルの先頭に入れられる<code>@import</code>タグが与えられます。</p>
 <pre class="highlight"><code class="language-css">@import url('https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap');</code></pre>
 <p>一般的なオンラインフォントライブラリには、<a href="https://fontlibrary.org/">Font Library</a>、<a href="https://fonts.bunny.net/">Font Bunny</a>、<a href="https://fonts.google.com/">Google Fonts</a>などがあります(これらに限定されるわけではありません)。</p>
-<p>しかし、フォントライブラリを使用する際の重要な考慮事項は、そのライブラリのプライバシーポリシーと、あなたが遵守する必要があるかもしれない規制です。例えば、<a href="https://thehackernews.com/2022/01/german-court-rules-websites-embedding.html">Google Fonts APIの使用は欧州のGDPRに違反します</a>。そのような規制の遵守が心配な場合は、ライブラリからフォントをダウンロードして自分でホストすることができます。</p>
+<p>しかし、フォントライブラリを使用する際の重要な考慮事項は、そのライブラリのプライバシーポリシーと、あなたが遵守する必要があるかもしれない規制です。例えば、<a href="https://thehackernews.com/2022/01/german-court-rules-websites-embedding.html">Google Fonts APIの使用は欧州のGDPRに違反します</a>。そのような規制の遵守が心配な場合は、ライブラリからフォントをダウンロードして自分でホストできます。</p>
 <h4>セルフホストフォント</h4>
 <p>ウェブからダウンロードしたフォントを使用することも可能です。CSSファイルで、<code>@font-face</code>ルールを使ってカスタムフォントをインポートし定義し、それから他のfont-familyと同じように使用します。フォントファイル形式には複数の種類があり、<a href="https://fileinfo.com/filetypes/font">fileinfo.comのFont File Formatsのページ</a>でそれらについてさらに詳しく読むことができます。ただし、一部のフォントファイル形式はブラウザで普遍的にサポートされているわけではないので、選ぶ際は注意してください。ブラウザとそれらがサポートするフォント形式の一覧は、<a href="https://www.w3schools.com/css/css3_fonts.asp">W3SchoolsのCSS Web Fontsのページ</a>にあります。</p>
 <pre class="highlight"><code class="language-css">@font-face {

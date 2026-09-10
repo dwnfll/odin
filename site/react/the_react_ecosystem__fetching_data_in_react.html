@@ -174,7 +174,7 @@ const [error, setError] = useState(null);</code></pre>
   );
 };</code></pre>
 <h3>カスタムフックを使う</h3>
-<p>取得のロジックをまるごとカスタムフックに分離することができます。これにより、そのロジックを再利用可能で、簡単にテストできるようにできます。</p>
+<p>取得のロジックをまるごとカスタムフックに分離できます。これにより、そのロジックを再利用可能で、簡単にテストできるようにできます。</p>
 <p><a href="https://www.theodinproject.com/lessons/node-path-react-new-introduction-to-state">Introduction to state</a>のレッスンで、Reactのフックとは、(stateやエフェクトなどの)Reactの機能を使えるようにしてくれる単なる関数であり、<code>use</code>の後に大文字が続くという命名規則に従っている(例えば<code>useState</code>や<code>useEffect</code>)、と説明したことを思い出してください。もし<code>useEffect</code>のようなフックを、<code>getImageURL</code>のような私たち自身の普通のヘルパー関数の中に入れようとすると、Reactはこれを歓迎しません。というのも、Reactはフックが、コンポーネントか別のフックのトップレベルでのみ呼び出されることを望んでいるからです。そのため、フックの命名規則に従うことで、ヘルパー関数を単純にカスタムフック、<code>useImageURL</code>に変えることができます。</p>
 <p>私たちの例では、このように行います:</p>
 <pre class="highlight"><code class="language-jsx">import { useState, useEffect } from "react";

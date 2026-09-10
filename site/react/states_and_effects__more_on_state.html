@@ -117,7 +117,7 @@
 <p><code>person</code>のstateは、コンポーネントの現在のレンダーの間、ずっと同じままです。これが「スナップショットとしてのstate」が指しているものです。<code>setState</code>の呼び出しはコンポーネントの再レンダーを引き起こし、<code>person</code>のstateは新しい値に更新されます。</p>
 <div class="lesson-note lesson-note--warning">
 <h4>予期せぬ無限ループ</h4>
-<p>以下のコードは無限ループを引き起こしますが、Reactは特定の状況下で無限に再レンダーが発生していることを検知し、エラーをスローすることができます。ここでReactがなぜエラーをスローし、再レンダーが多すぎることを警告するのか、見当がつきますか?<a href="https://discord.gg/fbFCkYabZB">TOPのDiscordサーバー</a>に立ち寄って、その理由を教えてください。ポイント獲得のチャンスです!</p>
+<p>以下のコードは無限ループを引き起こしますが、Reactは特定の状況下で無限に再レンダーが発生していることを検知し、エラーをスローできます。ここでReactがなぜエラーをスローし、再レンダーが多すぎることを警告するのか、見当がつきますか?<a href="https://discord.gg/fbFCkYabZB">TOPのDiscordサーバー</a>に立ち寄って、その理由を教えてください。ポイント獲得のチャンスです!</p>
 <pre class="highlight"><code class="language-jsx">function Component() {
   const [count, setCount] = useState(0);
 

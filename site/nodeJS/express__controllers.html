@@ -260,7 +260,7 @@ const getAuthorById = async (req, res) =&gt; {
   // We can now specify the `err.statusCode` that exists in our custom error class and if it does not exist it's probably an internal server error
   res.status(err.statusCode || 500).send(err.message);
 });</code></pre>
-<p>これは便利なパターンであり、必要に応じてさまざまなユースケースのために、さらにカスタムエラークラスを作成することができます。</p>
+<p>これは便利なパターンであり、必要に応じてさまざまなユースケースのために、さらにカスタムエラークラスを作成できます。</p>
 <h4 id="what-is-the-next-function">next関数とは何か</h4>
 <p>これまでに<code>next</code>関数を何度か使ってきました。しかし、それは正確には何なのでしょうか?簡単に言うと、それはアプリケーションのリクエスト-レスポンスサイクルの中で、次のミドルウェア関数に制御を渡すために使われます。例を挙げてみましょう:</p>
 <pre class="highlight"><code class="language-javascript">function middleware1(req, res, next) {

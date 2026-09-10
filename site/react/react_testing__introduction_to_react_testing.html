@@ -53,7 +53,7 @@
 <p><a href="https://www.robinwieruch.de/vitest-react-testing-library/">Robin WieruchによるVitestとRTLのセットアップガイド</a>に沿って進めてください。セットアップが完了したら、ここに戻ってきましょう。</p>
 <div class="lesson-note">
 <h4>Vitestのグローバル変数とESLint</h4>
-<p>セットアップのチュートリアルのように<code>vite.config.js</code>で<code>globals: true</code>を設定していたとしても、<code>eslint.config.js</code>ファイルに追加の設定をしない限り、ESLintはこれらのグローバル変数を認識できないため、それでも警告を出してきます。最もシンプルな解決策は、代わりに必要なグローバル変数を明示的にインポートすることです。この場合、<code>vite.config.js</code>から<code>globals: true</code>を省略することができます。</p>
+<p>セットアップのチュートリアルのように<code>vite.config.js</code>で<code>globals: true</code>を設定していたとしても、<code>eslint.config.js</code>ファイルに追加の設定をしない限り、ESLintはこれらのグローバル変数を認識できないため、それでも警告を出してきます。最もシンプルな解決策は、代わりに必要なグローバル変数を明示的にインポートすることです。この場合、<code>vite.config.js</code>から<code>globals: true</code>を省略できます。</p>
 </div>
 <p>ふう、たくさんのセットアップでしたね。しかし、始める前にもう一つ、小さなパッケージをインストールする必要があります:</p>
 <pre class="highlight"><code class="language-bash">npm install @testing-library/user-event --save-dev</code></pre>

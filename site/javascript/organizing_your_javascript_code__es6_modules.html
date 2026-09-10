@@ -59,7 +59,7 @@ const greeting = "Hello, Odinite!";</code></pre>
 console.log(greeting);</code></pre>
 <p>HTMLを開くと、<code>greeting</code>が<code>two.js</code>で一度も定義されていないにもかかわらず、<code>"Hello, Odinite!"</code>がコンソールにログ出力されるのが分かります!それは、2つのスクリプトが、あたかもその順序で2行を持つ一つのファイルだけを書いたかのように、同じグローバルスコープに次々と読み込まれたからです。もし<code>two.js</code>のスクリプトタグを先に置いていたら、代わりに<code>greeting is not defined</code>というエラーが出ていたでしょう。なぜなら、変数を定義する前にconsole.logを実行しようとするからです。</p>
 <p>これはつまり、複数のJavaScriptファイルを使っていても、それらは結局同じグローバルスコープを共有することになるということです。私たちのトップレベルの変数は安全ではありません!</p>
-<p>ESM以前は、何かをIIFEでラップすることができ、これによりまったく同じように実行されるものの、その中の変数はグローバルではなく、その関数にスコープされるようになりました。</p>
+<p>ESM以前は、何かをIIFEでラップでき、これによりまったく同じように実行されるものの、その中の変数はグローバルではなく、その関数にスコープされるようになりました。</p>
 <pre class="highlight"><code class="language-javascript">// one.js
 (() =&gt; {
   const greeting = "Hello, Odinite!";

@@ -56,7 +56,7 @@
 <pre class="highlight"><code class="language-javascript">const player = new Player("steve", "X");
 console.log(player.name); // "steve"</code></pre>
 <p>これは、(<code>new</code>キーワードなしで)<code>Player("steve", "X")</code>を呼び出すのとは同じではありません。<span id="new-keyword"><code>new</code>と共に関数を呼び出すと、新しいオブジェクトが作られ、その関数の中の<code>this</code>がそのオブジェクトを指すようになり、そのオブジェクトが関数の<code>.prototype</code>プロパティから継承するようになります(これについては後ほど詳しく説明します)。それから、新しいオブジェクトが返されます(コンストラクタ関数の中で<code>return</code>の値を指定していなくても)。</span></p>
-<p>オブジェクトリテラルの方法で作成されたオブジェクトと同様に、オブジェクトに関数を追加することができます:</p>
+<p>オブジェクトリテラルの方法で作成されたオブジェクトと同様に、オブジェクトに関数を追加できます:</p>
 <pre class="highlight"><code class="language-javascript">function Player(name, marker) {
   this.name = name;
   this.marker = marker;
@@ -92,14 +92,14 @@ player2.sayName(); // logs "also steve"</code></pre>
 <p>デモのために<code>console.log()</code>を呼び出す関数の例を使っていますが、関数に直接ものをログ出力させるよりも、一般的には<code>return</code>で値を返すようにする方が賢明です。そうすることで、その関数が何をするかに縛られることなく、値を好きなところに渡すことができます。常に値をログ出力したいとは限らないからです。</p>
 </div>
 <h3 id="the-prototype">プロトタイプ</h3>
-<p>JavaScriptでは、すべてのオブジェクトは別のオブジェクトにリンクすることができ、これはそのオブジェクトの<strong>プロトタイプ</strong>(その<code>[[Prototype]]</code>としても知られています)と呼ばれます。あるプロパティやメソッドがオブジェクト自体に見つからない場合、JavaScriptはそれを<code>[[Prototype]]</code>の中で探します。</p>
+<p>JavaScriptでは、すべてのオブジェクトは別のオブジェクトにリンクでき、これはそのオブジェクトの<strong>プロトタイプ</strong>(その<code>[[Prototype]]</code>としても知られています)と呼ばれます。あるプロパティやメソッドがオブジェクト自体に見つからない場合、JavaScriptはそれを<code>[[Prototype]]</code>の中で探します。</p>
 <p>これを分解してみましょう。</p>
 <h4>1. JavaScriptのすべてのオブジェクトは[[Prototype]]を持っている</h4>
 <p>ここはかなり単純な文ですね!JavaScriptのすべてのオブジェクトは<code>[[Prototype]]</code>を持っています。ですので、例えば、前に出てきた<code>player1</code>と<code>player2</code>オブジェクト(<code>Player(name, marker)</code>オブジェクトコンストラクタで作成されたもの)も<code>[[Prototype]]</code>を持っています。さて、<code>[[Prototype]]</code>を持つとはどういうことでしょうか?そもそも、あるオブジェクトの<code>[[Prototype]]</code>とは何なのでしょうか?</p>
 <h4>2. [[Prototype]]は別のオブジェクトである</h4>
 <p>この文もかなり単純に見えますね!<code>[[Prototype]]</code>は<em>単なる別のオブジェクト</em>です - 繰り返しになりますが、<code>player1</code>や<code>player2</code>オブジェクトのようなものです。<code>[[Prototype]]</code>オブジェクトはプロパティや関数を持つことができ、それはちょうど<code>Player</code>オブジェクトが<code>.name</code>、<code>.marker</code>のようなプロパティや<code>.sayName()</code>のような関数を持っているのと同じです。</p>
 <h4>3. …そして元のオブジェクトはそれから継承し、その[[Prototype]]のすべてのメソッドとプロパティにアクセスできる</h4>
-<p>ここで「元のオブジェクト」とは、<code>player1</code>や<code>player2</code>のようなオブジェクトを指します。これらのオブジェクトは「継承する」、つまり言い換えると、これらのオブジェクトは、それらが定義されている場合、<code>[[Prototype]]</code>のプロパティや関数にアクセスできると言われます。例えば、もし<code>[[Prototype]]</code>に<code>.sayHello()</code>関数が定義されていれば、<code>player1</code>はまるでそれが自分自身の関数であるかのように、その関数にアクセスできます - <code>player1.sayHello()</code>というようにです。しかし、<code>.sayHello()</code>関数を呼び出せるのは<code>player1</code>だけではありません。<code>player2</code>もそれを呼び出すことができます。なぜなら、それは<code>player2</code>の<code>[[Prototype]]</code>にも定義されているからです!それがどう機能するか、そしてあなた自身でどうやってこれを行えるかの詳細を知るために、読み進めてください!</p>
+<p>ここで「元のオブジェクト」とは、<code>player1</code>や<code>player2</code>のようなオブジェクトを指します。これらのオブジェクトは「継承する」、つまり言い換えると、これらのオブジェクトは、それらが定義されている場合、<code>[[Prototype]]</code>のプロパティや関数にアクセスできると言われます。例えば、もし<code>[[Prototype]]</code>に<code>.sayHello()</code>関数が定義されていれば、<code>player1</code>はまるでそれが自分自身の関数であるかのように、その関数にアクセスできます - <code>player1.sayHello()</code>というようにです。しかし、<code>.sayHello()</code>関数を呼び出せるのは<code>player1</code>だけではありません。<code>player2</code>もそれを呼び出すことができます。なぜなら、それは<code>player2</code>の<code>[[Prototype]]</code>にも定義されているからです!それがどう機能するか、そして自分自身でどうやってこれを行えるかの詳細を知るために、読み進めてください!</p>
 <h4>オブジェクトの[[Prototype]]にアクセスする</h4>
 <p>概念的には、オブジェクトの<code>[[Prototype]]</code>が何であるかを知った、あるいは少なくともイメージできるようになったと感じているかもしれません。しかし、あるオブジェクトのプロトタイプが何であるかを、どうやって<em>知る</em>、あるいは実際に<em>見る</em>のでしょうか?見てみましょう。以下のコードをブラウザの開発者コンソールで実行してみることができます。(前に出てきた<code>player1</code>と<code>player2</code>オブジェクトを作成しておいてください!)</p>
 <pre class="highlight"><code class="language-javascript">Object.getPrototypeOf(player1) === Player.prototype; // returns true
@@ -144,7 +144,7 @@ player2.sayHello(); // logs "Hello, I'm a player!"</code></pre>
 <p>さて、あなたにも疑問があるかもしれません - オブジェクトの<code>[[Prototype]]</code>にはどんな用途があるのでしょうか?プロトタイプにプロパティや関数を定義する目的は何なのでしょうか?</p>
 <p>これは2つの理由に絞り込むことができます:</p>
 <ol>
-<li>メモリを節約するために、すべてのオブジェクトに共通するプロパティや関数をプロトタイプに定義することができます。すべてのプロパティや関数を定義することは、特に多くの共通のプロパティや関数があり、多くのオブジェクトが作成される場合、多くのメモリを消費します。オブジェクトがアクセスできる、一元化された共有オブジェクトにそれらを定義することで、メモリを節約できます。</li>
+<li>メモリを節約するために、すべてのオブジェクトに共通するプロパティや関数をプロトタイプに定義できます。すべてのプロパティや関数を定義することは、特に多くの共通のプロパティや関数があり、多くのオブジェクトが作成される場合、多くのメモリを消費します。オブジェクトがアクセスできる、一元化された共有オブジェクトにそれらを定義することで、メモリを節約できます。</li>
 <li>2つ目の理由は、JavaScriptのプロトタイプ継承の仕組みを通して、複数のオブジェクトが振る舞いを共有・再利用できるようにすることです。例えば、<code>player1</code>や<code>player2</code>が<code>Player.prototype</code>に定義された<code>.sayHello</code>のような関数にアクセスできるようにすることです。</li>
 </ol>
 <p>では、次のことを試してみましょう:</p>
@@ -172,7 +172,7 @@ Object.prototype.hasOwnProperty("valueOf"); // true</code></pre>
 <li>あるオブジェクトの<code>Object.getPrototypeOf()</code>の値は<em>一つ</em>の値しか持てません(オブジェクトは複数の<code>[[Prototype]]</code>を持つことはできません)。</li>
 </ol>
 <h4 id="recommended-method-for-prototypal-inheritance">プロトタイプ継承のための推奨される方法</h4>
-<p>さて、プロトタイプ継承をどう利用すればよいでしょうか?それを使うために何をする必要があるでしょうか?<code>Object.getPrototypeOf()</code>を使ってオブジェクトの<code>[[Prototype]]</code>を「取得」あるいは表示するのと同じように、<code>Object.setPrototypeOf()</code>を使ってそれを「設定」、あるいは変更することができます。<code>Player</code>の例に<code>Person</code>オブジェクトコンストラクタを追加し、<code>Player</code>が<code>Person</code>から継承するようにすることで、これがどう機能するか見てみましょう!</p>
+<p>さて、プロトタイプ継承をどう利用すればよいでしょうか?それを使うために何をする必要があるでしょうか?<code>Object.getPrototypeOf()</code>を使ってオブジェクトの<code>[[Prototype]]</code>を「取得」あるいは表示するのと同じように、<code>Object.setPrototypeOf()</code>を使ってそれを「設定」、あるいは変更できます。<code>Player</code>の例に<code>Person</code>オブジェクトコンストラクタを追加し、<code>Player</code>が<code>Person</code>から継承するようにすることで、これがどう機能するか見てみましょう!</p>
 <pre class="highlight"><code class="language-javascript">function Person(name) {
   this.name = name;
 }
