@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,31 +28,31 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Class Based Components</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Class Based Components</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>All the components so far have been functional in style and syntax. This is common now, but you will see a different <code>class</code> based syntax too. In this lesson, we explore how a class-based component is written and how concepts like props and state are used in one.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>ここまでのコンポーネントはすべて、スタイルも構文も関数型のものでした。これは今では一般的なやり方ですが、<code>class</code>ベースの別の構文を目にすることもあるでしょう。このレッスンでは、クラスベースのコンポーネントがどのように書かれるか、そしてpropsやstateのような概念がその中でどのように使われるかを見ていきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>How class components are written.</li>
-<li>How to use props and state in class components.</li>
-<li>Uses of the <code>this</code> keyword in class components.</li>
+<li>クラスコンポーネントがどのように書かれるか。</li>
+<li>クラスコンポーネントでpropsとstateを使う方法。</li>
+<li>クラスコンポーネントにおける<code>this</code>キーワードの使い方。</li>
 </ul>
-<h3>Historical React component patterns</h3>
-<p>In your previous lessons, you have already been introduced to functional components, and the basic patterns in which components get written nowadays. However, React components did not look this way when React was introduced.</p>
-<p>If you look into any older React codebase, you'll notice a lot of classes. These are known as class-based components. Prior to February 2019, functional components were also called state-less, as there was no way to manage state in them. This was changed when hooks were introduced, leading to less verbose and 'neater' components.</p>
-<p>In your career, chances are, you will be dealing with legacy code, so there will be days where you would be dealing with class components. Let's peek into the intricacies of a class-based component, and how they work.</p>
-<h3>Building a class component</h3>
-<p>As we already know about functional components, let us build a class-based component from a functional one. Usually, you will want to divide the contents of a component, like the one we use, into smaller, reusable components, but for the purposes of this exercise, we will stick to everything in one component.</p>
-<p>Firstly, go and fork then clone our <a href="https://github.com/TheOdinProject/react-examples">react-examples repo</a> if you have not already done so. <code>cd</code> into the <code>class-components/</code> directory, install dependencies with <code>npm install</code> then open the dev server with <code>npm run dev</code>. You'll see we have two versions of the same feature - one made with a functional component, the other with a class component. Let's start by looking at the functional component inside <code>src/components/FunctionalInput.jsx</code>. It's a solid chunk of code so take a while, sip some water, and read it a couple of times.</p>
-<h4>The start of a class-based component</h4>
-<p>You'll see in <code>src/components/ClassInput.jsx</code> that we have a completed class-based version of it. Let's take a few steps back and walk through step by step how it was recreated from the functional version. The first thing it should have is, <em>drumroll</em>, a class! But it cannot be just another class, it will need to have certain properties that qualifies it as a React component. React provides us with all those properties on a class called <code>Component</code>, and we can write our components by extending the given class, as shown below:</p>
+<h3>Reactコンポーネントのパターンの歴史</h3>
+<p>これまでのレッスンで、あなたはすでに関数コンポーネントと、現在コンポーネントが書かれる際の基本的なパターンに触れてきました。しかし、Reactが登場した当初、Reactコンポーネントはこのような見た目ではありませんでした。</p>
+<p>古いReactのコードベースを見てみると、たくさんのクラスがあることに気づくでしょう。これらはクラスベースのコンポーネントとして知られています。2019年2月より前は、関数コンポーネントの中でstateを管理する方法がなかったため、関数コンポーネントはステートレス(state-less)とも呼ばれていました。これは、フックが導入されたことで変わり、より簡潔で「すっきりとした」コンポーネントにつながりました。</p>
+<p>あなたのキャリアの中で、おそらくレガシーコードを扱うことになるので、クラスコンポーネントを扱う日もあるでしょう。クラスベースのコンポーネントの複雑な部分と、それがどのように機能するかを覗いてみましょう。</p>
+<h3>クラスコンポーネントを構築する</h3>
+<p>すでに関数コンポーネントについて知っているので、関数コンポーネントからクラスベースのコンポーネントを構築してみましょう。通常は、私たちが使うようなコンポーネントの内容を、より小さく再利用可能なコンポーネントに分割したいと思うでしょうが、この演習の目的のために、すべてを1つのコンポーネントにまとめておくことにします。</p>
+<p>まず、まだであれば<a href="https://github.com/TheOdinProject/react-examples">react-examplesリポジトリ</a>をフォークしてクローンしてください。<code>class-components/</code>ディレクトリに<code>cd</code>で移動し、<code>npm install</code>で依存関係をインストールし、<code>npm run dev</code>で開発サーバーを開いてください。同じ機能の2つのバージョン、一つは関数コンポーネントで、もう一つはクラスコンポーネントで作られたものがあることがわかるはずです。まずは<code>src/components/FunctionalInput.jsx</code>の中の関数コンポーネントを見てみましょう。かなりのボリュームのコードなので、少し時間を取り、水でも飲みながら、数回読んでみてください。</p>
+<h4>クラスベースのコンポーネントの始まり</h4>
+<p><code>src/components/ClassInput.jsx</code>の中に、それを完成させたクラスベースのバージョンがあることがわかるはずです。少し戻って、それが関数版からどのように再現されたのかを、一歩ずつ見ていきましょう。まず必要なのは、<em>ドラムロール</em>、クラスです!ただし、ただのクラスというわけにはいきません。Reactコンポーネントとして認められるための特定のプロパティを持っている必要があります。Reactは、<code>Component</code>と呼ばれるクラスに、そうしたプロパティをすべて用意してくれています。私たちは、以下のようにその与えられたクラスを継承(extend)することで、自分たちのコンポーネントを書くことができます:</p>
 <pre class="highlight"><code class="language-jsx">import { Component } from "react";
 
 class ClassInput extends Component {
@@ -60,10 +60,10 @@ class ClassInput extends Component {
 }
 
 export default ClassInput;</code></pre>
-<h4>The use of a constructor and props</h4>
-<p>A class is generally incomplete without a constructor, so let's add one.</p>
-<p>The props passed into this component are passed to the class's <code>constructor</code>. This, along with the <code>super</code> method, allows you to use the props in the context of <code>this</code>, which, in <em>this</em> case, refers to the component. If you’re really curious about what <code>super</code> actually does, check out the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super">MDN docs on the <code>super</code> keyword</a>.</p>
-<p>If your component doesn't have any props, it is fine to leave the <code>constructor</code> and the <code>super</code> with no arguments.</p>
+<h4 id="the-use-of-a-constructor-and-props">コンストラクタとpropsの使い方</h4>
+<p>クラスは一般的にコンストラクタなしでは不完全なので、一つ追加しましょう。</p>
+<p>このコンポーネントに渡されたpropsは、クラスの<code>constructor</code>に渡されます。これは、<code>super</code>メソッドと合わせて、<code>this</code>のコンテキストの中でpropsを使えるようにしてくれます。この<em>this</em>は、この場合コンポーネント自身を指します。<code>super</code>が実際に何をしているのか本当に気になる場合は、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super"><code>super</code>キーワードについてのMDNドキュメント</a>を確認してください。</p>
+<p>もしコンポーネントにpropsがまったくない場合は、<code>constructor</code>と<code>super</code>を引数なしのままにしておいてかまいません。</p>
 <pre class="highlight"><code class="language-jsx">import { Component } from "react";
 
 class ClassInput extends Component {
@@ -74,9 +74,9 @@ class ClassInput extends Component {
 }
 
 export default ClassInput;</code></pre>
-<h4>How you can render JSX</h4>
-<p>Now that the props can be accessed inside of the class component, the next issue is to find a way to render the JSX.</p>
-<p>Well, you can do that by returning your JSX from a <code>render</code> method! You can use the props that you declared in the constructor too!</p>
+<h4 id="how-you-can-render-jsx">JSXをレンダーする方法</h4>
+<p>これでクラスコンポーネントの中でpropsにアクセスできるようになったので、次の課題は、JSXをレンダーする方法を見つけることです。</p>
+<p>実は、それは<code>render</code>メソッドからJSXを返すことで実現できます!コンストラクタの中で宣言したpropsも使うことができます!</p>
 <pre class="highlight"><code class="language-jsx">import { Component } from "react";
 
 class ClassInput extends Component {
@@ -104,9 +104,9 @@ class ClassInput extends Component {
 }
 
 export default ClassInput;</code></pre>
-<p>Notice how the props get provided by <code>this</code>, unlike the functional component that we saw, initially?</p>
-<h4>How to use state and manage context</h4>
-<p>Next comes the state. In a class-based component, the state gets initialized as a part of the constructor.</p>
+<p>最初に見た関数コンポーネントとは異なり、propsが<code>this</code>によって提供されていることに気づきましたか?</p>
+<h4 id="how-to-use-state-and-manage-context">stateの使い方とコンテキストの管理方法</h4>
+<p>次はstateです。クラスベースのコンポーネントでは、stateはコンストラクタの一部として初期化されます。</p>
 <pre class="highlight"><code class="language-jsx">import { Component } from "react";
 
 class ClassInput extends Component {
@@ -137,8 +137,8 @@ class ClassInput extends Component {
 }
 
 export default ClassInput;</code></pre>
-<p>The pre-defined <code>setState</code> method can be used to set it again! Remember, state must not be mutated, so a new state must be set, every time.</p>
-<p><span id="the-importance-of-bind">Now, it is time to finish it off by adding all the functionality! It is nearly the same, except for a single difference. Whenever a method is declared, you must <code>bind</code> the <code>this</code> of the method to that of the class in order to work with it, as by default, the methods in a class are not bound to it. Usually, you do this inside the constructor and not at runtime [in the render method]. Alternatively, if you define your methods using the arrow function syntax, <code>this</code> is automatically bound to the class instance, and you can skip binding it in the constructor.</span></p>
+<p>あらかじめ定義されている<code>setState</code>メソッドを使えば、それを再び設定できます!stateはミューテートしてはいけないため、毎回新しいstateを設定する必要があることを忘れないでください。</p>
+<p><span id="the-importance-of-bind">さて、いよいよすべての機能を追加して仕上げるときです!ほとんど同じですが、一つだけ違いがあります。メソッドを宣言するときは、そのメソッドで使うために、メソッドの<code>this</code>をクラスの<code>this</code>に<code>bind</code>(バインド)する必要があります。クラスの中のメソッドは、デフォルトではクラスにバインドされていないからです。通常は、これを(<code>render</code>メソッドのような)実行時ではなく、コンストラクタの中で行います。代わりに、アロー関数の構文を使ってメソッドを定義すれば、<code>this</code>は自動的にクラスのインスタンスにバインドされるため、コンストラクタの中でバインドする作業を省略できます。</span></p>
 <pre class="highlight"><code class="language-jsx">import { Component } from "react";
 
 class ClassInput extends Component {
@@ -196,23 +196,23 @@ class ClassInput extends Component {
 }
 
 export default ClassInput;</code></pre>
-<p>And there we go, we have successfully made a class-based component as easy as that!</p>
-<h3>Assignment</h3>
+<p>これで完成です。こんなにも簡単に、クラスベースのコンポーネントを作ることができました!</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
-<p>Since we have a completed class-based component, let's add additional functionality to it.</p>
+<p>完成したクラスベースのコンポーネントができたので、それにさらに機能を追加していきましょう。</p>
 <ol>
-<li>Implement a delete button for each task. The delete button should remove that specific task from the state array, thus deleting the task itself! Styling isn't a priority at this moment, but the button tag should be styled by default.</li>
-<li>Implement a new class component, <code>Count</code>, that displays the number of todos at any given time. Render it somewhere within the <code>ClassInput</code> component.</li>
-<li>Implement an edit button for each task. It should replace the todo with an input field, and change the button itself to 'Resubmit', so the edits can be saved. This is a comparatively harder task, kudos for when you finish it!</li>
+<li>各タスクに削除ボタンを実装してください。削除ボタンは、そのタスクをstateの配列から取り除き、タスク自体を削除するようにする必要があります!今のところスタイリングは優先事項ではありませんが、<code>button</code>タグにはデフォルトのスタイルが適用されているはずです。</li>
+<li>その時点でのtodoの数を表示する、新しいクラスコンポーネント<code>Count</code>を実装してください。それを<code>ClassInput</code>コンポーネントのどこかにレンダーしてください。</li>
+<li>各タスクに編集ボタンを実装してください。これは、todoを入力フィールドに置き換え、ボタン自体を「Resubmit」に変更して、編集内容を保存できるようにする必要があります。これは比較的難しいタスクですが、完成させたらお見事です!</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#the-use-of-a-constructor-and-props">How do props get used in a class-based component?</a></li>
-<li><a href="#how-you-can-render-jsx">How does JSX get displayed?</a></li>
-<li><a href="#how-to-use-state-and-manage-context">How do we deal with state in a class-based component?</a></li>
-<li><a href="#the-importance-of-bind">How do you restore the context of <code>this</code> in a method?</a></li>
+<li><a href="#the-use-of-a-constructor-and-props">クラスベースのコンポーネントでは、propsはどのように使われますか?</a></li>
+<li><a href="#how-you-can-render-jsx">JSXはどのように表示されますか?</a></li>
+<li><a href="#how-to-use-state-and-manage-context">クラスベースのコンポーネントでは、stateをどのように扱いますか?</a></li>
+<li><a href="#the-importance-of-bind">メソッドの中で<code>this</code>のコンテキストを復元するにはどうすればよいですか?</a></li>
 </ul>
       </div>
     </article>

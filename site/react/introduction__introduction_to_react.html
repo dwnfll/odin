@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,59 +28,59 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Introduction To React</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Introduction To React</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>This lesson will provide you with information on what React is, its brief history, and why we're choosing to cover it in our curriculum.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>このレッスンでは、Reactとは何か、その簡単な歴史、そしてなぜ私たちがこれをカリキュラムで扱うことにしたのかについて説明します。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Understand what React is.</li>
+<li>Reactとは何かを理解する。</li>
 </ul>
-<h3>What is React?</h3>
-<p>According to the <a href="https://react.dev/">React</a> website, React is "The library for web and native interfaces." However, let's break this down a bit further.</p>
-<p>Generally speaking, a JavaScript library is a collection of pre-written code that's designed to make development easier. This code can be reused/reimplemented in our own codebases to achieve complex tasks.</p>
-<p>A library should not be confused with a framework, even though the terms are often used interchangeably. You'll read about differences between libraries and frameworks later on in the lesson.</p>
-<p>React provides powerful primitives (built-in functions/modules) that allow us to build user interfaces of varying complexities. Throughout this course, we'll learn all about the functionality React provides and learn to build cool applications.</p>
-<h3>Why cover React?</h3>
-<p>React is one of the most powerful, widely used JavaScript libraries.</p>
-<p>The landscape for frontend frameworks has been changing a lot over the last few years, so it's understandable to be worried about choosing the "wrong" one.
-This <a href="https://iamtapan.medium.com/this-is-how-long-the-life-cycle-of-a-javascript-framework-lasts-d21b29320512">article on the lifecycle of JavaScript frameworks</a> shows the recent development of frontend frameworks well.</p>
-<p>Once you start diving deeper into a framework, you'll begin to love it. It makes your code easily scalable, more readable, and possibly a thousand times more efficient (in our modest estimation).</p>
-<p>To name a few reasons to learn React:</p>
+<h3 id="what-is-react">Reactとは何ですか?</h3>
+<p><a href="https://react.dev/">React</a>のウェブサイトによると、Reactは「ウェブとネイティブのインターフェースのためのライブラリ」です。しかし、これをもう少し詳しく見ていきましょう。</p>
+<p>一般的に、JavaScriptのライブラリとは、開発を簡単にするために設計された、あらかじめ書かれたコードの集まりです。このコードは、複雑なタスクを達成するために、自分自身のコードベースの中で再利用/再実装することができます。</p>
+<p>ライブラリとフレームワークは混同すべきではありませんが、これらの用語はしばしば同じ意味で使われます。ライブラリとフレームワークの違いについては、このレッスンの後半で読むことになります。</p>
+<p>Reactは、さまざまな複雑さのユーザーインターフェースを構築できるようにする、強力なプリミティブ(組み込みの関数/モジュール)を提供します。このコースを通して、Reactが提供する機能についてすべて学び、かっこいいアプリケーションを構築できるようになります。</p>
+<h3 id="why-cover-react">なぜReactを扱うのですか?</h3>
+<p>Reactは、最も強力で広く使われているJavaScriptライブラリの一つです。</p>
+<p>フロントエンドフレームワークを取り巻く状況は、ここ数年で大きく変化しているため、「間違った」ものを選んでしまうのではないかと不安になるのも理解できます。
+この<a href="https://iamtapan.medium.com/this-is-how-long-the-life-cycle-of-a-javascript-framework-lasts-d21b29320512">JavaScriptフレームワークのライフサイクルについての記事</a>は、フロントエンドフレームワークの最近の発展をよく示しています。</p>
+<p>フレームワークをより深く掘り下げ始めると、それを好きになっていくはずです。フレームワークは、あなたのコードを簡単にスケーラブルにし、より読みやすくし、(私たちのささやかな見積もりでは)もしかしたら千倍も効率的にしてくれます。</p>
+<p>Reactを学ぶ理由をいくつか挙げると:</p>
 <ul>
-<li>Components are reusable.</li>
-<li>It's well-supported due to its popularity and large community.</li>
-<li>It's not opinionated, which means it won't force you to follow any specific design patterns, project organizational structure, or logic. It's all up to you.</li>
-<li>There's a smaller learning curve, especially if you already have a good grasp of JavaScript, HTML, and CSS from our previous lessons.</li>
+<li>コンポーネントは再利用可能です。</li>
+<li>その人気と大きなコミュニティのおかげで、よくサポートされています。</li>
+<li>主張が弱い(not opinionated)ため、特定のデザインパターンやプロジェクトの構成、ロジックに従うことを強制されません。すべてあなた次第です。</li>
+<li>学習曲線が比較的緩やかです。特に、これまでのレッスンですでにJavaScript、HTML、CSSをしっかり理解しているなら、なおさらです。</li>
 </ul>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
 <li>
-<p>If you haven't already, browse through the <a href="https://react.dev/">React Website</a>. Don't go too in-depth or dive into documentation, but do read the introduction/homepage to get an idea of how React works.</p>
+<p>まだの場合は、<a href="https://react.dev/">Reactのウェブサイト</a>を一通り見てみてください。あまり深く入り込んだり、ドキュメントに飛び込んだりする必要はありませんが、Reactがどのように機能するかのイメージをつかむために、イントロダクション/ホームページは読んでおいてください。</p>
 </li>
 <li>
-<p>Glance at this article which outlines <a href="https://blog.risingstack.com/the-history-of-react-js-on-a-timeline/">the history of React</a>.</p>
+<p><a href="https://blog.risingstack.com/the-history-of-react-js-on-a-timeline/">Reactの歴史</a>の概要をまとめたこの記事にざっと目を通してください。</p>
 </li>
 <li>
-<p>Read this <a href="https://www.freecodecamp.org/news/the-difference-between-a-framework-and-a-library-bd133054023f/">FreeCodeCamp article discussing the differences between a JavaScript library and a framework</a>.</p>
+<p>JavaScriptのライブラリとフレームワークの違いについて論じている、この<a href="https://www.freecodecamp.org/news/the-difference-between-a-framework-and-a-library-bd133054023f/">FreeCodeCampの記事</a>を読んでください。</p>
 </li>
 <li>
-<p>Lastly, skim this article which explains the <a href="https://www.geeksforgeeks.org/reactjs/what-are-the-advantages-of-react-js/">main advantages of using React</a>.</p>
+<p>最後に、<a href="https://www.geeksforgeeks.org/reactjs/what-are-the-advantages-of-react-js/">Reactを使う主な利点</a>を説明しているこの記事にざっと目を通してください。</p>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#what-is-react">What is the purpose of React?</a></li>
-<li><a href="#why-cover-react">What are the benefits of using React?</a></li>
+<li><a href="#what-is-react">Reactの目的は何ですか?</a></li>
+<li><a href="#why-cover-react">Reactを使う利点は何ですか?</a></li>
 </ul>
       </div>
     </article>

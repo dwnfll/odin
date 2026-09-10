@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,22 +28,22 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Mini Message Board</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">We take a break from the main tutorial and create a simple message board.</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>At this point you should know enough to use Express to make some fun interactive web apps! We're going to create a message board.</p>
-<h3>Assignment</h3>
+        <h3>イントロダクション</h3>
+<p>ここまで来れば、Expressを使って楽しいインタラクティブなウェブアプリを作るのに十分な知識が身についているはずです!メッセージボードを作っていきましょう。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Set up a basic Express app by installing Express and EJS. Set up a basic index route and run your server. Create the required folders and files as discussed in the previous lessons.</li>
-<li>We are going to have 2 routes, the index (<code>"/"</code>) and a "new message" form (<code>"/new"</code>).</li>
+<li>ExpressとEJSをインストールして、基本的なExpressアプリをセットアップしてください。基本的なindexルートをセットアップし、サーバーを実行してください。前のレッスンで説明した通りに、必要なフォルダとファイルを作成してください。</li>
+<li>index(<code>"/"</code>)と「新しいメッセージ」フォーム(<code>"/new"</code>)の、2つのルートを用意します。</li>
 <li>
-<p>Create an array at the top of your index router called <code>messages</code> and put a couple of sample messages inside of it like this:</p>
+<p>indexルーターの一番上に<code>messages</code>という配列を作成し、その中に以下のようないくつかのサンプルメッセージを入れてください:</p>
 <pre class="highlight"><code class="language-javascript">const messages = [
   {
     text: "Hi there!",
@@ -58,32 +58,32 @@
 ];</code></pre>
 </li>
 <li>
-<p>Next, in your index template (in the <code>"views"</code> folder) loop through the messages array and for each one, display the user, text and the date the message was added. Don't forget to make your messages available to your template by including it in the <code>res.render</code> 'locals' object (e.g. <code>res.render("index", { title: "Mini Messageboard", messages: messages })</code>).</p>
+<p>次に、(<code>"views"</code>フォルダの中にある)indexテンプレートの中で、messages配列をループし、それぞれについてユーザー、テキスト、メッセージが追加された日付を表示してください。<code>res.render</code>の「locals」オブジェクトに含めることで、メッセージをテンプレートで使えるようにするのを忘れないでください(例えば<code>res.render("index", { title: "Mini Messageboard", messages: messages })</code>)。</p>
 </li>
 <li>
-<p>Next let's set up the new message form.  In the router add a <code>router.get()</code> for the <code>"/new"</code> route and point it to a template named <code>"form"</code>. In the views directory create your <code>form</code> template. Add a heading, 2 inputs (one for the author's name and one for the message text) and a submit button. To have the form make a network request you will need to define it with both a method and an action like so (we will learn how to handle forms in a later lesson):</p>
+<p>次に、新しいメッセージ用のフォームをセットアップしましょう。ルーターの中に、<code>"/new"</code>ルート用の<code>router.get()</code>を追加し、<code>"form"</code>という名前のテンプレートを指すようにしてください。viewsディレクトリの中に<code>form</code>テンプレートを作成してください。見出し、2つの入力欄(投稿者名用とメッセージテキスト用)、そして送信ボタンを追加してください。フォームにネットワークリクエストを送らせるためには、以下のようにmethodとactionの両方を指定してフォームを定義する必要があります(フォームの扱い方については後のレッスンで学びます):</p>
 <pre class="highlight"><code class="language-html">&lt;form method="POST" action="/new"&gt;
    put your inputs and buttons in here!
 &lt;/form&gt;</code></pre>
 </li>
 <li>
-<p>With your form set up like this, when you click on the submit button it should send a POST request to the url specified by the action attribute, so go back to your index router and add a <code>router.post()</code> for <code>"/new"</code>.</p>
+<p>このようにフォームをセットアップすると、送信ボタンをクリックしたときに、action属性で指定されたURLへPOSTリクエストが送信されるはずです。そこで、indexルーターに戻り、<code>"/new"</code>用の<code>router.post()</code>を追加してください。</p>
 </li>
 <li>
-<p>In order to get and use the data from your form, you will need to access the contents of your form inside <code>router.post()</code> as an object called <code>req.body</code>. The individual fields inside the body object are named according to the <code>name</code> attribute on your inputs (the value of <code>&lt;input name="messageText"&gt;</code> will show up as <code>req.body.messageText</code> inside the <code>router.post</code> function). For this to work as intended, you'll need to use an app level Express middleware called <code>express.urlencoded()</code> to parse the form data into <code>req.body</code>. You can set this up by adding the following line to your app setup:</p>
+<p>フォームからのデータを取得して使うためには、<code>router.post()</code>の中で、<code>req.body</code>というオブジェクトとしてフォームの内容にアクセスする必要があります。body オブジェクトの中の個々のフィールドは、入力欄の<code>name</code>属性に従って名付けられます(<code>&lt;input name="messageText"&gt;</code>の値は、<code>router.post</code>関数の中では<code>req.body.messageText</code>として現れます)。これが意図した通りに動作するためには、フォームデータを<code>req.body</code>に解析するための、<code>express.urlencoded()</code>というアプリケーションレベルのExpressミドルウェアを使う必要があります。これは、アプリのセットアップに以下の行を追加することでセットアップできます:</p>
 <pre class="highlight"><code class="language-javascript">app.use(express.urlencoded({ extended: true }));</code></pre>
 </li>
 <li>
-<p>In your <code>router.post()</code> take the contents of the form submission and push them into the messages array as an object that looks something like this:</p>
+<p><code>router.post()</code>の中で、フォーム送信の内容を受け取り、以下のようなオブジェクトとしてmessages配列にpushしてください:</p>
 <pre class="highlight"><code class="language-javascript">messages.push({ text: messageText, user: messageUser, added: new Date() });</code></pre>
 </li>
 <li>
-<p>At the end of the <code>router.post()</code> function use <code>res.redirect("/")</code> to send users back to the index page after submitting a new message.</p>
+<p><code>router.post()</code>関数の最後で、<code>res.redirect("/")</code>を使って、新しいメッセージを送信した後にユーザーをindexページへ送り返してください。</p>
 </li>
-<li>At this point, you should be able to visit <code>/new</code> (it might be a good idea to add a link to that route on your index page), fill out the form, submit it and then see it show up on the index page!</li>
-<li>Add an "open" button or link next to every message to open a new page with the message details.</li>
-<li>Push your project to GitHub.</li>
-<li>You'll learn how to deploy your app to the web in the next lesson, don't forget to come back and submit it to the submissions below once you're done!</li>
+<li>ここまでできれば、<code>/new</code>にアクセスし(indexページにそのルートへのリンクを追加しておくとよいでしょう)、フォームに記入して送信すると、それがindexページに表示されるようになるはずです!</li>
+<li>メッセージの詳細を表示する新しいページを開くための「open」ボタンまたはリンクを、それぞれのメッセージの横に追加してください。</li>
+<li>プロジェクトをGitHubにプッシュしてください。</li>
+<li>アプリをウェブにデプロイする方法は次のレッスンで学びます。完了したら、忘れずに戻ってきて、以下の提出欄に提出してください!</li>
 </ol>
 </div>
       </div>

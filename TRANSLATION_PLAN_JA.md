@@ -18,10 +18,9 @@ Written so a fresh agent can execute it start-to-finish and resume mid-way.
 >    This superseded an earlier, narrower 6-course list once the workspace was reset to current upstream
 >    (see §0 and the "2026-09-06 reset" note below) — that old list named courses (e.g. `html_css`) that
 >    no longer exist under those names.
-> 5. **`nodeJS` is deferred (skip it for now) — user instruction, 2026-09-06.** Still in scope long-term
->    (not excluded like archive/ruby/ruby_on_rails), just not being actively translated in this pass. Do
->    not spend translation effort on `nodeJS/` until the user says to resume it. See §5 Phase 7 and
->    MANIFEST.md's nodeJS section header.
+> 5. **`nodeJS` deferral lifted — user instruction, 2026-09-09.** The user explicitly asked to resume it
+>    (order: react, then databases, then node, then getting_hired). No longer skip `nodeJS/`; translate
+>    it as part of the normal course sequence. See §5 Phase 7 and MANIFEST.md's nodeJS section header.
 
 **Status as of 2026-09-06: starting over after a workspace reset.** `curriculum/` and `theodinproject/`
 (2020-era stale forks) were deleted entirely and replaced with fresh, current clones named `curriculum_ja/`

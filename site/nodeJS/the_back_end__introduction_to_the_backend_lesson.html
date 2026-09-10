@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,38 +28,38 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Introduction to the Back End</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">A brief introduction to the wonderful world of server-side programming</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>The "front end" denotes the interface that a web user interacts with - what they see (and hear) when using the web. The three languages of the front end are fairly standardized: HTML for markup, CSS for presentation, and JavaScript for scripting.</p>
-<p>The "back end", meanwhile, denotes all that goes on "behind the scenes" on web servers to make the user experience possible. In contrast to front-end development, you can run pretty much any language you want to on your server since it doesn't rely on your user's browser understanding what's going on.  All the browser cares about is whether you've sent it properly formatted HTML, CSS and JavaScript files (and other assets like images).  That's led to a whole lot of different choices for back-end languages.  As long as it can take in an HTTP request and spit out some HTML, you can probably put it on a server somehow.</p>
-<p>That said, some languages are more popular and practical than others.  If you're running your own server, you have a ton of flexibility but plenty of headaches.  If you're using the cloud (which we will be doing later), you may be restricted to those languages that your cloud provider has installed on their platform... It doesn't do you much good if the servers you're "borrowing" from can't understand your code!</p>
-<p>Some of the most popular server-side languages are PHP, C#, Ruby, Python and Java (not to be confused with JavaScript). Just as we can say "Which way to the nearest pub?" in Swedish, French, Italian, English, and Bad English, so too can all of those languages perform almost exactly the same functions, just using different syntax.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>「フロントエンド」とは、ウェブのユーザーがやり取りするインターフェース、つまりウェブを使う際にユーザーが目にする(そして耳にする)ものを指します。フロントエンドの3つの言語は、かなり標準化されています: マークアップのためのHTML、プレゼンテーションのためのCSS、そしてスクリプティングのためのJavaScriptです。</p>
+<p>一方「バックエンド」とは、ユーザー体験を可能にするために、ウェブサーバー上で「舞台裏」で行われるすべてのことを指します。フロントエンド開発とは対照的に、サーバー上ではほぼどんな言語でも好きなものを実行できます。というのも、それはユーザーのブラウザが何が起こっているかを理解することに依存していないからです。ブラウザが気にするのはただ一つ、あなたが正しくフォーマットされたHTML、CSS、JavaScriptのファイル(や画像のような他のアセット)を送ってきたかどうかだけです。そのおかげで、バックエンドの言語にはとてもたくさんの選択肢が生まれています。HTTPリクエストを受け取ってHTMLを吐き出せさえすれば、おそらく何らかの形でそれをサーバーに載せることができます。</p>
+<p>とはいえ、他の言語よりも人気があり実用的な言語もあります。自分自身でサーバーを運用している場合は、非常に大きな柔軟性がありますが、頭痛の種もたくさんあります。クラウドを使っている場合(これは後で行うことになります)、あなたのクラウドプロバイダーがそのプラットフォームにインストールしている言語に制限されることがあるかもしれません……あなたが「借りている」サーバーが、あなたのコードを理解できないのであれば、あまり意味がありません!</p>
+<p>最も人気のあるサーバーサイド言語には、PHP、C#、Ruby、Python、Java(JavaScriptと混同しないように)などがあります。「一番近いパブへの道は?」をスウェーデン語、フランス語、イタリア語、英語、そして下手な英語で言えるのとちょうど同じように、これらの言語もすべて、ほぼまったく同じ機能を、異なる構文を使って実行できます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>The difference between front-end and back-end development.</li>
+<li>フロントエンド開発とバックエンド開発の違い。</li>
 </ul>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Check out this blog post on <a href="http://blog.teamtreehouse.com/i-dont-speak-your-language-frontend-vs-backend">back-end vs front-end programming</a> for a quick refresher on the difference between the two.</li>
-<li><a href="https://techterms.com/definition/backend">A good and short overview of the back end</a>.</li>
-<li>Codecademy provides a good step-by-step breakdown of <a href="https://www.codecademy.com/articles/back-end-architecture">what happens in the back end when a browser makes a request to a server</a>.</li>
+<li>両者の違いについてさっと復習するために、<a href="http://blog.teamtreehouse.com/i-dont-speak-your-language-frontend-vs-backend">バックエンドプログラミング対フロントエンドプログラミング</a>についてのこのブログ記事をチェックしてください。</li>
+<li><a href="https://techterms.com/definition/backend">バックエンドについての、良くまとまった短い概要</a>。</li>
+<li>Codecademyは、<a href="https://www.codecademy.com/articles/back-end-architecture">ブラウザがサーバーにリクエストを送ったときにバックエンドで何が起こるか</a>についての、良いステップバイステップの解説を提供しています。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="https://techterms.com/definition/backend">What is back-end development?</a></li>
-<li><a href="https://www.codecademy.com/articles/back-end-architecture/">How many parts does the back end consist of?</a></li>
-<li><a href="https://www.codecademy.com/articles/back-end-architecture">What do we name each part of the back end?</a></li>
-<li><a href="https://www.codecademy.com/articles/back-end-architecture">Where does the back end store its data?</a></li>
+<li><a href="https://techterms.com/definition/backend">バックエンド開発とは何ですか?</a></li>
+<li><a href="https://www.codecademy.com/articles/back-end-architecture/">バックエンドはいくつの部分から構成されていますか?</a></li>
+<li><a href="https://www.codecademy.com/articles/back-end-architecture">バックエンドの各部分には、それぞれどのような名前が付けられていますか?</a></li>
+<li><a href="https://www.codecademy.com/articles/back-end-architecture">バックエンドはどこにデータを保存しますか?</a></li>
 </ul>
       </div>
     </article>

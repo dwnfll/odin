@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,72 +28,72 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Forms and Data Handling</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">How to use forms and its data validation in Express</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>In this lesson, we'll dive into forms and how to manage them using Express. We'll explore ways to secure your Node.js / Express applications by using <code>express-validator</code> for validation and sanitization. Understanding proper form handling is crucial for maintaining data integrity and protecting your web applications from security risks.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>このレッスンでは、フォームと、Expressを使ってそれをどう管理するかについて深く掘り下げていきます。バリデーション(検証)とサニタイゼーション(無害化)のために<code>express-validator</code>を使うことで、あなたのNode.js/Expressアプリケーションを保護する方法を探っていきます。適切なフォーム処理を理解することは、データの整合性を維持し、あなたのウェブアプリケーションをセキュリティリスクから守るために極めて重要です。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Understanding HTML form elements and their actions.</li>
-<li>Using <code>express-validator</code> for validation and sanitization.</li>
-<li>Best practices for form design and data integrity.</li>
+<li>HTMLのフォーム要素とその動作を理解する。</li>
+<li>バリデーションとサニタイゼーションのために<code>express-validator</code>を使う。</li>
+<li>フォームの設計とデータの整合性のためのベストプラクティス。</li>
 </ul>
-<h3>HTML forms overview</h3>
-<p>First, a brief refresher on the actual HTML.</p>
-<p>Let's create a simple HTML form, with a single text field for collecting a full name, and its associated label element.</p>
-<p>The HTML structure would look something like this:</p>
+<h3 id="html-forms-overview">HTMLフォームの概要</h3>
+<p>まず、実際のHTMLについて簡単に復習しておきましょう。</p>
+<p>フルネームを収集するための単一のテキストフィールドと、それに関連付けられたlabel要素を持つ、シンプルなHTMLフォームを作ってみましょう。</p>
+<p>HTMLの構造は、以下のようなものになります:</p>
 <pre class="highlight"><code class="language-html">&lt;form action="/create" method="POST"&gt;
   &lt;label for="fullName"&gt;Full Name:&lt;/label&gt;
   &lt;input placeholder="John Doe" type="text" name="fullName" id="fullName"&gt;
   &lt;button type="submit"&gt;Submit&lt;/button&gt;
 &lt;/form&gt;</code></pre>
-<p>We have the HTML form element itself, with an action pointing to some resource on our server, and a method defined. Notice how the method corresponds to an HTTP verb, typically either <code>GET</code> or <code>POST</code>.</p>
-<p>The form consists of a text input with an associated label and a submit button.</p>
-<p>The input's <code>name</code> attribute plays a key role, as it defines how our input will be identified in the form data sent to our server. This is especially important when handling form submissions on the backend.</p>
-<p>The <code>type="submit"</code> button then allows the user to upload the entered data to the server.</p>
-<p>The <code>form</code> attributes define how to communicate with the server:</p>
+<p>HTMLのform要素自体があり、actionはサーバー上の何らかのリソースを指しており、methodが定義されています。methodがHTTP動詞(通常は<code>GET</code>か<code>POST</code>のどちらか)に対応していることに注目してください。</p>
+<p>このフォームは、関連付けられたlabelを持つテキスト入力と、submitボタンで構成されています。</p>
+<p>入力の<code>name</code>属性は重要な役割を果たします。それが、サーバーに送信されるフォームデータの中で、その入力がどのように識別されるかを定義するからです。これは、バックエンドでフォームの送信を処理する際に特に重要になります。</p>
+<p><code>type="submit"</code>のボタンによって、ユーザーは入力したデータをサーバーにアップロードできるようになります。</p>
+<p><code>form</code>の属性は、サーバーとどのように通信するかを定義します:</p>
 <ul>
-<li><code>action</code>: The resource/URL where data is sent for processing when the form is submitted. If this is not set, or is an empty string, the form will be submitted back to the current page URL</li>
-<li><code>method</code>: Defines the HTTP method to use (<code>POST</code> or <code>GET</code>).</li>
+<li><code>action</code>: フォームが送信されたときに、処理のためにデータが送られるリソース/URL。これが設定されていない場合、または空の文字列の場合、フォームは現在のページURLに送り返されます。</li>
+<li><code>method</code>: 使用するHTTPメソッド(<code>POST</code>または<code>GET</code>)を定義します。</li>
 </ul>
-<p><code>POST</code> is generally more secure because it keeps sensitive information out of the URL, which means they won't show up in server logs, and is the standard choice for creating or updating data on the server side. <code>GET</code> is for forms that don't modify data, such as search forms, or when you want the form submission to be bookmarkable or shareable via URL. The form data here is sent as a query string as part of the request url.</p>
-<h4>Form handling process</h4>
-<p>The form's <code>action</code> will point to some endpoint on our server, which will allow our controller to handle the request. The controller then communicates with the database to handle the data.</p>
-<p>We then generate a new or updated view with the controller's response and redirect the client. This is known as the <a href="https://en.wikipedia.org/wiki/Post/Redirect/Get">Post/Redirect/Get (PRG)</a> design pattern which helps prevent duplicate <code>POST</code> requests.</p>
-<h3>Validation and sanitization</h3>
-<p>Before the data from a form is sent off to our server, we should consider two important steps:</p>
+<p><code>POST</code>は、機密情報をURLの外に保っておける――つまりサーバーのログに残らない――ため、一般的により安全であり、サーバーサイドでデータを作成・更新するための標準的な選択肢です。<code>GET</code>は、検索フォームのようにデータを変更しないフォームのため、あるいはフォームの送信結果をブックマークしたりURL経由で共有したりできるようにしたい場合のためのものです。この場合、フォームデータはリクエストURLの一部として、クエリ文字列として送信されます。</p>
+<h4>フォーム処理のプロセス</h4>
+<p>フォームの<code>action</code>は、私たちのコントローラーがそのリクエストを処理できるようにする、サーバー上の何らかのエンドポイントを指します。それからコントローラーはデータベースと通信し、データを処理します。</p>
+<p>その後、私たちはコントローラーの応答で新しいビューまたは更新されたビューを生成し、クライアントをリダイレクトします。これは、重複した<code>POST</code>リクエストを防ぐのに役立つ、<a href="https://en.wikipedia.org/wiki/Post/Redirect/Get">Post/Redirect/Get(PRG)</a>というデザインパターンとして知られています。</p>
+<h3 id="validation-and-sanitization">バリデーションとサニタイゼーション</h3>
+<p>フォームからのデータがサーバーに送信される前に、2つの重要なステップを考慮する必要があります:</p>
 <ul>
-<li><em>Validation</em> ensures user input meets the specified criteria (e.g. required fields, correct format).</li>
-<li><em>Sanitization</em> cleans user input to prevent malicious data from being processed by removing or encoding potentially malicious characters.</li>
+<li><em>バリデーション</em>は、ユーザーの入力が指定された基準(必須フィールド、正しい形式など)を満たしていることを保証します。</li>
+<li><em>サニタイゼーション</em>は、悪意のある可能性のある文字を削除またはエンコードすることで、悪意のあるデータが処理されるのを防ぐために、ユーザーの入力をクリーンにします。</li>
 </ul>
-<p>We don't always have to sanitize data right when we get it - sometimes it makes sense to sanitize just before we use it instead.</p>
-<p>We'll be using a library called <code>express-validator</code> to help us out with both of these. While it makes these processes much simpler, it's important to understand the underlying concepts of these two operations.</p>
+<p>データを受け取った瞬間に必ずしもサニタイズする必要はありません――代わりに、それを使う直前にサニタイズする方が理にかなっている場合もあります。</p>
+<p>この両方を手助けしてくれる、<code>express-validator</code>というライブラリを使っていきます。これはこれらのプロセスをずっとシンプルにしてくれますが、この2つの操作の背後にある概念を理解しておくことが重要です。</p>
 <div class="lesson-note">
-<h4>Sanitization definition</h4>
-<p>You will sometimes see "sanitization" used in a much stricter sense, involving only the removal of characters from incoming data, distinguishing it from "encoding" which is replacing certain characters. It is sometimes also used more loosely to refer to the entire process of changing the incoming data in some way, which includes both removing and encoding characters. This is how we will use the term in our own content in this lesson.</p>
+<h4>サニタイゼーションの定義</h4>
+<p>「サニタイゼーション」という言葉が、受信したデータから文字を削除することだけを指す、もっと厳密な意味で使われているのを見かけることもあります。この場合、特定の文字を置き換える「エンコーディング」とは区別されます。また、文字の削除とエンコーディングの両方を含む、受信データを何らかの形で変更するプロセス全体を指す、もっと緩い意味で使われることもあります。このレッスンの私たち自身のコンテンツの中では、この言葉をこの後者の意味で使っていきます。</p>
 </div>
-<h4>Installing express-validator</h4>
-<p>We start as usual by installing the correct package in the <em>root</em> folder of our project.</p>
+<h4>express-validatorをインストールする</h4>
+<p>いつも通り、プロジェクトの<em>ルート</em>フォルダに正しいパッケージをインストールすることから始めます。</p>
 <pre class="highlight"><code class="language-bash">npm install express-validator</code></pre>
-<p>To get started using the package, we first need to <code>require</code> it in our project</p>
+<p>このパッケージの使用を開始するには、まずプロジェクトの中でそれを<code>require</code>する必要があります。</p>
 <pre class="highlight"><code class="language-javascript">const { body, validationResult } = require("express-validator");</code></pre>
-<p><code>express-validator</code> comes with many functions for just about every form operation you could think of, but for this lesson, we'll be sticking with <code>body()</code> and <code>validationResult()</code>.</p>
-<h3>Understanding the body() function</h3>
-<p>The <code>body()</code> function allows you to specify which fields in the request body should be validated and sanitized, as well as how to handle it.</p>
+<p><code>express-validator</code>には、考えられるほぼすべてのフォーム操作のための、多くの関数が付属していますが、このレッスンでは、<code>body()</code>と<code>validationResult()</code>に絞って見ていきます。</p>
+<h3 id="understanding-the-body-function">body()関数を理解する</h3>
+<p><code>body()</code>関数を使うと、リクエストボディのどのフィールドをバリデーションおよびサニタイズすべきか、そしてそれをどう処理するかを指定できます。</p>
 <pre class="highlight"><code class="language-javascript">[
   body("birthdate", "Must be a valid date.")
     .optional({ values: "falsy" })
     .isISO8601() // Enforce a YYYY-MM-DD format.
 ];</code></pre>
-<p>This example marks <code>birthdate</code> field as optional, but still enforces the ISO8601 date format on inputs. This is because <code>{ values: "falsy" }</code> means values that aren't <code>undefined</code>, <code>null</code>, <code>false</code>, <code>0</code> or empty strings <code>""</code> will still be validated.</p>
-<h3>Chaining validations</h3>
-<p>You can also chain multiple validation methods, with unique error messages if the checks fail.</p>
+<p>この例では、<code>birthdate</code>フィールドを任意(オプション)としてマークしていますが、それでも入力にISO8601の日付形式を強制しています。これは、<code>{ values: "falsy" }</code>が、<code>undefined</code>、<code>null</code>、<code>false</code>、<code>0</code>、空文字列<code>""</code>以外の値は、それでもバリデーションされることを意味しているためです。</p>
+<h3>バリデーションをチェーンする</h3>
+<p>複数のバリデーションメソッドをチェーンし、チェックが失敗した場合に固有のエラーメッセージを表示することもできます。</p>
 <pre class="highlight"><code class="language-javascript">[
   body("name")
     .trim()
@@ -102,30 +102,30 @@
     .isAlpha()
     .withMessage("Name must only contain alphabet letters."),  
 ];</code></pre>
-<p>This ensures that <code>name</code> is not only present and trimmed, but also only contains alphabet letters.</p>
-<h3>Escaping user input</h3>
-<p>While this might work for outputs we know won't have special characters, like names or ages, we also have to consider situations that do allow those characters. For example, when writing their "About Me" description, what would happen if the client decides to inject JavaScript code instead?</p>
+<p>これにより、<code>name</code>が存在しトリムされているだけでなく、アルファベットの文字のみを含んでいることも保証されます。</p>
+<h3 id="escaping-user-input">ユーザー入力をエスケープする</h3>
+<p>これは、名前や年齢のように、特殊文字を含まないとわかっている出力には有効かもしれませんが、そうした文字を許容する状況についても考慮する必要があります。例えば、「About Me」の説明を書くとき、もしクライアントが代わりにJavaScriptコードを注入することにしたら、何が起こるでしょうか?</p>
 <pre class="highlight"><code class="language-ejs">&lt;div&gt;
   About Me: &lt;%- description %&gt;!
 &lt;/div&gt;
 
 // The client then inputs the following as their page's About Me:
 &lt;script&gt;alert("Hacked!");&lt;/script&gt;</code></pre>
-<p>When unescaped, this would be rendered into HTML as:</p>
+<p>エスケープされていない場合、これは以下のようにHTMLへレンダリングされてしまいます:</p>
 <pre class="highlight"><code class="language-html">&lt;div&gt;
   About Me: &lt;script&gt;alert("Hacked!");&lt;/script&gt;!
 &lt;/div&gt;</code></pre>
-<p>To prevent this <a href="https://en.wikipedia.org/wiki/Cross-site_scripting">cross-site scripting (XSS) attack</a>, we can <em>escape</em> the output (you may also see this referred to as <em>encoding</em>). Escaped HTML replaces special characters, like <code>&lt;</code>, with their respective HTML entities, in this case <code>&amp;lt;</code>. In EJS, we can escape the output using <code>&lt;%= %&gt;</code>.</p>
+<p>この<a href="https://en.wikipedia.org/wiki/Cross-site_scripting">クロスサイトスクリプティング(XSS)攻撃</a>を防ぐために、出力を<em>エスケープ</em>できます(これは<em>エンコーディング</em>と呼ばれることもあります)。エスケープされたHTMLは、<code>&lt;</code>のような特殊文字を、それぞれに対応するHTMLエンティティ――この場合は<code>&amp;lt;</code>――に置き換えます。EJSでは、<code>&lt;%= %&gt;</code>を使って出力をエスケープできます。</p>
 <pre class="highlight"><code class="language-ejs">&lt;div&gt;
   About Me: &lt;%= username %&gt;!
 &lt;/div&gt;
 
 // The escaped output is now rendered harmless:
 // About Me: &amp;lt;script&amp;gt;alert(&amp;quot;Hacked!&amp;quot;);&amp;lt;/script&amp;gt;!</code></pre>
-<p>So why not escape the data when we receive it by adding .escape() to the end of our body() validation chain instead? "Dangerous characters" are only dangerous at the point of use, and also only in certain contexts. What's "dangerous" for HTML may not be dangerous for SQL and vice versa, and they won't pose risks until they get used in those contexts.</p>
-<p>Also, if we have data with HTML entities after escaping them, if we used escaped output with (<code>&lt;%= %&gt;</code>), then <code>&amp;lt;</code> wouldn't become <code>&lt;</code> but output literally as the text <code>&amp;lt;</code>. We'd need to either unescape them then re-escape them via escaped output, or end up using unescaped output (<code>&lt;%- %&gt;</code>), which, like using <code>.innerHTML</code>, is undesirable as shown above.</p>
-<h3>Validation results</h3>
-<p>Once the validation rules are applied, you can use <code>validationResult</code> to handle any validation errors:</p>
+<p>では、なぜ<code>body()</code>のバリデーションチェーンの最後に<code>.escape()</code>を追加して、データを受け取った時点でエスケープしないのでしょうか?「危険な文字」は、使用される時点で、そして特定の文脈においてのみ危険なのです。HTMLにとって「危険」なものが、SQLにとっては危険ではないこともあり、その逆もまた然りで、それらの文脈で使われるまでは、リスクをもたらすことはありません。</p>
+<p>また、もしエスケープした後のHTMLエンティティを含むデータがある場合、エスケープされた出力(<code>&lt;%= %&gt;</code>)を使うと、<code>&amp;lt;</code>は<code>&lt;</code>に戻らず、<code>&amp;lt;</code>というテキストのまま文字通り出力されてしまいます。それらをアンエスケープしてから、エスケープされた出力で再エスケープするか、あるいは、上で示した通り望ましくない<code>.innerHTML</code>の使用のように、結局エスケープされていない出力(<code>&lt;%- %&gt;</code>)を使うことになってしまいます。</p>
+<h3 id="validation-results">バリデーション結果</h3>
+<p>バリデーションルールが適用されたら、<code>validationResult</code>を使ってバリデーションエラーを処理できます:</p>
 <pre class="highlight"><code class="language-javascript">const controller = (req, res, next) =&gt; {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -137,12 +137,12 @@
   // do stuff if successful
   res.redirect("/success");
 };</code></pre>
-<p>This setup checks for any failed validation checks, and if there are any (the errors array is NOT empty), then the server sends a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400">400 status code</a>, along with any errors that may be present, to our <code>index</code> view. Otherwise, we're redirected to the <code>/success</code> route in our router.</p>
-<h3>Forms and Express routes</h3>
-<p>One final thing to cover is how to handle routes in Express. After all, our form needs somewhere to send the data to.</p>
+<p>このセットアップは、失敗したバリデーションチェックがないかを確認し、もしあれば(errors配列が空で<em>ない</em>場合)、サーバーは<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400">400ステータスコード</a>と、存在する可能性のあるエラーを、私たちの<code>index</code>ビューに送信します。そうでなければ、私たちのルーターの<code>/success</code>ルートにリダイレクトされます。</p>
+<h3>フォームとExpressのルート</h3>
+<p>最後にもう一つ取り上げるべきことは、Expressでルートをどう処理するかです。結局のところ、私たちのフォームには、データを送る先が必要です。</p>
 <pre class="highlight"><code class="language-javascript">exports.userUpdateGet = (req, res, next) =&gt; {};
 exports.userUpdatePost = (req, res, next) =&gt; {};</code></pre>
-<p>Inside our router, we can then assign routes which correspond to the controller's functions:</p>
+<p>ルーターの中で、コントローラーの関数に対応するルートを割り当てることができます:</p>
 <pre class="highlight"><code class="language-javascript">const { Router } = require("express");
 const usersRouter = Router();
 const usersController = require("../controllers/usersController");
@@ -152,16 +152,16 @@ usersRouter.get("/:id/update", usersController.userUpdateGet);
 usersRouter.post("/:id/update", usersController.userUpdatePost);
 
 module.exports = usersRouter;</code></pre>
-<p>In our form, the action would look something like this:</p>
+<p>私たちのフォームでは、actionは以下のようなものになるでしょう:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- Example using EJS with POST to submit an update to our Express server. --&gt;
 &lt;form action="/users/&lt;%= user.userId %&gt;/update" method="POST"&gt;&lt;/form&gt;</code></pre>
-<p><code>/users/:id/update</code> is an <em>endpoint</em> we've created on our Express server.</p>
-<h3>Putting it together</h3>
-<p>Let's create a quick Express application to demonstrate how clients send data to servers with forms.</p>
-<p>Set up a new Express app with EJS templating:</p>
+<p><code>/users/:id/update</code>は、私たちがExpressサーバー上に作成した<em>エンドポイント</em>です。</p>
+<h3>組み合わせてみる</h3>
+<p>クライアントがフォームを使ってサーバーにどのようにデータを送るかを実演するために、簡単なExpressアプリケーションを作ってみましょう。</p>
+<p>EJSテンプレーティングを使った、新しいExpressアプリをセットアップしてください:</p>
 <pre class="highlight"><code class="language-bash">npm init -y
 npm install express ejs express-validator</code></pre>
-<p>Create folders for <code>routes</code>, <code>views</code>, <code>controllers</code>, <code>storages</code>, and an <code>app.js</code> file:</p>
+<p><code>routes</code>、<code>views</code>、<code>controllers</code>、<code>storages</code>用のフォルダと、<code>app.js</code>ファイルを作成してください:</p>
 <pre class="highlight"><code class="language-javascript">// app.js
 const express = require("express");
 const app = express();
@@ -180,8 +180,8 @@ app.listen(PORT, (error) =&gt; {
   }
   console.log(`Express app listening on port ${PORT}!`);
 });</code></pre>
-<p>Most simple forms will use the <code>Content-Type: application/x-www-form-urlencoded</code> HTTP header when sending data to the server. Express, however, can't natively parse that data. We can use the <code>express.urlencoded()</code> middleware to handle this for us and automatically set form's data to the <code>req.body</code> field. When <code>extended</code> is <code>false</code>,  our server will only accept a <code>string</code> or an array of data, so we set it to <code>true</code> for some added flexibility. Note that if the <code>Content-Type</code> doesn't match <code>application/x-www-form-urlencoded</code>, then your server will show the data as an empty object <code>{}</code>.</p>
-<p>Let's create a new router called <code>usersRouter.js</code> in the routes folder:</p>
+<p>ほとんどのシンプルなフォームは、サーバーにデータを送信する際に<code>Content-Type: application/x-www-form-urlencoded</code>というHTTPヘッダーを使います。しかし、Expressはそのデータをネイティブには解析できません。<code>express.urlencoded()</code>ミドルウェアを使うことで、これを代わりに処理させ、フォームのデータを自動的に<code>req.body</code>フィールドに設定できます。<code>extended</code>が<code>false</code>の場合、私たちのサーバーは<code>string</code>かデータの配列しか受け付けなくなるため、多少の柔軟性を持たせるために<code>true</code>に設定します。<code>Content-Type</code>が<code>application/x-www-form-urlencoded</code>に一致しない場合、サーバーはそのデータを空のオブジェクト<code>{}</code>として表示することに注意してください。</p>
+<p>routesフォルダに、<code>usersRouter.js</code>という新しいルーターを作成しましょう:</p>
 <pre class="highlight"><code class="language-javascript">// routes/usersRouter.js
 const { Router } = require("express");
 const usersController = require("../controllers/usersController");
@@ -192,10 +192,10 @@ usersRouter.get("/create", usersController.usersCreateGet);
 usersRouter.post("/create", usersController.usersCreatePost);
 
 module.exports = usersRouter;</code></pre>
-<p>Next we'll create two views:</p>
+<p>次に、2つのビューを作成します:</p>
 <ul>
-<li><code>index.ejs</code> will list all the users we've created.</li>
-<li><code>createUser.ejs</code> will display our user creation form.</li>
+<li><code>index.ejs</code>は、これまでに作成したすべてのユーザーを一覧表示します。</li>
+<li><code>createUser.ejs</code>は、私たちのユーザー作成フォームを表示します。</li>
 </ul>
 <pre class="highlight"><code class="language-ejs">&lt;!-- views/index.ejs --&gt;
 &lt;!DOCTYPE html&gt;
@@ -235,7 +235,7 @@ module.exports = usersRouter;</code></pre>
   &lt;a href="/"&gt;Back to home&lt;/a&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-<p>The logic for this router will go inside of our controller:</p>
+<p>このルーターのロジックは、私たちのコントローラーの中に置きます:</p>
 <pre class="highlight"><code class="language-javascript">// controllers/usersController.js
 const usersStorage = require("../storages/usersStorage");
 
@@ -257,7 +257,7 @@ exports.usersCreatePost = (req, res) =&gt; {
   usersStorage.addUser({ firstName, lastName });
   res.redirect("/");
 };</code></pre>
-<p>And we'll use a storage class to hold the users we create. In real-world scenarios, you would almost certainly be using a database for this, which you'll explore further in upcoming lessons. This class is just for demonstration purposes before we get there.</p>
+<p>そして、作成したユーザーを保持するために、ストレージクラスを使います。実際のシナリオでは、これにはほぼ間違いなくデータベースを使うことになりますが、それについては今後のレッスンでさらに探っていきます。このクラスは、そこにたどり着く前の、実演目的だけのものです。</p>
 <pre class="highlight"><code class="language-javascript">// storages/usersStorage.js
 // This class lets us simulate interacting with a database.
 class UsersStorage {
@@ -291,9 +291,9 @@ class UsersStorage {
 // Rather than exporting the class, we can export an instance of the class by instantiating it.
 // This ensures only one instance of this class can exist, also known as the "singleton" pattern.
 module.exports = new UsersStorage();</code></pre>
-<p>We can test our server with: <code>node --watch app.js</code>.</p>
-<p>You'll see we're able to add new users at <code>http://localhost:3000/create</code>, as well as list all existing users at <code>http://localhost:3000/</code>.</p>
-<p>Let's add a few methods to our <code>usersController.js</code> for validating and sanitizing our form to get the type of data we want.</p>
+<p>サーバーは以下でテストできます: <code>node --watch app.js</code>。</p>
+<p><code>http://localhost:3000/create</code>で新しいユーザーを追加できるようになり、また<code>http://localhost:3000/</code>で既存のすべてのユーザーを一覧表示できるようになったことがわかるはずです。</p>
+<p>望んでいる種類のデータを取得できるように、フォームのバリデーションとサニタイゼーションのためのメソッドを、いくつか<code>usersController.js</code>に追加してみましょう。</p>
 <pre class="highlight"><code class="language-javascript">// This just shows the new stuff we're adding to the existing contents
 const { body, validationResult, matchedData } = require("express-validator");
 
@@ -325,8 +325,8 @@ exports.usersCreatePost = [
     res.redirect("/");
   }
 ];</code></pre>
-<p>We retrieve all validated data via the <a href="https://express-validator.github.io/docs/api/matched-data"><code>matchedData()</code></a> function to ensure all the data we get will include any sanitization done (such as trimmed data).</p>
-<p>And now, we need to update our <code>createUser.ejs</code> view to render these errors. Let's create a new partial. Inside the <code>views</code> folder, create a new folder called <code>partials</code> and inside it, create <code>errors.ejs</code>:</p>
+<p>私たちは、<a href="https://express-validator.github.io/docs/api/matched-data"><code>matchedData()</code></a>関数を介してバリデーション済みのすべてのデータを取得し、取得するすべてのデータに、行われたサニタイゼーション(トリムされたデータなど)が確実に反映されるようにします。</p>
+<p>そして今度は、これらのエラーをレンダリングするために、<code>createUser.ejs</code>ビューを更新する必要があります。新しいパーシャルを作成しましょう。<code>views</code>フォルダの中に、<code>partials</code>という新しいフォルダを作成し、その中に<code>errors.ejs</code>を作成してください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- views/partials/errors.ejs --&gt;
 &lt;% if (locals.errors) {%&gt;
   &lt;ul&gt;
@@ -335,10 +335,10 @@ exports.usersCreatePost = [
     &lt;% }); %&gt;
   &lt;/ul&gt;
 &lt;% } %&gt;</code></pre>
-<p>And we'll include the partial just above our form in <code>createUser.ejs</code>.</p>
+<p>そして、<code>createUser.ejs</code>の中の、フォームのすぐ上にこのパーシャルをincludeします。</p>
 <pre class="highlight"><code class="language-ejs">&lt;%- include("partials/errors.ejs") %&gt;</code></pre>
-<p>If the form is filled out incorrectly, you'll see the page contains all the errors.</p>
-<p>Now that we can create users, we also need a way to modify them. Let's create a form that lets us specify an ID and the values we want to update by making a new view: <code>updateUser.ejs</code>.</p>
+<p>もしフォームが正しく入力されていなければ、ページにすべてのエラーが表示されるのがわかるはずです。</p>
+<p>これでユーザーを作成できるようになりましたが、それらを変更する方法も必要です。IDと更新したい値を指定できるフォームを作るために、<code>updateUser.ejs</code>という新しいビューを作成しましょう。</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- views/updateUser.ejs --&gt;
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -356,15 +356,15 @@ exports.usersCreatePost = [
   &lt;a href="/"&gt;Back to home&lt;/a&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-<p>We'll modify <code>index.ejs</code> to include a new "Update" button next to each user to make our <code>GET</code> request to the route:</p>
+<p>そのルートへの<code>GET</code>リクエストを行えるように、それぞれのユーザーの横に新しい「Update」ボタンを含めるために、<code>index.ejs</code>を修正します:</p>
 <pre class="highlight"><code class="language-ejs">&lt;li&gt;
   ID: &lt;%= user.id %&gt;, Name: &lt;%= user.firstName %&gt; &lt;%= user.lastName %&gt;
   &lt;a href="/&lt;%= user.id %&gt;/update"&gt;Update&lt;/a&gt;
 &lt;/li&gt;</code></pre>
-<p>Just like how we added a route for creating users, we'll add routes for updating them:</p>
+<p>ユーザー作成用のルートを追加したのとまったく同じように、更新用のルートも追加します:</p>
 <pre class="highlight"><code class="language-javascript">usersRouter.get("/:id/update", usersController.usersUpdateGet);
 usersRouter.post("/:id/update", usersController.usersUpdatePost);</code></pre>
-<p>Then we'll add the logic for the requests into our controller:</p>
+<p>それから、これらのリクエストのロジックをコントローラーに追加します:</p>
 <pre class="highlight"><code class="language-javascript">exports.usersUpdateGet = (req, res) =&gt; {
   const user = usersStorage.getUser(req.params.id);
   res.render("updateUser", {
@@ -390,8 +390,8 @@ exports.usersUpdatePost = [
     res.redirect("/");
   }
 ];</code></pre>
-<p>You'll see you're now able to update users, and this looks very similar to how we create our users.</p>
-<p>Finally, let's add a way to delete users as well by starting with another form inside our <code>index.ejs</code> view:</p>
+<p>これでユーザーを更新できるようになったことがわかるはずで、これは私たちがユーザーを作成する方法ととてもよく似ています。</p>
+<p>最後に、<code>index.ejs</code>ビューの中に、もう一つ別のフォームを追加することから始めて、ユーザーを削除する方法も追加しましょう。</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- In views/index.ejs --&gt;
 &lt;ul&gt;
   &lt;% if (locals.users) { %&gt;
@@ -407,63 +407,63 @@ exports.usersUpdatePost = [
     &lt;% }); %&gt;
   &lt;% } %&gt;
 &lt;/ul&gt;</code></pre>
-<p>Then we add the logic to handle the request into our controller:</p>
+<p>それから、そのリクエストを処理するロジックをコントローラーに追加します:</p>
 <pre class="highlight"><code class="language-javascript">exports.usersDeletePost = (req, res) =&gt; {
   usersStorage.deleteUser(req.params.id);
   res.redirect("/");
 };</code></pre>
-<p>Don't forget to add the new route to your router!</p>
+<p>新しいルートをルーターに追加するのを忘れないでください!</p>
 <pre class="highlight"><code class="language-javascript">usersRouter.post("/:id/delete", usersController.usersDeletePost);</code></pre>
-<p>You'll notice we didn't need a <code>GET</code> route here since we're already redirecting to <code>/</code>.</p>
-<p>We could go much deeper into working safely with forms, but we'll stop there. By now you can already see how helpful <code>express-validator</code> is, and how you can do almost anything you want with the <code>req.body</code> object.</p>
-<p>To give you an overview of what this entire flow looks like visually, here's an example courtesy of MDN:</p>
+<p>すでに<code>/</code>にリダイレクトしているため、ここでは<code>GET</code>ルートが必要なかったことに気づくでしょう。</p>
+<p>フォームを安全に扱うことについては、もっと深く掘り下げることもできますが、ここで止めておきましょう。ここまでで、<code>express-validator</code>がどれほど役立つか、そして<code>req.body</code>オブジェクトを使ってほぼどんなことでもできることが、すでにわかったはずです。</p>
+<p>このフロー全体が視覚的にどのようなものかを概観するために、MDN提供の例を以下に示します:</p>
 <p><img alt="A diagram showing an outline of how a form interacts with a server using GET and POST requests." src="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Express_Nodejs/forms/web_server_form_handling.png" /></p>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
-<h4>Add user details</h4>
-<p>Expand the <code>User</code> model we created to include more details. Implement the following fields and validations to your model:</p>
+<h4>ユーザーの詳細を追加する</h4>
+<p>作成した<code>User</code>モデルを拡張して、より多くの詳細を含めてください。以下のフィールドとバリデーションをあなたのモデルに実装してください:</p>
 <ul>
-<li>Email (required, must be formatted properly)</li>
-<li>Age (optional, must be a number between 18 and 120)</li>
-<li>Bio (optional, maximum 200 characters)</li>
+<li>Email(必須、正しい形式でなければならない)</li>
+<li>Age(任意、18から120の間の数値でなければならない)</li>
+<li>Bio(任意、最大200文字)</li>
 </ul>
-<p>Don't forget to update the view to display these new fields!</p>
-<h4>Implement searching</h4>
-<p>What if we want to search for a specific user in a list of thousands? We'll need a new route and view that lets clients search our list of users.</p>
+<p>これらの新しいフィールドを表示するために、ビューを更新するのを忘れないでください!</p>
+<h4>検索を実装する</h4>
+<p>何千人もいるユーザーのリストから、特定のユーザーを検索したい場合はどうすればよいでしょうか?クライアントが私たちのユーザーのリストを検索できるようにする、新しいルートとビューが必要です。</p>
 <ol>
-<li>Add a form with a <code>GET</code> method (in <code>createUser.ejs</code> or another view) which accepts a <code>name</code> or <code>email</code> (or both!)</li>
-<li>Create a new route <code>/search</code> which accepts a <code>GET</code> request.</li>
-<li>Add the search logic to your controller which searches your list for a matching user. Form data that has been sent via a <code>GET</code> request will not be available via <code>req.body</code>. You will need to use <code>req.query</code> instead.<ul>
-<li>Your <code>GET</code> request should handle searching for the user and then render the search result.</li>
+<li><code>name</code>または<code>email</code>(あるいはその両方!)を受け付ける、<code>GET</code>メソッドのフォームを(<code>createUser.ejs</code>か別のビューに)追加してください。</li>
+<li><code>GET</code>リクエストを受け付ける、新しいルート<code>/search</code>を作成してください。</li>
+<li>あなたのコントローラーに、一致するユーザーをリストから検索する検索ロジックを追加してください。<code>GET</code>リクエストを介して送信されたフォームデータは、<code>req.body</code>では利用できません。代わりに<code>req.query</code>を使う必要があります。<ul>
+<li>あなたの<code>GET</code>リクエストは、ユーザーの検索を処理し、それから検索結果をレンダリングする必要があります。</li>
 </ul>
 </li>
-<li>Display the search results in a new view: <code>search.ejs</code>.</li>
+<li>検索結果を、新しいビュー<code>search.ejs</code>に表示してください。</li>
 </ol>
-<h4>Further Reading</h4>
+<h4>さらに読む</h4>
 <ul>
-<li>This article expands on <a href="https://blog.presidentbeef.com/blog/2020/01/14/injection-prevention-sanitizing-vs-escaping/">what sanitizing and escaping means, and how they can help further secure your web applications</a>.</li>
-<li><a href="https://express-validator.github.io/docs/">express-validator</a> contains the full documentation for <code>validator</code>, with some important sections being:<ul>
-<li><a href="https://express-validator.github.io/docs/guides/getting-started">Getting Started with express-validator</a></li>
-<li><a href="https://express-validator.github.io/docs/guides/validation-chain">Validation Chains</a></li>
+<li>この記事では、<a href="https://blog.presidentbeef.com/blog/2020/01/14/injection-prevention-sanitizing-vs-escaping/">サニタイズとエスケープが何を意味するのか、そしてそれらがどのようにあなたのウェブアプリケーションのセキュリティをさらに強化するのに役立つのか</a>について、さらに詳しく説明しています。</li>
+<li><a href="https://express-validator.github.io/docs/">express-validator</a>には、<code>validator</code>の完全なドキュメントが含まれており、特に重要なセクションには以下があります:<ul>
+<li><a href="https://express-validator.github.io/docs/guides/getting-started">express-validatorを始める</a></li>
+<li><a href="https://express-validator.github.io/docs/guides/validation-chain">バリデーションチェーン</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#html-forms-overview">What are the attributes of a form element and what do they do?</a></li>
-<li><a href="#validation-and-sanitization">How do you install and import express-validator in your project?</a></li>
-<li><a href="#understanding-the-body-function">How do you validate and sanitize form input using express-validator?</a></li>
-<li><a href="#validation-and-sanitization">What is the difference between validation and sanitization?</a></li>
-<li><a href="#validation-results">How do you handle validation errors in Express routes?</a></li>
-<li><a href="#escaping-user-input">What is the importance of escaping HTML characters in a form?</a></li>
+<li><a href="#html-forms-overview">form要素の属性にはどのようなものがあり、それらは何をしますか?</a></li>
+<li><a href="#validation-and-sanitization">プロジェクトにexpress-validatorをどのようにインストールし、インポートしますか?</a></li>
+<li><a href="#understanding-the-body-function">express-validatorを使って、どのようにフォーム入力をバリデーションおよびサニタイズしますか?</a></li>
+<li><a href="#validation-and-sanitization">バリデーションとサニタイゼーションの違いは何ですか?</a></li>
+<li><a href="#validation-results">Expressのルートで、バリデーションエラーをどのように処理しますか?</a></li>
+<li><a href="#escaping-user-input">フォームの中でHTML文字をエスケープすることの重要性は何ですか?</a></li>
 </ul>
-<h3>Additional resources</h3>
-<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<h3>追加リソース</h3>
+<p>このセクションには、関連コンテンツへの役立つリンクが含まれています。必須ではないので、補足として捉えてください。</p>
 <ul>
-<li>Web Dev Simplified has a <a href="https://youtu.be/SccSCuHhOw0?si=2dZ5Y4dvxyh7jpcy">tutorial on submitting forms and parsing form data in Express</a> if you want a refresher.</li>
-<li>express-validator's docs has a good write-up on <a href="https://express-validator.github.io/docs/guides/customizing#implementing-a-custom-validator">implementing a custom validator in Express</a>.</li>
+<li>復習をしたい場合は、Web Dev Simplifiedによる<a href="https://youtu.be/SccSCuHhOw0?si=2dZ5Y4dvxyh7jpcy">Expressでのフォーム送信とフォームデータの解析についてのチュートリアル</a>があります。</li>
+<li>express-validatorのドキュメントには、<a href="https://express-validator.github.io/docs/guides/customizing#implementing-a-custom-validator">Expressでのカスタムバリデーターの実装</a>についての優れた解説があります。</li>
 </ul>
       </div>
     </article>

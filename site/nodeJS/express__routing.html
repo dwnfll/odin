@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,36 +28,36 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Routes</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">Routing in Express</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>In the previous lesson, we broke down a basic Express app and a request's journey through it. However, in a real app, we'd want to handle many different types of requests for different things.</p>
-<p>Routes essentially just match a request's HTTP verb (e.g. GET or POST) and URL path to the appropriate set of middleware functions - the controllers. We will explore controllers and middleware in more detail in the next lesson. For now, let's dive into how we can use routes.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>前のレッスンでは、基本的なExpressアプリと、リクエストがその中を通っていく旅路を分解して見ていきました。しかし、実際のアプリでは、さまざまな種類のリクエストをさまざまな目的のために処理したいと考えるでしょう。</p>
+<p>ルートは本質的に、リクエストのHTTP動詞(GETやPOSTなど)とURLパスを、適切なミドルウェア関数の集合――コントローラー――に一致させるだけのものです。コントローラーとミドルウェアについては、次のレッスンでより詳しく見ていきます。ここでは、ルートをどのように使えるかに飛び込んでいきましょう。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Describe how routes are defined.</li>
-<li>Explain route parameters and query parameters.</li>
-<li>Set up new routers on a path.</li>
+<li>ルートがどのように定義されるかを説明する。</li>
+<li>ルートパラメータとクエリパラメータについて説明する。</li>
+<li>あるパスに新しいルーターをセットアップする。</li>
 </ul>
-<h3>The anatomy of a route</h3>
-<p>Let's return to our sole route from our previous basic Express app.</p>
+<h3 id="the-anatomy-of-a-route">ルートの構造</h3>
+<p>前回の基本的なExpressアプリにあった、唯一のルートに戻ってみましょう。</p>
 <pre class="highlight"><code class="language-javascript">app.get("/", (req, res) =&gt; res.send("Hello, world!"));</code></pre>
-<p><code>app.get("/" ...</code> tells us that this route will match any GET requests that go through the <code>app</code> router (which is our whole server!) to the <code>/</code> path. If instead we had the following:</p>
+<p><code>app.get("/" ...</code>は、このルートが、<code>app</code>ルーター(つまり私たちのサーバー全体です!)を通る、<code>/</code>パスへのあらゆるGETリクエストに一致することを教えてくれます。もし代わりに以下のようなものがあったとしたら:</p>
 <pre class="highlight"><code class="language-javascript">app.post("/messages", (req, res) =&gt; res.send("This is where you can see any messages."));</code></pre>
-<p>That would tell us the route matches any POST requests to the <code>/messages</code> path of our <code>app</code>. If you sent a GET request to the <code>/messages</code> path, it would not match this route. Each HTTP verb has its own Express route method, and you can also use <a href="https://expressjs.com/en/5x/api/application/#appallpath-callback--callback-">app.all()</a> to make a route match all verbs.</p>
+<p>これは、このルートが<code>app</code>の<code>/messages</code>パスへのあらゆるPOSTリクエストに一致することを示しています。もし<code>/messages</code>パスにGETリクエストを送った場合、このルートには一致しません。それぞれのHTTP動詞には、それぞれ専用のExpressルートメソッドがあり、<a href="https://expressjs.com/en/5x/api/application/#appallpath-callback--callback-">app.all()</a>を使えば、すべての動詞に一致するルートを作ることもできます。</p>
 <div class="lesson-note">
-<h4>HTTP verbs</h4>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">There are many HTTP verbs</a>, but for now, we will primarily be using GET (used to retrieve data from the server only) and POST (used to send data to the server e.g. forms). Later, when we cover REST APIs, you will often also encounter verbs like PUT and DELETE.</p>
+<h4>HTTP動詞</h4>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">HTTP動詞にはたくさんの種類があります</a>が、ここでは主にGET(サーバーからデータを取得するためだけに使われます)とPOST(フォームなど、サーバーにデータを送るために使われます)を使っていきます。後ほどREST APIを扱う際には、PUTやDELETEといった動詞にもよく出会うことになるでしょう。</p>
 </div>
-<h3>Paths</h3>
-<p>The first argument we pass a route is the path to match, which can either be a string or a regular expression. <code>/messages</code> matches that exactly, while <code>/messages/all</code> only matches if the path is <code>/messages/all</code> (not <code>/messages</code>, nor <code>/messages/new</code>).</p>
-<p>With string paths, we can also use <code>{}</code> to make characters optional. For example:</p>
+<h3 id="paths">パス</h3>
+<p>ルートに渡す最初の引数は、一致させたいパスであり、これは文字列でも正規表現でも構いません。<code>/messages</code>はそれと完全に一致するパスにのみマッチしますが、<code>/messages/all</code>は、パスが<code>/messages/all</code>である場合にのみマッチします(<code>/messages</code>にも<code>/messages/new</code>にもマッチしません)。</p>
+<p>文字列のパスでは、<code>{}</code>を使って文字をオプション(省略可能)にすることもできます。例えば:</p>
 <pre class="highlight"><code class="language-javascript">// Matches both /message and /messages
 "/message{s}"
 
@@ -66,24 +66,24 @@
 
 // Matches both /foo/baz and /foo/bar/baz
 "/foo{/bar}/baz"</code></pre>
-<p>With <code>*</code> (a "splat" or "wildcard"), we can match any number of any characters. <a href="https://expressjs.com/en/5x/guide/routing/#wildcards">Splats in Express paths must always be followed by a name</a>.</p>
-<p>A common use case for a splat would be as a catch-all for all otherwise unmatched paths, e.g. for custom 404 error handling.</p>
+<p><code>*</code>(「splat」または「ワイルドカード」)を使うと、任意の数の任意の文字に一致させることができます。<a href="https://expressjs.com/en/5x/guide/routing/#wildcards">Expressのパスにおけるsplatは、必ず名前を後に続ける必要があります</a>。</p>
+<p>splatのよくある使い道は、カスタムの404エラーハンドリングのように、他に一致しなかったすべてのパスをまとめて受け止める「キャッチオール」としてのものです。</p>
 <pre class="highlight"><code class="language-javascript">// Matches / and /odin as well as /sdds8fjsdifhj98sdfh
 "/{*splat}"</code></pre>
 <div class="lesson-note lesson-note--warning">
-<h4>Order matters!</h4>
-<p>Your routes will be set up in your server in the order they are defined.</p>
+<h4 id="order-matters">順番が重要です!</h4>
+<p>あなたのルートは、サーバーの中で定義された順番通りにセットアップされます。</p>
 <pre class="highlight"><code class="language-javascript">app.get("/{*splat}", (req, res) =&gt; {
   res.send("/{*splat} is a great way to catch all otherwise unmatched paths, e.g. for custom 404 error handling.");
 });
 app.get("/messages", (req, res) =&gt; {
   res.send("This route will not be reached because the previous route's path matches first.");
 });</code></pre>
-<p>In order for our <code>GET /messages</code> request to match the <code>/messages</code> route, we will need to reverse the order our routes are defined. Doing so will prevent it from reaching the <code>/{*splat}</code> route, as it will match the <code>/messages</code> route first.</p>
+<p><code>GET /messages</code>リクエストが<code>/messages</code>ルートに一致するようにするには、ルートが定義されている順番を逆にする必要があります。そうすることで、先に<code>/messages</code>ルートに一致するようになるため、<code>/{*splat}</code>ルートに到達するのを防ぐことができます。</p>
 </div>
-<h4>Route parameters</h4>
-<p>What if we wanted to have a route for all messages for any username, for example, <code>/odin/messages</code> or <code>/thor/messages</code>, or even <code>/theodinproject79687378/messages</code>? Just like with React Router, we can use <code>route parameters</code>, and a path can contain as many of these parameters as we need.</p>
-<p>To denote a route parameter, we start a segment with a <code>:</code> followed by the name of the parameter (which can only consist of case-sensitive alphanumeric characters, or <code>_</code>). Whatever we name that route parameter, Express will automatically populate the <code>req.params</code> object in any of the following middleware functions with whatever value the path passed into the parameter, using the parameter name as its key.</p>
+<h4 id="route-parameters">ルートパラメータ</h4>
+<p>もし、<code>/odin/messages</code>や<code>/thor/messages</code>、あるいは<code>/theodinproject79687378/messages</code>のように、任意のユーザー名に対応するすべてのメッセージ用のルートを持ちたい場合はどうすればよいでしょうか?React Routerのときとまったく同じように、<code>ルートパラメータ</code>を使うことができ、パスには必要なだけいくつでもこれらのパラメータを含めることができます。</p>
+<p>ルートパラメータを示すには、セグメントを<code>:</code>で始め、続けてパラメータの名前(大文字・小文字を区別する英数字か<code>_</code>のみで構成可能)を書きます。ルートパラメータにどんな名前を付けたとしても、Expressはそれ以降のミドルウェア関数の中で、そのパラメータ名をキーとして、パスに渡された値で<code>req.params</code>オブジェクトを自動的に埋めてくれます。</p>
 <pre class="highlight"><code class="language-javascript">/**
  * GET /odin/messages will have this log
  * { username: "odin" }
@@ -104,11 +104,11 @@ app.get("/:username/messages/:messageId", (req, res) =&gt; {
   console.log(req.params);
   res.end();
 });</code></pre>
-<p>Now we can easily extract values from the request path for use within our middleware chain!</p>
-<h4>Query parameters</h4>
-<p>Query parameters are a unique and optional part of a URL that appear at the end. A <code>?</code> denotes the start of the query parameters, with each query being a key-value pair with the format <code>key=value</code>, and each query separated by an <code>&amp;</code>. They are special as they are not actually considered part of the path itself, but are essentially more like arguments we can pass in to a given path.</p>
-<p>For example, <code>/odin/messages?sort=date&amp;direction=ascending</code> will still match the route with the <code>/:username/messages</code> path, but we can access the <code>sort=date</code> and <code>direction=ascending</code> key-value pairs inside the middleware chain.</p>
-<p>Express automatically parses any query parameters in a request and will populate the <code>req.query</code> object with any key-value pairs it finds. If any keys are repeated, Express will put all values for that key into an array.</p>
+<p>これで、ミドルウェアチェーンの中で使うために、リクエストパスから値を簡単に取り出せるようになりました!</p>
+<h4 id="query-parameters">クエリパラメータ</h4>
+<p>クエリパラメータは、URLの末尾に現れる、独自の任意(オプション)の部分です。<code>?</code>はクエリパラメータの始まりを示し、それぞれのクエリは<code>key=value</code>という形式のキーバリューペアで、それぞれのクエリは<code>&amp;</code>で区切られます。これらは特殊なもので、実際にはパス自体の一部とは見なされず、本質的には、あるパスに渡すことのできる追加の引数のようなものです。</p>
+<p>例えば、<code>/odin/messages?sort=date&amp;direction=ascending</code>は、それでもなお<code>/:username/messages</code>パスのルートに一致しますが、ミドルウェアチェーンの中で<code>sort=date</code>と<code>direction=ascending</code>のキーバリューペアにアクセスできます。</p>
+<p>Expressはリクエスト内のあらゆるクエリパラメータを自動的に解析し、見つかったすべてのキーバリューペアで<code>req.query</code>オブジェクトを埋めてくれます。もし同じキーが繰り返された場合、Expressはそのキーのすべての値を配列にまとめます。</p>
 <pre class="highlight"><code class="language-javascript">/**
  * GET /odin/messages?sort=date&amp;direction=ascending will log
  * Params: { username: "odin" }
@@ -123,11 +123,11 @@ app.get("/:username/messages", (req, res) =&gt; {
   console.log("Query:", req.query);
   res.end();
 });</code></pre>
-<p>You may have already seen this with websites like YouTube. Every YouTube video is given a code and to watch that video, you navigate to <code>https://www.youtube.com/watch</code>, passing that video code as a query parameter with the <code>v</code> key. You could even specify at what timestamp in seconds the video should start at via the <code>t</code> key. So appending <code>?v=xm3YgoEiEDc&amp;t=424s</code> will <a href="https://www.youtube.com/watch?v=xm3YgoEiEDc&amp;t=424s">request <code>/watch</code> from YouTube for the <code>xm3YgoEiEDc</code> video starting <code>424</code> seconds in</a>.</p>
-<h3>Routers</h3>
-<p>So far, we've not been using many routes, and all routes we've shown have been attached to <code>app</code>, our server itself. In a real application with lots of routes, we'd probably want to organize our routes into groups and extract each group out to their own file. We could also then more easily write things that affect only the routes in that file, and not any others.</p>
-<p>Say we were making a library app and we wanted pages that dealt with books and pages that dealt with authors. That's on top of the homepage and any other miscellaneous pages like "about" or "contact".</p>
-<p>We might want our server to handle the following routes:</p>
+<p>YouTubeのようなウェブサイトで、すでにこれを見たことがあるかもしれません。すべてのYouTube動画にはコードが割り当てられていて、その動画を見るには、そのコードを<code>v</code>キーのクエリパラメータとして渡しながら<code>https://www.youtube.com/watch</code>に移動します。さらに、<code>t</code>キーを使って、動画を何秒地点から再生し始めるかを指定することもできます。そのため、<code>?v=xm3YgoEiEDc&amp;t=424s</code>を追加すると、<a href="https://www.youtube.com/watch?v=xm3YgoEiEDc&amp;t=424s">YouTubeに<code>xm3YgoEiEDc</code>動画の<code>424</code>秒地点からの<code>/watch</code>をリクエスト</a>することになります。</p>
+<h3 id="routers">ルーター</h3>
+<p>ここまでは、それほど多くのルートを使ってきませんでしたし、これまで示したすべてのルートは、私たちのサーバー自体である<code>app</code>に直接アタッチされてきました。ルートがたくさんある実際のアプリケーションでは、おそらくルートをグループに整理し、それぞれのグループを個別のファイルに抽出したいと思うでしょう。そうすることで、そのファイル内のルートだけに影響を与え、他には影響を与えないものを、より簡単に書けるようにもなります。</p>
+<p>図書館アプリを作っていて、本を扱うページと著者を扱うページが欲しいとしましょう。それに加えて、ホームページや、「about」や「contact」のようなその他の雑多なページもあるとします。</p>
+<p>サーバーには以下のようなルートを処理させたいと思うかもしれません:</p>
 <pre class="highlight"><code class="language-text">GET /
 GET /about
 GET /contact
@@ -140,8 +140,8 @@ POST /books/:bookId/reserve
 
 GET /authors
 GET /authors/:authorId</code></pre>
-<p>It'd be nice if we could extract the route groups to their own files, and we can do that using routers! Going back to our basic Express app from before, let's add some routers to handle each of our route groups.</p>
-<p>We'll need a router first, which we can place in a new <code>routes</code> folder. For example, <code>routes/authorRouter.js</code>:</p>
+<p>ルートのグループをそれぞれ個別のファイルに抽出できたら素敵ですよね。それは、ルーターを使うことで実現できます!先ほどの基本的なExpressアプリに戻って、それぞれのルートグループを処理するルーターを追加してみましょう。</p>
+<p>まず、新しい<code>routes</code>フォルダに配置できるルーターが必要です。例えば、<code>routes/authorRouter.js</code>です:</p>
 <pre class="highlight"><code class="language-javascript">// routes/authorRouter.js
 const { Router } = require("express");
 
@@ -154,9 +154,9 @@ authorRouter.get("/:authorId", (req, res) =&gt; {
 });
 
 module.exports = authorRouter;</code></pre>
-<p>In the above, we destructure the Express object to get a Router function and use it to create our <code>authorRouter</code>. We can use the same <code>.get</code> or <code>.post</code> methods on this router instead of on the whole server object, meaning we can write routes and middleware scoped to this router (we will dive deeper into these in the next lesson). Since we'll make this router usable only for paths that start with <code>/authors</code>, our route paths here don't need to include it. Instead, they <em>extend</em> the parent path (we wouldn't want our route to match <code>/authors/authors/:authorId</code>).</p>
-<p>Create the other two routers for the other route groups - <code>routes/bookRouter.js</code> and <code>routes/indexRouter.js</code>! Their middleware functions don't need to do much, just send something unique to each route so you know which route is being matched.</p>
-<p>Once you've made the other two routers, let's add them to our server in <code>app.js</code>:</p>
+<p>上のコードでは、ExpressオブジェクトをデストラクチャリングしてRouter関数を取り出し、それを使って<code>authorRouter</code>を作成しています。サーバーオブジェクト全体の代わりに、このルーターに対して同じ<code>.get</code>や<code>.post</code>メソッドを使うことができ、つまりこのルーターにスコープされたルートやミドルウェアを書くことができます(これらについては次のレッスンでより深く掘り下げます)。このルーターは<code>/authors</code>で始まるパスに対してのみ使えるようにする予定なので、ここでのルートパスにはそれを含める必要はありません。代わりに、それらは親のパスを<em>拡張</em>します(ルートが<code>/authors/authors/:authorId</code>に一致してしまうのは望ましくありません)。</p>
+<p>他のルートグループのために、残り二つのルーター――<code>routes/bookRouter.js</code>と<code>routes/indexRouter.js</code>――を作成してください!それらのミドルウェア関数は多くのことをする必要はなく、どのルートが一致しているかがわかるように、それぞれのルートに何か一意のものを送るだけで十分です。</p>
+<p>残り二つのルーターを作成したら、<code>app.js</code>の中でそれらをサーバーに追加しましょう:</p>
 <pre class="highlight"><code class="language-javascript">// app.js
 const express = require("express");
 const app = express();
@@ -175,30 +175,30 @@ app.listen(PORT, (error) =&gt; {
   }
   console.log(`My first Express app - listening on port ${PORT}!`);
 });</code></pre>
-<p>We specify that any requests with paths starting with <code>/authors</code> will be passed through <code>authorRouter</code> for route matching. If our request starts with <code>/books</code>, it will skip these author routes and then check the routes in <code>bookRouter</code> instead. Any other requests that don't start with either of these will run through <code>indexRouter</code>.</p>
-<p>To test these routes, use <a href="https://www.postman.com/downloads/">Postman</a> which will allow you to send <code>GET</code> and <code>POST</code> requests without the browser (we can't send <code>POST</code> requests from the browser address bar).</p>
-<h3>Assignment</h3>
+<p><code>/authors</code>で始まるパスを持つすべてのリクエストは、ルートの一致判定のために<code>authorRouter</code>を通ることを指定しています。もしリクエストが<code>/books</code>で始まっていれば、これらのauthorのルートはスキップされ、代わりに<code>bookRouter</code>の中のルートがチェックされます。どちらでも始まらないその他すべてのリクエストは、<code>indexRouter</code>を通ることになります。</p>
+<p>これらのルートをテストするには、<a href="https://www.postman.com/downloads/">Postman</a>を使ってください。これを使えば、ブラウザなしで<code>GET</code>や<code>POST</code>リクエストを送信できます(ブラウザのアドレスバーからは<code>POST</code>リクエストを送信できません)。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Read through the Express' <a href="https://expressjs.com/en/guide/routing.html">primer on Routing</a> for an overview of this lesson's topics. Remember to reference the <a href="https://expressjs.com/en/api.html">Express documentation</a> for more information on specific methods.</li>
+<li>このレッスンのトピックの概要をつかむために、Expressの<a href="https://expressjs.com/en/guide/routing.html">ルーティングの入門</a>を読んでください。特定のメソッドについてのより詳しい情報は、<a href="https://expressjs.com/en/api.html">Expressのドキュメント</a>を参照することを忘れないでください。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#the-anatomy-of-a-route">How can you define a route that will only match a specific HTTP verb?</a></li>
-<li><a href="https://expressjs.com/en/5x/api/application/#appallpath-callback--callback-">How can you define a route that will match all HTTP verbs?</a></li>
-<li><a href="#paths">How can you define path patterns for your routes to match?</a></li>
-<li><a href="#order-matters">How does the order of your routes affect which routes get matched?</a></li>
-<li><a href="#route-parameters">What object gets populated with route parameters?</a></li>
-<li><a href="#query-parameters">How do you access query parameters within routes?</a></li>
-<li><a href="#routers">How do you extract routes to an individual router?</a></li>
-<li><a href="#routers">We have a router for paths starting with <code>/users</code>. Inside that router, what path should a GET route have to match a GET request to the <code>/users/delete</code> path?</a></li>
+<li><a href="#the-anatomy-of-a-route">特定のHTTP動詞にのみ一致するルートは、どのように定義できますか?</a></li>
+<li><a href="https://expressjs.com/en/5x/api/application/#appallpath-callback--callback-">すべてのHTTP動詞に一致するルートは、どのように定義できますか?</a></li>
+<li><a href="#paths">ルートが一致すべきパスパターンは、どのように定義できますか?</a></li>
+<li><a href="#order-matters">ルートの順番は、どのルートが一致するかにどう影響しますか?</a></li>
+<li><a href="#route-parameters">ルートパラメータで埋められるオブジェクトはどれですか?</a></li>
+<li><a href="#query-parameters">ルート内でクエリパラメータにはどのようにアクセスしますか?</a></li>
+<li><a href="#routers">ルートを個別のルーターに抽出するには、どうすればよいですか?</a></li>
+<li><a href="#routers"><code>/users</code>で始まるパス用のルーターがあるとします。そのルーターの中で、<code>/users/delete</code>パスへのGETリクエストに一致させるには、GETルートはどのパスを持つべきですか?</a></li>
 </ul>
-<h3>Additional resources</h3>
-<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<h3>追加リソース</h3>
+<p>このセクションには、関連コンテンツへの役立つリンクが含まれています。必須ではないので、補足として捉えてください。</p>
 <ul>
-<li>This video about <a href="https://youtu.be/0Hu27PoloYw?si=LZ8wQkOTP-e50Zvi">Express Routes</a> offers a comprehensive overview of Express routes.</li>
+<li><a href="https://youtu.be/0Hu27PoloYw?si=LZ8wQkOTP-e50Zvi">Express Routes</a>についてのこの動画は、Expressのルートについての包括的な概要を提供してくれます。</li>
 </ul>
       </div>
     </article>

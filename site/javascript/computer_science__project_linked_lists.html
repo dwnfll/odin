@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,66 +28,58 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Linked Lists</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
     </header>
     <p class="tvp-lesson__desc">Build one of the most fundamental data structures.</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>In Computer Science, one of the most basic and fundamental data structures is the
-linked list, which functions similarly to an array. The principal benefit of a linked
-list over a conventional array is that the list elements can easily be inserted or
-removed without reallocation of any other elements.</p>
-<p>In some programming languages, the size of an array is a concern and one of the ways
-to overcome that problem and allow dynamically allocated data is using linked lists.</p>
-<p>Luckily in <strong>JavaScript</strong>, arrays aren't limited to a certain size, and both insertion and deletion can be done trivially at any index using the appropriate built in array method, so you don't have to think about overcoming those limitations.</p>
-<p>So if array size, array insertion and array deletion are not limitations in JavaScript, are linked lists really necessary?
-The short answer to that is <em>it depends</em>; however, it's the simplest of the dynamic data
-structures and it will give you a solid foundation, so you can understand more
-complex data structures like graphs and binary trees with more ease.</p>
-<h3>Structure of a linked list</h3>
-<p>A <em>linked list</em> is a linear collection of data elements called nodes that "point"
-to the next node by means of a pointer.</p>
-<p>Each node holds a single element of data and a link or pointer to the next node in the list.</p>
-<p>A head node is the first node in the list, a tail node is the last node in the list. Below is a basic representation of a linked list:</p>
+        <h3>イントロダクション</h3>
+<p>コンピューターサイエンスにおいて、最も基本的で重要なデータ構造の一つが連結リスト(linked list)であり、配列と似たような働きをします。従来の配列に対する連結リストの主な利点は、他の要素を再配置することなく、リストの要素を簡単に挿入したり削除したりできることです。</p>
+<p>一部のプログラミング言語では配列のサイズが問題になり、その問題を克服して動的に確保されるデータを扱えるようにする方法の一つが、連結リストを使うことです。</p>
+<p>幸いなことに<strong>JavaScript</strong>では、配列は特定のサイズに制限されておらず、適切な組み込みの配列メソッドを使えば、任意のインデックスでの挿入や削除も簡単に行えるため、そうした制限を克服する方法について考える必要はありません。</p>
+<p>では、JavaScriptにおいて配列のサイズ、配列への挿入、配列からの削除が制限にならないのであれば、連結リストは本当に必要なのでしょうか?この質問への短い答えは<em>場合による</em>、です。とはいえ、連結リストは動的データ構造の中で最もシンプルなものであり、しっかりとした基礎を与えてくれるため、グラフや二分木のようなより複雑なデータ構造をより簡単に理解できるようになります。</p>
+<h3>連結リストの構造</h3>
+<p><em>連結リスト</em>とは、ノードと呼ばれるデータ要素の線形の集合であり、各ノードはポインタによって次のノードを"指し示し"ます。</p>
+<p>各ノードは、単一のデータ要素と、リスト内の次のノードへのリンク(ポインタ)を保持します。</p>
+<p>先頭ノード(head node)はリストの最初のノードであり、末尾ノード(tail node)はリストの最後のノードです。以下は連結リストの基本的な表現です:</p>
 <p><code>[ NODE(head) ] -&gt; [ NODE ] -&gt; [ NODE(tail) ] -&gt; null</code></p>
-<p>For a more thorough explanation, use these resources:</p>
+<p>より詳しい説明については、以下のリソースを参照してください:</p>
 <ol>
-<li><a href="https://www.youtube.com/watch?v=oiW79L8VYXk">Linked Lists in Plain English</a></li>
-<li><a href="https://dev.to/vaidehijoshi/whats-a-linked-list-anyway">What's a Linked List, Anyway?</a></li>
-<li><a href="https://web.archive.org/web/20200217010131/http://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked%20Lists/linked%20lists.html">A more verbose explanation with plenty of diagrams</a></li>
-<li><a href="https://dev.to/karimdevelops/are-linked-lists-necessary-2ckl">Are Linked Lists necessary?</a></li>
+<li><a href="https://www.youtube.com/watch?v=oiW79L8VYXk">平易な英語で学ぶ連結リスト</a></li>
+<li><a href="https://dev.to/vaidehijoshi/whats-a-linked-list-anyway">連結リストとは結局何なのか?</a></li>
+<li><a href="https://web.archive.org/web/20200217010131/http://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked%20Lists/linked%20lists.html">豊富な図解付きのより詳細な説明</a></li>
+<li><a href="https://dev.to/karimdevelops/are-linked-lists-necessary-2ckl">連結リストは本当に必要か?</a></li>
 </ol>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <div class="lesson-note">
-<h4>Running ES6 modules in Node</h4>
-<p>Node v22 (which became LTS in October 2024) can now automatically detect ES6 modules and run them without any further configuration. If you are using ES6 modules and run into errors due to Node not recognizing the syntax, make sure you <a href="https://www.theodinproject.com/lessons/foundations-installing-node-js#installing-node">update Node to the latest LTS version</a>.</p>
+<h4>NodeでES6モジュールを実行する</h4>
+<p>Node v22(2024年10月にLTSになりました)は、これ以上の設定をしなくても、自動的にES6モジュールを検出して実行できるようになりました。ES6モジュールを使っていて、Nodeがその構文を認識できないことによるエラーに遭遇した場合は、<a href="https://www.theodinproject.com/lessons/foundations-installing-node-js#installing-node">Nodeを最新のLTSバージョンに更新</a>してください。</p>
 </div>
-<p>You will need two classes or factories:</p>
+<p>2つのクラスまたはファクトリが必要になります:</p>
 <ol>
-<li><code>LinkedList</code> class / factory, which will represent the full list.</li>
-<li><code>Node</code> class / factory, containing a <code>value</code> property and a <code>nextNode</code> property, set both as <code>null</code> by default.</li>
+<li><code>LinkedList</code>クラス/ファクトリ。リスト全体を表します。</li>
+<li><code>Node</code>クラス/ファクトリ。<code>value</code>プロパティと<code>nextNode</code>プロパティを持ち、両方ともデフォルトで<code>null</code>に設定します。</li>
 </ol>
-<p>Build the following functions in your linked list class / factory:</p>
+<p>連結リストのクラス/ファクトリに、以下の関数を実装してください:</p>
 <ol>
-<li><code>append(value)</code> adds a new node containing <code>value</code> to the end of the list.</li>
-<li><code>prepend(value)</code> adds a new node containing <code>value</code> to the start of the list.</li>
-<li><code>size()</code> returns the total number of nodes in the list.</li>
-<li><code>head()</code> should return the value of the first node in the list. If the list is empty, it should return <code>undefined</code>.</li>
-<li><code>tail()</code> should return the value of the final node in the list. If the list is empty, it should return <code>undefined</code>.</li>
-<li><code>at(index)</code> should return the value of the node at the given index. If there's no node at the given index, it should return <code>undefined</code>.</li>
-<li><code>pop()</code> should remove the head node from the list and return its value. If it's used on an empty list, it should just return <code>undefined</code>.</li>
-<li><code>contains(value)</code> returns true if the passed in value is in the list and otherwise returns false.</li>
-<li><code>findIndex(value)</code> returns the index of the node containing the given value. If the value can't be found in the list, it should return <code>-1</code>. If more than one node has a value matching the given <code>value</code>, it should return the index of the first node with the matching value.</li>
-<li><code>toString()</code> represents your LinkedList objects as strings, so you can print them out and preview them in the console. If the list is empty, it should return an empty string. The format should be: <code>( value ) -&gt; ( value ) -&gt; ( value ) -&gt; null</code>.</li>
+<li><code>append(value)</code>は、<code>value</code>を含む新しいノードをリストの末尾に追加します。</li>
+<li><code>prepend(value)</code>は、<code>value</code>を含む新しいノードをリストの先頭に追加します。</li>
+<li><code>size()</code>はリスト内のノードの総数を返します。</li>
+<li><code>head()</code>はリストの最初のノードの値を返す必要があります。リストが空の場合は<code>undefined</code>を返す必要があります。</li>
+<li><code>tail()</code>はリストの最後のノードの値を返す必要があります。リストが空の場合は<code>undefined</code>を返す必要があります。</li>
+<li><code>at(index)</code>は指定されたインデックスのノードの値を返す必要があります。指定されたインデックスにノードが存在しない場合は、<code>undefined</code>を返す必要があります。</li>
+<li><code>pop()</code>はリストの先頭ノードを削除し、その値を返す必要があります。空のリストに対して使われた場合は、単に<code>undefined</code>を返す必要があります。</li>
+<li><code>contains(value)</code>は、渡された値がリスト内に存在する場合は<code>true</code>を返し、そうでない場合は<code>false</code>を返します。</li>
+<li><code>findIndex(value)</code>は、指定された値を含むノードのインデックスを返します。その値がリスト内に見つからない場合は、<code>-1</code>を返す必要があります。指定された<code>value</code>と一致する値を持つノードが複数ある場合は、一致する値を持つ最初のノードのインデックスを返す必要があります。</li>
+<li><code>toString()</code>は、あなたのLinkedListオブジェクトを文字列として表現し、コンソールに出力してプレビューできるようにします。リストが空の場合は、空の文字列を返す必要があります。フォーマットは次の通りです: <code>( value ) -&gt; ( value ) -&gt; ( value ) -&gt; null</code>。</li>
 </ol>
-<h4>Extra credit</h4>
+<h4>追加課題</h4>
 <ol>
 <li>
-<p><code>insertAt(index, ...values)</code> should insert new nodes with the given values at the given <code>index</code>. For example:</p>
+<p><code>insertAt(index, ...values)</code>は、指定された<code>index</code>に、与えられた値を持つ新しいノードを挿入する必要があります。例えば:</p>
 <pre class="highlight"><code class="language-javascript">// list that's already set up
 console.log(list.toString());
 //=&gt; "( 1 ) -&gt; ( 2 ) -&gt; ( 3 ) -&gt; null"
@@ -95,19 +87,19 @@ console.log(list.toString());
 list.insertAt(1, 10, 11)
 console.log(list.toString());
 //=&gt; "( 1 ) -&gt; ( 10 ) -&gt; ( 11 ) -&gt; ( 2 ) -&gt; ( 3 ) -&gt; null"</code></pre>
-<p>If the method is called with an index that is out of bounds (below 0 or above the list's size), throw a <code>RangeError</code>.</p>
+<p>このメソッドが範囲外のインデックス(0未満、またはリストのサイズより大きい)で呼び出された場合は、<code>RangeError</code>をスローしてください。</p>
 </li>
 <li>
-<p><code>removeAt(index)</code> that removes the node at the given <code>index</code>. If the given index is out of bounds (below 0 or greater than or equal to the list's size), throw a <code>RangeError</code></p>
+<p><code>removeAt(index)</code>は、指定された<code>index</code>のノードを削除します。指定されたインデックスが範囲外(0未満、またはリストのサイズ以上)の場合は、<code>RangeError</code>をスローしてください。</p>
 </li>
 </ol>
-<p><strong>Extra Credit Tip:</strong> When you insert or remove a node, consider how it will affect the existing nodes. Some of the nodes will need their <code>nextNode</code> link updated.</p>
-<h4>Test it out</h4>
-<p>Let's test out the Linked List you made!</p>
+<p><strong>追加課題のヒント:</strong> ノードを挿入または削除するときは、それが既存のノードにどう影響するかを考えてください。一部のノードは、<code>nextNode</code>のリンクを更新する必要があります。</p>
+<h4>試してみよう</h4>
+<p>作成した連結リストを実際に試してみましょう!</p>
 <ol>
-<li>Create a <code>main.js</code> file and make sure it imports your <code>LinkedList</code> class or factory. This is where we'll test the list.</li>
+<li><code>main.js</code>ファイルを作成し、あなたの<code>LinkedList</code>クラスまたはファクトリをインポートするようにしてください。ここでリストをテストします。</li>
 <li>
-<p>Create an instance of your <code>LinkedList</code> and populate it with nodes:</p>
+<p><code>LinkedList</code>のインスタンスを作成し、ノードを追加してください:</p>
 <pre class="highlight"><code class="language-javascript">// example uses class syntax - adjust as necessary
 const list = new LinkedList();
 
@@ -119,12 +111,12 @@ list.append("snake");
 list.append("turtle");</code></pre>
 </li>
 <li>
-<p>Add <code>console.log(list.toString());</code> to the end of the file and run it.</p>
+<p>ファイルの末尾に<code>console.log(list.toString());</code>を追加して実行してください。</p>
 </li>
 <li>
-<p>If everything is working, the output should be:</p>
+<p>すべてが正しく動作していれば、出力は以下のようになるはずです:</p>
 <pre class="highlight"><code class="language-text">( dog ) -&gt; ( cat ) -&gt; ( parrot ) -&gt; ( hamster ) -&gt; ( snake ) -&gt; ( turtle ) -&gt; null</code></pre>
-<p>Feel free to use different values to test if you like.</p>
+<p>好きであれば、テストのために別の値を使ってみてください。</p>
 </li>
 </ol>
 </div>

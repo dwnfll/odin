@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,28 +28,28 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">How To Deal With Side Effects</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">How To Deal With Side Effects</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Certain components in React need to interact with things outside themselves. These things can be anything from querying data from a server to finding/changing the position of the component on the webpage or even sending some data to a server when necessary. This interaction with the <em>outside world</em> is called a side-effect.</p>
-<p>While we are already familiar with rendering code and adding event handlers, it is not enough for all uses, like when you want to connect to your server and fetch messages to show to a user. Effects let you run some code to synchronize your component as necessary, on rendering or a reactive/state value change rather than on a particular event.</p>
-<p>Similar to how we have the <code>useState</code> hook, React offers us a handy <code>useEffect</code> hook to use effects in our components.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3 id="introduction">イントロダクション</h3>
+<p>Reactの中には、自分自身の外側にあるものとやり取りする必要があるコンポーネントがあります。これらは、サーバーからデータを問い合わせることから、ウェブページ上のコンポーネントの位置を調べたり変更したりすること、あるいは必要に応じてサーバーに何らかのデータを送信することまで、さまざまです。この<em>外の世界</em>とのやり取りは、副作用(side-effect)と呼ばれます。</p>
+<p>私たちはすでにレンダリングのコードやイベントハンドラの追加には慣れていますが、それだけではすべての用途に十分とは言えません。例えば、サーバーに接続してユーザーに表示するメッセージを取得したい場合などです。エフェクト(effects)を使うと、特定のイベントではなく、レンダリング時やリアクティブ/state値の変化に応じて、必要な形でコンポーネントを同期させるためのコードを実行できます。</p>
+<p><code>useState</code>フックがあるのと同じように、Reactはコンポーネントの中でエフェクトを使うための、便利な<code>useEffect</code>フックを提供してくれます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Understand what effects are in React.</li>
-<li>Learn how to use effects in React applications.</li>
-<li>Explore different parts of the useEffect hook.</li>
-<li>Identify when to use an effect in React.</li>
+<li>Reactにおけるエフェクトとは何かを理解する。</li>
+<li>Reactアプリケーションでエフェクトを使う方法を学ぶ。</li>
+<li>useEffectフックのさまざまな部分を見ていく。</li>
+<li>Reactでいつエフェクトを使うべきかを見極める。</li>
 </ul>
-<h3>Using effect saves the day</h3>
-<h4>The useEffect hook</h4>
-<p>Let us take a component in question. We want to make a <code>Clock</code> component that shows how many seconds have passed since the user has loaded the webpage. To update it every second, we can use our nifty <code>setInterval</code> function to add one to the <code>counter</code> state variable, every second. Let's try putting it in the body of our component.</p>
+<h3>エフェクトを使えば大丈夫</h3>
+<h4>useEffectフック</h4>
+<p>あるコンポーネントを例に考えてみましょう。ユーザーがウェブページを読み込んでから何秒経過したかを表示する、<code>Clock</code>コンポーネントを作りたいとします。毎秒それを更新するために、便利な<code>setInterval</code>関数を使って、<code>counter</code>というstate変数に毎秒1を足すことができます。これをコンポーネントの本体に入れてみましょう。</p>
 <pre class="highlight"><code class="language-jsx">import { useState } from "react";
 
 export default function Clock() {
@@ -63,9 +63,9 @@ export default function Clock() {
     &lt;p&gt;{counter} seconds have passed.&lt;/p&gt;
   );
 }</code></pre>
-<p>Alas, we see our counter going berserk. This happens because the <code>setInterval</code> function is being called not once, but at every state render.</p>
-<p>When our component first renders, it calls our initial <code>setInterval</code> function. That interval updates the state every second, triggering the component to re-render. But every re-render calls <code>setInterval</code> again, which triggers more frequent state updates, which each spawn new intervals, and everything quickly spirals out of control.</p>
-<p>This is where the <code>useEffect</code> hook swoops in to save us. We can wrap this calculation inside a <code>useEffect</code> hook to move it outside the rendering calculation. It accepts a callback function with all the calculations.</p>
+<p>ああ、カウンターが暴走してしまいました。これは、<code>setInterval</code>関数が1回だけでなく、stateがレンダーされるたびに呼び出されてしまっているために起こります。</p>
+<p>コンポーネントが最初にレンダーされると、最初の<code>setInterval</code>関数が呼び出されます。このインターバルは毎秒stateを更新し、コンポーネントの再レンダーを引き起こします。しかし、再レンダーのたびに<code>setInterval</code>が再び呼び出され、それがより頻繁なstateの更新を引き起こし、それぞれが新しいインターバルを生み出してしまい、あっという間にすべてが制御不能になってしまいます。</p>
+<p>ここで、<code>useEffect</code>フックが颯爽と登場し、私たちを救ってくれます。この計算を<code>useEffect</code>フックの中に包むことで、レンダリングの計算の外に移動させることができます。これは、すべての計算を含むコールバック関数を受け取ります。</p>
 <pre class="highlight"><code class="language-jsx">import { useEffect, useState } from "react";
 
 export default function Clock() {
@@ -81,11 +81,11 @@ export default function Clock() {
     &lt;p&gt;{counter} seconds have passed.&lt;/p&gt;
   );
 }</code></pre>
-<p>But, it still keeps growing too fast! This is where another argument of the <code>useEffect</code> comes in: the dependency array.</p>
-<h4>The dependency array</h4>
-<p>By default, <code>useEffect</code> hook runs on every render. Since setting state tears the component down, we still get multiple setter calls on every render, which doesn't help us.</p>
-<p>Fortunately, the second argument accepts an array of dependencies allowing the hook to re-render <strong>only when those dependencies are changed</strong>. So if you have a state variable and want to have some side-effect occur any time the state changes, you can use this hook and mention the state variable in the dependency array.</p>
-<p>We pass an empty array in this example because we do not want the <code>useEffect</code> hook to run anytime other than the initial component render.</p>
+<p>しかし、それでもまだ速すぎるペースで増え続けています!ここで登場するのが、<code>useEffect</code>のもう一つの引数、依存配列(dependency array)です。</p>
+<h4>依存配列</h4>
+<p>デフォルトでは、<code>useEffect</code>フックはレンダーのたびに実行されます。stateを設定するとコンポーネントが取り壊される(tear down)ため、レンダーのたびに複数回のsetterの呼び出しが依然として発生してしまい、これでは役に立ちません。</p>
+<p>幸いなことに、2番目の引数は依存関係の配列を受け取り、これによってフックは<strong>それらの依存関係が変化したときにのみ</strong>再実行されるようになります。つまり、あるstate変数を持っていて、そのstateが変化するたびに何らかの副作用を起こしたい場合は、このフックを使い、依存配列の中でそのstate変数を指定すればよいのです。</p>
+<p>この例では空の配列を渡していますが、これは、コンポーネントの最初のレンダー以外のタイミングで<code>useEffect</code>フックを実行してほしくないからです。</p>
 <pre class="highlight"><code class="language-jsx">import { useEffect, useState } from "react";
 
 export default function Clock() {
@@ -102,8 +102,8 @@ export default function Clock() {
   );
 }</code></pre>
 <div class="lesson-note">
-<h4>Managing useEffect dependencies</h4>
-<p>Usually, you do not need to add dependencies to your <code>useEffect</code> hook manually. Your linter should let you know about the dependencies it expects. Letting the linter show errors and fixing them instead of suppressing them is usually the best idea. On a general note, the following block does a good job of summing this point up.</p>
+<h4>useEffectの依存関係を管理する</h4>
+<p>通常、<code>useEffect</code>フックに手動で依存関係を追加する必要はありません。あなたのlinterが、期待される依存関係を教えてくれるはずです。linterが表示するエラーを抑制するのではなく、そのまま表示させて修正することが、通常は最善の考え方です。一般的な注意点として、以下のブロックがこのポイントをうまくまとめています。</p>
 <pre class="highlight"><code class="language-jsx">useEffect(() =&gt; {
   // This runs after every render
 });
@@ -116,10 +116,10 @@ useEffect(() =&gt; {
   // This runs on mount *and also* if either a or b have changed since the last render
 }, [a, b]);</code></pre>
 </div>
-<h4>The clean-up function</h4>
-<p>Oh, it's not going berserk anymore! We still have an issue with the counter updating twice every second though. That can be understood as a <a href="https://react.dev/reference/react/StrictMode#strictmode">behavior caused by the React StrictMode</a>. It is supposed to help us catch bugs, so what is that bug here?</p>
-<p>With <code>StrictMode</code>, the <code>App</code> component is mounted, unmounted, then mounted again. This behavior of <code>StrictMode</code> is only in the development environment. Notice that every time the <code>useEffect</code> hook runs, a new <code>setInterval</code> is used.  When the component is unmounted the first time, <code>setInterval</code> is not stopped, it keeps incrementing. This unnecessary behavior can be prevented by clearing the interval when the component is unmounted and that is where the third part of our <code>useEffect</code> hook comes in - the cleanup function.</p>
-<p>You can return a function from the callback in the <code>useEffect</code> hook, which will be executed each time before the next effect is run, and one final time when the component is unmounted. In this case, let us clean up the interval with a cleanup function.</p>
+<h4>クリーンアップ関数</h4>
+<p>おお、もう暴走しなくなりました!とはいえ、カウンターが毎秒2回更新されてしまうという問題がまだ残っています。これは<a href="https://react.dev/reference/react/StrictMode#strictmode">React StrictModeによって引き起こされる挙動</a>として理解できます。StrictModeはバグを見つける手助けをしてくれるはずのものですが、ここでのバグとは何なのでしょうか?</p>
+<p><code>StrictMode</code>では、<code>App</code>コンポーネントはマウントされ、アンマウントされ、それから再びマウントされます。この<code>StrictMode</code>の挙動は、開発環境でのみ発生します。<code>useEffect</code>フックが実行されるたびに、新しい<code>setInterval</code>が使われることに注目してください。コンポーネントが最初にアンマウントされたとき、<code>setInterval</code>は停止されず、増分を続けます。この不要な挙動は、コンポーネントがアンマウントされたときにインターバルをクリアすることで防ぐことができます。そして、それこそが<code>useEffect</code>フックの3つ目の部分、クリーンアップ関数の出番です。</p>
+<p><code>useEffect</code>フックのコールバックから関数を返すことができます。この関数は、次のエフェクトが実行される前に毎回実行され、そしてコンポーネントがアンマウントされるときに最後にもう一度実行されます。この場合は、クリーンアップ関数を使ってインターバルをクリーンアップしてみましょう。</p>
 <pre class="highlight"><code class="language-jsx">import { useEffect, useState } from "react";
 
 export default function Clock() {
@@ -139,7 +139,7 @@ export default function Clock() {
     &lt;p&gt;{counter} seconds have passed.&lt;/p&gt;
   );
 }</code></pre>
-<p>Phew! It finally works! As the counter keeps merrily ticking on, let us sum up <span id="body-of-an-useEffect">what we know about the <code>useEffect</code> hook.</span></p>
+<p>ふう!ついに動きました!カウンターが楽しそうに時を刻み続ける中、<span id="body-of-an-useEffect"><code>useEffect</code>フックについてわかったことをまとめてみましょう。</span></p>
 <pre class="highlight"><code class="language-jsx">useEffect(
   () =&gt; {
     // execute side effect
@@ -150,12 +150,12 @@ export default function Clock() {
   // optional dependency array
   [/* 0 or more entries */]
 )</code></pre>
-<h3>But do we need the effect?</h3>
-<p><code>useEffect</code> is a mechanism outside the concepts that React usually applies, allowing you to sync your component with various external systems like a server, API, or browser DOM. The single question that you can ask yourself before you use an effect is if there are any such external systems that need to be synced with, apart from props or state. Unnecessary <code>useEffect</code> hooks are code-smell, error-prone, and cause unnecessary performance issues.</p>
-<p>Let us address a few cases where <code>useEffect</code> does not need to be used.</p>
+<h3 id="but-do-we-need-the-effect">そもそもエフェクトは必要なのか?</h3>
+<p><code>useEffect</code>は、Reactが通常適用する概念の外側にある仕組みであり、コンポーネントをサーバー、API、ブラウザのDOMのようなさまざまな外部システムと同期させることを可能にしてくれます。エフェクトを使う前に自分に問いかけられる唯一の質問は、propsやstate以外に、同期する必要があるそのような外部システムが存在するかどうか、というものです。不要な<code>useEffect</code>フックはコードスメルであり、エラーの原因になりやすく、不要なパフォーマンスの問題を引き起こします。</p>
+<p><code>useEffect</code>を使う必要のない、いくつかのケースを見ていきましょう。</p>
 <ul>
 <li>
-<p>You do not need to use an effect if you are only calculating something based on the state during rendering. For a change in a component, due to a change in the props, you can calculate and set it during rendering.</p>
+<p>レンダリング中にstateに基づいて何かを計算しているだけの場合、エフェクトを使う必要はありません。propsの変化によるコンポーネントの変更については、レンダリング中に計算して設定することができます。</p>
 <pre class="highlight"><code class="language-jsx">import { useState } from "react";
 
 export default function AdditionDisplay() {
@@ -177,7 +177,7 @@ export default function AdditionDisplay() {
 }</code></pre>
 </li>
 <li>
-<p>You do not need effects for events. Code that runs when a component is <strong>displayed</strong> should be in effects, the rest should be in events.</p>
+<p>イベントのためにエフェクトを使う必要はありません。コンポーネントが<strong>表示</strong>されたときに実行されるコードはエフェクトの中に置くべきであり、それ以外はイベントの中に置くべきです。</p>
 <pre class="highlight"><code class="language-jsx">import { useState } from "react";
 
 export default function App() {
@@ -207,27 +207,27 @@ export default function App() {
 }</code></pre>
 </li>
 <li>
-<p>You do not need an effect to reset the state based on a condition most of the time. You have learned about keys in React. Just like using a key on a list's item, adding one to a component, based on the state on which it should be reset creates a unique version of that component for each change in the value of the state.</p>
+<p>ほとんどの場合、条件に基づいてstateをリセットするためにエフェクトを使う必要はありません。あなたはすでにReactにおけるkeyについて学んでいます。リストの項目にkeyを使うのとまったく同じように、それがリセットされるべきstateに基づいてコンポーネントにkeyを追加すると、そのstateの値が変化するたびに、そのコンポーネントの一意なバージョンが作られます。</p>
 </li>
 <li>
-<p>If you are having issues with managing your state and want to use an effect to update the state of a parent or some other non-child component, consider <span id="lifting-the-state"><strong>lifting the state</strong>.</span> As we know, in React, the state flows in one direction, generally down the DOM. So the parents know of the data before passing it to the children. If multiple children are required to make use of a single state, it should be moved up to the parent that has all of the components that need it, instead of using escape hatches like an effect.</p>
+<p>stateの管理に問題があり、親や他の子ではないコンポーネントのstateを更新するためにエフェクトを使いたい場合は、<span id="lifting-the-state"><strong>stateのリフトアップ(lifting the state)</strong></span>を検討してください。私たちが知っているように、Reactではstateは一方向に、一般的にはDOMの下方向に流れます。そのため、親は子にデータを渡す前に、そのデータを知っています。複数の子が単一のstateを利用する必要がある場合、エフェクトのような回避策を使うのではなく、それを必要とするすべてのコンポーネントを持つ親まで、そのstateを引き上げるべきです。</p>
 </li>
 </ul>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>This lesson from the React docs talks about the <a href="https://react.dev/learn/lifecycle-of-reactive-effects">lifecycle of a component</a>, the different stages at which rendering takes place, and the role of <code>useEffect</code> in it.</li>
-<li>More examples from the React docs about when <a href="https://react.dev/learn/you-might-not-need-an-effect">you might not need an Effect</a>.</li>
-<li>Yet another article that explains a common mistake that beginners make, <a href="https://dmitripavlutin.com/react-useeffect-infinite-loop">the infinite useEffect loop</a>.</li>
+<li>Reactドキュメントのこのレッスンでは、<a href="https://react.dev/learn/lifecycle-of-reactive-effects">コンポーネントのライフサイクル</a>、レンダリングが行われるさまざまな段階、そしてその中での<code>useEffect</code>の役割について説明されています。</li>
+<li>Reactドキュメントから、<a href="https://react.dev/learn/you-might-not-need-an-effect">エフェクトが必要ないかもしれない場合</a>についてのさらなる例です。</li>
+<li>初心者がよく犯す間違い、<a href="https://dmitripavlutin.com/react-useeffect-infinite-loop">無限のuseEffectループ</a>について説明している、また別の記事です。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#introduction">What is an effect?</a></li>
-<li><a href="#body-of-an-useEffect">What constitutes a <code>useEffect</code> hook?</a></li>
-<li><a href="#but-do-we-need-the-effect">What is the one question we can ask to know when to use an effect?</a></li>
-<li><a href="#lifting-the-state">What do we mean by lifting up the state?</a></li>
+<li><a href="#introduction">エフェクトとは何ですか?</a></li>
+<li><a href="#body-of-an-useEffect"><code>useEffect</code>フックはどのような要素で構成されていますか?</a></li>
+<li><a href="#but-do-we-need-the-effect">エフェクトをいつ使うべきかを知るために自分に問いかけられる、一つの質問とは何ですか?</a></li>
+<li><a href="#lifting-the-state">「stateをリフトアップする」とはどういう意味ですか?</a></li>
 </ul>
       </div>
     </article>

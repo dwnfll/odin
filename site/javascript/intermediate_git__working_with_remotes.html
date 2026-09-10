@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,82 +28,82 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Working with Remotes</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
     </header>
     <p class="tvp-lesson__desc">So far, you&#x27;ve been working with remote repositories...</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>So far, you've been working with remote repositories each time you've pushed or pulled from your own GitHub repository while working on the curriculum's various projects. In this section, we're going to cover  slightly more advanced topics, which you might not have yet encountered or had to use.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>ここまで、カリキュラムのさまざまなプロジェクトに取り組む中で、自分のGitHubリポジトリにプッシュしたりプルしたりするたびに、リモートリポジトリを扱ってきました。このセクションでは、まだ出会ったことがないかもしれない、あるいは使う必要がなかったかもしれない、もう少し高度なトピックを扱います。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Using remotes to change history.</li>
-<li>Dangers of history-changing operations.</li>
-<li>Best practices of history-changing operations.</li>
+<li>リモートを使って履歴を変更する方法。</li>
+<li>履歴を変更する操作の危険性。</li>
+<li>履歴を変更する操作のベストプラクティス。</li>
 </ul>
-<h3>Force-pushing with Git</h3>
-<p>Let's say you're no longer working on a project all by yourself, but with someone else. You want to push a branch you've made changes on to a remote repository. Normally, Git will only let you push your changes if you've already updated your local branch with the latest commits from this remote.</p>
-<p>If you haven't updated your local branch, and you're attempting to <code>git push</code> a commit which would create a conflict on the remote repository, you'll get an error message. This is actually a great thing! This is a safety mechanism to prevent you from overwriting commits created by the people you're working with, which could be disastrous. You get the error because your history is outdated.</p>
-<p>You might perform a brief query and find the command <code>git push --force</code>. This command overwrites the remote repository with your own local history. So what would happen if we used this while working with others? Well, let's see what would happen when we're working with ourselves. Type the following commands into your terminal, and when the interactive rebase tool pops up remove our commit for <code>Create fourth file</code>:</p>
+<h3>Gitでフォースプッシュする</h3>
+<p>あなたがもう一人でプロジェクトに取り組んでいるのではなく、誰かと一緒に取り組んでいるとしましょう。あなたは、変更を加えたブランチをリモートリポジトリにプッシュしたいと思っています。通常、Gitは、あなたがすでにこのリモートからの最新のコミットでローカルブランチを更新している場合にのみ、変更をプッシュさせてくれます。</p>
+<p>もしローカルブランチを更新しておらず、リモートリポジトリ上でコンフリクトを引き起こすコミットを<code>git push</code>しようとすると、エラーメッセージが表示されます。これは実は素晴らしいことです!これは、一緒に作業している人たちが作ったコミットを上書きしてしまう(悲惨な結果になりかねません)のを防ぐための安全機構です。エラーが出るのは、あなたの履歴が古くなっているからです。</p>
+<p>少し調べてみると、<code>git push --force</code>というコマンドが見つかるかもしれません。このコマンドは、リモートリポジトリを自分自身のローカルの履歴で上書きします。では、他の人と一緒に作業しているときにこれを使うとどうなるでしょうか?まずは、自分一人で作業しているときに何が起こるかを見てみましょう。以下のコマンドをターミナルに入力し、インタラクティブなリベースツールが表示されたら、<code>Create fourth file</code>のコミットを削除してください:</p>
 <pre class="highlight"><code class="language-bash">git push origin main
 git rebase -i --root
 git push --force
 git log</code></pre>
-<p>Huh, that's interesting. We can’t find our fourth file on our local system. Let's check our GitHub repository to see if it's there.</p>
-<p>Oh no, we just destroyed it!  In this scenario, the danger - you could potentially destroy the work of those you're collaborating with! <code>git push --force</code> is a <strong>very dangerous command, and it should be used with caution when collaborating with others</strong>. Instead, you can fix your outdated history error by updating your local history using <code>fetch</code>, <code>merge</code>, and then attempting to <code>push</code> again.</p>
-<p>Let's consider a different scenario:</p>
+<p>おや、これは興味深いですね。ローカルシステム上に4つ目のファイルが見当たりません。GitHubリポジトリを確認して、そこにあるかどうか見てみましょう。</p>
+<p>ああ、まさに今それを壊してしまいました!このシナリオにおける危険性は、一緒に作業している人たちの作業を壊してしまう可能性があるということです!<code>git push --force</code>は<strong>非常に危険なコマンドであり、他の人と共同作業をしているときには注意して使う必要があります</strong>。その代わりに、<code>fetch</code>と<code>merge</code>を使ってローカルの履歴を更新し、それから改めて<code>push</code>を試みることで、履歴が古いというエラーを解決できます。</p>
+<p>別のシナリオを考えてみましょう:</p>
 <pre class="highlight"><code class="language-bash">touch test4.md
 git add test4.md &amp;&amp; git commit -m "Create fifth file"
 git push origin main
 git log</code></pre>
-<p>We look at our commit message and realize <em>oops</em>, we made a mistake. We would be tempted to undo this commit with <code>git reset</code> and just force the push. But wait! Remember, force pushing is a <strong>very dangerous command</strong>. If we're ever considering using it, always check if it's appropriate and if we can use a safer command instead. If we're collaborating with others and want to <em>undo</em> a commit we just made, we can instead use <code>git revert</code> which would not require forcing a push! For more information, especially about a collaborative context, watch <a href="https://www.youtube.com/watch?v=iIaM7j3tMuk">"Git Revert vs Git Reset"</a>.</p>
+<p>コミットメッセージを見て、<em>しまった</em>、間違えてしまったことに気づきました。<code>git reset</code>でこのコミットを取り消して、そのままフォースプッシュしたくなるかもしれません。でも待ってください!フォースプッシュは<strong>非常に危険なコマンド</strong>だということを思い出してください。それを使おうと考えるときは、常にそれが適切かどうか、代わりにより安全なコマンドを使えないかを確認してください。他の人と共同作業をしていて、今行ったばかりのコミットを<em>取り消し</em>たい場合は、代わりに<code>git revert</code>を使うことができます。これならフォースプッシュを行う必要がありません!特に共同作業の文脈についてのより詳しい情報は、<a href="https://www.youtube.com/watch?v=iIaM7j3tMuk">「Git Revert vs Git Reset」</a>を見てください。</p>
 <pre class="highlight"><code class="language-bash">git revert HEAD
 git push origin main</code></pre>
-<p>Remember when we were working with HEAD, aka the current commit we're viewing, while rebasing? What this would do is it would revert the changes to HEAD! Then we would push our new commit to whichever branch we're working on, which in this example is main even though normally our work would most likely be on a feature-branch.</p>
-<p>So now that we've learned about the various dangers of <code>git push --force</code>, you're probably wondering why it exists and when to use it. A very common scenario in which developers use <code>git push --force</code> is updating pull requests. Collaborative work is covered more in depth in a separate lesson, but the take-away from this section should be that the <code>--force</code> option should be used only when you are certain that it is appropriate. There are also less common scenarios, such as when sensitive information is accidentally uploaded to a repository and you want to remove all occurrences of it.</p>
-<p><span id='force-with-lease'>It is worth giving special mention to <code>git push --force-with-lease</code></span>, a command which in some companies is the default option. The reason for this is that it's a fail-safe! It checks if the branch you're attempting to push to has been updated and sends you an error if it has. This gives you an opportunity to, as mentioned before, <code>fetch</code> the work and update your local repository.</p>
-<h3>Dangers and best practices</h3>
-<p>Let's review the dangers we've addressed so far. I know, I know, it's scary stuff - but we have to be mindful or our coworkers might end up hating our guts! If you look back through this lesson you'll see a common thread. <code>commit --amend</code>, <code>rebase</code>, <code>reset</code>, <code>push --force</code> are all especially dangerous when you're collaborating with others. <span id='dangers'>These commands can destroy work your coworkers have created</span>. So keep that in mind. When attempting to rewrite history, always check the dangers of the particular command you're using and follow these best practices for the commands we've covered:</p>
+<p>リベースを行っているときに、HEAD、つまり現在見ているコミットを扱っていたことを覚えていますか?これが行うのは、HEADへの変更を取り消す(revert)ことです!それから、私たちが取り組んでいるブランチ(この例ではmainですが、通常はおそらくフィーチャーブランチ上で作業しているでしょう)に、新しいコミットをプッシュすることになります。</p>
+<p>さて、<code>git push --force</code>のさまざまな危険性について学んだところで、なぜこれが存在するのか、そしていつ使うべきなのか、疑問に思っているかもしれません。開発者が<code>git push --force</code>を使う非常によくあるシナリオは、プルリクエストを更新するときです。共同作業についてはまた別のレッスンでさらに詳しく扱いますが、このセクションから持ち帰ってほしいのは、<code>--force</code>オプションは、それが適切だと確信できるときにのみ使うべきだということです。機密情報が誤ってリポジトリにアップロードされてしまい、そのすべての出現箇所を取り除きたい場合など、あまり一般的ではないシナリオもあります。</p>
+<p><span id='force-with-lease'><code>git push --force-with-lease</code>については特に触れる価値があります</span>。一部の企業ではこれがデフォルトのオプションになっています。その理由は、これがフェイルセーフだからです!このコマンドは、プッシュしようとしているブランチが更新されているかどうかを確認し、更新されていればエラーを返します。これにより、前述の通り、作業内容を<code>fetch</code>してローカルリポジトリを更新する機会が得られます。</p>
+<h3>危険性とベストプラクティス</h3>
+<p>ここまで扱ってきた危険性を振り返ってみましょう。ええ、わかっています、怖い話ですよね。でも、気をつけていないと、同僚に嫌われてしまうかもしれません!このレッスンを振り返ってみると、共通するテーマが見えてくるはずです。<code>commit --amend</code>、<code>rebase</code>、<code>reset</code>、<code>push --force</code>は、いずれも他の人と共同作業をしているときに特に危険です。<span id='dangers'>これらのコマンドは、同僚が作り上げた作業を壊してしまう可能性があります</span>。ですので、それを心に留めておいてください。履歴を書き換えようとするときは、必ず使おうとしている特定のコマンドの危険性を確認し、ここまで扱ってきたコマンドについて、以下のベストプラクティスに従ってください:</p>
 <p><span id='best-practices'></span></p>
 <ol>
-<li>If working on a team project, make sure rewriting history is safe to do and others know you're doing it.</li>
-<li>Ideally, stick to using these commands only on branches that you're working with by yourself.</li>
-<li>Using the <code>-f</code> flag to force something should scare you, and you better have a really good reason for using it.</li>
-<li>Don't push after every single commit, changing published history should be avoided when possible.</li>
-<li>Regarding the specific commands we've covered:<ol>
-<li>For <code>git commit --amend</code> never amend commits that have been pushed to remote repositories.</li>
-<li>For <code>git rebase</code> never rebase a repository that others may work off of.</li>
-<li>For <code>git reset</code> never reset commits that have been pushed to remote repositories.</li>
-<li>For <code>git push --force</code> only use it when appropriate, use it with caution, and preferably default to using <code>git push --force-with-lease</code>.</li>
+<li>チームプロジェクトに取り組んでいる場合は、履歴を書き換えることが安全かどうかを確認し、他の人があなたがそれを行っていることを把握しているようにしてください。</li>
+<li>理想的には、これらのコマンドは、自分一人だけで作業しているブランチに対してのみ使うようにしてください。</li>
+<li>何かを強制するために<code>-f</code>フラグを使うことには、恐れを感じるべきです。それを使うには、本当に十分な理由が必要です。</li>
+<li>コミットするたびにプッシュするのはやめましょう。公開済みの履歴を変更することは、可能な限り避けるべきです。</li>
+<li>ここまで扱ってきた具体的なコマンドについて:<ol>
+<li><code>git commit --amend</code>については、リモートリポジトリにプッシュ済みのコミットを決してamendしないでください。</li>
+<li><code>git rebase</code>については、他の人が作業のベースにしているかもしれないリポジトリを決してリベースしないでください。</li>
+<li><code>git reset</code>については、リモートリポジトリにプッシュ済みのコミットを決してリセットしないでください。</li>
+<li><code>git push --force</code>については、適切な場合にのみ使い、注意して使い、できれば代わりに<code>git push --force-with-lease</code>をデフォルトで使うようにしてください。</li>
 </ol>
 </li>
 </ol>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
 <li>
-<p>Read through <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/about-merge-conflicts">GitHub's documentation on merge conflicts</a></p>
+<p><a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/about-merge-conflicts">マージコンフリクトについてのGitHubのドキュメント</a>を読んでください</p>
 <ul>
-<li>It's only a matter of time until you run into one (if you haven't already)! While merge conflicts might seem intimidating, they're actually very simple. Take your time with this resource and make sure you look at the two different ways the documentation suggests resolving merge conflicts - on GitHub itself, and on your command line. While you might not need this right now, keeping the source of this documentation in the back of your mind will prove invaluable for when you eventually run into a merge conflict and aren't sure where to find a solution.</li>
+<li>(まだ経験していないなら、)いずれ必ずマージコンフリクトに遭遇することになります!マージコンフリクトは怖そうに見えるかもしれませんが、実際にはとてもシンプルです。このリソースにじっくり時間をかけて、ドキュメントが提案している2つの異なる解決方法、GitHub上での方法とコマンドラインでの方法の両方を必ず確認してください。今すぐには必要ないかもしれませんが、このドキュメントの情報源を頭の片隅に置いておくことは、いずれマージコンフリクトに遭遇して解決策がどこにあるのか分からなくなったときに、非常に役立つはずです。</li>
 </ul>
 </li>
 <li>
-<p>Read the entirety of <a href="https://think-like-a-git.net/sections/about-this-site.html">Think Like (a) Git</a></p>
+<p><a href="https://think-like-a-git.net/sections/about-this-site.html">Think Like (a) Git</a>を最初から最後まで読んでください</p>
 <ul>
-<li>Take your time with this resource as well, it's very well written and will be very helpful in solidifying your understanding of Git. Make sure to read all the sections.</li>
+<li>こちらのリソースにもじっくり時間をかけてください。とてもよく書かれており、Gitについての理解を確かなものにするのに大いに役立つはずです。すべてのセクションを必ず読んでください。</li>
 </ul>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#force-with-lease">What is a safe way to forcefully push history changes to a remote repository?</a></li>
-<li><a href="#dangers">What are the dangers of history-changing operations?</a></li>
-<li><a href="#best-practices">What are best practices of history-changing operations?</a></li>
+<li><a href="#force-with-lease">履歴の変更をリモートリポジトリに強制的にプッシュする安全な方法は何ですか?</a></li>
+<li><a href="#dangers">履歴を変更する操作の危険性は何ですか?</a></li>
+<li><a href="#best-practices">履歴を変更する操作のベストプラクティスは何ですか?</a></li>
 </ul>
       </div>
     </article>

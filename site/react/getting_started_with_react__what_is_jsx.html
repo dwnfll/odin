@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,36 +28,36 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">What Is JSX?</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">What Is JSX?</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>You're likely somewhat familiar with JSX from previous React lessons, in this lesson we're going to explain <em>what</em> it is, <em>why</em> we use it, and <em>how</em> to use it in your React apps.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>これまでのReactのレッスンから、あなたはおそらくJSXにある程度馴染みがあるでしょう。このレッスンでは、JSXが<em>何</em>であるか、<em>なぜ</em>それを使うのか、そしてReactアプリの中で<em>どうやって</em>使うのかを説明していきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>What JSX is.</li>
-<li>Differences between JSX and HTML.</li>
+<li>JSXとは何か。</li>
+<li>JSXとHTMLの違い。</li>
 </ul>
-<h3>What is JSX?</h3>
-<p>JSX is a syntax extension for JavaScript that lets you write HTML-like markup inside a JavaScript file. It's not required to use JSX when writing React components, but it does make writing them more concise.</p>
-<p>Essentially, JSX is syntactic sugar for the React <a href="https://react.dev/reference/react/createElement">createElement function</a>. This function creates a React element, which is a plain object, so JSX compiles down to plain JavaScript objects.</p>
-<p>Here you can see the logged value of a div JSX element with some text:</p>
-<p><img alt="JSX element's logged value" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/1100fab7884b195379664e41b62dfa95588f3a15/react/getting_started_with_react/what_is_jsx/imgs/00.png" /></p>
-<h3>Why do we use JSX?</h3>
-<p>Most of the time in apps, rendering logic and markup are inherently coupled, but we typically separate them by having our logic and markup in separate files. JSX allows React to separate concerns by containing both rendering logic and content in the same place (a component).</p>
-<p>On top of this, it's a more intuitive, visual way to work with the UI inside your code, and allows React to show more useful error and warning messages.</p>
-<h3>Rules of JSX</h3>
-<p>If you were to take some valid HTML and copy it straight into your React component, it would not work. This is due to some of the rules JSX implements, that aren't present in HTML.</p>
+<h3 id="what-is-jsx">JSXとは何ですか?</h3>
+<p>JSXはJavaScriptの構文拡張であり、JavaScriptファイルの中にHTMLのようなマークアップを書けるようにしてくれます。Reactコンポーネントを書く際にJSXを使うことは必須ではありませんが、JSXを使うとコンポーネントをより簡潔に書けるようになります。</p>
+<p>本質的に、JSXはReactの<a href="https://react.dev/reference/react/createElement">createElement関数</a>のためのシンタックスシュガー(糖衣構文)です。この関数はReactの要素、つまり単なるオブジェクトを作成するため、JSXは単純なJavaScriptのオブジェクトへとコンパイルされます。</p>
+<p>以下は、いくつかのテキストを含むdivのJSX要素をログ出力した値です:</p>
+<p><img alt="JSX要素をログ出力した値" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/1100fab7884b195379664e41b62dfa95588f3a15/react/getting_started_with_react/what_is_jsx/imgs/00.png" /></p>
+<h3 id="why-do-we-use-jsx">なぜJSXを使うのですか?</h3>
+<p>多くの場合、アプリにおいてレンダリングのロジックとマークアップは本質的に結合していますが、通常はロジックとマークアップを別々のファイルに分けることで、それらを分離しています。JSXは、レンダリングのロジックとコンテンツの両方を同じ場所(コンポーネント)に含めることによって、Reactが関心の分離を行えるようにしてくれます。</p>
+<p>さらに、これはコードの中でUIを扱うための、より直感的で視覚的な方法であり、Reactがより役立つエラーメッセージや警告メッセージを表示できるようにしてくれます。</p>
+<h3 id="rules-of-jsx">JSXのルール</h3>
+<p>もし有効なHTMLをそのままReactコンポーネントにコピーしたとしても、それは動作しません。これは、HTMLには存在しない、JSXが実装しているいくつかのルールが原因です。</p>
 <ol>
 <li>
-<p>Return a single root element.</p>
-<p>If you wish to return multiple elements in a component, you can do so by wrapping them in a parent tag. This can be a <code>&lt;div&gt;</code>, or, if you don't want the elements to have a container, you could use a <a href="https://react.dev/reference/react/Fragment">React fragment</a>, like so: <code>&lt;&gt;Children&lt;/&gt;</code></p>
-<p>Correct:</p>
+<p>単一のルート要素を返す。</p>
+<p>コンポーネントの中で複数の要素を返したい場合は、それらを親タグでラップすることでそれができます。これは<code>&lt;div&gt;</code>でもかまいませんし、要素にコンテナを持たせたくない場合は、次のように<a href="https://react.dev/reference/react/Fragment">Reactフラグメント</a>を使うこともできます: <code>&lt;&gt;Children&lt;/&gt;</code></p>
+<p>正しい例:</p>
 <pre class="highlight"><code class="language-jsx">function App() {
   // Could replace &lt;&gt;&lt;/&gt; with &lt;div&gt;&lt;/div&gt;
   return (
@@ -69,7 +69,7 @@
 }
  ```
 
-Incorrect:
+間違った例:
 
 ```jsx
 function App() {
@@ -80,10 +80,10 @@ function App() {
 }</code></pre>
 </li>
 <li>
-<p>Close all tags.</p>
-<p>In HTML, many tags are self-closing and self-wrapping. In JSX however, we must explicitly close and wrap these tags.</p>
-<p><code>&lt;input&gt;</code> would become <code>&lt;input /&gt;</code>, and <code>&lt;li&gt;</code> would become <code>&lt;li&gt;&lt;/li&gt;</code></p>
-<p>Correct:</p>
+<p>すべてのタグを閉じる。</p>
+<p>HTMLでは、多くのタグが自己終了・自己完結するようになっています。しかし、JSXでは、これらのタグを明示的に閉じたり、包んだりする必要があります。</p>
+<p><code>&lt;input&gt;</code>は<code>&lt;input /&gt;</code>になり、<code>&lt;li&gt;</code>は<code>&lt;li&gt;&lt;/li&gt;</code>になります。</p>
+<p>正しい例:</p>
 <pre class="highlight"><code class="language-jsx">function App() {
   return (
     &lt;&gt;
@@ -92,7 +92,7 @@ function App() {
     &lt;/&gt;
   );
  }</code></pre>
-<p>Incorrect:</p>
+<p>間違った例:</p>
 <pre class="highlight"><code class="language-jsx">function App() {
   return (
     &lt;&gt;
@@ -103,9 +103,9 @@ function App() {
 }</code></pre>
 </li>
 <li>
-<p>camelCase <strong>Most</strong> things.</p>
-<p>JSX turns into JavaScript, and attributes of elements become keys of JavaScript objects, so you can't use dashes or reserved words such as <code>class</code>. Because of this, many HTML attributes are written in camelCase. Instead of <code>stroke-width</code>, you'd use <code>strokeWidth</code>, and instead of <code>class</code> you'd use <code>className</code>.</p>
-<p>Correct:</p>
+<p><strong>ほとんど</strong>のものをcamelCaseにする。</p>
+<p>JSXはJavaScriptに変換され、要素の属性はJavaScriptオブジェクトのキーになります。そのため、ダッシュや<code>class</code>のような予約語は使えません。このため、多くのHTML属性はcamelCaseで書かれます。<code>stroke-width</code>の代わりに<code>strokeWidth</code>を使い、<code>class</code>の代わりに<code>className</code>を使います。</p>
+<p>正しい例:</p>
 <pre class="highlight"><code class="language-jsx">function App() {
   return (
   &lt;div className="container"&gt;
@@ -115,7 +115,7 @@ function App() {
   &lt;/div&gt;
   );
 }</code></pre>
-<p>Incorrect:</p>
+<p>間違った例:</p>
 <pre class="highlight"><code class="language-jsx">function App() {
   return (
     &lt;div class="container"&gt;
@@ -127,8 +127,8 @@ function App() {
 }</code></pre>
 </li>
 </ol>
-<h3>Converting HTML to JSX</h3>
-<p>Now that we've covered the Rules of JSX, we'll go through the conversion of a chunk of HTML to JSX.</p>
+<h3>HTMLをJSXに変換する</h3>
+<p>JSXのルールを確認したので、次はHTMLの塊をJSXに変換する作業を見ていきましょう。</p>
 <pre class="highlight"><code class="language-jsx">&lt;h1&gt;Test title&lt;/h1&gt;
 &lt;svg&gt;
   &lt;circle cx="25" cy="75" r="20" stroke="green" stroke-width="2" /&gt;
@@ -136,9 +136,9 @@ function App() {
 &lt;form&gt;
   &lt;input type="text"&gt;
 &lt;/form&gt;</code></pre>
-<p>If you try to return this from a React component, you would get many errors, so we are going to fix that!</p>
-<p>Make sure to follow along with this example in your local environment. Alternatively, you can go to <a href="https://react.new/">react.new</a> to have a quick React environment up and going in your web browser.</p>
-<p>The first issue we get is that this would not return a single root element, so let's give it a container.</p>
+<p>これをReactコンポーネントから返そうとすると、多くのエラーが発生してしまうので、それを直していきましょう!</p>
+<p>この例は、必ずローカル環境で実際に試しながら進めてください。あるいは、<a href="https://react.new/">react.new</a>にアクセスすれば、ウェブブラウザ上ですぐにReact環境を立ち上げて使うこともできます。</p>
+<p>最初に発生する問題は、これが単一のルート要素を返していないということなので、コンテナを与えましょう。</p>
 <pre class="highlight"><code class="language-jsx">&lt;div&gt;
   &lt;h1&gt;Test title&lt;/h1&gt;
   &lt;svg&gt;
@@ -148,8 +148,8 @@ function App() {
     &lt;input type="text"&gt;
   &lt;/form&gt;
 &lt;/div&gt;</code></pre>
-<p>You should see that another error appears now that we've fixed the initial one. This doesn't mean we created the error with our previous changes, just that React wasn't showing this one yet.</p>
-<p>Now, onto the second issue, which is that we haven't closed the <code>&lt;input&gt;</code> tag.</p>
+<p>最初の問題を直したことで、別のエラーが表示されるはずです。これは、先ほどの変更によって新しいエラーが生まれたということではなく、単にReactがまだこのエラーを表示していなかっただけです。</p>
+<p>さて、2つ目の問題に進みましょう。それは、<code>&lt;input&gt;</code>タグを閉じていない、というものです。</p>
 <pre class="highlight"><code class="language-jsx">&lt;div&gt;
   &lt;h1&gt;Test title&lt;/h1&gt;
   &lt;svg&gt;
@@ -159,8 +159,8 @@ function App() {
     &lt;input type="text" /&gt;
   &lt;/form&gt;
 &lt;/div&gt;</code></pre>
-<p>If you are following along, at this point you will stop seeing an error being rendered on-screen, this time it will be in the console.</p>
-<p>The last issue is that we haven't camelCased our attributes, and so are using invalid DOM properties for JSX, specifically the <code>stroke-width</code>.</p>
+<p>実際に手を動かしながら進めているなら、この時点で画面上にエラーが表示されなくなるはずです。今回はコンソールに表示されるようになります。</p>
+<p>最後の問題は、属性をcamelCaseにしていないため、JSXにとって無効なDOMプロパティ、具体的には<code>stroke-width</code>を使ってしまっている、というものです。</p>
 <pre class="highlight"><code class="language-jsx">&lt;div&gt;
   &lt;h1&gt;Test title&lt;/h1&gt;
   &lt;svg&gt;
@@ -170,26 +170,26 @@ function App() {
     &lt;input type="text" /&gt;
   &lt;/form&gt;
 &lt;/div&gt;</code></pre>
-<p>Now that we've applied all of the fixes to the errors that React gave us, this is fully fledged JSX code that can be used in a React component without any issues.</p>
-<h3>Assignment</h3>
+<p>Reactが示してくれたエラーに対するすべての修正を適用したので、これで、Reactコンポーネントの中で何の問題もなく使える、完全なJSXコードになりました。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
-<p>In the following lessons, you will spend some time reading the React documentation. Most of them will have small tasks at the end to test what you have read. We will not       mention them explicitly each time, but be sure to do them. Practice makes perfect!</p>
+<p>この先のレッスンでは、Reactのドキュメントを読むことに時間を使うことになります。そのほとんどには、読んだ内容を試すための小さな課題が最後に付いています。毎回それを明示的に触れることはしませんが、必ずやるようにしてください。習うより慣れよ、です!</p>
 <ol>
 <li>
-<p>Read through the React docs <a href="https://react.dev/learn/writing-markup-with-jsx">Writing Markup with JSX</a> page to review the content we have covered here.</p>
+<p>ここで扱った内容を復習するために、Reactドキュメントの<a href="https://react.dev/learn/writing-markup-with-jsx">Writing Markup with JSX</a>のページを読んでください。</p>
 </li>
 <li>
-<p>Read through the React docs <a href="https://react.dev/learn/javascript-in-jsx-with-curly-braces">JavaScript in JSX</a> page to introduce yourself to writing JavaScript logic and referencing dynamic values inside of your markup.</p>
+<p>マークアップの中でJavaScriptのロジックを書いたり、動的な値を参照したりすることに慣れるために、Reactドキュメントの<a href="https://react.dev/learn/javascript-in-jsx-with-curly-braces">JavaScript in JSX</a>のページを読んでください。</p>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#what-is-jsx">What is JSX?</a></li>
-<li><a href="#why-do-we-use-jsx">Why do we use JSX?</a></li>
-<li><a href="#rules-of-jsx">What are the three rules of JSX?</a></li>
-<li><a href="https://beta.reactjs.org/learn/javascript-in-jsx-with-curly-braces#using-curly-braces-a-window-into-the-javascript-world">How do you reference a dynamic value inside of your JSX?</a></li>
+<li><a href="#what-is-jsx">JSXとは何ですか?</a></li>
+<li><a href="#why-do-we-use-jsx">なぜJSXを使うのですか?</a></li>
+<li><a href="#rules-of-jsx">JSXの3つのルールとは何ですか?</a></li>
+<li><a href="https://beta.reactjs.org/learn/javascript-in-jsx-with-curly-braces#using-curly-braces-a-window-into-the-javascript-world">JSXの中で動的な値を参照するにはどうすればよいですか?</a></li>
 </ul>
       </div>
     </article>

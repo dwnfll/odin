@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,42 +28,42 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Authentication Basics</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">Learn the basics of authentication with passportJS and bcrypt</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Creating users and allowing them to log in and out of your web apps is a crucial functionality that we are finally ready to learn! There is quite a bit of setup involved here, but thankfully none of it is too tricky. You'll be up and running in no time! In this lesson, we're going to be using <a href="https://www.passportjs.org">passport.js</a>, an excellent middleware to handle our authentication and sessions for us.</p>
-<p>We're going to be building a very minimal express app that will allow users to sign up, log in, and log out. For now, we're just going to keep everything except the views in one file to make for easier demonstration, but in a real-world project, it is best practice to split our concerns and functionality into separate modules.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>ユーザーを作成し、あなたのウェブアプリにログイン・ログアウトできるようにすることは、極めて重要な機能であり、いよいよそれを学ぶ準備ができました!ここには、それなりの量のセットアップが必要ですが、ありがたいことに、そのどれも特にトリッキーではありません。あっという間に使えるようになりますよ!このレッスンでは、私たちの代わりに認証とセッションを処理してくれる優れたミドルウェアである、<a href="https://www.passportjs.org">passport.js</a>を使っていきます。</p>
+<p>ユーザーがサインアップ、ログイン、ログアウトできる、非常に最小限のExpressアプリを構築していきます。今のところ、実演をしやすくするために、ビュー以外のすべてを一つのファイルにまとめておきますが、実際のプロジェクトでは、関心事や機能を別々のモジュールに分割するのがベストプラクティスです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Understand the use order for the required middleware for Passport.js.</li>
-<li>Describe what Passport.js Strategies are.</li>
-<li>Use the LocalStrategy to authenticate users.</li>
-<li>Explain the purpose of cookies in authentication.</li>
-<li>Review prior learning material (routes, templates, middleware, async/await, and promises).</li>
-<li>Use Passport.js to set up user authentication with Express.</li>
-<li>Describe what bcrypt is and its use.</li>
-<li>Describe what a hash is and explain the importance of password hashing.</li>
-<li>Describe bcrypt's <code>compare</code> function.</li>
+<li>Passport.jsに必要なミドルウェアの使用順序を理解する。</li>
+<li>Passport.jsのStrategyとは何かを説明する。</li>
+<li>LocalStrategyを使ってユーザーを認証する。</li>
+<li>認証におけるクッキーの目的を説明する。</li>
+<li>これまでの学習教材(ルート、テンプレート、ミドルウェア、async/await、Promise)を復習する。</li>
+<li>Passport.jsを使って、Expressでのユーザー認証をセットアップする。</li>
+<li>bcryptとは何か、その使い道を説明する。</li>
+<li>ハッシュとは何か、そしてパスワードのハッシュ化の重要性を説明する。</li>
+<li>bcryptの<code>compare</code>関数を説明する。</li>
 </ul>
-<h3>Set up</h3>
-<p>Before we start, create a new database within <code>psql</code>.</p>
-<p>To begin, let's set up a <code>users</code> table. So instead of <code>usernames</code> we will create a <code>users</code> table.</p>
+<h3>セットアップ</h3>
+<p>始める前に、<code>psql</code>の中に新しいデータベースを作成してください。</p>
+<p>まず、<code>users</code>テーブルをセットアップしましょう。そこで、<code>usernames</code>の代わりに、<code>users</code>テーブルを作成します。</p>
 <pre class="highlight"><code class="language-sql">CREATE TABLE users (
    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
    username VARCHAR ( 255 ),
    password VARCHAR ( 255 )
 );</code></pre>
-<p>Next, let's set up a very minimal express app. Create a new directory and use <code>npm init</code> to start the package.json file then run the following to install all the dependencies we need:</p>
+<p>次に、非常に最小限のExpressアプリをセットアップしましょう。新しいディレクトリを作成し、<code>npm init</code>を使ってpackage.jsonファイルを開始してから、以下を実行して必要なすべての依存関係をインストールしてください:</p>
 <pre class="highlight"><code class="language-bash">npm install express express-session pg passport passport-local ejs</code></pre>
 <div class="lesson-note lesson-note--warning">
-<h4>Securing passwords</h4>
-<p>For the moment we are saving our users with just a plain text password. This is a <em>really</em> bad idea for any real-world project. At the end of this lesson, you will learn how to properly secure these passwords using bcrypt. Don't skip that part.</p>
+<h4>パスワードを保護する</h4>
+<p>今のところ、私たちはユーザーを単なるプレーンテキストのパスワードで保存しています。これは、実際のプロジェクトにとっては<em>本当に</em>良くない考えです。このレッスンの最後で、bcryptを使ってこれらのパスワードを適切に保護する方法を学びます。その部分を飛ばさないでください。</p>
 </div>
 <pre class="highlight"><code class="language-javascript">/////// app.js
 
@@ -94,8 +94,8 @@ app.listen(3000, (error) =&gt; {
   }
   console.log("app listening on port 3000!");
 });</code></pre>
-<p>Most of this should look familiar to you by now, except for the newly required modules <code>express-session</code> and <code>passport</code>. We are not actually going to be using <code>express-session</code> directly, it is a dependency that is used in the background by <code>passport.js</code>. You can <a href="https://github.com/expressjs/session">take a look at what the express-session package does in the Express docs</a>.</p>
-<p>Our view engine is looking for <code>index.ejs</code> inside the <code>views</code>, so go ahead and create that:</p>
+<p>これまでのところ、新しく必要になった<code>express-session</code>と<code>passport</code>というモジュール以外は、ほとんど見覚えがあるはずです。実は、私たちが<code>express-session</code>を直接使うことはありません。これは、<code>passport.js</code>が背後で使っている依存関係です。<a href="https://github.com/expressjs/session">express-sessionパッケージが何をしているかについては、Expressのドキュメントで見ることができます</a>。</p>
+<p>私たちのビューエンジンは<code>views</code>の中の<code>index.ejs</code>を探しているので、それを作成しましょう:</p>
 <pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
@@ -106,9 +106,9 @@ app.listen(3000, (error) =&gt; {
   &lt;h1&gt;hello world!&lt;/h1&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-<h3>Creating users</h3>
-<p>The first thing we need is a sign up form so we can actually create users to authenticate! For the sake of brevity, we're going to leave sanitization and validation out here. But don't forget about it when you get to that point, we will have the opportunity to apply them later.</p>
-<p>Create a new template called <code>sign-up-form</code>, and a route for <code>/sign-up</code> that points to it:</p>
+<h3>ユーザーを作成する</h3>
+<p>まず必要なのは、認証するユーザーを実際に作成できるようにするための、サインアップフォームです!簡潔にするため、ここではサニタイゼーションとバリデーションは省略します。ただし、その段階に到達したときには、それを忘れないでください。後ほどそれらを適用する機会があります。</p>
+<p><code>sign-up-form</code>という新しいテンプレートと、それを指す<code>/sign-up</code>用のルートを作成してください:</p>
 <pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
@@ -129,7 +129,7 @@ app.listen(3000, (error) =&gt; {
 <pre class="highlight"><code class="language-javascript">//// app.js
 
 app.get("/sign-up", (req, res) =&gt; res.render("sign-up-form"));</code></pre>
-<p>Next, create an <code>app.post</code> for the sign up form so that we can add users to our database (remember our notes about sanitization, and using plain text to store passwords...).</p>
+<p>次に、私たちのデータベースにユーザーを追加できるように、サインアップフォーム用の<code>app.post</code>を作成してください(サニタイゼーションについてのメモや、パスワードをプレーンテキストで保存していることを忘れないでください……)。</p>
 <pre class="highlight"><code class="language-javascript">app.post("/sign-up", async (req, res, next) =&gt; {
   try {
     await pool.query("INSERT INTO users (username, password) VALUES ($1, $2)", [
@@ -141,12 +141,12 @@ app.get("/sign-up", (req, res) =&gt; res.render("sign-up-form"));</code></pre>
     return next(err);
   }
 });</code></pre>
-<p>Let's reiterate: this is not a particularly safe way to create users in your database... BUT you should now be able to visit <code>/sign-up</code>, and submit the form. If all goes well it'll redirect you to the index and you will be able to go see your newly created user inside your database. Open your database in <code>psql</code> and run your query to see your first user!</p>
-<h3>Authentication</h3>
-<p>Now that we have the ability to put users in our database, let's allow them to log in to see a special message on our home page! We're going to step through the process one piece at a time, but first, take a minute to glance at the <a href="http://www.passportjs.org/">passport.js website</a>. The documentation here has pretty much everything you need to set it up. You're going to want to refer back to this when you're working on your project.</p>
-<p><span id='strategy'>Passport.js uses what they call <em>Strategies</em> to authenticate users</span>. They have over 500 of these strategies, but we're going to focus on the most basic (and most common), the username-and-password, or what they call the <code>LocalStrategy</code> (<a href="http://www.passportjs.org/docs/username-password/">documentation for the LocalStrategy</a>). We have already installed and required the appropriate modules so let's set it up!</p>
-<p>We need to add 3 functions to our app.js file, and then add an <code>app.post</code> for our <code>/log-in</code> path.</p>
-<h4>Function one: setting up the LocalStrategy</h4>
+<p>改めて言っておきますが、これはデータベースにユーザーを作成する上で、特に安全な方法ではありません……。しかし、これで<code>/sign-up</code>にアクセスし、フォームを送信できるようになったはずです。すべてがうまくいけば、indexにリダイレクトされ、データベースの中に新しく作成されたユーザーを見に行くことができるようになります。<code>psql</code>でデータベースを開き、クエリを実行して、最初のユーザーを見てみましょう!</p>
+<h3>認証</h3>
+<p>これでデータベースにユーザーを入れられるようになったので、彼らがログインして、ホームページで特別なメッセージを見られるようにしましょう!このプロセスを一つずつ順に進めていきますが、まずは少し時間を取って、<a href="http://www.passportjs.org/">passport.jsのウェブサイト</a>を眺めてみてください。ここのドキュメントには、それをセットアップするために必要なことがほとんどすべて書かれています。プロジェクトに取り組む際には、これに立ち返って参照したくなるはずです。</p>
+<p><span id='strategy'>Passport.jsは、ユーザーを認証するために<em>Strategy</em>と呼ばれるものを使います</span>。彼らには500種類以上のこうしたstrategyがありますが、私たちは、最も基本的な(そして最も一般的な)もの――ユーザー名とパスワードによるもの、彼らが<code>LocalStrategy</code>と呼ぶもの――に焦点を当てていきます(<a href="http://www.passportjs.org/docs/username-password/">LocalStrategyのドキュメント</a>)。すでに適切なモジュールをインストールし<code>require</code>してあるので、それをセットアップしていきましょう!</p>
+<p>app.jsファイルに3つの関数を追加し、それから私たちの<code>/log-in</code>パス用に<code>app.post</code>を追加する必要があります。</p>
+<h4>関数その1: LocalStrategyをセットアップする</h4>
 <pre class="highlight"><code class="language-javascript">passport.use(
   new LocalStrategy(async (username, password, done) =&gt; {
     try {
@@ -165,10 +165,10 @@ app.get("/sign-up", (req, res) =&gt; res.render("sign-up-form"));</code></pre>
     }
   })
 );</code></pre>
-<p>This function is what will be called when we use the <code>passport.authenticate()</code> function later.  Basically, it takes a username and password, tries to find the user in our DB, and then makes sure that the user's password matches the given password. If all of that works out (there's a user in the DB, and the passwords match) then it authenticates our user and moves on! We will not be calling this function directly, so you won't have to supply the <code>done</code> function.  This function acts a bit like a middleware and will be called for us when we ask passport to do the authentication later.</p>
-<h3>Functions two and three: sessions and serialization</h3>
-<p><span id='cookie'>To make sure our user is logged in, and to allow them to <em>stay</em> logged in as they move around our app, passport internally calls a function from <code>express-session</code> that uses some data to create a cookie called <code>connect.sid</code> which is stored in the user's browser</span>. These next two functions define what bit of information passport is looking for when it creates and then decodes the cookie. The reason they require us to define these functions is so that we can make sure that whatever bit of data it’s looking for actually exists in our Database! <code>passport.serializeUser</code> takes a callback which contains the information we wish to store in the session data. <code>passport.deserializeUser</code> is called when retrieving a session, where it will extract the data we "serialized" in it then ultimately attach something to the <code>.user</code> property of the request object (<code>req.user</code>) for use in the rest of the request.</p>
-<p>For our purposes, the functions that are listed in the passport docs will work just fine:</p>
+<p>この関数は、後ほど<code>passport.authenticate()</code>関数を使う際に呼び出されるものです。基本的には、ユーザー名とパスワードを受け取り、私たちのDBの中でユーザーを見つけようとし、それからそのユーザーのパスワードが与えられたパスワードと一致することを確認します。それらすべてがうまくいけば(DBにユーザーが存在し、パスワードが一致すれば)、私たちのユーザーを認証して先に進みます!この関数を直接呼び出すことはないので、<code>done</code>関数を自分で用意する必要はありません。この関数は少しミドルウェアのように振る舞い、後ほどpassportに認証を依頼する際に、私たちの代わりに呼び出されます。</p>
+<h3>関数その2とその3: セッションとシリアライゼーション</h3>
+<p><span id='cookie'>私たちのユーザーがログインしていることを確認し、アプリの中を移動している間ずっと<em>ログインし続けられる</em>ようにするために、passportは内部で<code>express-session</code>の関数を呼び出し、いくつかのデータを使って<code>connect.sid</code>と呼ばれるクッキーを作成し、それがユーザーのブラウザに保存されます</span>。この次の2つの関数は、クッキーを作成し、それからそれをデコードする際に、passportがどのようなデータを探しているかを定義します。これらの関数を私たちに定義させる理由は、passportが探しているデータが実際に私たちのデータベースに存在することを、確実に確認できるようにするためです!<code>passport.serializeUser</code>は、セッションデータに保存したい情報を含むコールバックを受け取ります。<code>passport.deserializeUser</code>はセッションを取得する際に呼び出され、そこで私たちが「シリアライズ」したデータを取り出し、最終的にリクエストオブジェクトの<code>.user</code>プロパティ(<code>req.user</code>)に何かをアタッチして、リクエストの残りの部分で使えるようにします。</p>
+<p>私たちの目的のためには、passportのドキュメントに載っている関数がそのままうまく機能します:</p>
 <pre class="highlight"><code class="language-javascript">passport.serializeUser((user, done) =&gt; {
   done(null, user.id);
 });
@@ -183,10 +183,10 @@ passport.deserializeUser(async (id, done) =&gt; {
     done(err);
   }
 });</code></pre>
-<p>When a session is created, <code>passport.serializeUser</code> will receive the user object found from a successful login and store its id property in the session data. Upon some other request, if it finds a matching session for that request, <code>passport.deserializeUser</code> will retrieve the id we stored in the session data. We then use that id to query our database for the specified user, then <code>done(null, user)</code> attaches that user object to <code>req.user</code>. Now in the rest of the request, we have access to that user object via <code>req.user</code>.</p>
-<p>Again, we aren’t going to be calling these functions on our own and we just need to define them, they’re used in the background by passport.</p>
-<h3>Log-in form</h3>
-<p>Let's go ahead and add the log-in form directly to our index template. The form will look just like our sign-up form, but instead of <code>POST</code>ing to <code>/sign-up</code> we'll add an <code>action</code> to it so that it <code>POST</code>s to <code>/log-in</code> instead. Add the following to your index template:</p>
+<p>セッションが作成されると、<code>passport.serializeUser</code>は、ログイン成功時に見つかったuserオブジェクトを受け取り、そのidプロパティをセッションデータに保存します。その後の何らかのリクエストの際、そのリクエストに一致するセッションが見つかれば、<code>passport.deserializeUser</code>はセッションデータに保存しておいたidを取得します。それから、そのidを使って指定されたユーザーをデータベースにクエリし、<code>done(null, user)</code>がそのuserオブジェクトを<code>req.user</code>にアタッチします。これで、リクエストの残りの部分で、<code>req.user</code>を介してそのuserオブジェクトにアクセスできるようになります。</p>
+<p>繰り返しになりますが、これらの関数を自分で呼び出すことはなく、ただ定義するだけでよく、それらはpassportによって背後で使われます。</p>
+<h3>ログインフォーム</h3>
+<p>それでは、indexテンプレートに直接ログインフォームを追加してみましょう。このフォームは、私たちのサインアップフォームとまったく同じように見えますが、<code>/sign-up</code>に<code>POST</code>する代わりに、<code>action</code>を追加して、代わりに<code>/log-in</code>に<code>POST</code>するようにします。以下をindexテンプレートに追加してください:</p>
 <pre class="highlight"><code class="language-html">&lt;h1&gt;please log in&lt;/h1&gt;
 &lt;form action="/log-in" method="POST"&gt;
   &lt;label for="username"&gt;Username&lt;/label&gt;
@@ -195,7 +195,7 @@ passport.deserializeUser(async (id, done) =&gt; {
   &lt;input id="password" name="password" type="password" /&gt;
   &lt;button type="submit"&gt;Log In&lt;/button&gt;
 &lt;/form&gt;</code></pre>
-<p>... and now for the magical part! Add this route to your <code>app.js</code> file:</p>
+<p>……そして、いよいよ魔法のような部分です!このルートを<code>app.js</code>ファイルに追加してください:</p>
 <pre class="highlight"><code class="language-javascript">app.post(
   "/log-in",
   passport.authenticate("local", {
@@ -204,15 +204,15 @@ passport.deserializeUser(async (id, done) =&gt; {
     failureMessage: true,
   })
 );</code></pre>
-<p>As you can see, all we have to do is call <code>passport.authenticate()</code>. This middleware performs numerous functions behind the scenes. Among other things, it looks at the request body for parameters named <code>username</code> and <code>password</code> then runs the <code>LocalStrategy</code> function that we defined earlier to see if the username and password are in the database. It then creates a session cookie that gets stored in the user's browser and used in all future requests to see whether or not that user is logged in.  It can also redirect you to different routes based on whether the login is a success or a failure. To access any error messages we defined earlier, we can pass <code>failureMessage</code> a boolean and access it later in subsequent middleware through the <code>req.session.messages</code> array.</p>
-<p>If we had a separate login page we might want to go back to that if the login failed, or we might want to take the user to their user dashboard if the login is successful. Since we're keeping everything in the index we want to go back to <code>/</code> no matter what.</p>
-<p>If you fill out and submit the form now, everything should technically work, but you won't actually SEE anything different on the page... let's fix that.</p>
-<p>The passport middleware checks to see if there is a user logged in (by checking the cookies that come in with the <code>req</code> object) and if there is, it adds that user to the request object for us.  So, all we need to do is check for <code>req.user</code> to change our view depending on whether or not a user is logged in.</p>
-<p>Edit your <code>app.get("/")</code> to send the user object to our view like so:</p>
+<p>ご覧の通り、私たちがしなければならないのは、<code>passport.authenticate()</code>を呼び出すことだけです。このミドルウェアは、裏側で数多くの機能を実行します。その中でも、リクエストボディの中から<code>username</code>と<code>password</code>という名前のパラメータを探し、先ほど定義した<code>LocalStrategy</code>関数を実行して、そのユーザー名とパスワードがデータベースに存在するかどうかを確認します。それから、ユーザーのブラウザに保存されるセッションクッキーを作成し、それが今後のすべてのリクエストで、そのユーザーがログインしているかどうかを確認するために使われます。ログインが成功したか失敗したかに応じて、異なるルートにリダイレクトすることもできます。先ほど定義したエラーメッセージにアクセスするために、<code>failureMessage</code>に真偽値を渡すことができ、それを後で後続のミドルウェアの中で<code>req.session.messages</code>配列を通してアクセスできます。</p>
+<p>もし別々のログインページがあったなら、ログインが失敗した場合はそこに戻りたいと思うかもしれませんし、ログインが成功した場合はユーザーのダッシュボードに連れて行きたいと思うかもしれません。私たちはすべてをindexにまとめているので、どちらの場合でも<code>/</code>に戻りたいところです。</p>
+<p>今フォームに記入して送信すると、技術的にはすべてうまくいくはずですが、実際にはページ上で何も変わったようには見えません……それを直しましょう。</p>
+<p>passportミドルウェアは、ログインしているユーザーがいるかどうかを(<code>req</code>オブジェクトとともに送られてくるクッキーを確認することで)チェックし、もしいれば、そのユーザーを私たちの代わりにリクエストオブジェクトに追加してくれます。そのため、私たちがすべきことは、ユーザーがログインしているかどうかに応じてビューを変えるために、<code>req.user</code>をチェックすることだけです。</p>
+<p><code>app.get("/")</code>を編集して、以下のようにユーザーオブジェクトをビューに送信するようにしてください:</p>
 <pre class="highlight"><code class="language-javascript">app.get("/", (req, res) =&gt; {
   res.render("index", { user: req.user });
 });</code></pre>
-<p>and then edit your view to make use of that object like this:</p>
+<p>そして、以下のように、そのオブジェクトを使うようにビューを編集してください:</p>
 <pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
@@ -235,8 +235,8 @@ passport.deserializeUser(async (id, done) =&gt; {
   &lt;%}%&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-<p>So, this code checks to see if there is a user defined... if so it offers a welcome message, and if NOT then it shows the login form.  Neat!</p>
-<p>As one last step... let's make that log out link actually work for us. As you can see it's sending us to <code>/log-out</code> so all we need to do is add a route for that in our app.js.  Conveniently, the passport middleware adds a logout function to the <code>req</code> object, so logging out is as easy as this:</p>
+<p>つまり、このコードは、ユーザーが定義されているかどうかをチェックします……もし定義されていれば歓迎のメッセージを表示し、そうで<em>なければ</em>ログインフォームを表示します。素敵ですね!</p>
+<p>最後の仕上げとして……そのログアウトリンクを実際に機能させましょう。ご覧の通り、それは私たちを<code>/log-out</code>に送っているので、app.jsにそのためのルートを追加するだけで済みます。都合の良いことに、passportミドルウェアは<code>req</code>オブジェクトにlogout関数を追加してくれているため、ログアウトはこれくらい簡単です:</p>
 <pre class="highlight"><code class="language-javascript">app.get("/log-out", (req, res, next) =&gt; {
   req.logout((err) =&gt; {
     if (err) {
@@ -245,24 +245,24 @@ passport.deserializeUser(async (id, done) =&gt; {
     res.redirect("/");
   });
 });</code></pre>
-<p>You should now be able to visit <code>/sign-up</code> to create a new user, then log in using that user's username and password, and then log out by clicking the log out button!</p>
+<p>これで、<code>/sign-up</code>にアクセスして新しいユーザーを作成し、そのユーザーのユーザー名とパスワードを使ってログインし、それからログアウトボタンをクリックしてログアウトできるようになったはずです!</p>
 <div class="lesson-note lesson-note--tip">
-<h4>A quick tip</h4>
-<p>In express, you can set and access various local variables throughout your entire app (even in views) with the <code>locals</code> object. We can use this knowledge to write ourselves a custom middleware that will simplify how we access our current user in our views.</p>
-<p>Middleware functions are functions that take the <code>req</code> and <code>res</code> objects, manipulate them, and pass them on through the rest of the app.</p>
+<h4>ちょっとしたヒント</h4>
+<p>Expressでは、<code>locals</code>オブジェクトを使って、アプリ全体(ビューの中でさえも)でさまざまなローカル変数を設定したりアクセスしたりできます。この知識を使って、ビューの中で現在のユーザーにアクセスする方法をシンプルにしてくれる、カスタムミドルウェアを自分で書くことができます。</p>
+<p>ミドルウェア関数とは、<code>req</code>オブジェクトと<code>res</code>オブジェクトを受け取り、それらを操作して、アプリの残りの部分に渡していく関数のことです。</p>
 <pre class="highlight"><code class="language-javascript">app.use((req, res, next) =&gt; {
   res.locals.currentUser = req.user;
   next();
 });</code></pre>
-<p>If you insert this code somewhere between where you instantiate the passport middleware and before you render your views, you will have access to the <code>currentUser</code> variable in all of your views, and you won't have to manually pass it into all of the controllers in which you need it.</p>
+<p>このコードを、passportミドルウェアをインスタンス化する場所と、ビューをレンダリングする場所の間のどこかに挿入すれば、すべてのビューの中で<code>currentUser</code>変数にアクセスできるようになり、それが必要なすべてのコントローラーに手動で渡す必要がなくなります。</p>
 </div>
-<h3>Securing passwords with bcrypt</h3>
-<p>Now, let's go back and learn how to securely store user passwords so that if anything ever goes wrong, or if someone gains access to our database, our user passwords will be safe.  This is <em>insanely</em> important, even for the most basic apps.</p>
-<p>First <code>npm install bcryptjs</code>. There is another module called <code>bcrypt</code> that does the same thing, but it is written in C++ and is sometimes a pain to get installed. The C++ <code>bcrypt</code> is technically faster, so in the future it might be worth getting it running, but for now, the modules work the same so we can just use <code>bcryptjs</code>.</p>
-<p>Once it's installed you need to require it at the top of your app.js and then we are going to put it to use where we save our passwords to the DB, and where we compare them inside the LocalStrategy.</p>
-<h4>Storing hashed passwords</h4>
-<p>Password hashes are the result of passing the user's password through a one-way hash function, which maps variable sized inputs to fixed size pseudo-random outputs.</p>
-<p>Edit your <code>app.post("/sign-up")</code> to use the bcrypt.hash function which works like this:</p>
+<h3>bcryptでパスワードを保護する</h3>
+<p>さて、話を戻して、何か問題が起きたときや、誰かが私たちのデータベースへのアクセス権を得てしまったときのために、ユーザーのパスワードを安全に保存する方法を学びましょう。これは、たとえ最も基本的なアプリであっても、<em>非常に</em>重要なことです。</p>
+<p>まず<code>npm install bcryptjs</code>してください。<code>bcrypt</code>という同じことを行う別のモジュールもありますが、これはC++で書かれており、インストールするのが少し面倒なこともあります。C++の<code>bcrypt</code>は技術的にはより高速なので、将来的にはそれを動かす価値があるかもしれませんが、今のところ、両方のモジュールは同じように機能するので、単に<code>bcryptjs</code>を使えば十分です。</p>
+<p>インストールしたら、app.jsの一番上でそれを<code>require</code>する必要があり、それから、パスワードをDBに保存する場所と、LocalStrategyの中でパスワードを比較する場所で、それを使っていきます。</p>
+<h4>ハッシュ化されたパスワードを保存する</h4>
+<p>パスワードハッシュは、ユーザーのパスワードを一方向ハッシュ関数に通した結果であり、この関数は可変サイズの入力を固定サイズの疑似ランダムな出力にマッピングします。</p>
+<p><code>app.post("/sign-up")</code>を編集して、以下のように機能するbcrypt.hash関数を使うようにしてください:</p>
 <pre class="highlight"><code class="language-javascript">//Don't forget to import bcrypt!
 const bcrypt = require("bcryptjs");
 
@@ -278,45 +278,45 @@ app.post("/sign-up", async (req, res, next) =&gt; {
     next(error);
    }
 });</code></pre>
-<p>The second argument is the length of the "salt" to use in the hashing function; salting a password means adding extra random characters to it, the password plus the extra random characters are then fed into the hashing function. Salting is used to make a password hash output unique, even for users who use the same password, and to protect against <a href="https://en.wikipedia.org/wiki/Rainbow_table">rainbow tables</a> and <a href="https://en.wikipedia.org/wiki/Dictionary_attack">dictionary attacks</a>.</p>
-<p>Usually, the salt is stored in the database alongside the hashed value. However, in our case, there is no need to store the salt separately because the <code>bcryptjs</code> hashing algorithm automatically incorporates the salt within the hash itself.</p>
-<p>The hash function is somewhat slow, so all of the DB storage stuff needs to go inside the callback. Check to see if you've got this working by signing up a new user with a password, then go look at your DB entries to see how it's being stored. If you've done it right, your password should have been transformed into a really long random string.</p>
-<p>It's important to note that <em>how</em> hashing works, especially in the context of passwords, is beyond the scope of this lesson.</p>
-<h4>Comparing hashed passwords</h4>
-<p><span id='compare'>We will use the <code>bcrypt.compare()</code> function to validate the password input. The function compares the plain-text password in the request object to the hashed password</span>.</p>
-<p>Inside your <code>LocalStrategy</code> function we need to replace the <code>user.password !== password</code> expression with the <code>bcrypt.compare()</code> function.</p>
+<p>2番目の引数は、ハッシュ関数で使う「ソルト」の長さです。パスワードにソルトを加えるとは、余分なランダムな文字をそれに追加することを意味し、パスワードとその余分なランダムな文字が、それからハッシュ関数に入力されます。ソルトは、同じパスワードを使っているユーザーであっても、パスワードハッシュの出力を一意にするため、そして<a href="https://en.wikipedia.org/wiki/Rainbow_table">レインボーテーブル</a>や<a href="https://en.wikipedia.org/wiki/Dictionary_attack">辞書攻撃</a>から保護するために使われます。</p>
+<p>通常、ソルトはハッシュ化された値と一緒にデータベースに保存されます。しかし、私たちの場合、<code>bcryptjs</code>のハッシュアルゴリズムがソルトをハッシュ自体の中に自動的に組み込むため、ソルトを別々に保存する必要はありません。</p>
+<p>hash関数は多少遅いため、すべてのDBストレージ関連の処理はコールバックの中に置く必要があります。パスワード付きで新しいユーザーをサインアップさせて、これがうまく機能しているか確認してみてください。それから、DBのエントリを見に行って、それがどのように保存されているかを確認してください。正しく行えていれば、あなたのパスワードは、本当に長いランダムな文字列に変換されているはずです。</p>
+<p>ハッシュ化が<em>どのように</em>機能するか、特にパスワードの文脈においては、このレッスンの範囲外であることに注意することが重要です。</p>
+<h4>ハッシュ化されたパスワードを比較する</h4>
+<p><span id='compare'>パスワード入力を検証するために、<code>bcrypt.compare()</code>関数を使います。この関数は、リクエストオブジェクトの中のプレーンテキストのパスワードを、ハッシュ化されたパスワードと比較します</span>。</p>
+<p><code>LocalStrategy</code>関数の中で、<code>user.password !== password</code>という式を<code>bcrypt.compare()</code>関数に置き換える必要があります。</p>
 <pre class="highlight"><code class="language-javascript">const match = await bcrypt.compare(password, user.password);
 if (!match) {
   // passwords do not match!
   return done(null, false, { message: "Incorrect password" })
 }</code></pre>
-<p>You should now be able to log in using the new user you've created (the one with a hashed password).  <span id='bcrypt'>Unfortunately, users that were saved BEFORE you added bcrypt will no longer work, but that's a small price to pay for security</span>! (and a good reason to include bcrypt from the start on your next project)</p>
-<h3>Assignment</h3>
+<p>これで、あなたが作成した新しいユーザー(ハッシュ化されたパスワードを持つユーザー)を使ってログインできるようになったはずです。<span id='bcrypt'>残念ながら、bcryptを追加する<em>前に</em>保存されたユーザーはもう機能しなくなりますが、それはセキュリティのために支払う小さな代償です</span>!(そして、次のプロジェクトでは最初からbcryptを含めておくべき、良い理由でもあります)</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Watch videos 1, 2, 3, 5 and 6 of this <a href="https://www.youtube.com/playlist?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">Youtube Playlist on sessions in Express and local strategy authentication with Passport.js</a>.<ul>
-<li>You may notice at some points in the videos, the Express app contains the line <code>app.use(passport.initialize())</code>. This line is no longer required to include in current versions of Passport.</li>
-<li>They are using MongoDB and you can replace any instance of it with PostgreSQL.</li>
-<li>In <a href="https://youtu.be/J1qXK66k1y4?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">video 3: "Your complete guide to understanding the express-session library"</a> and <a href="https://youtu.be/xMEOT9J0IvI?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">video 5: "Passport Local Configuration (Node + Passport + Express)"</a>, it shows using the <code>connect-mongo</code> library to use your MongoDB connection to store sessions, as opposed to storing them in memory. However, since we are using PostgreSQL, we need to replace it with a library called <code>connect-pg-simple</code> instead. You can view the implementation for doing this on the <a href="https://www.npmjs.com/package/connect-pg-simple">npm page for connect-pg-simple</a>.</li>
-<li>Do note that the table needed to be used for the session store is not automatically created by default, be sure to check the available options in their npm page.</li>
+<li><a href="https://www.youtube.com/playlist?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">Expressにおけるセッションと、Passport.jsによるlocal strategy認証についてのこのYoutubeプレイリスト</a>の動画1、2、3、5、6を見てください。<ul>
+<li>動画の中のいくつかの箇所で、Expressアプリに<code>app.use(passport.initialize())</code>という行が含まれていることに気づくかもしれません。この行は、現在のバージョンのPassportではもう含める必要はありません。</li>
+<li>彼らはMongoDBを使っていますが、そのインスタンスはどれもPostgreSQLに置き換えることができます。</li>
+<li><a href="https://youtu.be/J1qXK66k1y4?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">動画3: 「express-sessionライブラリを理解するための完全ガイド」</a>と<a href="https://youtu.be/xMEOT9J0IvI?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">動画5: 「Passport Local Configuration (Node + Passport + Express)」</a>では、セッションをメモリに保存する代わりに、MongoDB接続を使ってセッションを保存するために<code>connect-mongo</code>ライブラリを使う様子が示されています。しかし、私たちはPostgreSQLを使っているため、代わりに<code>connect-pg-simple</code>というライブラリに置き換える必要があります。これを行うための実装は、<a href="https://www.npmjs.com/package/connect-pg-simple">connect-pg-simpleのnpmページ</a>で確認できます。</li>
+<li>セッションストアに使う必要があるテーブルは、デフォルトでは自動的に作成されないことに注意してください。彼らのnpmページで利用可能なオプションを必ず確認してください。</li>
 </ul>
 </li>
-<li>In <a href="https://github.com/jwalton/passport-api-docs">Passport: The Hidden Manual</a>, you can explore more comprehensive explanations of some of Passport's main functions, gaining a deeper understanding of what each function accomplishes.</li>
+<li><a href="https://github.com/jwalton/passport-api-docs">Passport: The Hidden Manual</a>では、Passportの主要な関数のいくつかについて、より包括的な説明を探ることができ、それぞれの関数が何を実現しているかについて、より深い理解を得ることができます。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#strategy">Which passport.js strategy did we use in the lesson?</a></li>
-<li><a href="#cookie">Why does passport.js create a cookie?</a></li>
-<li><a href="#compare">What does the <code>bcrypt.compare()</code> function do?</a></li>
-<li><a href="#bcrypt">Why should we include bcrypt when we begin a project?</a></li>
+<li><a href="#strategy">このレッスンでは、どのpassport.jsのstrategyを使いましたか?</a></li>
+<li><a href="#cookie">passport.jsはなぜクッキーを作成するのですか?</a></li>
+<li><a href="#compare"><code>bcrypt.compare()</code>関数は何をしますか?</a></li>
+<li><a href="#bcrypt">プロジェクトを始めるとき、なぜbcryptを含めるべきなのですか?</a></li>
 </ul>
-<h3>Additional resources</h3>
-<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<h3>追加リソース</h3>
+<p>このセクションには、関連コンテンツへの役立つリンクが含まれています。必須ではないので、補足として捉えてください。</p>
 <ul>
-<li>This video provides a broad overview of some of the <a href="https://www.youtube.com/watch?v=8ZtInClXe1Q">different methods to store passwords in databases and possible risks</a>.</li>
-<li>If you would like a little more of a deeper dive into password hashing, read the following Wikipedia article to <a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function">learn more about how cryptographic hash functions work</a>.</li>
+<li>この動画は、<a href="https://www.youtube.com/watch?v=8ZtInClXe1Q">データベースにパスワードを保存するさまざまな方法と、起こり得るリスク</a>についての幅広い概要を提供してくれます。</li>
+<li>パスワードのハッシュ化についてもう少し深く掘り下げたい場合は、以下のWikipediaの記事を読んで、<a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function">暗号学的ハッシュ関数がどのように機能するかについて詳しく学んで</a>ください。</li>
 </ul>
       </div>
     </article>

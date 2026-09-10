@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,71 +28,71 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Setting Up A React Environment</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Setting Up A React Environment</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>You know <em>what</em> React is and you might even have an idea of <em>where</em> to use it. Now, it's time to start figuring out <em>how</em>.</p>
-<p>This lesson is going to cover starting a new React project on your machine, as well as some useful tools to help you along the way. We'll also explain some of the problems that may arise (and how to avoid them).</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>あなたはReactが<em>何</em>であるかを知っており、<em>どこで</em>それを使うかについてのイメージもすでに持っているかもしれません。今度は、<em>どうやって</em>使うのかを理解し始めるときです。</p>
+<p>このレッスンでは、自分のマシン上で新しいReactプロジェクトを始める方法と、その過程で役立ついくつかの便利なツールについて扱います。また、発生する可能性のある問題(とその避け方)についても説明します。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>How React projects can be created.</li>
-<li>How to use Vite to create new React projects.</li>
-<li>How to format the code in React projects.</li>
-<li>What React Developer Tools are.</li>
+<li>Reactプロジェクトの作成方法。</li>
+<li>Viteを使って新しいReactプロジェクトを作成する方法。</li>
+<li>Reactプロジェクトのコードをフォーマットする方法。</li>
+<li>React Developer Toolsとは何か。</li>
 </ul>
-<h3>Many paths</h3>
-<p>There are multiple ways to start using React in your projects, from attaching a set of <code>&lt;script&gt;</code> tags which serve React from a <a href="https://en.wikipedia.org/wiki/Content_delivery_network">CDN</a>, to robust <a href="https://en.wikipedia.org/wiki/Toolchain">toolchains</a> and <a href="https://en.wikipedia.org/wiki/Web_framework">frameworks</a> that are highly configurable and allow for increased scalability and optimization.</p>
-<p>Some examples of these toolchains include:</p>
+<h3 id="many-paths">さまざまな方法</h3>
+<p>プロジェクトでReactを使い始める方法は複数あります。<a href="https://en.wikipedia.org/wiki/Content_delivery_network">CDN</a>からReactを配信する<code>&lt;script&gt;</code>タグ一式を追加する方法から、高度に設定可能で、スケーラビリティと最適化を向上させることができる、堅牢な<a href="https://en.wikipedia.org/wiki/Toolchain">ツールチェーン</a>や<a href="https://en.wikipedia.org/wiki/Web_framework">フレームワーク</a>を使う方法まで、さまざまです。</p>
+<p>これらのツールチェーンの例には、以下のようなものがあります:</p>
 <ul>
 <li><a href="https://vitejs.dev/">Vite's React Config</a></li>
 <li><a href="https://www.gatsbyjs.com/">Gatsby</a></li>
 <li><a href="https://nextjs.org/">NextJS</a></li>
-<li><a href="https://create-react-app.dev/">Create React App</a> (Deprecated)</li>
+<li><a href="https://create-react-app.dev/">Create React App</a> (非推奨)</li>
 </ul>
-<p>Why do we need these toolchains? Can't we just make our own as we see fit?</p>
-<p>Yes, but it's <em>hard</em>. React is a complex beast and there are many moving parts. Before you can start writing any sort of code that provides functionality, you would need to configure <em>at least</em> the following:</p>
+<p>なぜこれらのツールチェーンが必要なのでしょうか?自分たちで好きなように作ることはできないのでしょうか?</p>
+<p>できますが、それは<em>大変</em>です。Reactは複雑な代物で、たくさんの可動部分があります。機能を提供するようなコードを書き始める前に、<em>少なくとも</em>以下のものを設定する必要があります:</p>
 <ul>
-<li>Package Management (<a href="https://www.npmjs.com/">NPM</a>, <a href="https://yarnpkg.com/">Yarn</a>)</li>
-<li>Module bundling (<a href="https://webpack.js.org/">Webpack</a>, <a href="https://parceljs.org/">Parcel</a>)</li>
-<li>Compilation (<a href="https://babeljs.io/">Babel</a>)</li>
-<li>React itself</li>
+<li>パッケージ管理(<a href="https://www.npmjs.com/">NPM</a>、<a href="https://yarnpkg.com/">Yarn</a>)</li>
+<li>モジュールバンドリング(<a href="https://webpack.js.org/">Webpack</a>、<a href="https://parceljs.org/">Parcel</a>)</li>
+<li>コンパイル(<a href="https://babeljs.io/">Babel</a>)</li>
+<li>React自体</li>
 </ul>
-<p>All of this, and sometimes <em>much more</em>, is required to get a React project and development environment up and running.</p>
+<p>Reactプロジェクトと開発環境を立ち上げて動かすためには、これらすべて、そして時には<em>それ以上のもの</em>が必要になります。</p>
 <div class="lesson-note">
-<h4>A note on Create React App</h4>
-<p>Create React App, or CRA, was the official way to scaffold new React projects since its introduction in 2016. Unfortunately, owing to many reasons, <a href="https://github.com/reactjs/react.dev/pull/5487#issuecomment-1409720741">CRA was deprecated in early 2023</a>. Due to CRA's popularity, you'll see it mentioned in many tutorials and guides. However, it's no longer recommended to use it for new projects.</p>
+<h4>Create React Appについての注記</h4>
+<p>Create React App、略してCRAは、2016年の導入以来、新しいReactプロジェクトの雛形を作成するための公式な方法でした。残念ながら、さまざまな理由により、<a href="https://github.com/reactjs/react.dev/pull/5487#issuecomment-1409720741">CRAは2023年初頭に非推奨になりました</a>。CRAの人気の高さから、多くのチュートリアルやガイドでその名前を目にすることになるでしょう。しかし、新しいプロジェクトでそれを使うことはもはや推奨されていません。</p>
 </div>
-<h3>Simplifying the process</h3>
-<p>Now that you understand what is involved with starting a React project from scratch, you can breathe a sigh of relief to learn that we can get started with a <em>single terminal command</em>. We'll be using Vite's own React template to scaffold our project, just like if we made and used our own template repo.</p>
-<p>Vite builds frontend tools for developers and it leverages the latest technologies under the hood to provide a great developer experience. Fortunately, it also caters to the React ecosystem. We will use Vite's CLI to quickly create a template React project. It requires minimal configuration and provides extremely useful tools right out of the box, allowing us to get straight to the learning. Let's get started!</p>
-<h3>Creating a React app</h3>
-<p>Please make sure that you are using the latest <em>LTS</em> version of Node, otherwise errors may occur. Open up the terminal and the folder containing your projects. Then enter the following command (you can replace <code>my-first-react-app</code> with any name you want):</p>
+<h3 id="simplifying-the-process">プロセスを単純化する</h3>
+<p>Reactプロジェクトをゼロから始めるために何が必要かを理解したところで、実は<em>たった一つのターミナルコマンド</em>で始められることを知って、ほっと一息つけるはずです。私たち自身のテンプレートリポジトリを作って使うのと同じように、Vite独自のReactテンプレートを使ってプロジェクトの雛形を作成していきます。</p>
+<p>Viteは開発者のためのフロントエンドツールを構築しており、内部では最新の技術を活用して、優れた開発者体験を提供しています。幸いなことに、Reactのエコシステムにも対応しています。ここでは、ViteのCLIを使って、テンプレートのReactプロジェクトを素早く作成します。設定はほとんど必要なく、非常に便利なツールがすぐに使える状態で用意されているため、学習そのものにすぐ取りかかることができます。それでは始めましょう!</p>
+<h3 id="creating-a-react-app">Reactアプリを作成する</h3>
+<p>最新の<em>LTS</em>バージョンのNodeを使っていることを必ず確認してください。そうでないとエラーが発生する可能性があります。ターミナルと、あなたのプロジェクトが入っているフォルダを開いてください。それから、以下のコマンドを入力してください(<code>my-first-react-app</code>は好きな名前に置き換えてかまいません):</p>
 <pre class="highlight"><code class="language-bash">npm create vite@latest my-first-react-app -- --template react</code></pre>
-<p>You may be asked if you want to install the <code>create-vite</code> package, in which case you should accept by typing <code>y</code> then hitting <kbd>Enter</kbd>. If it asks you any questions about using experimental features, you can answer no to them. Finally, answer yes to <code>Install with npm and start now?</code>.</p>
-<p>Once the command has executed, it should output the following:</p>
+<p><code>create-vite</code>パッケージをインストールするかどうか尋ねられることがあります。その場合は、<code>y</code>と入力してから<kbd>Enter</kbd>を押して、承諾してください。実験的な機能を使うかどうかについて質問された場合は、いいえと答えてかまいません。最後に、<code>Install with npm and start now?</code>には、はいと答えてください。</p>
+<p>コマンドが実行されると、以下のような出力が表示されるはずです:</p>
 <pre class="highlight"><code class="language-bash">➜  Local:   http://localhost:5173/
 ➜  Network: use --host to expose
 ➜  press h + enter to show help</code></pre>
-<p>Provided everything has gone according to plan, head over to <code>localhost:5173</code>, where you'll be greeted with the following page:</p>
-<p><img alt="Vite React template homepage" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/9200680864d044390aeb1baa838f213addd65cbe/react/introduction/setting_up_a_react_environment/imgs/vite_react_homepage.png" /></p>
-<p>Congratulations! You've created your first React app. You can now exit out of the dev server (<kbd>Ctrl</kbd> + <kbd>C</kbd>) and <code>cd</code> into your project directory. You can start the dev server any time within the project directory by running <code>npm run dev</code>.</p>
-<p>To link your local project directory to a GitHub repo, create a new <strong>empty</strong> repo on GitHub then follow the instructions in the new repo's page to connect it to your local project directory.</p>
+<p>すべてが計画通りに進んでいれば、<code>localhost:5173</code>にアクセスすると、以下のページが表示されるはずです:</p>
+<p><img alt="ViteのReactテンプレートのホームページ" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/9200680864d044390aeb1baa838f213addd65cbe/react/introduction/setting_up_a_react_environment/imgs/vite_react_homepage.png" /></p>
+<p>おめでとうございます!最初のReactアプリを作成しました。これで、開発サーバーを終了し(<kbd>Ctrl</kbd> + <kbd>C</kbd>)、プロジェクトディレクトリに<code>cd</code>で移動できます。開発サーバーは、プロジェクトディレクトリ内でいつでも<code>npm run dev</code>を実行することで起動できます。</p>
+<p>ローカルのプロジェクトディレクトリをGitHubリポジトリにリンクするには、GitHub上に新しい<strong>空の</strong>リポジトリを作成し、その新しいリポジトリのページに記載されている手順に従って、ローカルのプロジェクトディレクトリと接続してください。</p>
 <div class="lesson-note lesson-note--tip">
-<h4>Using an existing repo</h4>
-<p>Alternatively, if you created a GitHub repo already and cloned it, you can <code>cd</code> into your cloned repo then run the above Vite command, using <code>.</code> as the project name:</p>
+<h4>既存のリポジトリを使う</h4>
+<p>代わりに、すでにGitHubリポジトリを作成してクローンしている場合は、クローンしたリポジトリに<code>cd</code>で移動し、プロジェクト名として<code>.</code>を使って、上記のViteコマンドを実行することもできます:</p>
 <pre class="highlight"><code class="language-bash">npm create vite@latest . -- --template react</code></pre>
-<p>This will tell Vite to use the current directory for the project, instead of creating a new directory with the given project name. This cloned directory will already be initialized as a git repo and connected to the right remote.</p>
+<p>これにより、指定されたプロジェクト名で新しいディレクトリを作成する代わりに、Viteに現在のディレクトリをプロジェクトとして使うよう指示できます。このクローンされたディレクトリは、すでにgitリポジトリとして初期化されており、正しいリモートに接続されています。</p>
 </div>
-<h3>Delving deeper</h3>
-<p>Let's take a closer look at our new project. Inside, you will find some folders, as well as <code>package.json</code>, <code>package-lock.json</code>, <code>.gitignore</code>, and <code>README.md</code> files. The <code>README.md</code> contains some useful information that you should take the time to skim through now.</p>
-<p>The <code>public</code> folder is where all of the static assets related to your app will go. This could include images, icons, and information files for the browser.</p>
-<p>Inside the <code>src</code> folder is where you will find the code that runs your app. The <code>main.jsx</code> file here serves as the entry point of the application. Let's open the <code>main.jsx</code> file and see if we can understand what's going on:</p>
+<h3 id="delving-deeper">さらに深く掘り下げる</h3>
+<p>新しいプロジェクトをもっと詳しく見ていきましょう。中には、いくつかのフォルダに加えて、<code>package.json</code>、<code>package-lock.json</code>、<code>.gitignore</code>、<code>README.md</code>といったファイルがあります。<code>README.md</code>には役立つ情報が含まれているので、今のうちに時間を取ってざっと目を通しておくとよいでしょう。</p>
+<p><code>public</code>フォルダは、あなたのアプリに関連するすべての静的アセットが置かれる場所です。これには、画像、アイコン、ブラウザ用の情報ファイルなどが含まれます。</p>
+<p><code>src</code>フォルダの中には、あなたのアプリを動かすコードがあります。ここにある<code>main.jsx</code>ファイルは、アプリケーションのエントリーポイントとして機能します。<code>main.jsx</code>ファイルを開いて、何が起こっているのか理解できるか見てみましょう:</p>
 <pre class="highlight"><code class="language-jsx">import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
@@ -103,37 +103,37 @@ createRoot(document.getElementById("root")).render(
     &lt;App /&gt;
   &lt;/StrictMode&gt;,
 );</code></pre>
-<p>Whoa! There's quite a lot here. You are not expected to recognize much of this (if any) right now. Here's a brief rundown of what is happening:</p>
+<p>うわ!ここにはかなりたくさんのことが詰まっていますね。今の時点で、この内容をあまり(あるいはまったく)理解できていなくても問題ありません。ここで何が起こっているのか、簡単に説明します:</p>
 <ol>
-<li>We import <code>StrictMode</code> and <code>createRoot</code> from the <code>react</code> and <code>react-dom</code> packages respectively.</li>
-<li>We import the <code>App</code> component from <code>App.jsx</code>, so that we may place (render) it within the DOM.</li>
-<li>We import some CSS styling (you may recognize this syntax from the Webpack material).</li>
-<li>We create a <code>root</code> object by invoking <code>createRoot</code> with an element from our <code>index.html</code>.</li>
-<li>We invoke the <code>render</code> method, which is attached to our <code>root</code> object, with some very interesting-looking syntax inside the parentheses.</li>
+<li><code>react</code>パッケージと<code>react-dom</code>パッケージから、それぞれ<code>StrictMode</code>と<code>createRoot</code>をインポートします。</li>
+<li><code>App.jsx</code>から<code>App</code>コンポーネントをインポートします。これにより、それをDOM内に配置(レンダー)できるようになります。</li>
+<li>いくつかのCSSスタイルをインポートします(この構文はWebpackの教材で見覚えがあるかもしれません)。</li>
+<li><code>index.html</code>からの要素を使って<code>createRoot</code>を呼び出すことで、<code>root</code>オブジェクトを作成します。</li>
+<li><code>root</code>オブジェクトに付随している<code>render</code>メソッドを、かっこの中に非常に興味深く見える構文を入れて呼び出します。</li>
 </ol>
-<p>All of this may understandably look unlike anything you've seen up until now, but have no fear, once you've spent the time with this course, you'll know exactly what all of this does, and <em>much more</em>.</p>
-<h3>Developer tools</h3>
-<p>As you progress with React, your projects will undoubtedly become larger and larger and include more and more components, with increasing levels of functionality.</p>
-<p>When this happens, it's useful to be able to track (and make live changes to) the moving parts inside of your app for understanding and debugging your code. To this end, we can use a Chrome extension called <a href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en">React Developer Tools</a>.</p>
-<p>We recommend installing this and becoming comfortable using it as early as possible as it's an invaluable tool for effective React development.</p>
-<h3>Assignment</h3>
+<p>これらはすべて、これまで見たことのないもののように見えるのも無理はありませんが、恐れないでください。このコースに時間をかければ、これらすべてが何をしているのか、そして<em>それ以上のこと</em>を、きちんと理解できるようになります。</p>
+<h3 id="developer-tools">開発者ツール</h3>
+<p>Reactの学習を進めていくにつれて、あなたのプロジェクトは間違いなくどんどん大きくなり、より多くのコンポーネントを含むようになり、機能のレベルも上がっていきます。</p>
+<p>そうなったとき、アプリ内の可動部分を追跡し(そしてライブで変更を加え)て、コードを理解しデバッグできると便利です。そのために、<a href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en">React Developer Tools</a>というChrome拡張機能を使うことができます。</p>
+<p>効果的なReact開発にとって非常に貴重なツールなので、これをインストールし、できるだけ早く使いこなせるようになっておくことをお勧めします。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Review this material by reading through <a href="https://vitejs.dev/guide/">Vite's Getting Started Page</a>.</li>
-<li>Check out this <a href="https://www.debugbear.com/blog/react-devtools">guide for React Developer Tools</a> to begin learning how to use it (don't worry if you don't understand some of the details yet).</li>
-<li>Try to clean up your <code>my-first-react-app</code> project so that it no longer displays the default page. See if you can get it to display a "Hello, World!" message instead.</li>
+<li><a href="https://vitejs.dev/guide/">ViteのGetting Startedページ</a>を読んで、この教材を復習してください。</li>
+<li>この<a href="https://www.debugbear.com/blog/react-devtools">React Developer Toolsのガイド</a>をチェックして、使い方を学び始めてください(まだ細かい部分が理解できなくても心配いりません)。</li>
+<li><code>my-first-react-app</code>プロジェクトを整理して、デフォルトのページが表示されないようにしてみてください。代わりに「Hello, World!」というメッセージを表示できるか試してみてください。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#many-paths">What are some of the ways we can start a new React project?</a></li>
-<li><a href="#many-paths">Why should we initially be using pre-made toolchains instead of making our own?</a></li>
-<li><a href="#simplifying-the-process">What is Vite and why would we use it?</a></li>
-<li><a href="#creating-a-react-app">What command can we run to scaffold a new React project using Vite?</a></li>
-<li><a href="#delving-deeper">What is in the <code>public</code> folder?</a></li>
-<li><a href="#delving-deeper">What is in the <code>src</code> folder?</a></li>
-<li><a href="#developer-tools">Why are the React Developer Tools useful?</a></li>
+<li><a href="#many-paths">新しいReactプロジェクトを始める方法には、どのようなものがありますか?</a></li>
+<li><a href="#many-paths">なぜ最初は、自分たちで作るのではなく、あらかじめ用意されたツールチェーンを使うべきなのですか?</a></li>
+<li><a href="#simplifying-the-process">Viteとは何で、なぜそれを使うのですか?</a></li>
+<li><a href="#creating-a-react-app">Viteを使って新しいReactプロジェクトの雛形を作成するには、どのコマンドを実行すればよいですか?</a></li>
+<li><a href="#delving-deeper"><code>public</code>フォルダには何が入っていますか?</a></li>
+<li><a href="#delving-deeper"><code>src</code>フォルダには何が入っていますか?</a></li>
+<li><a href="#developer-tools">React Developer Toolsはなぜ便利なのですか?</a></li>
 </ul>
       </div>
     </article>

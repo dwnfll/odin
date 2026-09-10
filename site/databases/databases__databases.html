@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,53 +28,53 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Databases</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← databases</a></p>
     </header>
     <p class="tvp-lesson__desc">Here you&#x27;ll learn the basics of databases and how they store data.</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>You might have wondered how you keep track of all your users' data.  Who remembers that your login password is <code>CatLover1985</code> so you can sign into the website?  The bottom layer of any web application is the database and it handles all the remembering for you (we'll cover caching much later). It can be relatively simple, like an Excel spreadsheet, or incredibly complex and split into many giant pieces, like Facebook's.</p>
-<p>Databases are kind of hidden in the back of the web application, so people approach them with a sense of suspicion and awe.  However, do not fret or feel intimidated.  As you dive deeper into the subject, your databases and you are going to become very good friends (or at least frenemies).  Rest assured, by the end of this curriculum, you're going to understand what's going on with your databases and be able to interact with them like a pro (and probably better than some people you'll work with).  This lesson is a teaser for that.</p>
-<p>Compared to a normal programming language like you've already learned, SQL (Structured Query Language), which is used to query databases, has a very short syntax... with only a small handful of verbs to learn.  What trips people up is that you need to be able to visualize in your head what it's going to be doing.  We'll spend a fair bit of time on SQL and databases because they're so fundamental, but for now we'll just cover enough to get you familiar with what's going on in there.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>すべてのユーザーのデータをどうやって記録しているのだろう、と疑問に思ったことがあるかもしれません。ウェブサイトにサインインするための、あなたのログインパスワードが<code>CatLover1985</code>であることを、誰が覚えているのでしょうか?どんなウェブアプリケーションにも、その最下層にはデータベースがあり、それがすべての記憶をあなたの代わりに担ってくれています(キャッシュについては、ずっと後で扱います)。データベースは、Excelのスプレッドシートのように比較的シンプルなこともあれば、Facebookのもののように信じられないほど複雑で、多数の巨大な部分に分かれていることもあります。</p>
+<p>データベースはウェブアプリケーションの奥に隠れているようなものなので、人々は疑いと畏怖の念を持ってそれに近づきます。しかし、慌てたり、怖気づいたりする必要はありません。この主題に深く入り込んでいくにつれて、あなたとデータベースはとても良い友達(あるいは少なくとも、友達を装った競争相手)になっていくでしょう。安心してください、このカリキュラムを終える頃には、あなたはデータベースで何が起こっているのかを理解し、プロのようにそれとやり取りできるようになっているでしょう(そして、おそらく、一緒に働くことになる何人かの人たちよりも上手に)。このレッスンは、そのための予告編です。</p>
+<p>あなたがすでに学んだような通常のプログラミング言語と比べると、データベースに問い合わせるために使われるSQL(Structured Query Language)は、非常に短い構文しか持っていません……覚えるべき動詞もほんの一握りです。人々をつまずかせるのは、それが何をしようとしているのかを頭の中でイメージできるようになる必要がある、という点です。SQLとデータベースは非常に基本的なものなので、それらにかなりの時間を費やすことになりますが、今のところは、そこで何が起こっているのかに慣れるのに十分な内容だけを扱います。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>What a database is.</li>
-<li>What relational databases are.</li>
-<li>In what way relational databases are different from XML.</li>
-<li>What SQL is.</li>
-<li>What SQL is used for.</li>
-<li>How to get all the records from a table in SQL.</li>
-<li>How to insert a record in SQL.</li>
+<li>データベースとは何か。</li>
+<li>リレーショナルデータベースとは何か。</li>
+<li>リレーショナルデータベースがXMLとどう違うか。</li>
+<li>SQLとは何か。</li>
+<li>SQLが何のために使われるか。</li>
+<li>SQLでテーブルからすべてのレコードを取得する方法。</li>
+<li>SQLでレコードを挿入する方法。</li>
 </ul>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
 <li>
-<p>Check out this introduction of <a href="https://launchschool.com/books/sql/read/introduction">how SQL can be used to organise and manage an overwhelming amount of data</a>.</p>
+<p><a href="https://launchschool.com/books/sql/read/introduction">膨大な量のデータを整理し管理するためにSQLをどう使えるか</a>についての、この入門をチェックしてください。</p>
 <ul>
-<li>You do not need to go any further than the first page on introductions.</li>
+<li>イントロダクションの最初のページより先に進む必要はありません。</li>
 </ul>
 </li>
 <li>
-<p>Watch this <a href="http://www.youtube.com/watch?v=z2kbsG8zsLM">short video introduction to relational databases</a> to get a feel for why this stuff is useful and some more exposure to the terminology we'll use.</p>
+<p>この<a href="http://www.youtube.com/watch?v=z2kbsG8zsLM">リレーショナルデータベースについての短い動画による入門</a>を見て、これがなぜ役立つのかを感じ取り、これから使う用語にもう少し触れてみてください。</p>
 </li>
-<li>Go through this <a href="https://www.khanacademy.org/computing/hour-of-code/hour-of-sql/v/welcome-to-sql">Khan Academy SQL tutorial</a> to get a feel for actually creating and manipulating databases.</li>
-<li>Relational databases aren't the only way to store data. Non-relational (a.k.a. NoSQL) databases have emerged over the last couple decades. While we'll be using SQL in this curriculum, check out this article to learn the <a href="https://circleci.com/blog/SQL-vs-NoSQL-databases/">difference between SQL and NoSQL</a>.</li>
+<li>この<a href="https://www.khanacademy.org/computing/hour-of-code/hour-of-sql/v/welcome-to-sql">Khan AcademyのSQLチュートリアル</a>に取り組んで、実際にデータベースを作成し操作する感覚をつかんでください。</li>
+<li>リレーショナルデータベースは、データを保存する唯一の方法ではありません。過去数十年で、非リレーショナル(別名NoSQL)データベースが登場してきました。このカリキュラムではSQLを使いますが、<a href="https://circleci.com/blog/SQL-vs-NoSQL-databases/">SQLとNoSQLの違い</a>を学ぶために、この記事をチェックしてみてください。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="https://launchschool.com/books/sql/read/introduction#structureddata">What is a database?</a></li>
-<li><a href="https://launchschool.com/books/sql/read/introduction#rdbms">What are relational databases?</a></li>
-<li><a href="https://youtu.be/z2kbsG8zsLM?t=200">What is a Primary Key?</a></li>
-<li><a href="https://launchschool.com/books/sql/read/introduction#sql">What is SQL?</a></li>
-<li><a href="https://www.khanacademy.org/computing/hour-of-code/hour-of-code-lessons/hour-of-sql/pt/querying-the-table">How do you get all the records from a table in SQL?</a></li>
-<li><a href="https://www.khanacademy.org/computing/hour-of-code/hour-of-code-lessons/hour-of-sql/pt/creating-a-table-and-inserting-data">How do you insert a record in SQL?</a></li>
+<li><a href="https://launchschool.com/books/sql/read/introduction#structureddata">データベースとは何ですか?</a></li>
+<li><a href="https://launchschool.com/books/sql/read/introduction#rdbms">リレーショナルデータベースとは何ですか?</a></li>
+<li><a href="https://youtu.be/z2kbsG8zsLM?t=200">主キー(Primary Key)とは何ですか?</a></li>
+<li><a href="https://launchschool.com/books/sql/read/introduction#sql">SQLとは何ですか?</a></li>
+<li><a href="https://www.khanacademy.org/computing/hour-of-code/hour-of-code-lessons/hour-of-sql/pt/querying-the-table">SQLでテーブルからすべてのレコードを取得するにはどうすればよいですか?</a></li>
+<li><a href="https://www.khanacademy.org/computing/hour-of-code/hour-of-code-lessons/hour-of-sql/pt/creating-a-table-and-inserting-data">SQLでレコードを挿入するにはどうすればよいですか?</a></li>
 </ul>
       </div>
     </article>

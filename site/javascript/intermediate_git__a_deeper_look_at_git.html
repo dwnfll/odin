@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,109 +28,109 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">A Deeper Look at Git</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
     </header>
     <p class="tvp-lesson__desc">Beyond just `$ git add` and `$ git commit`...</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Git is a crucial skill to have, whether you're just a hobbyist or you aim to become a professional web developer.  It's the "save" button on steroids and allows for seamless collaboration.  There really aren't all that many commands for you to learn, but sometimes the real difficulty of Git comes from visualizing what's happening.</p>
-<p>In this lesson, we'll help with the visualization by diving deeper than just the <code>git add</code> and <code>git commit</code> and <code>git push</code> commands you've mostly been using. We'll cover topics such as Remotes, Pointers, and Changing Git History. This will expand your understanding of what's actually going on under the hood with Git.</p>
-<p>It is <strong>very important</strong> to take a look at all of this before progressing any further with the curriculum. The project work is becoming more and more complex, so using a disciplined Git workflow is no longer optional. Hopefully, after going through this lesson, you'll be much more comfortable changing your Git history and have a better understanding of Git as a whole.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>Gitは、趣味でやっているだけの人であれ、プロのウェブ開発者を目指している人であれ、身につけておくべき重要なスキルです。Gitは、いわば強化版の「保存」ボタンであり、シームレスな共同作業を可能にしてくれます。学ぶべきコマンドの数自体はそれほど多くありませんが、Gitの本当の難しさは、何が起こっているのかを頭の中でイメージすることにある場合がよくあります。</p>
+<p>このレッスンでは、これまで主に使ってきた<code>git add</code>や<code>git commit</code>、<code>git push</code>といったコマンドよりも一歩踏み込むことで、そのイメージを掴む手助けをしていきます。リモート、ポインタ、Gitの履歴を変更することといったトピックを扱います。これにより、Gitの内部で実際に何が起こっているのかについての理解が深まるはずです。</p>
+<p>カリキュラムをこれ以上先に進める前に、この内容全体に目を通しておくことが<strong>非常に重要</strong>です。プロジェクトの作業はますます複雑になってきているため、規律あるGitワークフローを使うことはもはや任意ではありません。このレッスンを終える頃には、Gitの履歴を変更することにずっと慣れ、Git全体についてより深く理解できているはずです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>History-changing Git commands.</li>
-<li>Different ways of changing history.</li>
-<li>Using remotes to change history.</li>
-<li>Dangers of history-changing operations.</li>
-<li>Best practices of history-changing operations.</li>
-<li>Pointers.</li>
+<li>履歴を変更するGitコマンド。</li>
+<li>履歴を変更するさまざまな方法。</li>
+<li>リモートを使って履歴を変更する方法。</li>
+<li>履歴を変更する操作の危険性。</li>
+<li>履歴を変更する操作のベストプラクティス。</li>
+<li>ポインタ。</li>
 </ul>
-<h3>Changing history</h3>
-<p>So let's say you're comfortable writing good commit messages and you're working with branches to have a good Git workflow going. But nobody is perfect, and as you're writing some beautiful code something goes wrong! Maybe you commit too early and are missing a file. Maybe you mess up one of your commit messages and omit a vital detail.</p>
-<p>Let's look at some ways we can change recent and distant history to fit our needs. We're going to cover how to:</p>
+<h3>履歴を変更する</h3>
+<p>さて、あなたはもう良いコミットメッセージを書くことに慣れていて、良いGitワークフローを実現するためにブランチを使いこなしているとしましょう。しかし、完璧な人などいません。美しいコードを書いている最中にも、何かがうまくいかなくなることがあります!早くコミットしすぎてファイルが漏れてしまうこともあるでしょう。コミットメッセージの一つを間違えて、重要な詳細を省いてしまうこともあるでしょう。</p>
+<p>では、直近の履歴も、ずっと過去の履歴も、私たちのニーズに合わせて変更するいくつかの方法を見ていきましょう。以下のことを行う方法を扱います:</p>
 <ul>
-<li>Change our most recent commit</li>
-<li>Change multiple commit messages</li>
-<li>Reorder commits</li>
-<li>Squash commits together</li>
-<li>Split up commits</li>
+<li>直近のコミットを変更する</li>
+<li>複数のコミットメッセージを変更する</li>
+<li>コミットの順序を入れ替える</li>
+<li>複数のコミットをスカッシュしてまとめる</li>
+<li>コミットを分割する</li>
 </ul>
-<h4>Getting set up</h4>
-<p>Before we get started with the lesson, let's create a Git playground in which we can safely follow along with the code and perform history-changing operations. Go to GitHub, and as you have in the past, create a new repository. Call it whatever you'd like, and clone this repository to your local system. Now, let's <code>cd</code> into the repository we just cloned and create some new files! Once you're in the repository, follow along with the following commands (including the typo). Look them up if you're confused about anything that's happening.</p>
+<h4>準備をする</h4>
+<p>レッスンを始める前に、コードを安全に試しながら履歴を変更する操作を行えるような、Gitの練習場を作りましょう。GitHubにアクセスし、これまでと同じように新しいリポジトリを作成してください。名前は好きなものを付けてかまいません。そして、このリポジトリをローカルシステムにクローンしてください。それでは、今クローンしたリポジトリに<code>cd</code>で移動し、いくつか新しいファイルを作成しましょう!リポジトリの中に入ったら、以下のコマンド(タイプミスも含めて)をそのまま実行してください。何が起きているのか分からない部分があれば、調べてみてください。</p>
 <pre class="highlight"><code class="language-bash">touch test{1..4}.md
 git add test1.md &amp;&amp; git commit -m 'Create first file'
 git add test2.md &amp;&amp; git commit -m 'Create send file'
 git add test3.md &amp;&amp; git commit -m 'Create third file and create fourth file'</code></pre>
-<h4>Setting up the code editor</h4>
-<p>To perform certain Git commands that require opening a text editor, such as <code>git commit --amend</code> and <code>git rebase -i</code>, it's important to configure your code editor correctly. By default, Git opens the text editor in the command-line interface (CLI), which may prevent you from saving and closing the editor after making changes.</p>
-<p>To set up your code editor properly, you can follow the instructions provided in the Git Basics lesson. Here's the specific section that covers the process: <a href="https://www.theodinproject.com/lessons/foundations-git-basics#changing-the-git-commit-message-editor">Changing the Git Commit Message Editor</a>.</p>
-<h4>Changing the last commit</h4>
-<p>So if we look at the last commit we made <em>Uh-Oh!</em>, if you type in <code>git status</code> and <code>git log</code> you can see we forgot to add a file! Let's add our missing file and run <code>git commit --amend</code></p>
+<h4>コードエディタを設定する</h4>
+<p><code>git commit --amend</code>や<code>git rebase -i</code>のように、テキストエディタを開く必要がある特定のGitコマンドを実行するには、コードエディタを正しく設定しておくことが重要です。デフォルトでは、Gitはコマンドラインインターフェース(CLI)の中でテキストエディタを開くため、変更を加えた後にエディタを保存して閉じることができない場合があります。</p>
+<p>コードエディタを正しく設定するには、Git Basicsのレッスンに記載されている手順に従ってください。その手順を扱っている具体的なセクションはこちらです: <a href="https://www.theodinproject.com/lessons/foundations-git-basics#changing-the-git-commit-message-editor">Gitのコミットメッセージエディタを変更する</a>。</p>
+<h4 id="changing-the-last-commit">直近のコミットを変更する</h4>
+<p>さて、私たちが最後に行ったコミットを見てみると<em>おっと!</em>、<code>git status</code>と<code>git log</code>を入力すると、ファイルを一つ追加し忘れていたことがわかります!足りなかったファイルを追加して、<code>git commit --amend</code>を実行しましょう。</p>
 <pre class="highlight"><code class="language-bash">git add test4.md
 git commit --amend</code></pre>
-<p>What happened here is we first updated the staging area to include the missing file, and then we replaced the last commit with our new one to include the missing file. If we wanted to, we could have changed the message of the commit and it would have overwritten the message of the past commit.</p>
-<p>Remember to <strong>only amend commits that have not been pushed anywhere!</strong> The reason for this is that <code>git commit --amend</code> does not edit the last commit, it <em>replaces that commit with an entirely new one</em>. This means that you could potentially destroy a commit other developers are basing their work on. When rewriting history always make sure that you're doing so in a safe manner, and that your coworkers are aware of what you're doing.</p>
-<h4>Changing multiple commits</h4>
-<p>Now let's say we have commits further back in our history that we want to modify. This is where the beautiful command <code>git rebase</code> comes into play! We're going to get deeper into the complexities of <code>rebase</code> later on in this lesson, but for now we're going to start out with some very basic usage.</p>
-<p><code>git rebase -i</code> is a command which allows us to interactively stop after each commit we're trying to modify, and then make whatever changes we wish. We do have to tell this command which is the last commit we want to edit. For example, <code>git rebase -i HEAD~2</code> allows us to edit the last two commits. Let's see what this looks like in action, go ahead and type in:</p>
+<p>ここで何が起こったかというと、まず足りなかったファイルを含めるようにステージングエリアを更新し、それから足りなかったファイルを含む新しいコミットで、直近のコミットを置き換えました。もし望むなら、コミットのメッセージを変更することもでき、その場合は過去のコミットのメッセージが上書きされていたはずです。</p>
+<p><strong>まだどこにもプッシュしていないコミットに対してのみamendを行う</strong>ことを忘れないでください!その理由は、<code>git commit --amend</code>は直近のコミットを編集するのではなく、<em>そのコミットをまったく新しいコミットで置き換える</em>からです。つまり、他の開発者がそのコミットを基にして作業を進めている場合、そのコミットを壊してしまう可能性があるということです。履歴を書き換えるときは、必ず安全な方法で行い、同僚があなたが何をしているかを把握していることを確認してください。</p>
+<h4>複数のコミットを変更する</h4>
+<p>では、もっと過去の履歴にある、修正したいコミットがあるとしましょう。ここで登場するのが、美しいコマンド<code>git rebase</code>です!<code>rebase</code>の複雑さについては、このレッスンの後半でさらに深く掘り下げますが、今のところは非常に基本的な使い方から始めていきましょう。</p>
+<p><code>git rebase -i</code>は、修正しようとしている各コミットの後でインタラクティブに停止し、望む変更を何でも加えられるようにしてくれるコマンドです。このコマンドには、編集したい最後のコミットがどれなのかを伝える必要があります。例えば、<code>git rebase -i HEAD~2</code>とすると、直近の2つのコミットを編集できます。実際にどのようなものか見てみましょう。以下を入力してください:</p>
 <pre class="highlight"><code class="language-bash">git log
 git rebase -i HEAD~2</code></pre>
-<p>You should notice that when rebasing, the commits are listed in opposite order compared to how we see them when we use <code>git log</code>. Take a minute to look through all of the options the interactive tool offers you. Now let's look at the commit messages at the top of the tool. If we wanted to edit one of these commits, we would change the word <code>pick</code> to be <code>edit</code> for the appropriate commit. If we wanted to remove a commit, we would remove it from the list, and if we wanted to change their order, we would change their position in the list. Let's see what an edit looks like!</p>
+<p>リベースを行うと、コミットは<code>git log</code>で見るときとは逆の順序でリストされることに気づくはずです。少し時間を取って、このインタラクティブなツールが提供するすべてのオプションを見てみてください。それでは、ツールの一番上にあるコミットメッセージを見てみましょう。これらのコミットのうち一つを編集したい場合は、該当するコミットの<code>pick</code>という単語を<code>edit</code>に変更します。コミットを削除したい場合は、リストからそのコミットを取り除きます。順序を変更したい場合は、リスト内での位置を変更します。実際に編集がどのようなものか見てみましょう!</p>
 <pre class="highlight"><code class="language-bash">edit eacf39d Create send file
 pick 92ad0af Create third file and create fourth file</code></pre>
-<p>This would allow us to edit the typo in the <code>Create send file</code> commit to be <code>Create second file</code>. Perform similar changes in your interactive rebase tool, but don't copy and paste the above code since it won't work. Save and exit the editor, which will allow us to edit the commit with the following instructions:</p>
+<p>これにより、<code>Create send file</code>コミットのタイプミスを<code>Create second file</code>に編集できるようになります。あなたのインタラクティブなリベースツールでも同様の変更を行ってください。ただし、上記のコードをそのままコピー&amp;ペーストしても動作しないので注意してください。エディタを保存して終了すると、以下の指示でコミットを編集できるようになります:</p>
 <pre class="highlight"><code class="language-bash">git commit --amend</code></pre>
-<p>The command above will allow you to amend the commit. Once you're satisfied with your changes, you can complete the rebase with the following:</p>
+<p>上記のコマンドにより、コミットをamendできます。変更内容に満足したら、以下でリベースを完了できます:</p>
 <pre class="highlight"><code class="language-bash">git rebase --continue</code></pre>
-<p>So let's edit our commit by typing <code>git commit --amend</code>, fixing the typo in the title, and then finishing the rebase by typing <code>git rebase --continue</code>. That's all there is to it! Have a look at your handiwork by typing <code>git log</code>, and seeing the changed history. It seems simple, but this is a very dangerous tool if misused, so be careful. Most importantly, remember that <strong>if you have to rebase commits in a shared repository, make sure you're doing so for a very good reason that your coworkers are aware of.</strong></p>
-<h4>Squashing commits</h4>
-<p>Using <code>squash</code> for our commits is a very handy way of keeping our Git history tidier by combining multiple commits into one. It's important to know how to <code>squash</code>, because this process may be the standard on some development teams. Squashing makes it easier for others to understand the history of your project. What often happens when a feature is merged, is we end up with some visually complex logs of all the changes a feature branch had on a main branch. These commits are important while the feature is in development, but aren't really necessary when looking through the entire history of your main branch.</p>
-<p>Let's say we want to <code>squash</code> the second commit into the first commit on the list, which is <code>Create first file</code>. First let's rebase all the way back to our root commit by typing <code>git rebase -i --root</code>. Now what we'll do is <code>pick</code> that first commit, as the one which the second commit is being <code>squash</code>ed into:</p>
+<p>それでは、<code>git commit --amend</code>と入力してコミットを編集し、タイトルのタイプミスを直してから、<code>git rebase --continue</code>と入力してリベースを終わらせましょう。これで完了です!<code>git log</code>と入力して、自分の成果と、変更された履歴を確認してみてください。簡単そうに見えますが、誤って使うと非常に危険なツールなので、注意してください。最も重要なのは、<strong>もし共有リポジトリでコミットをリベースしなければならない場合は、同僚が把握している非常に正当な理由があることを必ず確認してください。</strong></p>
+<h4 id="squashing-commits">コミットをスカッシュする</h4>
+<p>コミットに対して<code>squash</code>を使うことは、複数のコミットを1つにまとめることで、Gitの履歴をよりすっきりと保つための、とても便利な方法です。この<code>squash</code>のやり方を知っておくことは重要です。というのも、このプロセスが標準となっている開発チームもあるからです。スカッシュを行うと、他の人があなたのプロジェクトの履歴を理解しやすくなります。機能がマージされるときによく起こるのは、フィーチャーブランチがメインブランチに加えたすべての変更について、視覚的に複雑なログができあがってしまうことです。これらのコミットは、機能が開発中である間は重要ですが、メインブランチの履歴全体を見返すときには、実際にはそれほど必要ではありません。</p>
+<p>リストの2番目のコミットを、1番目のコミットである<code>Create first file</code>に<code>squash</code>したいとしましょう。まず、<code>git rebase -i --root</code>と入力して、ルートコミットまで遡ってリベースしましょう。次に行うのは、2番目のコミットが<code>squash</code>される先となる1番目のコミットを<code>pick</code>することです:</p>
 <pre class="highlight"><code class="language-bash">pick e30ff48 Create first file
 squash 92aa6f3 Create second file
 pick 05e5413 Create third file and create fourth file</code></pre>
-<p>When your editor opens, you’ll see the commit messages from the commits being squashed. Edit this so the commit message only contains: <code>Create first and second file</code>, then save and close the editor to finish the squash and rebase. That's it! Run <code>git log</code> and see how the first two commits got squashed together.</p>
-<h4>Splitting up a commit</h4>
-<p>Before diving into Remotes, we're going to have a look at a handy Git command called <code>git reset</code>. Let's have a look at the commit <code>Create third file and create fourth file</code>. At the moment we're using blank files for convenience, but let's say these files contained functionality and the commit was describing too much at once. In that case what we could do is split it up into two smaller commits by, once again, using the interactive <code>rebase</code> tool.</p>
-<p>We can open up the tool just like last time, change <code>pick</code> to <code>edit</code> for the commit we're going to split. But instead, what we're going to do is run <code>git reset HEAD~</code>, which resets the commit to the one right before HEAD. This allows us to add the files individually and commit them individually. All together it would look something like this:</p>
+<p>エディタが開くと、スカッシュされるコミットのコミットメッセージが表示されます。コミットメッセージが<code>Create first and second file</code>だけを含むように編集し、それからエディタを保存して閉じ、スカッシュとリベースを完了させてください。これで完了です!<code>git log</code>を実行して、最初の2つのコミットがどのようにスカッシュされて1つになったかを確認してみましょう。</p>
+<h4 id="splitting-up-a-commit">コミットを分割する</h4>
+<p>リモートについて深く掘り下げる前に、<code>git reset</code>という便利なGitコマンドを見ていきましょう。<code>Create third file and create fourth file</code>というコミットを見てみましょう。今のところ、便宜上空のファイルを使っていますが、これらのファイルに何らかの機能が含まれていて、このコミットが一度に説明しようとしている内容が多すぎたとしましょう。その場合、再びインタラクティブな<code>rebase</code>ツールを使うことで、このコミットを2つの小さなコミットに分割することができます。</p>
+<p>前回と同じようにツールを開き、分割しようとしているコミットの<code>pick</code>を<code>edit</code>に変更します。ただし今回は、代わりに<code>git reset HEAD~</code>を実行します。これは、コミットをHEADの直前のものにリセットします。これにより、ファイルを個別に追加し、個別にコミットできるようになります。全体としては、次のようになります:</p>
 <pre class="highlight"><code class="language-bash">git reset HEAD~
 git add test3.md &amp;&amp; git commit -m 'Create third file'
 git add test4.md &amp;&amp; git commit -m 'Create fourth file'</code></pre>
 <p><span id="git-reset"></span></p>
-<p>Let's start by looking a bit closer at what happened here. When you ran <code>git reset</code>, you reset the current branch by pointing HEAD at the commit right before it. At the same time, <code>git reset</code> also updated the index (the staging area) with the contents of wherever HEAD is now pointed. So our staging area was also reset to what it was at the prior commit - which is great - because this allowed us to add and commit both files separately.</p>
-<p>Now let's say we want to move where HEAD points to but <em>don't</em> want to touch the staging area. If we want to leave the index alone, you can use <code>git reset --soft</code>. This would only perform the first part of <code>git reset</code> where the HEAD is moved to point somewhere else.</p>
-<p>You can think of <code>git reset --soft</code> as a more powerful amend. Instead of changing the last commit, you can go back multiple commits and combine all the changes included in them into one commit.</p>
-<p>The last part of reset we want to touch upon is <code>git reset --hard</code>. What this does is it performs all the steps of <code>git reset</code>, moving the HEAD and updating the index, but it <em>also</em> updates the working directory. This is important to note because it can be dangerous as it can potentially destroy data. A hard reset overwrites the files in the working directory to make it look exactly like the staging area of wherever HEAD ends up pointing to. Similarly to <code>git commit --amend</code>, a hard reset is a destructive command which overwrites history. This doesn't mean you should completely avoid it if working with shared repositories on a team with other developers. You should, however, <strong>make sure you know exactly why you're using it, and that your coworkers are also aware of how and why you're using it.</strong></p>
-<h3>Branches are pointers</h3>
-<p>While the focus of this lesson was more advanced tools for changing Git history, we're going into another advanced topic that might be hard for some to understand - Pointers. You've already learned about branches in the <a href="https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors">Rock Paper Scissors revisited lesson</a> and how these hold multiple <em>alternate reality</em> versions of our files. Now we're going to discuss what that actually means under the hood, and what it means for branches to be pointers.</p>
-<p>Before we dive into branches, let's talk about commits. If you recall this <a href="https://www.theodinproject.com/lessons/foundations-git-basics">Git basics lesson from foundations</a>, they were described as Snapshots. If it helps, think of this in a very literal sense. Every time you type in <code>git commit</code>, your computer is taking a picture of all the file contents that have been staged with <code>git add</code>. In other words, your entire tracked workspace gets copied.</p>
-<p>So what is a branch? Based off of your exposure, you might be visualizing a branch as a group of commits. This actually isn't the case! <strong>A branch is actually a pointer to a single commit!</strong> Hearing this, your first thought might be <em>"Well if a branch is just a finger pointing at a single commit, how does that single commit know about all the commits that came before it?"</em> The answer to this question is very simple: Each commit is also a pointer that points to the commit that came before it! Wow. This might be a lot to take in, so let's take a moment to absorb that fact.</p>
-<p>Now that you've had a second to gather your thoughts and attempt to wrap your head around this concept, it might help to go back and look at a concrete example of pointers we used in this lesson. Let's think back to our use of <code>git rebase -i HEAD~2</code>. If you can remember, this command lets us edit the last two commits. Do you have any guesses on how Git knew which two commits to edit? That's right, by using pointers! We start at HEAD, which is a special pointer for keeping track of the branch you're currently on. HEAD points to our most recent commit in the current branch. That commit points to the commit made directly before it, which we can call commit two. That's how <code>git rebase -i HEAD~2</code> starts with a HEAD pointer, and then follows subsequent pointers to find which two commits to edit.</p>
-<p>You might be feeling overwhelmed at this point, so let's recap what we've learned. A branch is a pointer to a single commit. A commit is a snapshot, and it's a pointer to the commit directly behind it in history. That's it!</p>
-<h3>Assignment</h3>
+<p>ここで何が起こったのかを、もう少し詳しく見ていきましょう。<code>git reset</code>を実行すると、HEADをその直前のコミットに向けることで、現在のブランチをリセットします。同時に、<code>git reset</code>は、HEADが今指し示している場所の内容で、インデックス(ステージングエリア)も更新します。つまり、私たちのステージングエリアも、直前のコミットの時点の状態にリセットされたということです。これは好都合です。なぜなら、これにより両方のファイルを個別に追加し、個別にコミットできるようになったからです。</p>
+<p>では、HEADが指し示す場所を移動させたいけれど、ステージングエリアには<em>触れたくない</em>としましょう。インデックスをそのままにしておきたい場合は、<code>git reset --soft</code>を使うことができます。これは、HEADが別の場所を指すように移動する、<code>git reset</code>の最初の部分だけを行います。</p>
+<p><code>git reset --soft</code>は、より強力なamendのようなものだと考えることができます。直近のコミットを変更する代わりに、複数のコミット分さかのぼって、それらに含まれるすべての変更を1つのコミットにまとめることができます。</p>
+<p>resetについて最後に触れておきたいのは、<code>git reset --hard</code>です。これが行うのは、HEADの移動とインデックスの更新という<code>git reset</code>のすべてのステップに加えて、作業ディレクトリ<em>も</em>更新するというものです。これは、データを破壊してしまう可能性があり危険なので、覚えておくべき重要な点です。ハードリセットは、HEADが最終的に指し示す場所のステージングエリアとまったく同じになるように、作業ディレクトリ内のファイルを上書きします。<code>git commit --amend</code>と同様、ハードリセットは履歴を上書きする破壊的なコマンドです。だからといって、他の開発者とチームで共有リポジトリを使って作業する際に、これを完全に避けるべきというわけではありません。しかし、<strong>自分がなぜそれを使っているのかを正確に把握し、同僚もあなたがどのように、そしてなぜそれを使っているのかを把握していることを、必ず確認してください。</strong></p>
+<h3 id="branches-are-pointers">ブランチはポインタである</h3>
+<p>このレッスンの焦点はGitの履歴を変更するためのより高度なツールでしたが、ここではさらに、人によっては理解しづらいかもしれないもう一つの高度なトピック、ポインタについて見ていきます。あなたはすでに<a href="https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors">Revisiting Rock Paper Scissorsのレッスン</a>でブランチについて学んでおり、ブランチがファイルの複数の<em>もう一つの現実</em>バージョンをどのように保持しているかを学びました。今度は、それが内部では実際に何を意味しているのか、そしてブランチがポインタであるとはどういうことなのかについて説明していきます。</p>
+<p>ブランチについて深く掘り下げる前に、コミットについて話しましょう。Foundationsの<a href="https://www.theodinproject.com/lessons/foundations-git-basics">Git basicsのレッスン</a>を思い出せば、コミットはスナップショットとして説明されていました。役に立つなら、これを非常に文字通りの意味で考えてみてください。<code>git commit</code>と入力するたびに、あなたのコンピュータは<code>git add</code>でステージングされたすべてのファイルの内容の写真を撮っているのです。言い換えると、追跡されているワークスペース全体がコピーされるということです。</p>
+<p>では、ブランチとは何なのでしょうか?これまで触れてきた内容から、ブランチをコミットの集まりとしてイメージしているかもしれません。しかし実際には、そうではないのです!<strong>ブランチとは、実際には単一のコミットを指すポインタなのです!</strong>これを聞くと、最初に「ブランチが単一のコミットを指す指にすぎないなら、そのコミットは、それより前にあったすべてのコミットについてどうやって知っているのか?」と思うかもしれません。この問いへの答えはとてもシンプルです: 各コミットもまた、その一つ前にあったコミットを指すポインタなのです!なんと。これは受け止めるのに少し時間がかかるかもしれないので、少し立ち止まって、この事実をじっくり考えてみましょう。</p>
+<p>考えを整理し、この概念を理解しようとする時間が少し取れたところで、このレッスンで使ったポインタの具体例に立ち返ってみると理解の助けになるかもしれません。<code>git rebase -i HEAD~2</code>の使用を思い出してみましょう。覚えているかもしれませんが、このコマンドは直近の2つのコミットを編集できるようにしてくれます。Gitがどうやって編集すべき2つのコミットを知ったのか、見当がつきますか?そう、ポインタを使っているのです!私たちはHEADから始めます。HEADは、あなたが現在いるブランチを把握しておくための特別なポインタです。HEADは、現在のブランチの中で最も新しいコミットを指しています。そのコミットは、その直前に作られたコミット(これをコミット2と呼ぶことにします)を指しています。これが、<code>git rebase -i HEAD~2</code>がHEADポインタから始まり、それに続くポインタをたどることで、編集すべき2つのコミットを見つける仕組みです。</p>
+<p>この時点で圧倒されているように感じているかもしれないので、これまで学んだことを振り返っておきましょう。ブランチとは、単一のコミットを指すポインタです。コミットとはスナップショットであり、履歴の中で直前にあるコミットを指すポインタでもあります。以上です!</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <div class="lesson-note lesson-note--tip">
-<h4>Default Git branch name change</h4>
-<p>In modern Git setups, the default branch is typically called <code>main</code> instead of <code>master</code>.</p>
+<h4>デフォルトのGitブランチ名の変更</h4>
+<p>最近のGitのセットアップでは、デフォルトブランチは通常<code>master</code>ではなく<code>main</code>と呼ばれます。</p>
 </div>
 <ol>
-<li>Hopefully you'll have made use of branches in your workflow since Revisiting Rock Paper Scissors, but whether you have or have not, refresh on <a href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging">Basic Branching and Merging</a>.</li>
-<li>Read the chapter on <a href="https://git-scm.com/book/en/v2/Git-Branching-Rebasing">Rebasing covered by git-scm</a> for an even deeper dive into Rebasing.</li>
-<li>Read the chapter on <a href="https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified">Reset covered by git-scm</a> for a deeper dive into <code>git reset</code>.</li>
+<li>Revisiting Rock Paper Scissors以降、ワークフローの中でブランチを活用してきたことを願っていますが、活用していたかどうかにかかわらず、<a href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging">Basic Branching and Merging</a>で復習しておきましょう。</li>
+<li>リベースについてさらに深く掘り下げるために、<a href="https://git-scm.com/book/en/v2/Git-Branching-Rebasing">git-scmのRebasingの章</a>を読んでください。</li>
+<li><code>git reset</code>についてさらに深く掘り下げるために、<a href="https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified">git-scmのResetの章</a>を読んでください。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#changing-the-last-commit">How can you amend your last commit?</a></li>
-<li><a href="#branches-are-pointers">What does it mean for branches to be pointers?</a></li>
-<li><a href="#git-reset">What is the difference between <code>git reset</code>, <code>git reset --soft</code>, and <code>git reset --hard</code>?</a></li>
-<li><a href="#squashing-commits">How would you squash two commits into one?</a></li>
-<li><a href="#splitting-up-a-commit">How would you split a commit into two smaller commits?</a></li>
+<li><a href="#changing-the-last-commit">直近のコミットをamendするにはどうすればよいですか?</a></li>
+<li><a href="#branches-are-pointers">ブランチがポインタであるとはどういう意味ですか?</a></li>
+<li><a href="#git-reset"><code>git reset</code>、<code>git reset --soft</code>、<code>git reset --hard</code>の違いは何ですか?</a></li>
+<li><a href="#squashing-commits">2つのコミットを1つにスカッシュするにはどうすればよいですか?</a></li>
+<li><a href="#splitting-up-a-commit">1つのコミットを2つの小さなコミットに分割するにはどうすればよいですか?</a></li>
 </ul>
       </div>
     </article>

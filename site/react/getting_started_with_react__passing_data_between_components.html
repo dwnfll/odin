@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,25 +28,25 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Passing Data Between Components</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Passing Data Between Components</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>By now you should be starting to understand just how powerful React and reusable components can be, but you may be left wondering ‘How can I share information between components?’ or ‘Am I able to customize the behavior of my components each time I use them?'. In this lesson, we will learn about React props (short for properties) and how to use props to pass data between components.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>ここまでで、Reactと再利用可能なコンポーネントがどれほど強力なものであるか、理解し始めているはずです。しかし、「コンポーネント間で情報を共有するにはどうすればいいのだろう?」「コンポーネントを使うたびにその振る舞いをカスタマイズできるのだろうか?」と疑問に思っているかもしれません。このレッスンでは、Reactのprops(propertiesの略)と、propsを使ってコンポーネント間でデータを受け渡す方法について学びます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Passing data between components.</li>
-<li>Using data to create customizable reusable components.</li>
+<li>コンポーネント間でデータを受け渡す。</li>
+<li>データを使って、カスタマイズ可能な再利用可能なコンポーネントを作る。</li>
 </ul>
-<h3>Data transfer in React</h3>
-<p>In React, data is transferred from parent components to child components via props. This data transfer is unidirectional, meaning it flows in only one direction. Any changes made to this data will only affect child components using the data, and not parent or sibling components. This restriction on the flow of data gives us more explicit control over it, resulting in fewer errors in our application.</p>
-<h3>Using props in React</h3>
-<p>Now that we know <em>how</em> data transfers between components, let's explore <em>why</em> this might be a useful feature in React. Consider the following <code>Button</code> component, which gets rendered multiple times within our <code>App</code> component.</p>
+<h3 id="data-transfer-in-react">Reactにおけるデータの受け渡し</h3>
+<p>Reactでは、データは親コンポーネントから子コンポーネントへ、propsを介して受け渡されます。このデータの受け渡しは単方向であり、つまり一方向にしか流れません。このデータに加えられた変更は、そのデータを使っている子コンポーネントにのみ影響し、親コンポーネントや兄弟コンポーネントには影響しません。このようにデータの流れを制限することで、データをより明示的に制御できるようになり、結果としてアプリケーションのエラーが減ります。</p>
+<h3 id="using-props-in-react">Reactでpropsを使う</h3>
+<p>データがコンポーネント間で<em>どのように</em>転送されるかがわかったので、次はこれがReactにおいてなぜ便利な機能なのかを見ていきましょう。以下の<code>Button</code>コンポーネントを考えてみてください。これは、私たちの<code>App</code>コンポーネントの中で複数回レンダーされます。</p>
 <pre class="highlight"><code class="language-jsx">function Button() {
   return (
     &lt;button&gt;Click Me!&lt;/button&gt;
@@ -62,8 +62,8 @@ export default function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<p>So far so good right? We have a beautiful reusable button that we can use as many times as we like, there is just one small problem.</p>
-<p>What if we wanted the text within our second button to be “Don’t Click Me!"? Right now, we would have to create a second button component with this different text.</p>
+<p>ここまでは順調ですよね?私たちは、好きなだけ何度でも使える美しい再利用可能なボタンを手に入れましたが、一つだけ小さな問題があります。</p>
+<p>もし2番目のボタンの中のテキストを「Don't Click Me!」にしたかったらどうでしょうか?今のままでは、この異なるテキストを持つ2つ目のボタンコンポーネントを作らなければなりません。</p>
 <pre class="highlight"><code class="language-jsx">function Button() {
   return (
     &lt;button&gt;Click Me!&lt;/button&gt;
@@ -85,8 +85,8 @@ export default function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<p>This may not seem like a huge deal right now, but what if we had 10 buttons? Each one having different text, fonts, colors, sizes, and any other variation you can think of. Creating a new component for each of these button variations would very quickly lead to a LOT of code duplication.</p>
-<p>Let's see how by using props, we can account for any number of variations with a <em>single</em> button component.</p>
+<p>今のところ、これは大した問題には見えないかもしれませんが、もしボタンが10個あったらどうでしょうか?それぞれが異なるテキスト、フォント、色、サイズ、その他あなたが思いつく限りのバリエーションを持っているとしたら。これらのボタンのバリエーションごとに新しいコンポーネントを作っていては、あっという間に大量のコードの重複が生まれてしまいます。</p>
+<p>propsを使うことで、<em>たった一つの</em>ボタンコンポーネントで、いくつものバリエーションに対応できる様子を見ていきましょう。</p>
 <pre class="highlight"><code class="language-jsx">function Button(props) {
   const buttonStyle = {
     color: props.color,
@@ -107,14 +107,14 @@ export default function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<p>There are a few things going on here.</p>
+<p>ここではいくつかのことが起こっています。</p>
 <ul>
-<li>The <code>Button</code> functional component now receives <code>props</code> as a function parameter. The individual properties are then referenced within the component via <code>props.propertyName</code>.</li>
-<li>When rendering the <code>Button</code> components within <code>App</code>, the <code>prop</code> values are defined on each component.</li>
-<li>Inline styles are dynamically generated and then applied to the <code>button</code> element.</li>
+<li><code>Button</code>関数コンポーネントは、今度は<code>props</code>を関数のパラメータとして受け取るようになりました。個々のプロパティは、コンポーネントの中で<code>props.propertyName</code>を介して参照されます。</li>
+<li><code>App</code>の中で<code>Button</code>コンポーネントをレンダーする際、<code>prop</code>の値は各コンポーネントで定義されます。</li>
+<li>インラインスタイルが動的に生成され、<code>button</code>要素に適用されます。</li>
 </ul>
-<h3>Prop destructuring</h3>
-<p>A very common pattern you will come across in React is prop <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">destructuring</a>. Unpacking your props in the component parameters allows for more concise and readable code. Check out prop destructuring in action in the example below.</p>
+<h3>propsの分割代入</h3>
+<p>Reactでよく出会うことになる非常によくあるパターンが、propsの<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">分割代入</a>です。propsをコンポーネントのパラメータの中で展開(unpack)することで、より簡潔で読みやすいコードになります。以下の例で、propsの分割代入が実際にどのように使われるか見てみましょう。</p>
 <pre class="highlight"><code class="language-jsx">function Button({ text, color, fontSize }) {
   const buttonStyle = {
     color: color,
@@ -133,8 +133,8 @@ export default function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<h3>Default props</h3>
-<p>You may have noticed in the above examples that there is some repetition when defining props on the <code>Button</code> components within <code>App</code>. In order to stop repeating ourselves by re-defining these common values, and to protect our application from undefined values, we can define default parameters to set default values for props.</p>
+<h3 id="default-props">propsのデフォルト値</h3>
+<p>上の例で、<code>App</code>の中で<code>Button</code>コンポーネントにpropsを定義する際に、いくつか繰り返しがあることに気づいたかもしれません。これらの共通の値を何度も定義するのをやめ、アプリケーションを未定義の値から守るために、propsのデフォルト値を設定するデフォルトパラメータを定義することができます。</p>
 <pre class="highlight"><code class="language-jsx">function Button({ text = "Click Me!", color = "blue", fontSize = 12 }) {
   const buttonStyle = {
     color: color,
@@ -153,8 +153,8 @@ export default function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<p>As you can see, we now only need to supply prop values to <code>Button</code> when rendering within <code>App</code> if they differ from the default values defined in the function parameters.</p>
-<p>You may also come across the use of <code>defaultProps</code> in some codebases. This was traditionally used to set default values for props, particularly in class components. Here’s how it looks:</p>
+<p>ご覧の通り、これで、<code>App</code>の中で<code>Button</code>をレンダーするときに、関数のパラメータで定義されたデフォルト値と異なる場合にのみ、propの値を渡せばよくなりました。</p>
+<p>また、一部のコードベースでは<code>defaultProps</code>の使用に出会うこともあるかもしれません。これは伝統的に、特にクラスコンポーネントにおいて、propsのデフォルト値を設定するために使われてきました。以下がその見た目です:</p>
 <pre class="highlight"><code class="language-jsx">function Button({ text, color, fontSize }) {
   const buttonStyle = {
     color: color,
@@ -179,9 +179,9 @@ export default function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<p>While React no longer accepts the latter approach for function components, understanding <code>defaultProps</code> is still useful, especially when working with class components or older codebases.</p>
-<h3>Functions as props</h3>
-<p>In addition to passing variables through to child components as props, you can also pass through functions. Consider the following example.</p>
+<p>Reactはもはや、関数コンポーネントに対して後者のアプローチを受け付けませんが、特にクラスコンポーネントや古いコードベースを扱う際には、<code>defaultProps</code>を理解しておくことは依然として役立ちます。</p>
+<h3 id="functions-as-props">propsとしての関数</h3>
+<p>変数をpropsとして子コンポーネントに渡すことに加えて、関数を渡すこともできます。以下の例を考えてみましょう。</p>
 <pre class="highlight"><code class="language-jsx">function Button({ text = "Click Me!", color = "blue", fontSize = 12, handleClick }) {
   const buttonStyle = {
     color: color,
@@ -207,17 +207,17 @@ export default function App() {
   );
 }</code></pre>
 <ul>
-<li>The function <code>handleButtonClick</code> is defined in the parent component.</li>
-<li>A reference to this function is passed through as the value for the <code>handleClick</code> prop on the <code>Button</code> component.</li>
-<li>The function is received in <code>Button</code> and is called on a click event.</li>
+<li>関数<code>handleButtonClick</code>は、親コンポーネントの中で定義されています。</li>
+<li>この関数への参照は、<code>Button</code>コンポーネントの<code>handleClick</code>propの値として渡されます。</li>
+<li>この関数は<code>Button</code>の中で受け取られ、クリックイベントの際に呼び出されます。</li>
 </ul>
-<p>There are a few things to note here.</p>
+<p>ここでいくつか注意すべき点があります。</p>
 <ul>
 <li>
-<p>We only pass through a reference to <code>handleButtonClick</code>, i.e. we do not include parenthesis when passing the function to <code>Button</code>. If we were to do something like <code>handleClick={handleButtonClick()}</code> then the function would be called as the button renders.</p>
+<p>私たちは<code>handleButtonClick</code>への参照だけを渡しています。つまり、関数を<code>Button</code>に渡す際にかっこを含めていません。もし<code>handleClick={handleButtonClick()}</code>のようなことをしてしまうと、ボタンがレンダーされる際に関数が呼び出されてしまいます。</p>
 </li>
 <li>
-<p>Every <code>Button</code> calling this function will navigate to the same page. We can refactor the function and supply an argument within <code>Button</code> to customize this functionality.</p>
+<p>この関数を呼び出すすべての<code>Button</code>は、同じページに遷移します。関数をリファクタリングし、<code>Button</code>の中で引数を渡すことで、この機能をカスタマイズできます。</p>
 </li>
 </ul>
 <pre class="highlight"><code class="language-jsx">function Button({ text = "Click Me!", color = "blue", fontSize = 12, handleClick }) {
@@ -244,25 +244,25 @@ export default function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<p>When supplying an argument to the function, we can't just write <code>onClick={handleClick('https://www.theodinproject.com')}</code>, and instead must attach a reference to an anonymous function which then calls the function with the argument. Like the previous example, this is to prevent the function being called during the render.</p>
+<p>関数に引数を渡す際、単に<code>onClick={handleClick('https://www.theodinproject.com')}</code>と書くことはできず、代わりに、その引数を使って関数を呼び出す無名関数への参照を渡さなければなりません。前の例と同じく、これはレンダー中に関数が呼び出されてしまうのを防ぐためです。</p>
 <div class="lesson-note">
-<h4>Alternative implementation with curried functions</h4>
-<p>There are also other ways to implement this behavior. Hint: <a href="https://javascript.info/currying-partials">curried functions!</a></p>
+<h4>カリー化された関数を使った別の実装方法</h4>
+<p>この振る舞いを実装する他の方法もあります。ヒント: <a href="https://javascript.info/currying-partials">カリー化された関数!</a></p>
 </div>
-<p>Hopefully, you can now understand from the examples in this lesson just how incredibly useful props are for writing reusable and customizable React components. However, we are still only scratching the surface of what React can offer us. Continue on to the next section to learn even more!</p>
-<h3>Assignment</h3>
+<p>このレッスンの例を通して、propsが再利用可能でカスタマイズ可能なReactコンポーネントを書く上で、どれほど信じられないほど便利であるかを理解していただけたなら幸いです。とはいえ、私たちはまだReactが提供してくれるものの表面をなぞっているにすぎません。さらに詳しく学ぶために、次のセクションに進んでください!</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Read through the React docs on <a href="https://react.dev/learn/passing-props-to-a-component">Passing Props to a Component</a>. Make sure to edit the code examples and experiment with different prop values.</li>
+<li><a href="https://react.dev/learn/passing-props-to-a-component">Passing Props to a Component</a>についてのReactドキュメントを読んでください。コード例を編集し、さまざまなpropの値を試してみることを忘れないでください。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#data-transfer-in-react">How does data flow between React components? From child to parent? From parent to child? Both?</a></li>
-<li><a href="#using-props-in-react">Why do we use props in React?</a></li>
-<li><a href="#default-props">How do we define default properties on a React component? What are some benefits in doing so?</a></li>
-<li><a href="#functions-as-props">How can we pass functions as props?</a></li>
+<li><a href="#data-transfer-in-react">Reactコンポーネント間でデータはどのように流れますか?子から親へ?親から子へ?それとも両方ですか?</a></li>
+<li><a href="#using-props-in-react">なぜReactでpropsを使うのですか?</a></li>
+<li><a href="#default-props">Reactコンポーネントでデフォルトのpropertyはどのように定義しますか?そうすることの利点は何ですか?</a></li>
+<li><a href="#functions-as-props">propsとして関数を渡すにはどうすればよいですか?</a></li>
 </ul>
       </div>
     </article>

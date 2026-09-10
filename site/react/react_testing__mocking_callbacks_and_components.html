@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,25 +28,25 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Mocking Callbacks And Components</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Mocking Callbacks And Components</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>We've already covered some basics of React testing. Now's the time to dive deeper.</p>
-<p>In this lesson, we'll learn about mocking. Furthermore, we'll discuss a React component from this (<a href="https://theodinproject.com">theodinproject.com</a>) website and understand how React tests are written in a real world application.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>すでにReactテストの基本のいくつかを扱いました。今度はさらに深く掘り下げていくときです。</p>
+<p>このレッスンでは、モックについて学びます。さらに、この(<a href="https://theodinproject.com">theodinproject.com</a>)ウェブサイトのReactコンポーネントについて取り上げ、実際のアプリケーションでReactのテストがどのように書かれているかを理解します。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Carry out mocks in the context of React testing.</li>
+<li>Reactテストの文脈でモックを実行する。</li>
 </ul>
-<h3>What is mocking?</h3>
-<p>If you've been following along with our lessons so far, the concept of mocking has already been introduced in an earlier section and you might have even incorporated mocks in your <a href="https://www.theodinproject.com/lessons/javascript-battleship">Battleship project</a>. Let's look at how mocks will help in testing React components.</p>
-<h4>Testing callback handlers</h4>
-<p>Callbacks are ubiquitous. Every avenue of user interaction involves callbacks. Sometimes they're passed in as props to alter state of the parent component. Consider this button component:</p>
+<h3>モックとは何ですか?</h3>
+<p>ここまでのレッスンについてきたなら、モックの概念はすでに以前のセクションで紹介されており、あなたの<a href="https://www.theodinproject.com/lessons/javascript-battleship">Battleshipプロジェクト</a>にモックを取り入れたこともあるかもしれません。モックがReactコンポーネントのテストにどう役立つかを見ていきましょう。</p>
+<h4>コールバックハンドラをテストする</h4>
+<p>コールバックはどこにでも存在します。ユーザーとのあらゆるやり取りの手段には、コールバックが関わっています。時には、親コンポーネントのstateを変更するために、propsとして渡されることもあります。以下のボタンコンポーネントを考えてみましょう:</p>
 <pre class="highlight"><code class="language-jsx">// CustomButton.jsx
 
 const CustomButton = ({ onClick }) =&gt; {
@@ -56,8 +56,8 @@ const CustomButton = ({ onClick }) =&gt; {
 };
 
 export default CustomButton;</code></pre>
-<p>Nothing fancy. <code>CustomButton</code> is a component with a prop passed in. We're interested in the <code>onClick</code> prop. We have no idea what the function does. We have no idea how the function will affect the application. All we know is it must be called when the user clicks the button. Let's test it.</p>
-<p><span id="testing-callback-handlers">Notice how we mock and test the <code>onClick</code> function</span>:</p>
+<p>特に凝ったものではありません。<code>CustomButton</code>はpropが渡されているコンポーネントです。私たちが注目しているのは<code>onClick</code>propです。その関数が何をするのかはわかりません。その関数がアプリケーションにどう影響するのかもわかりません。私たちにわかっているのは、ユーザーがボタンをクリックしたときに、それが呼び出される必要があるということだけです。テストしてみましょう。</p>
+<p><span id="testing-callback-handlers"><code>onClick</code>関数をどのようにモックしテストするかに注目してください</span>:</p>
 <pre class="highlight"><code class="language-jsx">// CustomButton.test.jsx
 
 import { vi, describe, it, expect } from 'vitest'
@@ -93,59 +93,59 @@ describe("CustomButton", () =&gt; {
     expect(onClick).not.toHaveBeenCalled();
   });
 });</code></pre>
-<p>Three tests and we are done with this component. You should be already familiar with how the first test works. Take some time to figure out what functions come from which package.</p>
-<p>For the second and third tests, we mock the <code>onClick</code> handler using one of Vitest's functions, <code>vi.fn()</code>. Then we assert that it is called/not called when the button is clicked or not.</p>
-<p>You could also set up your mocks in a <code>beforeEach</code> block instead of in every test block. This may be suitable for some situations. However, for better readability, it is recommended that all setups be done in the same test block.  Doing so eliminates the need to search through the entire file for context, making it easier to review future changes. This also reduces the chance of leakage causing problems throughout the test suite. Unless your test file is particularly long and the test preparation takes up dozens of lines, it is recommended to set up your mocks in each test block; otherwise, you may use <code>beforeEach</code>.</p>
-<p>It is recommended to invoke <code>userEvent.setup()</code> before rendering the component. It is discouraged to call renders and <code>userEvent</code> functions outside of the test itself, (for example, in a <code>beforeEach</code> block). If you find yourself repeating the same code in multiple tests, the recommended approach to shorten each test is to <a href="https://testing-library.com/docs/user-event/intro/#writing-tests-with-userevent">write a setup function</a>.</p>
-<h4>Mocking child components</h4>
-<p>You might have come across the concept of mocking modules. In React, when the component tree gets large, tests can become convoluted. Especially for components higher up the tree. That's why we mock child components. This is not something you'll come across often, nevertheless, it's beneficial to realize the concept in case you might need it in your own testing pursuits.</p>
-<h3>React testing in the real world</h3>
-<p>If you're logged in on this (<a href="https://theodinproject.com">theodinproject.com</a>) website, you've probably come across the project submissions list under every project. Those components were written in React and tested with the React Testing Library. They have since been removed, but they still serve as great examples. This'll be fun. Your task is:</p>
-<p>Read and try to comprehend the <a href="https://github.com/TheOdinProject/theodinproject/blob/0886578d5b27a967e6bba2b31f212efe284d9413/app/javascript/components/project-submissions/components/submissions-list.jsx">submissions-list.jsx</a> component. It's okay if you don't understand everything. And the good news is that we don't have to understand it all to follow along with this lesson!</p>
+<p>3つのテストで、このコンポーネントは完了です。最初のテストがどのように機能するかについては、すでに馴染みがあるはずです。どの関数がどのパッケージから来ているのか、少し時間をかけて把握してみてください。</p>
+<p>2つ目と3つ目のテストでは、Vitestの関数の一つである<code>vi.fn()</code>を使って<code>onClick</code>ハンドラをモックします。それから、ボタンがクリックされたとき/されなかったときに、それが呼び出された/呼び出されなかったことをアサートします。</p>
+<p>モックは、各テストブロックの中ではなく、<code>beforeEach</code>ブロックの中でセットアップすることもできます。これは、状況によっては適している場合もあります。しかし、可読性を高めるためには、すべてのセットアップを同じテストブロックの中で行うことが推奨されます。そうすることで、コンテキストを把握するためにファイル全体を検索する必要がなくなり、将来の変更をレビューしやすくなります。これはまた、リーク(漏れ)がテストスイート全体で問題を引き起こす可能性も減らしてくれます。テストファイルが特に長く、テストの準備が数十行にもなる場合を除いて、モックは各テストブロックの中でセットアップすることが推奨されます。そうでない場合は、<code>beforeEach</code>を使ってもかまいません。</p>
+<p><code>userEvent.setup()</code>は、コンポーネントをレンダーする前に呼び出すことが推奨されます。レンダーや<code>userEvent</code>関数を(例えば<code>beforeEach</code>ブロックの中のような)テスト自体の外で呼び出すことは推奨されません。複数のテストで同じコードを繰り返していることに気づいたら、各テストを短くするための推奨されるアプローチは、<a href="https://testing-library.com/docs/user-event/intro/#writing-tests-with-userevent">setup関数を書く</a>ことです。</p>
+<h4>子コンポーネントをモックする</h4>
+<p>モジュールをモックするという概念に出会ったことがあるかもしれません。Reactでは、コンポーネントツリーが大きくなると、テストが複雑になることがあります。特に、ツリーの上位にあるコンポーネントについてはなおさらです。だからこそ、私たちは子コンポーネントをモックします。これは頻繁に出会うものではありませんが、それでも、自分自身のテストで必要になるかもしれない場合に備えて、この概念を理解しておくことは有益です。</p>
+<h3>実際の現場でのReactテスト</h3>
+<p>この(<a href="https://theodinproject.com">theodinproject.com</a>)ウェブサイトにログインしているなら、おそらく、それぞれのプロジェクトの下にあるプロジェクトの提出物リストを目にしたことがあるでしょう。それらのコンポーネントはReactで書かれ、React Testing Libraryでテストされていました。それらはその後削除されましたが、それでも素晴らしい実例として役立ってくれます。これは楽しくなりそうです。あなたの課題は次の通りです:</p>
+<p><a href="https://github.com/TheOdinProject/theodinproject/blob/0886578d5b27a967e6bba2b31f212efe284d9413/app/javascript/components/project-submissions/components/submissions-list.jsx">submissions-list.jsx</a>コンポーネントを読み、理解しようと試みてください。すべてを理解できなくても大丈夫です。そして朗報は、このレッスンについていくために、すべてを理解する必要はない、ということです!</p>
 <h4>submissions-list.jsx</h4>
-<p>We start by importing a bunch of stuff like any other decent React component. There might be a couple of unfamiliar things on there; we don't have to worry too much about them. If we take a glance at the props, there are some functions in there, presumably event handlers. Let's look at what the component renders.</p>
+<p>他のまともなReactコンポーネントと同じように、まずはたくさんのものをインポートするところから始まります。中には見慣れないものがいくつかあるかもしれませんが、それらについてはあまり心配する必要はありません。propsにざっと目を通してみると、その中にはおそらくイベントハンドラであろう関数がいくつかあります。このコンポーネントが何をレンダーするか見てみましょう。</p>
 <ol>
-<li>If there's a <code>userSubmission</code>, it renders the <code>Submission</code> component.</li>
-<li>If <code>hasSubmissions</code> is true, sort the submissions and render them with <code>Submission</code>. Otherwise, a heading that says "No Submissions yet, be the first!"</li>
-<li>If  <code>allSubmissionsPath</code> is true, it renders a <code>&lt;p&gt;</code> tag.</li>
+<li><code>userSubmission</code>があれば、<code>Submission</code>コンポーネントをレンダーします。</li>
+<li><code>hasSubmissions</code>が真であれば、提出物をソートし、<code>Submission</code>でレンダーします。そうでなければ、「No Submissions yet, be the first!」という見出しを表示します。</li>
+<li><code>allSubmissionsPath</code>が真であれば、<code>&lt;p&gt;</code>タグをレンダーします。</li>
 </ol>
-<p>Just going through the code, it should give us some idea of what to test. It will be rewarding if you take a couple of seconds to map out what tests we could need for <code>SubmissionsList</code>.</p>
-<p>Go through its test file, <a href="https://github.com/TheOdinProject/theodinproject/blob/0886578d5b27a967e6bba2b31f212efe284d9413/app/javascript/components/project-submissions/components/__tests__/submissions-list.test.jsx">submissions-list.test.jsx</a>. Again, don't worry if all of it doesn't make sense, we'll chew over it shortly.</p>
+<p>コードにざっと目を通すだけで、何をテストすべきかについて、ある程度のイメージが得られるはずです。少し時間を取って、<code>SubmissionsList</code>に必要になりそうなテストを整理してみると、良い経験になるでしょう。</p>
+<p>そのテストファイル、<a href="https://github.com/TheOdinProject/theodinproject/blob/0886578d5b27a967e6bba2b31f212efe284d9413/app/javascript/components/project-submissions/components/__tests__/submissions-list.test.jsx">submissions-list.test.jsx</a>に目を通してください。繰り返しますが、すべてが理解できなくても心配いりません。すぐにじっくり検討していきます。</p>
 <div class="lesson-note">
-<h4>React Testing Library test ID</h4>
-<p>While the test suite above uses <code>data-test-id</code> to identify mocked child components, it must be remembered that the React Testing Library instead uses <code>data-testid</code> by default.</p>
+<h4>React Testing Libraryのtest ID</h4>
+<p>上のテストスイートでは、モックされた子コンポーネントを識別するために<code>data-test-id</code>を使っていますが、React Testing Libraryはデフォルトでは代わりに<code>data-testid</code>を使う、ということを覚えておく必要があります。</p>
 </div>
 <h4>submissions-list.test.jsx</h4>
-<p>We notice there are two child components of <code>SubmissionsList</code>. One of them is from a package called <code>react-flip-move</code>. External Code. We'll mock it.</p>
-<p><span id="mock-child-component">Notice how we mock the <code>Submission</code> component</span>:</p>
+<p><code>SubmissionsList</code>には2つの子コンポーネントがあることに気づきます。そのうちの一つは、<code>react-flip-move</code>というパッケージからのものです。外部のコードです。これをモックします。</p>
+<p><span id="mock-child-component"><code>Submission</code>コンポーネントをどのようにモックするかに注目してください</span>:</p>
 <pre class="highlight"><code class="language-jsx">jest.mock('../submission', () =&gt; ({ submission, isDashboardView }) =&gt; (
   &lt;&gt;
     &lt;div data-test-id="submission"&gt;{submission.id}&lt;/div&gt;
     &lt;div data-test-id="dashboard"&gt;{isDashboardView.toString()}&lt;/div&gt;
   &lt;/&gt;
 ));</code></pre>
-<p>We only render the bare minimum to realize the validity of the component we're testing. Next, we set up our props with fake data and mocked functions.</p>
+<p>テスト対象のコンポーネントの妥当性を確認するために必要な、最低限のものだけをレンダーします。次に、偽のデータとモックされた関数を使って、propsをセットアップします。</p>
 <div class="lesson-note">
-<h4>Note - Vitest mocks</h4>
-<p>The test here used <code>jest.mock()</code>. If you followed along and set up your test using Vitest, you may use <code>vi.mock()</code> instead. See <a href="https://vitest.dev/api/vi.html#vi-mock"><code>vi.mock()</code> API</a>.</p>
+<h4>注記 - Vitestのモック</h4>
+<p>ここでのテストでは<code>jest.mock()</code>を使っています。ここまでついてきて、Vitestを使ってテストをセットアップしている場合は、代わりに<code>vi.mock()</code>を使ってもかまいません。<a href="https://vitest.dev/api/vi.html#vi-mock"><code>vi.mock()</code> API</a>を参照してください。</p>
 </div>
-<p>Let's move toward our first assertion. Don't worry too much about the <code>ProjectSubmissionContext.Provider</code>. In the context of this test, its purpose is to act as a route to pass in the <code>allSubmissionsPath</code> prop. We've already identified the three points of interest that we want to test. We divide them into three test suites for readability purposes using <code>describe</code>.</p>
-<p>In the first suite, we make some assertions if the user has a submission and then some assertions if the user does not. The other suites follow a similar pattern.</p>
-<h4>Exploring further</h4>
-<p>Feel free to flick through the other components and their tests. You'll see mocked functions. You'll see some unseen functions like <code>act</code>. You'll see custom render functions. It's fine if you don't understand it all, the goal is to gain familiarity.</p>
-<p>The other important thing to note is almost all the tests follow a certain pattern in terms of the way they're written. They follow the <a href="http://wiki.c2.com/?ArrangeActAssert">Arrange-Act-Assert</a> pattern. It's a good idea to adopt this pattern sooner or later to make your tests more readable and ultimately better.</p>
-<h3>Assignment</h3>
+<p>最初のアサーションに進みましょう。<code>ProjectSubmissionContext.Provider</code>についてはあまり気にしなくて大丈夫です。このテストの文脈では、その目的は、<code>allSubmissionsPath</code>propを渡すための経路として機能することです。私たちはすでに、テストしたい3つの注目ポイントを特定しています。可読性のために、<code>describe</code>を使ってそれらを3つのテストスイートに分けます。</p>
+<p>最初のスイートでは、ユーザーが提出物を持っている場合のアサーションと、持っていない場合のアサーションを行います。他のスイートも同様のパターンに従います。</p>
+<h4>さらに探ってみる</h4>
+<p>他のコンポーネントとそのテストにも、遠慮なく目を通してみてください。モックされた関数を目にするでしょう。<code>act</code>のような、まだ見たことのない関数も目にするでしょう。カスタムのrender関数も目にするでしょう。すべてを理解できなくても大丈夫です。目標は、慣れ親しむことです。</p>
+<p>もう一つ注意しておくべき重要な点は、ほとんどすべてのテストが、書き方の点である一定のパターンに従っている、ということです。それらは<a href="http://wiki.c2.com/?ArrangeActAssert">Arrange-Act-Assert</a>パターンに従っています。テストをより読みやすく、最終的により良いものにするために、遅かれ早かれこのパターンを取り入れるのは良い考えです。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Read this article about <a href="https://medium.com/@taylormclean15/jest-testing-mocking-child-components-to-make-your-unit-tests-more-concise-18691ef6a0c2">mocking child components</a>. It extensively covers the "how" of mocking child components. (You might need to sign up to read)</li>
-<li>This <a href="https://academind.com/tutorials/testing-react-apps">tutorial on Testing React Apps by Academind</a> is a great overview of what you've learned. The <code>userEvent</code> API in this tutorial is synchronous, unlike our current asynchronous one. However, you should be able to follow along using your previous knowledge and you can still use Vite and Vitest as before.</li>
+<li><a href="https://medium.com/@taylormclean15/jest-testing-mocking-child-components-to-make-your-unit-tests-more-concise-18691ef6a0c2">子コンポーネントのモック</a>についてのこの記事を読んでください。子コンポーネントをモックする「方法」について、幅広く扱われています。(読むためにサインアップが必要な場合があります)</li>
+<li>Academindによるこの<a href="https://academind.com/tutorials/testing-react-apps">Reactアプリのテストについてのチュートリアル</a>は、あなたがこれまで学んできたことについての、素晴らしい概観になっています。このチュートリアルの<code>userEvent</code> APIは、私たちが現在使っている非同期のものとは異なり、同期的です。しかし、これまでの知識を使ってついていけるはずですし、ViteとVitestもこれまでと同じように使うことができます。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#testing-callback-handlers">How can you mock a callback handler?</a></li>
-<li><a href="#mock-child-component">How can you mock a child component?</a></li>
+<li><a href="#testing-callback-handlers">コールバックハンドラをどのようにモックできますか?</a></li>
+<li><a href="#mock-child-component">子コンポーネントをどのようにモックできますか?</a></li>
 </ul>
       </div>
     </article>

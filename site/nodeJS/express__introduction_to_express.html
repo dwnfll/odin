@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,29 +28,29 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Introduction to Express</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">We look at Express for the first time and learn what it does for us</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>In the previous section, you got up and running with Node. You learned how to read and write data from files on the server, allowing you to serve up a multi-page website. You may have found this process somewhat verbose and cumbersome, and may have even wondered how on Earth we would manage more complex use cases.</p>
-<p>In this course, we will be using a backend framework called <a href="https://expressjs.com/">Express</a>, which will handle many of the implementation details for us. Express itself is an intentionally barebones and unopinionated framework; it allows us to do many things how we want, and to extend it with only the features we need. However, while this gives us great flexibility in how we do things, it can be a little tricky deciding between multiple viable options at times.</p>
-<p>Going forward, we will be diving into how we can use Express in various ways, such as to create a full-stack application using the Model View Controller (MVC) pattern, as well as to create a REST API just like ones you will have used before for things such as the Weather App or the React Shopping Cart projects. There is a lot to take in, so take it steady, and do not be afraid to ask our community for help in the <a href="https://discord.gg/fbFCkYabZB">TOP Discord server</a>!</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>前のセクションでは、Nodeを使い始めるところまで進みました。サーバー上のファイルからデータを読み書きする方法を学び、それによって複数ページのウェブサイトを提供できるようになりました。このプロセスは、いくぶん冗長で面倒だと感じたかもしれませんし、もっと複雑なユースケースをどうやって扱えばいいのか、疑問に思ったかもしれません。</p>
+<p>このコースでは、<a href="https://expressjs.com/">Express</a>と呼ばれるバックエンドフレームワークを使っていきます。これは、実装の詳細の多くを私たちの代わりに処理してくれます。Express自体は、意図的に最小限で自分の主張を持たない(unopinionated)フレームワークです。多くのことを自分の好きなように行うことができ、必要な機能だけで拡張することができます。しかし、これによって物事の進め方に大きな柔軟性が得られる一方で、複数の有効な選択肢の間で決めるのが、時に少し難しく感じられることもあります。</p>
+<p>これから先、Model View Controller(MVC)パターンを使ったフルスタックアプリケーションの作成や、Weather AppやReact Shopping Cartのプロジェクトなどでこれまでに使ったことがあるようなREST APIの作成など、Expressをさまざまな方法で使う方法に深く入っていきます。取り込むべきことがたくさんあるので、着実に進めていってください。そして、<a href="https://discord.gg/fbFCkYabZB">TOP Discordサーバー</a>でコミュニティに助けを求めることを恐れないでください!</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Set up a basic Express server.</li>
-<li>Describe how an incoming request is processed and ultimately responded to by the server.</li>
-<li>Describe what a middleware function is.</li>
-<li>Describe how to automatically restart your application when a change is made.</li>
+<li>基本的なExpressサーバーをセットアップする。</li>
+<li>受信したリクエストがどのように処理され、最終的にサーバーによって応答されるかを説明する。</li>
+<li>ミドルウェア関数とは何かを説明する。</li>
+<li>変更が加えられたときにアプリケーションを自動的に再起動する方法を説明する。</li>
 </ul>
-<h3>Setting up Express</h3>
-<p>Let's make a basic Express app. Inside a new directory, start by running <code>npm init -y</code> to create a <code>package.json</code>. Once that's created, we can install the Express dependency.</p>
+<h3>Expressをセットアップする</h3>
+<p>基本的なExpressアプリを作ってみましょう。新しいディレクトリの中で、<code>npm init -y</code>を実行して<code>package.json</code>を作成することから始めます。それが作成されたら、Expressの依存関係をインストールできます。</p>
 <pre class="highlight"><code class="language-bash">npm install express</code></pre>
-<p>We can now create an <code>app.js</code> file that will serve as the starting point for our Express server. We could name this file anything we want, such as <code>index.js</code> or <code>main.js</code>, but we will use the same name used in the Express documentation. Inside <code>app.js</code>, we will have the following:</p>
+<p>これで、Expressサーバーの起点となる<code>app.js</code>ファイルを作成できます。このファイルには<code>index.js</code>や<code>main.js</code>など好きな名前を付けられますが、ここではExpressのドキュメントで使われているのと同じ名前を使います。<code>app.js</code>の中身は以下のようになります:</p>
 <pre class="highlight"><code class="language-javascript">const express = require("express");
 const app = express();
 
@@ -66,44 +66,44 @@ app.listen(PORT, (error) =&gt; {
   }
   console.log(`My first Express app - listening on port ${PORT}!`);
 });</code></pre>
-<p>Let's break this down. We import <code>express</code> then call it to initialize the <code>app</code> variable. This is our server.</p>
-<p>We then have a <code>route</code> - the line beginning with <code>app.get</code>. We will come back to this in a moment.</p>
-<p>Finally, we tell our server to listen for incoming requests on whatever port we specify, via <a href="https://simple.wikipedia.org/wiki/Localhost">localhost</a> (which is basically just the computer's local connection). While port 3000 is the default choice, you can use any unused port (for example, Vite's dev server uses port 5173 by default). Back in your terminal, if you run <code>node app.js</code> then all being well, you should see <code>My first Express app - listening on port 3000!</code> logged. If something goes wrong, such as the port is already in use, it will throw an error instead.</p>
-<p>Congratulations! Your first Express server is now running.</p>
+<p>これを分解してみましょう。まず<code>express</code>をインポートし、それを呼び出して<code>app</code>変数を初期化します。これが私たちのサーバーです。</p>
+<p>次に<code>route</code>(ルート)があります――<code>app.get</code>で始まる行です。これについては後ほど戻ってきます。</p>
+<p>最後に、指定したポートで受信リクエストを待ち受けるよう、サーバーに伝えます。これは<a href="https://simple.wikipedia.org/wiki/Localhost">localhost</a>(基本的にはコンピュータのローカル接続にすぎません)を介して行われます。ポート3000がデフォルトの選択肢ですが、未使用のポートであればどれでも使うことができます(例えば、Viteの開発サーバーはデフォルトでポート5173を使います)。ターミナルに戻って<code>node app.js</code>を実行すると、うまくいけば<code>My first Express app - listening on port 3000!</code>とログに表示されるはずです。ポートがすでに使用中であるなど、何か問題が起きた場合は、代わりにエラーがスローされます。</p>
+<p>おめでとうございます!これで最初のExpressサーバーが起動しました。</p>
 <div class="lesson-note">
-<h4>The port variable</h4>
-<p>For demonstration purposes, we hardcoded a fixed port number above. Usually, the port number would come from an environment variable with a fallback value in case the environment variable does not exist.</p>
+<h4>portの変数</h4>
+<p>デモンストレーションのために、上ではポート番号を固定でハードコーディングしました。通常、ポート番号は環境変数から取得され、その環境変数が存在しない場合のフォールバック値が用意されます。</p>
 <pre class="highlight"><code class="language-javascript">const PORT = process.env.PORT || 3000;</code></pre>
-<p>If the specified port is already in use, we can change the environment variable value without editing the source code. Also, some hosting services configure their own ports which may differ from a fixed value hardcoded in.</p>
+<p>指定したポートがすでに使用中の場合、ソースコードを編集することなく環境変数の値を変更できます。また、一部のホスティングサービスは独自のポートを設定しており、それがハードコーディングされた固定値とは異なることもあります。</p>
 </div>
-<h3>A request's journey</h3>
-<p>Now that our server is up and running on port 3000, let's send it a request! In a browser, navigate to <code>http://localhost:3000/</code> (don't worry if you forget the slash <code>/</code> at the end; the browser will silently add it for you if so). This action tells the browser to send a <code>GET</code> request to the <code>/</code> path of whatever server is listening at port 3000 on our localhost (which is our Express server!) and display in the window whatever it receives in response.</p>
-<p>Whenever you navigate to any web URL this way, this is essentially what you are doing. Navigating to <code>https://theodinproject.com/paths</code> via the address bar is just telling the browser to send a <code>GET</code> request to the <code>/paths</code> path at <code>https://theodinproject.com</code>, then display what it receives in response.</p>
-<p>Once you navigate to <code>http://localhost:3000/</code>, you should see <code>Hello, world!</code> appear in the window. Magic, right?</p>
-<p>When our server receives our <code>GET</code> request, Express stores the request in a <a href="https://expressjs.com/en/5x/api/request">request object</a>. This request gets passed through a chain of functions we call <code>middleware functions</code> until eventually, a middleware function tells Express to respond to the request.</p>
-<p>In our example, the request comes through as a <code>GET</code> request to the <code>/</code> path. This matches the route we have in our <code>app.js</code> file.</p>
+<h3 id="a-requests-journey">リクエストの旅路</h3>
+<p>これで、私たちのサーバーがポート3000で起動して実行中になったので、リクエストを送ってみましょう!ブラウザで<code>http://localhost:3000/</code>に移動してください(最後のスラッシュ<code>/</code>を忘れても心配いりません。ブラウザがその場合は黙って追加してくれます)。この操作は、ローカルホストのポート3000で待ち受けているサーバー(それが私たちのExpressサーバーです!)の<code>/</code>パスに<code>GET</code>リクエストを送信し、応答として受け取ったものをウィンドウに表示するよう、ブラウザに指示します。</p>
+<p>どんなウェブURLにこのようにアクセスするときも、本質的にはこれと同じことをしています。アドレスバーから<code>https://theodinproject.com/paths</code>に移動するのは、<code>https://theodinproject.com</code>の<code>/paths</code>パスに<code>GET</code>リクエストを送信し、応答として受け取ったものを表示するよう、ブラウザに伝えているだけなのです。</p>
+<p><code>http://localhost:3000/</code>に移動すると、ウィンドウに<code>Hello, world!</code>が表示されるはずです。まるで魔法のようですね?</p>
+<p>サーバーが<code>GET</code>リクエストを受け取ると、Expressはそのリクエストを<a href="https://expressjs.com/en/5x/api/request">リクエストオブジェクト</a>に格納します。このリクエストは、<code>ミドルウェア関数</code>と呼ばれる関数の連鎖を通過していき、最終的にはどれか一つのミドルウェア関数がExpressにそのリクエストへ応答するよう指示します。</p>
+<p>この例では、リクエストは<code>/</code>パスへの<code>GET</code>リクエストとして届きます。これは<code>app.js</code>ファイルにあるルートと一致します。</p>
 <pre class="highlight"><code class="language-javascript">app.get("/", (req, res) =&gt; res.send("Hello, world!"));</code></pre>
-<p>We will discuss routes in more detail in a later lesson, but to summarize the above line, it tells Express: "if a <code>GET</code> request comes through to the <code>/</code> path, pass the request through the following chain of middleware functions". Here, we only have a single function.</p>
-<p>If we had defined multiple routes, Express would pass the request through the first route that matched the requested HTTP verb (e.g. <code>GET</code>) and path (<code>/</code>). The order of the routes matters!</p>
-<p>Express takes the callback function we gave it and passes the request object into the first parameter (conventionally named <code>req</code>), and a <a href="https://expressjs.com/en/5x/api/response">response object</a> into the second parameter (<code>res</code>). Our callback tells the response object to respond to the request by sending (via <code>res.send</code>) the string <code>"Hello, world!"</code>.</p>
-<p>There is no more code to run and the function returns. Since Express has been told to respond to the request, it ends the request-response cycle. Meanwhile, the browser receives our server's response and displays it on screen, which is our <code>"Hello, world!"</code> string. We could send nearly anything in our response. We could even <a href="https://expressjs.com/en/5x/api/response/#ressendfile">tell Express to send a file</a>.</p>
-<h3>Auto-restarting your server upon file changes</h3>
-<p>When you run your server with <code>node app.js</code>, any changes to any JavaScript and JSON files in your project directory won't be reflected automatically unless you manually interrupt and rerun <code>node app.js</code>. To avoid this manual process, you can use <a href="https://nodejs.org/docs/latest-v20.x/api/cli.html#--watch">Node's watch mode</a> by adding the <code>--watch</code> flag, e.g. <code>node --watch app.js</code>. Node will watch <code>app.js</code> for changes, as well as any of the files it ultimately depends on. When it detects a change, it will automatically restart the server just like with Webpack and Vite's dev servers.</p>
-<p>You may also come across <a href="https://www.npmjs.com/package//nodemon">Nodemon</a>, a highly configurable package that can also watch for changes and restart your server for you. Node didn't always have a stable built-in watch mode, so you're likely to see Nodemon around the place. Our recommendation would be to stick with Node's built in watch mode via the <code>--watch</code> flag, as this would be by far the simplest method.</p>
-<h3>Assignment</h3>
+<p>ルートについては後のレッスンでより詳しく説明しますが、上の行を要約すると、これはExpressに「<code>GET</code>リクエストが<code>/</code>パスに届いたら、そのリクエストを次のミドルウェア関数の連鎖に通してください」と伝えています。ここでは、関数は一つしかありません。</p>
+<p>もし複数のルートを定義していた場合、ExpressはリクエストされたHTTP動詞(例えば<code>GET</code>)とパス(<code>/</code>)の両方に一致する最初のルートに、リクエストを通します。ルートの順序は重要です!</p>
+<p>Expressは、私たちが渡したコールバック関数を受け取り、リクエストオブジェクトを最初のパラメータ(慣習的に<code>req</code>と名付けられます)に、そして<a href="https://expressjs.com/en/5x/api/response">レスポンスオブジェクト</a>を2番目のパラメータ(<code>res</code>)に渡します。私たちのコールバックは、レスポンスオブジェクトに対して、(<code>res.send</code>を介して)文字列<code>"Hello, world!"</code>を送ることでリクエストに応答するよう指示しています。</p>
+<p>それ以上実行するコードはなく、関数はreturnします。Expressはリクエストへ応答するよう指示されたので、リクエスト-レスポンスサイクルを終了します。一方、ブラウザは私たちのサーバーからの応答を受け取り、それを画面に表示します。それが私たちの<code>"Hello, world!"</code>という文字列です。応答としてほぼどんなものでも送ることができます。<a href="https://expressjs.com/en/5x/api/response/#ressendfile">Expressにファイルを送信するよう指示する</a>こともできます。</p>
+<h3 id="auto-restarting-your-server-upon-file-changes">ファイルの変更時にサーバーを自動的に再起動する</h3>
+<p><code>node app.js</code>でサーバーを実行しているとき、プロジェクトディレクトリ内のJavaScriptファイルやJSONファイルに加えた変更は、手動で中断して<code>node app.js</code>を再実行しない限り、自動的には反映されません。この手動のプロセスを避けるために、<code>--watch</code>フラグを追加することで、<a href="https://nodejs.org/docs/latest-v20.x/api/cli.html#--watch">Nodeのウォッチモード</a>を使うことができます。例えば<code>node --watch app.js</code>のようにします。Nodeは<code>app.js</code>の変更を監視し、それが最終的に依存しているすべてのファイルも監視します。変更を検知すると、WebpackやViteの開発サーバーと同じように、自動的にサーバーを再起動します。</p>
+<p><a href="https://www.npmjs.com/package//nodemon">Nodemon</a>というパッケージを見かけることもあるかもしれません。これは高度に設定可能なパッケージで、同じように変更を監視してサーバーを再起動してくれます。Nodeには、常に安定した組み込みのウォッチモードがあったわけではないため、あちこちでNodemonを見かける可能性が高いでしょう。私たちのおすすめは、<code>--watch</code>フラグを介したNodeの組み込みウォッチモードを使い続けることです。これが断然もっともシンプルな方法だからです。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Spend a few minutes exploring the <a href="https://expressjs.com/en/api.html">Express documentation</a> to get a feel for things. We will be referencing a lot of content from the docs in the coming lessons.</li>
-<li>Go back to your <a href="https://www.theodinproject.com/lessons/nodejs-basic-informational-site">Basic Informational Site project</a>, install Express and rewrite the project using it! You should be able to do most of this with just a few <code>app.get()</code>s.</li>
+<li><a href="https://expressjs.com/en/api.html">Expressのドキュメント</a>を数分かけて探索し、感覚をつかんでください。今後のレッスンでは、ドキュメントの内容を数多く参照することになります。</li>
+<li><a href="https://www.theodinproject.com/lessons/nodejs-basic-informational-site">Basic Informational Siteプロジェクト</a>に戻り、Expressをインストールして、それを使ってプロジェクトを書き直してください!このほとんどは、いくつかの<code>app.get()</code>だけで実現できるはずです。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="https://expressjs.com/">What is Express?</a></li>
-<li><a href="#a-requests-journey">What happens when a server receives a request?</a></li>
-<li><a href="https://expressjs.com/en/5x/api/response/#ressendfile">What can we use to tell Express to send a file in response to a request?</a></li>
-<li><a href="#auto-restarting-your-server-upon-file-changes">What can you use to automatically restart your server when you make changes to a file?</a></li>
+<li><a href="https://expressjs.com/">Expressとは何ですか?</a></li>
+<li><a href="#a-requests-journey">サーバーがリクエストを受け取ると何が起こりますか?</a></li>
+<li><a href="https://expressjs.com/en/5x/api/response/#ressendfile">リクエストへの応答としてExpressにファイルを送信させるには、何を使えますか?</a></li>
+<li><a href="#auto-restarting-your-server-upon-file-changes">ファイルに変更を加えたときにサーバーを自動的に再起動するには、何を使えますか?</a></li>
 </ul>
       </div>
     </article>

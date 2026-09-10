@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,67 +28,67 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Using PostgreSQL</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">Using PostgreSQL with node-postgres</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Now that we have PostgreSQL up and running on our machine, it's time to work with it.</p>
-<p>For brevity's sake, we'll refer to database as db from now on.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>これでPostgreSQLがマシン上で起動して実行されるようになったので、いよいよそれを使って作業する番です。</p>
+<p>簡潔にするため、これ以降はdatabase(データベース)をdbと呼ぶことにします。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Setting up a new db in PostgreSQL shell.</li>
-<li>Setting up and querying with node-postgres.</li>
-<li>Using a script to populate the db.</li>
+<li>PostgreSQLシェルで新しいdbをセットアップする。</li>
+<li>node-postgresでのセットアップとクエリ。</li>
+<li>スクリプトを使ってdbにデータを投入する。</li>
 </ul>
-<h3>Setting up an Express app</h3>
+<h3>Expressアプリをセットアップする</h3>
 <div class="lesson-note lesson-note--critical">
-<h4>Lesson prerequisite</h4>
-<p>Make sure you've completed the <a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/databases">SQL course</a>.</p>
-<p>This lesson and all subsequent lessons will assume you understand SQL syntax and concepts.</p>
+<h4>レッスンの前提条件</h4>
+<p>必ず<a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/databases">SQLコース</a>を完了しておいてください。</p>
+<p>このレッスンおよびそれ以降のすべてのレッスンは、あなたがSQLの構文と概念を理解していることを前提としています。</p>
 </div>
-<p>Let's start by creating an Express application. It will just have one feature - add usernames provided by the user to the db. Here are the expected routes and their functionalities:</p>
+<p>Expressアプリケーションを作成することから始めましょう。これには一つの機能しかありません――ユーザーによって提供されたユーザー名をdbに追加することです。以下が、期待されるルートとその機能です:</p>
 <ul>
-<li><code>GET /</code> - to log available usernames in the DB to the terminal. For now, just put in a simple <code>console.log("usernames will be logged here - wip")</code>.</li>
-<li><code>GET /new</code> - to display a HTML form to the user with one username input text field. It will submit to the next route.</li>
-<li><code>POST /new</code> - will save the incoming username data to the DB. For now, just log <code>console.log("username to be saved: ", req.body.username)</code>.</li>
+<li><code>GET /</code> - db内で利用可能なユーザー名をターミナルにログ出力します。今のところは、単純に<code>console.log("usernames will be logged here - wip")</code>としてください。</li>
+<li><code>GET /new</code> - ユーザー名の入力用テキストフィールドが一つあるHTMLフォームをユーザーに表示します。これは次のルートに送信されます。</li>
+<li><code>POST /new</code> - 受信したユーザー名データをdbに保存します。今のところは、単に<code>console.log("username to be saved: ", req.body.username)</code>としてください。</li>
 </ul>
-<p>Move on to the next section once you have the above functionality working. Scope relevant code to the <code>routes</code> and <code>controllers</code> folders. Since there's only one view (<code>GET /new</code>) to take care of, it's up to you whether you want to use <code>ejs</code> or make do with plain ol' HTML.</p>
-<h3>Setting up the db</h3>
-<p>Enter the PostgreSQL shell by running <code>psql</code> in your terminal. You can view the current dbs using the <code>\l</code> command. Let's create a new db by running the following SQL statement:</p>
+<p>上記の機能が動作するようになったら、次のセクションに進んでください。関連するコードは<code>routes</code>フォルダと<code>controllers</code>フォルダにスコープしてください。処理すべきビューは(<code>GET /new</code>の)一つだけなので、<code>ejs</code>を使うか、昔ながらのプレーンなHTMLで済ませるかは、あなた次第です。</p>
+<h3 id="setting-up-the-db">dbをセットアップする</h3>
+<p>ターミナルで<code>psql</code>を実行して、PostgreSQLシェルに入ってください。<code>\l</code>コマンドを使って、現在のdbを確認できます。以下のSQL文を実行して、新しいdbを作成してみましょう:</p>
 <pre class="highlight"><code class="language-sql">CREATE DATABASE top_users;</code></pre>
-<p><code>\l</code> again to see if the db was created. Now let's connect to the db:</p>
+<p>もう一度<code>\l</code>を実行して、dbが作成されたかどうか確認してください。それでは、dbに接続してみましょう:</p>
 <pre class="highlight"><code class="language-sql">\c top_users</code></pre>
-<p>Verify that the <code>psql</code> prompt should be:</p>
+<p><code>psql</code>のプロンプトが以下のようになっていることを確認してください:</p>
 <pre class="highlight"><code class="language-sql">top_users=#</code></pre>
-<p>Now create a table and its columns to store <code>username</code> data:</p>
+<p>それでは、<code>username</code>データを保存するためのテーブルとその列を作成してください:</p>
 <pre class="highlight"><code class="language-sql">CREATE TABLE usernames (
    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
    username VARCHAR ( 255 ) 
 );</code></pre>
-<p>Verify that the table has been created by running <code>\d</code>. You should see the following two tables in the output (we've skipped some output details for brevity):</p>
+<p><code>\d</code>を実行して、テーブルが作成されたことを確認してください。出力の中に以下の2つのテーブルが表示されるはずです(簡潔にするため、一部の出力の詳細は省略しています):</p>
 <pre class="highlight"><code class="language-bash">|       Name       |   Type   |
 + -----------------+----------+
 | usernames        | table    |
 | usernames_id_seq | sequence |</code></pre>
 <div class="lesson-note">
-<h4>Identity column</h4>
-<p>Wait a minute, what's this <code>usernames_id_seq</code> thing?</p>
-<p>The <code>GENERATED ALWAYS AS IDENTITY</code> clause is the culprit. It defined the <code>id</code> column as an <a href="https://www.postgresql.org/docs/current/sql-createtable.html#SQL-CREATETABLE-PARMS-GENERATED-IDENTITY">identity column</a>. PostgreSQL now automatically generates a value for this column. By default it starts at 1 and increments by 1 for each new row. Additionally, PostgreSQL implicitly creates <code>usernames_id_seq</code>, which is a sequence object, that keeps track of the next value to be used.</p>
+<h4>アイデンティティ列</h4>
+<p>ちょっと待ってください、この<code>usernames_id_seq</code>というのは何でしょうか?</p>
+<p><code>GENERATED ALWAYS AS IDENTITY</code>句が原因です。これは<code>id</code>列を<a href="https://www.postgresql.org/docs/current/sql-createtable.html#SQL-CREATETABLE-PARMS-GENERATED-IDENTITY">アイデンティティ列</a>として定義します。これにより、PostgreSQLはこの列の値を自動的に生成するようになります。デフォルトでは1から始まり、新しい行ごとに1ずつ増加します。さらに、PostgreSQLは暗黙的に<code>usernames_id_seq</code>というシーケンスオブジェクトを作成し、それが次に使われるべき値を追跡します。</p>
 </div>
-<p>Woohoo, we now have a db and a table... a lonely table. Not for long:</p>
+<p>やりました、これでdbとテーブルができました……寂しい一人ぼっちのテーブルですね。でも、それも長くは続きません:</p>
 <pre class="highlight"><code class="language-sql">INSERT INTO usernames (username)
 VALUES ('Mao'), ('nevz'), ('Lofty');</code></pre>
-<p>Verify:</p>
+<p>確認してみましょう:</p>
 <pre class="highlight"><code class="language-sql">SELECT * FROM usernames;</code></pre>
-<h3>Using node-postgres in Express</h3>
-<p>We can work with PostgreSQL in our Express application through <a href="https://github.com/brianc/node-postgres"><code>node-postgres</code></a> (or <code>pg</code> for short). It is a library that we'll use to interface with the PostgreSQL db. Install it with:</p>
+<h3 id="using-node-postgres-in-express">Expressでnode-postgresを使う</h3>
+<p>私たちは、Expressアプリケーションの中で、<a href="https://github.com/brianc/node-postgres"><code>node-postgres</code></a>(略して<code>pg</code>)を通してPostgreSQLを扱うことができます。これは、PostgreSQLのdbとやり取りするために使うライブラリです。以下でインストールしてください:</p>
 <pre class="highlight"><code class="language-bash">npm install pg</code></pre>
-<p>We can then initialize it in our application with the necessary connection information. Create a <code>db</code> folder, and a new file <code>db/pool.js</code> with:</p>
+<p>それから、必要な接続情報とともに、アプリケーションの中でそれを初期化できます。<code>db</code>フォルダを作成し、以下の内容で新しいファイル<code>db/pool.js</code>を作成してください:</p>
 <pre class="highlight"><code class="language-javascript">const { Pool } = require("pg");
 
 // All of the following properties should be read from environment variables
@@ -100,23 +100,23 @@ module.exports = new Pool({
   password: "&lt;role_password&gt;",
   port: 5432 // The default port
 });</code></pre>
-<p>Remember that you should change the <code>&lt;role_name&gt;</code> and <code>&lt;role_password&gt;</code> (We have already set them in the previous lesson)!</p>
-<p>An alternative to defining the connection information is through a <a href="https://node-postgres.com/features/connecting#connection-uri">Connection URI</a>. You'll likely be using connection URIs when connecting with a hosted database service. Here's what it would look like based on the above properties:</p>
+<p><code>&lt;role_name&gt;</code>と<code>&lt;role_password&gt;</code>は変更する必要があることを忘れないでください(これらは前のレッスンですでに設定済みのはずです)!</p>
+<p>接続情報を定義する代わりの方法として、<a href="https://node-postgres.com/features/connecting#connection-uri">Connection URI</a>を使うこともできます。ホスティングされているデータベースサービスに接続する際には、おそらくconnection URIを使うことになるでしょう。上のプロパティに基づくと、以下のようになります:</p>
 <pre class="highlight"><code class="language-javascript">const { Pool } = require("pg");
 
 // Again, this should be read from an environment variable
 module.exports = new Pool({
   connectionString: "postgresql://&lt;role_name&gt;:&lt;role_password&gt;@localhost:5432/top_users"
 });</code></pre>
-<p>Pick whichever method you want to use and let's continue.</p>
+<p>使いたい方法をどちらか選んで、続けていきましょう。</p>
 <div class="lesson-note">
-<h4>Two ways of connecting with pg</h4>
-<p><code>pg</code> has two ways to connect to a db: a client and a pool.</p>
-<p>Client is an individual connection to the DB, which you manually manage. You open a connection, do your query, then close it. This is fine for one-off queries, but can become expensive if you're dealing with a lot of queries. Wouldn't this problem be alleviated if we could somehow hold onto a client? Yes!</p>
-<p>Enter pool. As the name suggests, it's a pool of clients. A pool holds onto connections. And when you query, it'll programmatically open a new connection unless there's an existing spare one. Perfect for web servers.</p>
+<h4>pgで接続する2つの方法</h4>
+<p><code>pg</code>には、dbに接続するための2つの方法があります: clientとpoolです。</p>
+<p>Clientはdbへの個別の接続であり、あなたが手動で管理します。接続を開き、クエリを実行し、それから閉じます。これは単発のクエリには問題ありませんが、大量のクエリを扱う場合はコストが高くなることがあります。もし何らかの方法でクライアントを保持しておけたら、この問題は緩和されると思いませんか?その通りです!</p>
+<p>そこでpoolの登場です。その名前が示す通り、これはクライアントのプールです。プールは接続を保持しています。そして、クエリを実行すると、既存の空いている接続がない限り、プログラム的に新しい接続を開きます。ウェブサーバーにはぴったりです。</p>
 </div>
-<h3>Querying with pg</h3>
-<p>With our initialized <code>Pool</code>, we can use the <code>query</code> method. Create a new <code>db/queries.js</code> file. Upon revising our project requirements, we understand we need two db interactions: getting all usernames and inserting a new username. Let's define these functions:</p>
+<h3 id="querying-with-pg">pgでクエリする</h3>
+<p>初期化した<code>Pool</code>があれば、<code>query</code>メソッドを使うことができます。新しい<code>db/queries.js</code>ファイルを作成してください。プロジェクトの要件を見直すと、必要なdb操作が2つあることがわかります――すべてのユーザー名を取得することと、新しいユーザー名を挿入することです。これらの関数を定義してみましょう:</p>
 <pre class="highlight"><code class="language-javascript">const pool = require("./pool");
 
 async function getAllUsernames() {
@@ -133,14 +133,14 @@ module.exports = {
   insertUsername
 };</code></pre>
 <div class="lesson-note">
-<h4>Parameterization</h4>
-<p>What's with the <code>$1</code> in the insert query?</p>
-<p>Alternatively, the query could look like:</p>
+<h4>パラメータ化</h4>
+<p>insertクエリの中の<code>$1</code>は何なのでしょうか?</p>
+<p>代わりに、クエリを以下のようにすることもできます:</p>
 <pre class="highlight"><code class="language-javascript">await pool.query("INSERT INTO usernames (username) VALUES ('" + username + "')");</code></pre>
-<p>We're passing user entered value i.e. <code>username</code> directly into our query. A nefarious user could enter something like <code>sike'); DROP TABLE usernames; --</code> and wreak havoc. Scary stuff. This is called <a href="https://en.wikipedia.org/wiki/SQL_injection">SQL injection</a>.</p>
-<p><code>pg</code> provides <a href="https://node-postgres.com/features/queries#parameterized-query">query parameterization</a> to prevent this. Instead of passing user input directly, we pass it in an array as the second argument. <code>pg</code> handles the rest.</p>
+<p>私たちは、ユーザーが入力した値、つまり<code>username</code>を直接クエリに渡しています。悪意のあるユーザーが<code>sike'); DROP TABLE usernames; --</code>のようなものを入力し、大混乱を引き起こす可能性があります。恐ろしいことですね。これは<a href="https://en.wikipedia.org/wiki/SQL_injection">SQLインジェクション</a>と呼ばれます。</p>
+<p><code>pg</code>はこれを防ぐために、<a href="https://node-postgres.com/features/queries#parameterized-query">クエリのパラメータ化</a>を提供しています。ユーザー入力を直接渡す代わりに、それを配列に入れて2番目の引数として渡します。あとは<code>pg</code>が処理してくれます。</p>
 </div>
-<p>Invoke the above two functions in the specific controllers (you might have different function names etc. The important thing is to understand how the db functions are invoked):</p>
+<p>上記の2つの関数を、それぞれのコントローラーの中で呼び出してください(関数名などは異なるかもしれません。重要なのは、db関数がどのように呼び出されるかを理解することです):</p>
 <pre class="highlight"><code class="language-javascript">const db = require("../db/queries");
 
 async function getUsernames(req, res) {
@@ -164,9 +164,9 @@ module.exports = {
   createUsernameGet,
   createUsernamePost
 };</code></pre>
-<p>Take your app for a spin, hopefully it works as expected.</p>
-<h3>Populate the db via a script</h3>
-<p>You might have noticed how cumbersome it is to create a table and populate it with data. Luckily, we have the power of (c|n)ode by our side, let's automate it via a script. Create a new file <code>db/populatedb.js</code>.</p>
+<p>あなたのアプリを試してみてください。うまくいけば期待通りに動作するはずです。</p>
+<h3 id="populate-the-db-via-a-script">スクリプトを使ってdbにデータを投入する</h3>
+<p>テーブルを作成してデータを投入するのが、いかに面倒であるかに気づいたかもしれません。幸いなことに、私たちには(c|n)odeの力があります。スクリプトを使ってそれを自動化しましょう。新しいファイル<code>db/populatedb.js</code>を作成してください。</p>
 <pre class="highlight"><code class="language-javascript">#! /usr/bin/env node
 
 const { Client } = require("pg");
@@ -196,50 +196,50 @@ async function main() {
 }
 
 main();</code></pre>
-<p>Login to the PostgreSQL shell, connect to the <code>top_users</code> db, and drop the <code>usernames</code> table:</p>
+<p>PostgreSQLシェルにログインし、<code>top_users</code> dbに接続して、<code>usernames</code>テーブルをdropしてください:</p>
 <pre class="highlight"><code class="language-sql">DROP TABLE usernames;</code></pre>
-<p>You can then run this script via <code>node db/populatedb.js</code>, or add it as a <a href="https://stackoverflow.com/a/36433748">script in package.json</a>.</p>
-<p>Do note that the script is designed to be run only once.</p>
-<h4>Local vs production dbs</h4>
-<p>Great! You've just learned how to set up and use a local db with PostgreSQL. Local databases are ideal for development because they offer faster interactions, easier modifications, and don't require an internet connection. This makes them especially useful when prototyping or testing new features.</p>
-<p>When you're ready to make your project public, you'll need to transition to a production database hosted on an external server independent of your local machine. A production database allows for global accessibility, scalability and more robust security. Most of the hosting providers introduced in the <a href="https://www.theodinproject.com/lessons/node-path-nodejs-deployment">deployment lesson</a> also offer database services. Now that we know the difference, lets see how we can populate a production database.</p>
-<h4>Populating production dbs</h4>
-<p>We've hardcoded our local db connection information in the script. Hence, the script only populates our local db. We need a way to populate our production db as well. One way to do this is by using environment variables, though this leads to unnecessary hassle. Why? Because now, the script can only populate the production db on the production server i.e. we'll need to access the production server's cli to run the script. Or, we could sneakily edit our environment file to point to the production db and run the script on our machine, and revert it.</p>
-<p>We should aim to make our script as independent from our codebase as possible.</p>
-<p>A far more painless approach is providing the connection information as an argument to the script. This way, we can run the script for local db as well as production db on our machine. You can access arguments via <a href="https://nodejs.org/docs/latest/api/process.html#processargv">process.argv</a>.</p>
+<p>それから、<code>node db/populatedb.js</code>を実行するか、<a href="https://stackoverflow.com/a/36433748">package.jsonのスクリプト</a>として追加することで、このスクリプトを実行できます。</p>
+<p>このスクリプトは一度だけ実行されるように設計されていることに注意してください。</p>
+<h4>ローカルdb対本番db</h4>
+<p>素晴らしいですね!これで、PostgreSQLを使ってローカルdbをセットアップし、使う方法を学びました。ローカルデータベースは、より高速なやり取り、より簡単な変更を提供し、インターネット接続を必要としないため、開発に理想的です。これは、新しい機能をプロトタイピングしたりテストしたりする際に、特に役立ちます。</p>
+<p>プロジェクトを公開する準備ができたら、あなたのローカルマシンから独立した外部サーバー上にホストされた、本番用データベースに移行する必要があります。本番データベースは、グローバルなアクセス可能性、スケーラビリティ、そしてより堅牢なセキュリティを可能にします。<a href="https://www.theodinproject.com/lessons/node-path-nodejs-deployment">デプロイのレッスン</a>で紹介したホスティングプロバイダーのほとんどは、データベースサービスも提供しています。この違いがわかったところで、本番データベースにどうデータを投入できるか見ていきましょう。</p>
+<h4>本番dbにデータを投入する</h4>
+<p>私たちは、ローカルのdb接続情報をスクリプトの中にハードコーディングしました。そのため、このスクリプトはローカルのdbにしかデータを投入しません。本番のdbにもデータを投入する方法が必要です。これを行う一つの方法は環境変数を使うことですが、これは不必要な手間につながります。なぜでしょうか?なぜなら、そうすると、このスクリプトは本番サーバー上でのみ本番dbにデータを投入できることになり、つまりスクリプトを実行するために本番サーバーのCLIにアクセスする必要が出てきてしまうからです。あるいは、こっそりと環境ファイルを編集して本番dbを指すようにし、自分のマシンでスクリプトを実行してから元に戻す、という方法もあります。</p>
+<p>私たちは、スクリプトをできるだけコードベースから独立させることを目指すべきです。</p>
+<p>はるかに手間のかからないアプローチは、接続情報をスクリプトへの引数として提供することです。こうすれば、自分のマシン上で、ローカルdb用にも本番db用にもスクリプトを実行できます。引数には、<a href="https://nodejs.org/docs/latest/api/process.html#processargv">process.argv</a>を通してアクセスできます。</p>
 <pre class="highlight"><code class="language-bash"># populating local db 
 node db/populatedb.js &lt;local-db-url&gt;
 
 # populating production db
 # run it from your machine once after deployment of your app &amp; db
 node db/populatedb.js &lt;production-db-url&gt;</code></pre>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Skim through <a href="https://node-postgres.com/">pg's documentation</a>. The library itself is light, and so is their documentation. You don't need to read everything, use it mainly as a reference.</li>
-<li>Update the above project we've been working on.<ol>
-<li>Implement environment variables for db connection information.</li>
-<li>Add search functionality via query parameters on the index route. For example, <code>GET /?search=sup</code> should return all usernames containing <code>sup</code>. DON'T implement this in JavaScript, search should be done in SQL.</li>
-<li>Add a new route <code>GET /delete</code> to delete all usernames from the db.</li>
+<li><a href="https://node-postgres.com/">pgのドキュメント</a>にざっと目を通してください。このライブラリ自体は軽量で、ドキュメントも同様です。すべてを読む必要はなく、主にリファレンスとして使ってください。</li>
+<li>これまで取り組んできた上記のプロジェクトを更新してください。<ol>
+<li>db接続情報のために環境変数を実装してください。</li>
+<li>indexルートに、クエリパラメータを使った検索機能を追加してください。例えば、<code>GET /?search=sup</code>は、<code>sup</code>を含むすべてのユーザー名を返すべきです。これをJavaScriptで実装しないでください。検索はSQLで行われるべきです。</li>
+<li>dbからすべてのユーザー名を削除するための、新しいルート<code>GET /delete</code>を追加してください。</li>
 </ol>
 </li>
-<li>In our previous Mini Message Board project, we implemented ephemeral messages using an array i.e. the messages would reset when server restarted. We want data persistence. Go back to this project and implement it with a PostgreSQL db and <code>pg</code>.<ul>
-<li>Deploy a new db on a hosting service you choose, and obtain its connection information.</li>
-<li>Create a <code>messages</code> table, populate it with data if you wish. This should be done via a script.</li>
-<li>Add the necessary environment variables, create a pool, and implement the required db functions.</li>
-<li>While you're at it, add appropriate server-side validation for user input as well.</li>
+<li>以前のMini Message Boardプロジェクトでは、配列を使って一時的なメッセージを実装しました。つまり、サーバーが再起動するとメッセージはリセットされていました。データの永続化が欲しいところです。このプロジェクトに戻り、PostgreSQLのdbと<code>pg</code>を使ってそれを実装してください。<ul>
+<li>選んだホスティングサービスに新しいdbをデプロイし、その接続情報を取得してください。</li>
+<li><code>messages</code>テーブルを作成し、必要であればデータを投入してください。これはスクリプトを通して行われるべきです。</li>
+<li>必要な環境変数を追加し、poolを作成し、必要なdb関数を実装してください。</li>
+<li>ついでに、ユーザー入力に対する適切なサーバーサイドのバリデーションも追加してください。</li>
 </ul>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#setting-up-the-db">How do you create a db and table via PostgreSQL shell?</a></li>
-<li><a href="#using-node-postgres-in-express">What is node-postgres and how do you use it?</a></li>
-<li><a href="#querying-with-pg">When should you use a client or a pool in pg?</a></li>
-<li><a href="#querying-with-pg">How would you integrate db query functions in your Express app?</a></li>
-<li><a href="#populate-the-db-via-a-script">How would you populate the db via a script?</a></li>
+<li><a href="#setting-up-the-db">PostgreSQLシェルを通して、どのようにdbとテーブルを作成しますか?</a></li>
+<li><a href="#using-node-postgres-in-express">node-postgresとは何で、どのように使いますか?</a></li>
+<li><a href="#querying-with-pg">pgでは、clientとpoolのどちらをいつ使うべきですか?</a></li>
+<li><a href="#querying-with-pg">db関数をどのようにExpressアプリに統合しますか?</a></li>
+<li><a href="#populate-the-db-via-a-script">スクリプトを使って、どのようにdbにデータを投入しますか?</a></li>
 </ul>
       </div>
     </article>

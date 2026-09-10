@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,67 +28,67 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Getting Started</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">You&#x27;ll go through a basic Node tutorial and write some real server-side code.</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Like we learned in the introduction lesson, Node.js is really just JavaScript. So a basic understanding of JavaScript is necessary in order to understand Node. For this reason, it is highly recommended that you take our prerequisite <a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript">JavaScript course</a> before continuing with this course.</p>
-<p>This lesson will take you through a tutorial that will teach you the basic modules and functions that you need to get up and running with Node.js. The project that comes at the end of this section will ask you to use Node to create a basic website that will include an <code>Index</code>, <code>About</code> and <code>Contact Me</code> page. So while learning the topics in this lesson, be on the lookout for things that might help you complete the project.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>イントロダクションのレッスンで学んだように、Node.jsは実質的にJavaScriptに過ぎません。そのため、Nodeを理解するには、JavaScriptについての基本的な理解が必要です。この理由から、このコースを続ける前に、前提条件である<a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript">JavaScriptコース</a>を受講することを強くお勧めします。</p>
+<p>このレッスンでは、Node.jsを使い始めて動かすために必要な、基本的なモジュールと関数を教えてくれるチュートリアルに沿って進めていきます。このセクションの最後にあるプロジェクトでは、Nodeを使って、<code>Index</code>、<code>About</code>、<code>Contact Me</code>ページを含む基本的なウェブサイトを作成することになります。そのため、このレッスンでトピックを学びながら、プロジェクトを完成させるのに役立ちそうなものにも注意を払っておいてください。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Explain some things that Node.js is commonly used for.</li>
-<li>Create and use modules in Node.js (both built-in and user created).</li>
-<li>Set up a basic webserver with Node.js using the HTTP module.</li>
-<li>Read, create, update, and delete files from Node.js.</li>
-<li>Use the URL module to parse a url address and split it into readable parts.</li>
-<li>Understand how to use NPM.</li>
-<li>Create, fire and listen for your own events.</li>
+<li>Node.jsが一般的に何のために使われるかを説明する。</li>
+<li>Node.jsでモジュール(組み込みのものとユーザーが作成したものの両方)を作成し使う。</li>
+<li>HTTPモジュールを使って、Node.jsで基本的なウェブサーバーをセットアップする。</li>
+<li>Node.jsからファイルを読み込み、作成し、更新し、削除する。</li>
+<li>URLモジュールを使って、URLアドレスをパースし、読みやすい部分に分割する。</li>
+<li>NPMの使い方を理解する。</li>
+<li>自分自身のイベントを作成し、発火させ、リッスンする。</li>
 </ul>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <div class="lesson-note">
-<h4>Important notice</h4>
-<p>Recently the NodeJS.dev team removed a large amount of content from their website. Several of those removed pages were linked to in this lesson. Until we find a replacement for that content we will be linking directly to the markdown files on their GitHub repository. The formatting may look a bit odd, but the content should still be just as good.</p>
+<h4>重要な注意事項</h4>
+<p>最近、NodeJS.devのチームは、そのウェブサイトから大量のコンテンツを削除しました。削除されたページのいくつかは、このレッスンでリンクされていました。そのコンテンツの代わりが見つかるまでは、彼らのGitHubリポジトリ上のMarkdownファイルに直接リンクします。フォーマットは少し奇妙に見えるかもしれませんが、内容は変わらず優れたものであるはずです。</p>
 </div>
-<p>Let's dive in and start looking at Node server-side code! We will be hopping around lessons in the <a href="https://nodejs.org/en/learn">NodeJS.org</a> docs which you should follow along.</p>
+<p>早速、Nodeのサーバーサイドのコードを見ていきましょう!これから<a href="https://nodejs.org/en/learn">NodeJS.org</a>のドキュメントのレッスンをあちこち見て回るので、それに沿って進めてください。</p>
 <ol>
-<li>Learn <a href="https://nodejs.org/en/learn/command-line/run-nodejs-scripts-from-the-command-line">how to run Node.js scripts from the terminal</a>.</li>
+<li><a href="https://nodejs.org/en/learn/command-line/run-nodejs-scripts-from-the-command-line">ターミナルからNode.jsのスクリプトを実行する方法</a>を学んでください。</li>
 <li>HTTP Module<ul>
-<li>Learn <a href="https://nodejs.org/learn/getting-started/fetch">how to make HTTP requests with Node</a>.</li>
-<li>Check out the docs for <a href="https://nodejs.org/api/http.html">Node's http module</a>. In particular, check out <code>http.createServer</code>. The documentation shows optional parameters it can accept which you may or may not use. For now, you just need to know that the <code>createServer</code> method creates an HTTP server that accepts handlers that will be executed every time we get a request.</li>
+<li><a href="https://nodejs.org/learn/getting-started/fetch">NodeでHTTPリクエストを行う方法</a>を学んでください。</li>
+<li><a href="https://nodejs.org/api/http.html">NodeのhttpモジュールのDocs</a>をチェックしてください。特に、<code>http.createServer</code>をチェックしてください。ドキュメントには、それが受け取れるオプションのパラメータが示されており、使うかどうかはあなた次第です。今のところは、<code>createServer</code>メソッドが、リクエストを受け取るたびに実行されるハンドラを受け付けるHTTPサーバーを作成する、ということだけを知っておけば十分です。</li>
 </ul>
 </li>
 <li>File System<ul>
-<li>First, take a look at the <a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-fs.en.md">fs module</a> that we use heavily for working with files in Node.</li>
-<li>Then, let’s start <a href="https://nodejs.org/en/learn/manipulating-files/writing-files-with-nodejs">writing files with Node</a>.</li>
-<li>Finally, we’ll learn how to <a href="https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs">read files with Node</a>.</li>
+<li>まず、Nodeでファイルを扱う際に頻繁に使う<a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-fs.en.md">fsモジュール</a>を見てみましょう。</li>
+<li>それから、<a href="https://nodejs.org/en/learn/manipulating-files/writing-files-with-nodejs">Nodeでファイルを書き込む</a>ことを始めましょう。</li>
+<li>最後に、<a href="https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs">Nodeでファイルを読み込む</a>方法を学びます。</li>
 </ul>
 </li>
 <li>The URL Class<ul>
-<li>Check out this <a href="https://nodejs.org/api/url.html#url_the_whatwg_url_api">documentation on the URL class</a>. Play with the code samples to see how it works!</li>
+<li>この<a href="https://nodejs.org/api/url.html#url_the_whatwg_url_api">URLクラスについてのドキュメント</a>をチェックしてください。コードのサンプルをいろいろ試して、それがどう機能するか見てみてください!</li>
 </ul>
 </li>
 <li>Events<ul>
-<li>Follow along the <a href="https://nodejs.org/en/learn/asynchronous-work/the-nodejs-event-emitter">Event Emitter</a> section.</li>
-<li>Look into the <a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-events.en.md">Node events module</a>.</li>
+<li><a href="https://nodejs.org/en/learn/asynchronous-work/the-nodejs-event-emitter">Event Emitter</a>のセクションに沿って進めてください。</li>
+<li><a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-events.en.md">Nodeのeventsモジュール</a>を調べてみてください。</li>
 </ul>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-fs.en.md">What is a File System Module? How and why would you use it?</a></li>
+<li><a href="https://github.com/nodejs/nodejs.dev/blob/aa4239e87a5adc992fdb709c20aebb5f6da77f86/content/learn/node-js-modules/node-module-fs.en.md">File System Moduleとは何ですか?どのように、そしてなぜそれを使うのですか?</a></li>
 </ul>
-<h3>Additional resources</h3>
-<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<h3>追加リソース</h3>
+<p>このセクションには、関連コンテンツへの役立つリンクが含まれています。必須ではないので、補足資料として捉えてください。</p>
 <ul>
-<li>This <a href="https://www.youtube.com/watch?v=zb3Qk8SG5Ms&amp;list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU">Node crash course playlist of 12 episodes</a> from Net Ninja is a great resource to learn Node.js. There are 12 videos in this playlist, you can consider them all.</li>
+<li>Net Ninjaによるこの<a href="https://www.youtube.com/watch?v=zb3Qk8SG5Ms&amp;list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU">12話構成のNodeクラッシュコースのプレイリスト</a>は、Node.jsを学ぶための素晴らしいリソースです。このプレイリストには12本の動画があり、すべて見てみるとよいでしょう。</li>
 </ul>
       </div>
     </article>

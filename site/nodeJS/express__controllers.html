@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,41 +28,41 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Controllers</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">Controllers in Express</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>The controller's job is really to act as the ultimate middleman. It knows which questions it wants to ask the model, but lets the model do all the heavy lifting for actually solving those questions. It knows which view it wants to render and send back to the browser, but lets the view itself take care of putting all that HTML together. That's why it's a "controller" - it's smart enough to know what to do, then it delegates all the hard work.</p>
-<p>Ultimately, the controller is the brains of the operation ensuring that each component plays its part in delivering the final result and is really just a function with well-defined responsibilities as part of the MVC pattern.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>コントローラーの仕事は、本当のところ、究極の仲介役として振る舞うことです。モデルに尋ねたい質問が何であるかは知っていますが、それらの質問を実際に解決するための重労働はすべてモデルにやらせます。どのビューをレンダリングしてブラウザに送り返したいかは知っていますが、そのHTMLをすべて組み立てる作業自体はビュー自身に任せます。だからこそ「コントローラー」と呼ばれるのです――何をすべきかを把握するだけの賢さを持ちながら、大変な作業はすべて委任するのです。</p>
+<p>結局のところ、コントローラーはこの一連の作業の頭脳であり、それぞれのコンポーネントが最終的な結果を届けるために自分の役割を果たすことを保証します。そして実際のところ、MVCパターンの一部として、明確に定義された責任を持つ単なる関数にすぎません。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Explore various response methods.</li>
-<li>Implement error handling middleware to catch and process errors gracefully.</li>
-<li>Describe common use cases for middleware, such as validation and authentication.</li>
+<li>さまざまなレスポンスメソッドを探る。</li>
+<li>エラーを適切に捕捉し処理するためのエラーハンドリングミドルウェアを実装する。</li>
+<li>バリデーションや認証といった、ミドルウェアのよくあるユースケースを説明する。</li>
 </ul>
-<h3>Handling responses</h3>
-<p>When it comes to sending responses from our controllers, we have several methods at our disposal. Let's explore some of the commonly used methods and their use cases.</p>
+<h3 id="handling-responses">レスポンスを処理する</h3>
+<p>コントローラーからレスポンスを送信する際には、いくつかのメソッドを自由に使うことができます。よく使われるメソッドとそのユースケースをいくつか見ていきましょう。</p>
 <ul>
-<li><a href="https://expressjs.com/en/5x/api/response/#ressendbody">res.send</a> - A general-purpose method for sending a response, it is flexible with what data we can send since it will automatically set the <code>Content-Type</code> header based on what data you pass it. For example, if we pass in an object, it will stringify it as JSON and set the <code>Content-Type</code> header to <code>application/json</code>.</li>
-<li><a href="https://expressjs.com/en/5x/api/response/#resjsonbody">res.json</a> - This is a more explicit way to respond to a request with JSON. This always sets the <code>Content-Type</code> header to <code>application/json</code> and sends the data as JSON.</li>
-<li><a href="https://expressjs.com/en/5x/api/response/#resredirectstatus-path">res.redirect</a> - When we want to redirect the client to a different URL, this method allows for that capability.</li>
-<li><a href="https://expressjs.com/en/5x/api/response/#resrenderview--locals--callback">res.render</a> - <code>res.render</code> lets you render a view template and send the resulting HTML as the response. We'll cover this in a later lesson.</li>
+<li><a href="https://expressjs.com/en/5x/api/response/#ressendbody">res.send</a> - レスポンスを送信するための汎用的なメソッドで、渡されたデータに基づいて<code>Content-Type</code>ヘッダーを自動的に設定してくれるため、送信できるデータについて柔軟性があります。例えば、オブジェクトを渡すと、それをJSONとして文字列化し、<code>Content-Type</code>ヘッダーを<code>application/json</code>に設定します。</li>
+<li><a href="https://expressjs.com/en/5x/api/response/#resjsonbody">res.json</a> - これは、JSONでリクエストに応答するためのより明示的な方法です。これは常に<code>Content-Type</code>ヘッダーを<code>application/json</code>に設定し、データをJSONとして送信します。</li>
+<li><a href="https://expressjs.com/en/5x/api/response/#resredirectstatus-path">res.redirect</a> - クライアントを別のURLにリダイレクトしたい場合、このメソッドがその機能を提供してくれます。</li>
+<li><a href="https://expressjs.com/en/5x/api/response/#resrenderview--locals--callback">res.render</a> - <code>res.render</code>を使うと、ビューテンプレートをレンダリングし、その結果のHTMLをレスポンスとして送信できます。これについては後のレッスンで扱います。</li>
 </ul>
-<p>There is also a useful method that we can use to set the status code manually.</p>
+<p>ステータスコードを手動で設定するために使える便利なメソッドもあります。</p>
 <ul>
-<li><a href="https://expressjs.com/en/5x/api/response/#resstatuscode">res.status</a> - This sets the response's status code <strong>but does not end the request-response cycle by itself</strong>. We can chain other methods through this (e.g. <code>res.status(404).send(...)</code> but note that we can't do <code>res.send(...).status(404)</code>). We can omit this if we wish to use the default status code of <code>200</code>.</li>
+<li><a href="https://expressjs.com/en/5x/api/response/#resstatuscode">res.status</a> - これはレスポンスのステータスコードを設定しますが、<strong>それ自体ではリクエスト-レスポンスサイクルを終了しません</strong>。これを介して他のメソッドをチェーンできます(例えば<code>res.status(404).send(...)</code>は可能ですが、<code>res.send(...).status(404)</code>はできないことに注意してください)。デフォルトのステータスコードである<code>200</code>を使いたい場合は、これを省略しても構いません。</li>
 </ul>
 <div class="lesson-note">
-<h4>res.send and res.json</h4>
-<p>If <code>res.send</code> automatically sets the <code>Content-Type</code> based on the data passed, why would we still use <code>res.json</code>? <code>res.json</code> enforces JSON and will automatically convert non-object values to JSON, but <code>res.send</code> will not. <code>res.json</code> is just a convenient method that also internally calls <code>res.send</code>. <code>res.send</code> will only handle things as JSON when dealing with booleans and objects (which includes arrays).</p>
-<p>So for convenience it's more appropriate to use <code>res.json</code> instead of <code>res.send</code>, and if we're sending JSON, we might as well use a method that's literally named "json". It's like the perfect match!</p>
+<h4>res.sendとres.json</h4>
+<p><code>res.send</code>が渡されたデータに基づいて<code>Content-Type</code>を自動的に設定してくれるのなら、なぜ<code>res.json</code>をわざわざ使うのでしょうか?<code>res.json</code>はJSONを強制し、オブジェクトでない値も自動的にJSONに変換しますが、<code>res.send</code>はそうしません。<code>res.json</code>は、内部的には<code>res.send</code>も呼び出す、単なる便利なメソッドです。<code>res.send</code>は、真偽値とオブジェクト(配列を含む)を扱う場合にのみ、JSONとして処理します。</p>
+<p>そのため、便宜上、<code>res.send</code>の代わりに<code>res.json</code>を使う方が適切であり、JSONを送信するのであれば、文字通り「json」という名前のメソッドを使うのも理にかなっています。まさに完璧な組み合わせですね!</p>
 </div>
-<p>We also need to take note that these response methods only end the request-response cycle. They do not end the function execution. For example if we do this:</p>
+<p>また、これらのレスポンスメソッドは、リクエスト-レスポンスサイクルを終了させるだけだということにも注意する必要があります。関数の実行を終了させるわけではありません。例えば、以下のようにした場合:</p>
 <pre class="highlight"><code class="language-javascript">app.use((req, res) =&gt; {
   // This works and this ends the request-response cycle
   res.send("Hello");
@@ -73,36 +73,36 @@
   // This will then throw an error that we cannot send again after sending to the client already
   res.send("Bye");
 });</code></pre>
-<h3>Middleware</h3>
-<p>Middleware functions are a core concept in Express and play a crucial role in handling requests and responses. They operate between the incoming request and the final intended route handler.</p>
-<p>A middleware function typically takes three arguments (however, there is one that we will get into later that has four):</p>
+<h3 id="middleware">ミドルウェア</h3>
+<p>ミドルウェア関数はExpressにおける中核的な概念であり、リクエストとレスポンスを処理する上で極めて重要な役割を果たします。それらは、受信したリクエストと、最終的に意図されたルートハンドラの間で動作します。</p>
+<p>ミドルウェア関数は通常、3つの引数を取ります(ただし、後ほど扱う4つの引数を取るものが一つあります):</p>
 <ul>
-<li><code>req</code> - The request object, representing the incoming HTTP request.</li>
-<li><code>res</code> - The response object, representing the HTTP response that will be sent back to the client.</li>
-<li><code>next</code> - The function that passes control to the next middleware function in the chain (we'll get to this later). This is optional.</li>
+<li><code>req</code> - 受信したHTTPリクエストを表す、リクエストオブジェクト。</li>
+<li><code>res</code> - クライアントに送り返されるHTTPレスポンスを表す、レスポンスオブジェクト。</li>
+<li><code>next</code> - チェーン内の次のミドルウェア関数に制御を渡す関数(これについては後ほど触れます)。これは省略可能です。</li>
 </ul>
 <div class="lesson-note">
-<h4>Naming convention</h4>
-<p>Names are just convention, we can name them whatever we want, like <code>req</code> -&gt; <code>request</code>, <code>res</code> -&gt; <code>response</code>, etc.</p>
+<h4>命名規則</h4>
+<p>名前は単なる慣習にすぎず、<code>req</code> → <code>request</code>、<code>res</code> → <code>response</code>のように、好きなように名付けることができます。</p>
 </div>
-<p>A middleware function can perform various tasks, such as:</p>
+<p>ミドルウェア関数は、以下のようなさまざまなタスクを実行できます:</p>
 <ul>
-<li>Modifying the request or response objects (some packages for example will do this, like adding a new property in the request object, or setting the <code>res.locals</code> that is used in templates rendered with <code>res.render</code>).</li>
-<li>Executing additional code (validation middleware functions to validate the request before going to our main logic, authentication middleware functions, and so on).</li>
-<li>Calling the next middleware function in the chain.</li>
-<li>Ending the request-response cycle (meaning no further middleware functions are called, even if there are more in the chain).</li>
+<li>リクエストオブジェクトやレスポンスオブジェクトを変更する(例えば、一部のパッケージは、リクエストオブジェクトに新しいプロパティを追加したり、<code>res.render</code>でレンダリングされるテンプレートで使われる<code>res.locals</code>を設定したりします)。</li>
+<li>追加のコードを実行する(メインのロジックに進む前にリクエストを検証するバリデーションミドルウェア関数、認証ミドルウェア関数など)。</li>
+<li>チェーン内の次のミドルウェア関数を呼び出す。</li>
+<li>リクエスト-レスポンスサイクルを終了する(つまり、チェーンの中にさらに関数があったとしても、それ以上のミドルウェア関数は呼び出されなくなります)。</li>
 </ul>
-<p>Express has a rich ecosystem, so you'll likely find a package that solves the problem you're encountering. For example, some packages provide middleware functions to handle authentication, CORS, rate limiting, sessions, logging, validation, and more! Throughout this lesson (and the course), we'll introduce middlewares needed to build projects in this course, but you’re welcome to explore on your own.</p>
-<h4>Application-level middleware</h4>
-<p>Application-level middleware are bound to an <em>instance of Express</em> using <code>app.use</code> or using <code>app.METHOD</code> (e.g. <code>app.get</code>, <code>app.post</code>) functions. Express executes these middleware functions for every incoming request that matches the specified path. If we don't specify a path, Express defaults the path to <code>/</code>, matching every incoming request. As with any middleware functions, they will not run if the request-response cycle ends before reaching them. Typically, these middleware functions are placed on top of our application code to ensure they always run first.</p>
-<p>Express offers several essential built-in middleware functions that we'll frequently use in our applications. These include:</p>
+<p>Expressには豊富なエコシステムがあるので、あなたが直面している問題を解決してくれるパッケージが、おそらく見つかるでしょう。例えば、認証、CORS、レート制限、セッション、ロギング、バリデーションなどを扱うためのミドルウェア関数を提供するパッケージがあります!このレッスン(そしてこのコース)を通して、このコースでプロジェクトを構築するのに必要なミドルウェアを紹介していきますが、自分自身で探索してみるのも歓迎です。</p>
+<h4>アプリケーションレベルのミドルウェア</h4>
+<p>アプリケーションレベルのミドルウェアは、<code>app.use</code>または<code>app.METHOD</code>(例えば<code>app.get</code>、<code>app.post</code>)関数を使って、<em>Expressのインスタンス</em>にバインドされます。Expressは、指定されたパスに一致するすべての受信リクエストに対して、これらのミドルウェア関数を実行します。パスを指定しない場合、Expressはデフォルトでパスを<code>/</code>とし、あらゆる受信リクエストに一致させます。他のどんなミドルウェア関数とも同じく、それらに到達する前にリクエスト-レスポンスサイクルが終了していれば、それらは実行されません。通常、これらのミドルウェア関数は、常に最初に実行されることを保証するために、アプリケーションコードの一番上に配置されます。</p>
+<p>Expressは、アプリケーションの中で頻繁に使うことになる、いくつかの重要な組み込みミドルウェア関数を提供しています。それらには以下が含まれます:</p>
 <ul>
-<li>Body parsers (e.g. <code>express.json</code>, <code>express.urlencoded</code>) - These allow us to correctly parse the incoming request's body, so that we can use it through <code>req.body</code>.</li>
-<li>Serving static files (e.g. <code>app.use(express.static('public'))</code>) - This middleware function serves static files like HTML, CSS, JavaScript, and images. We can pass an argument to specify which directory to serve the static files.</li>
+<li>ボディパーサー(例えば<code>express.json</code>、<code>express.urlencoded</code>) - これらにより、受信したリクエストのボディを正しく解析できるようになり、<code>req.body</code>を通してそれを使えるようになります。</li>
+<li>静的ファイルの提供(例えば<code>app.use(express.static('public'))</code>) - このミドルウェア関数は、HTML、CSS、JavaScript、画像といった静的ファイルを提供します。引数を渡して、どのディレクトリから静的ファイルを提供するかを指定できます。</li>
 </ul>
-<h4>Router-level middleware</h4>
-<p>Router-level middleware works similarly to an application-level middleware, but it's bound to an <em>instance of Express router</em> using <code>router.use</code> or <code>router.METHOD</code> (e.g. router.get) functions. Because of this, Express only executes these middleware when the request matches and goes through that router.</p>
-<p>Here is an example of a basic middleware function:</p>
+<h4>ルーターレベルのミドルウェア</h4>
+<p>ルーターレベルのミドルウェアは、アプリケーションレベルのミドルウェアと同じように動作しますが、<code>router.use</code>または<code>router.METHOD</code>(例えばrouter.get)関数を使って、<em>Expressルーターのインスタンス</em>にバインドされます。このため、Expressは、リクエストがそのルーターに一致し通過する場合にのみ、これらのミドルウェアを実行します。</p>
+<p>以下は、基本的なミドルウェア関数の例です:</p>
 <pre class="highlight"><code class="language-javascript">function myMiddleware(req, res, next) {
   // Perform some operations
   console.log("Middleware function called");
@@ -115,16 +115,16 @@
 }
 
 app.use(myMiddleware);</code></pre>
-<p>In this example, the middleware function logs a message, adds a custom property to the request object, and then calls the <code>next()</code> function to pass control to the next middleware function or route handler. We also register the middleware function through the usage of <code>app.use</code> which makes this an application-level middleware. Middleware functions following <code>myMiddleware</code> in this chain can now access <code>req.customProperty</code>, which contains the value <code>"Hello from myMiddleware"</code>.</p>
-<p>One thing to note is that Express executes middleware functions in the order we define or register them in our application. This means that the sequence in which we define our middleware functions matters, as it determines the order in which they will be invoked during the request-response cycle. So we need to make sure and be aware that our middleware functions are placed in the correct order. As an example, some packages have middleware functions that changes the <code>Request</code> object, and as a result, these middleware functions should be placed at the very top of our application in order for us to be able to see their changes in all of your middleware functions below it.</p>
-<p>There is also a special type of middleware function that handles errors, which we will discuss shortly.</p>
-<h3>Controllers</h3>
-<p>As said earlier, controllers are just functions. They also classify as a middleware (at least in the Express world) that are used by route handlers. However, it's important to note that controller and middleware are distinct concepts. Controllers are a key component of the MVC (Model-View-Controller) pattern, a design approach for organizing software. Middleware, on the other hand, is a core feature of Express that allows you to run code, modify requests, or end the cycle at specific points in the request-response cycle. So we are using middleware in Express to implement the "Controller" part of the MVC pattern.</p>
-<p>A controller comes into play whenever a request hits the server and a route matches the requested HTTP verb and path. The route determines which controller should handle the request based on the defined middleware chain. The appropriate controller then takes over, performing the necessary actions to fulfill the request. This could involve retrieving data from the model, processing the data, making decisions based on business logic, or updating the model with new data.</p>
-<p>Once the controller completes its tasks, it passes the processed data to the view. The view then renders this data into a format suitable for sending back to the client. Typically, this would be HTML. Later, when we cover building APIs, we can also send JSON responses like with the APIs that we've previously used e.g. Giphy API.</p>
-<p>The naming conventions for these controllers are usually based on the route they will be attached to e.g. <code>GET</code> route -&gt; <code>getSomething</code>, <code>POST</code> route -&gt; <code>createSomething</code>, <code>DELETE</code> route -&gt; <code>deleteSomething</code>, etc. Nonetheless, there is no fixed rule since Express is not opinionated. It will always be based on you or someone else's conventions, and the requirements of the function.</p>
-<p>You should already have your application setup in-place from the previous lesson. Previously, we've defined a route for <code>/authors/:authorId</code>, but this time we will define a controller for that route and hook it up with sample data. But to make the example produce something, let's first create a mock database with a function that we can use to retrieve an author by their ID.</p>
-<p>Create the following file <code>db.js</code> at the root of the project, and add the following code:</p>
+<p>この例では、ミドルウェア関数がメッセージをログに出力し、リクエストオブジェクトにカスタムプロパティを追加し、それから<code>next()</code>関数を呼び出して、次のミドルウェア関数またはルートハンドラに制御を渡しています。また、<code>app.use</code>の使用を通じてこのミドルウェア関数を登録しているため、これはアプリケーションレベルのミドルウェアになります。このチェーンの中で<code>myMiddleware</code>に続くミドルウェア関数は、これで値<code>"Hello from myMiddleware"</code>を含む<code>req.customProperty</code>にアクセスできるようになります。</p>
+<p>一つ注意すべき点は、Expressはアプリケーションの中で定義または登録した順番通りにミドルウェア関数を実行するということです。つまり、ミドルウェア関数を定義する順番が重要であり、それがリクエスト-レスポンスサイクルの中でそれらが呼び出される順番を決定します。そのため、ミドルウェア関数が正しい順番で配置されていることを確認し、意識しておく必要があります。例として、一部のパッケージには<code>Request</code>オブジェクトを変更するミドルウェア関数があり、その結果、それらのミドルウェア関数の変更を、それより下にあるすべてのミドルウェア関数で見られるようにするためには、アプリケーションの一番上に配置される必要があります。</p>
+<p>エラーを処理する、特殊なタイプのミドルウェア関数もあり、これについてはこの後すぐに説明します。</p>
+<h3 id="controllers">コントローラー</h3>
+<p>先ほど述べたように、コントローラーは単なる関数です。それらは(少なくともExpressの世界では)、ルートハンドラによって使われるミドルウェアにも分類されます。しかし、コントローラーとミドルウェアが別個の概念であることに注意することが重要です。コントローラーは、ソフトウェアを整理するための設計アプローチである、MVC(Model-View-Controller)パターンの重要な構成要素です。一方でミドルウェアは、コードを実行したり、リクエストを変更したり、リクエスト-レスポンスサイクルの特定の時点でサイクルを終了させたりすることを可能にする、Expressの中核機能です。つまり、私たちはExpressの中でミドルウェアを使うことで、MVCパターンの「コントローラー」の部分を実装しているのです。</p>
+<p>コントローラーは、リクエストがサーバーに到達し、あるルートがリクエストされたHTTP動詞とパスに一致したときに、その役割を発揮します。ルートは、定義されたミドルウェアチェーンに基づいて、どのコントローラーがそのリクエストを処理すべきかを決定します。それから、適切なコントローラーが引き継ぎ、リクエストを満たすために必要なアクションを実行します。これには、モデルからデータを取得したり、そのデータを処理したり、ビジネスロジックに基づいて判断を下したり、新しいデータでモデルを更新したりすることが含まれる場合があります。</p>
+<p>コントローラーがそのタスクを完了すると、処理済みのデータをビューに渡します。それからビューは、このデータをクライアントに送り返すのに適した形式にレンダリングします。通常、これはHTMLになります。後ほどAPIの構築について扱う際には、以前使ったことのあるAPI(例えばGiphy API)のように、JSONレスポンスを送信することもできます。</p>
+<p>これらのコントローラーの命名規則は、通常、それらがアタッチされるルートに基づきます。例えば<code>GET</code>ルート → <code>getSomething</code>、<code>POST</code>ルート → <code>createSomething</code>、<code>DELETE</code>ルート → <code>deleteSomething</code>、といった具合です。とはいえ、Expressは自分の主張を持たない(unopinionated)ため、固定のルールがあるわけではありません。それは常に、あなたや他の誰かの慣習、そしてその関数の要件に基づくことになります。</p>
+<p>前のレッスンから、すでにアプリケーションのセットアップが済んでいるはずです。以前、<code>/authors/:authorId</code>用のルートを定義しましたが、今回はそのルート用のコントローラーを定義し、サンプルデータと連携させます。しかし、例が何か成果を生み出すようにするために、まずはIDで著者を取得するために使える関数を持った、モックのデータベースを作成しましょう。</p>
+<p>プロジェクトのルートに以下のファイル<code>db.js</code>を作成し、次のコードを追加してください:</p>
 <pre class="highlight"><code class="language-javascript">// db.js
 
 const authors = [
@@ -138,8 +138,8 @@ async function getAuthorById(authorId) {
 };
 
 module.exports = { getAuthorById };</code></pre>
-<p>The file name, content, and location aren't important here. This is just a quick mock "database" and query function so we can call it in a controller.</p>
-<p>Then for the controller, create the following file <code>authorController.js</code> within a <code>controllers</code> folder:</p>
+<p>このファイルの名前、内容、場所は、ここでは重要ではありません。これは単に、コントローラーの中で呼び出せるようにするための、簡単なモック「データベース」とクエリ関数です。</p>
+<p>次に、コントローラーのために、<code>controllers</code>フォルダの中に以下のファイル<code>authorController.js</code>を作成してください:</p>
 <pre class="highlight"><code class="language-javascript">// controllers/authorController.js
 
 const db = require("../db");
@@ -158,7 +158,7 @@ async function getAuthorById(req, res) {
 };
 
 module.exports = { getAuthorById };</code></pre>
-<p>In this example, the <code>getAuthorById</code> function is a controller that handles a specific action related to retrieving an author by their ID. We'll use this controller by importing it into the file where we define our routes, and using it like this:</p>
+<p>この例では、<code>getAuthorById</code>関数は、IDによって著者を取得することに関連する特定のアクションを処理する、コントローラーです。ルートを定義しているファイルにこれをインポートして、以下のようにこのコントローラーを使うことになります:</p>
 <pre class="highlight"><code class="language-javascript">// routes/authorRouter.js
 
 const { Router } = require("express");
@@ -168,18 +168,18 @@ const authorRouter = Router();
 
 // ... other route handlers
 authorRouter.get("/:authorId", getAuthorById);</code></pre>
-<p>Let's break down what's happening in this controller:</p>
+<p>このコントローラーの中で何が起きているかを分解してみましょう:</p>
 <ol>
-<li>The route path contains a route parameter (<code>/authors/:authorId</code>). The controller extracts the <code>authorId</code> from <code>req.params</code>.</li>
-<li>It then invokes a database query function <code>getAuthorById</code> to retrieve the author data based on the <code>authorId</code>.</li>
-<li>If the controller doesn't find the author, it sends a response with a 404 status code and the message <code>"Author not found"</code>, using <code>res.status(404).send(...)</code>. It then returns from the controller function to avoid invoking any other logic in the controller, as sending a response doesn't automatically stop the function execution.</li>
-<li>If the controller finds the author, it sends a response with a 200 status code with the text showing the author name using <code>res.send(...)</code>.</li>
+<li>ルートパスにはルートパラメータ(<code>/authors/:authorId</code>)が含まれています。コントローラーは<code>req.params</code>から<code>authorId</code>を抽出します。</li>
+<li>それから、<code>authorId</code>に基づいて著者データを取得するために、データベースのクエリ関数<code>getAuthorById</code>を呼び出します。</li>
+<li>コントローラーが著者を見つけられなかった場合、<code>res.status(404).send(...)</code>を使って、404ステータスコードとメッセージ<code>"Author not found"</code>を含むレスポンスを送信します。それから、レスポンスを送信しても関数の実行が自動的に停止するわけではないため、コントローラー内の他のロジックが呼び出されるのを避けるために、コントローラー関数からreturnします。</li>
+<li>コントローラーが著者を見つけた場合、<code>res.send(...)</code>を使って、著者名を示すテキストとともに200ステータスコードのレスポンスを送信します。</li>
 </ol>
-<p>Very simple right?</p>
-<h3>Handling errors</h3>
-<p>When building robust applications, it's crucial to handle errors gracefully within our application. Implementing proper error handling allows you to provide meaningful error responses to the client and prevent your application from crashing unexpectedly. And as we know, errors may occur during async operations, and we are not exactly handling that in our previous code snippets. Let's see what we can do to handle these possibilities.</p>
+<p>とてもシンプルですよね?</p>
+<h3>エラーを処理する</h3>
+<p>堅牢なアプリケーションを構築する際には、アプリケーション内でエラーを適切に処理することが極めて重要です。適切なエラーハンドリングを実装することで、クライアントに意味のあるエラーレスポンスを提供でき、アプリケーションが予期せずクラッシュするのを防ぐことができます。そして、私たちが知っているように、エラーは非同期処理の最中に発生することがあり、これまでのコードスニペットでは、それをきちんと処理できていませんでした。これらの可能性を処理するために何ができるか、見ていきましょう。</p>
 <h4>try/catch</h4>
-<p>Using the same code from earlier, we can quickly handle errors by wrapping our controller logic in a <code>try/catch</code> block.</p>
+<p>先ほどと同じコードを使って、コントローラーのロジックを<code>try/catch</code>ブロックで包むことで、素早くエラーを処理できます。</p>
 <pre class="highlight"><code class="language-javascript">async function getAuthorById(req, res) {
   const { authorId } = req.params;
 
@@ -201,19 +201,19 @@ authorRouter.get("/:authorId", getAuthorById);</code></pre>
     // So we will need to create a special type of middleware function if we want a different response and we will get to that... next.
   }
 };</code></pre>
-<p>What if we have many async middleware functions and a lot of them respond the same way just with things like different status codes and response messages? Instead of <code>try/catch</code> in each middleware, Express automatically catches any thrown errors and calls <code>next(error)</code>, which will pass control over to a special "error middleware function", meaning we wouldn't need to catch and handle in the original controller itself.</p>
-<h4>Error handler middleware</h4>
-<p>An error handler middleware function handles all errors in our application that come down from other middleware functions. We want to place this error middleware function at the very end of the application code to ensure it's the last middleware function executed and only handles errors bubbling down from preceding middleware functions.</p>
-<p>Add the following code in <code>app.js</code> at the end of all middleware functions in our application:</p>
+<p>もし、非同期のミドルウェア関数がたくさんあり、そのうちの多くが、ステータスコードやレスポンスメッセージが違うだけで、同じように応答する場合はどうでしょうか?それぞれのミドルウェアで<code>try/catch</code>を使う代わりに、Expressはスローされたエラーを自動的に捕捉して<code>next(error)</code>を呼び出し、それが特別な「エラーミドルウェア関数」に制御を渡してくれるため、元のコントローラー自体の中で捕捉して処理する必要はなくなります。</p>
+<h4 id="error-handler-middleware">エラーハンドラミドルウェア</h4>
+<p>エラーハンドラミドルウェア関数は、アプリケーション内の他のミドルウェア関数から降りてくる、すべてのエラーを処理します。このエラーミドルウェア関数は、最後に実行されるミドルウェア関数であることを保証し、それ以前のミドルウェア関数からバブリングしてくるエラーだけを処理するようにするために、アプリケーションコードの一番最後に配置したいところです。</p>
+<p>アプリケーション内のすべてのミドルウェア関数の最後に、<code>app.js</code>に以下のコードを追加してください:</p>
 <pre class="highlight"><code class="language-javascript">// Every thrown error in the application or the previous middleware function calling `next` with an error as an argument will eventually go to this middleware function
 app.use((err, req, res, next) =&gt; {
   console.error(err);
   res.status(500).send(err);
 });</code></pre>
-<p>However, take note that this is a middleware function that requires <em>four parameters</em> that we will need to provide even if they are not used. If for example we exclude one of the parameters, it will not be recognized as an error middleware function. You can try it out yourself ;)</p>
-<p>This is an odd one where the error object <em>must</em> be the first parameter in the callback.</p>
-<p>This middleware function handles the <em>errors thrown</em> in other middleware functions or something that is sent by a previous middleware function using the <code>next</code> function (e.g. <code>next(err)</code>).</p>
-<p>So the way Express distinguishes this middleware function is again through adding <em>four parameters</em>, not a single one missing. A route middleware function or a middleware function with <em>fewer than four parameters</em> will always be considered as a request middleware function instead of this error middleware function, even if we place it last.</p>
+<p>しかし、これは<em>4つのパラメータ</em>を必要とするミドルウェア関数であり、それらが使われていなくても提供する必要があることに注意してください。例えば、パラメータのうち一つでも除いてしまうと、エラーミドルウェア関数として認識されなくなります。自分で試してみることもできますよ ;)</p>
+<p>これは少し変わった点で、コールバックの中でエラーオブジェクトが<em>必ず</em>最初のパラメータでなければなりません。</p>
+<p>このミドルウェア関数は、他のミドルウェア関数で<em>スローされたエラー</em>、または前のミドルウェア関数が<code>next</code>関数(例えば<code>next(err)</code>)を使って送ったものを処理します。</p>
+<p>そのため、Expressがこのミドルウェア関数を区別する方法は、やはり<em>4つのパラメータ</em>を追加することであり、一つでも欠けてはいけません。<em>4つ未満のパラメータ</em>を持つルートミドルウェア関数、またはミドルウェア関数は、たとえそれを最後に配置したとしても、常にこのエラーミドルウェア関数ではなく、リクエストミドルウェア関数と見なされます。</p>
 <pre class="highlight"><code class="language-javascript">app.use((req, res, next) =&gt; {
   throw new Error("OH NO!");
   // or next(new Error("OH NO!"));
@@ -224,9 +224,9 @@ app.use((err, req, res, next) =&gt; {
   // You will see an OH NO! in the page, with a status code of 500 that can be seen in the network tab of the dev tools
   res.status(500).send(err.message);
 });</code></pre>
-<h4>Creating custom errors</h4>
-<p>With the solutions above, the error middleware function can only really respond with a <code>500</code> status code no matter what error it is. But what if we actually want to send a <code>404</code>? A common way to do this is to create our own custom error by extending the Error object.</p>
-<p>Create the following file <code>CustomNotFoundError.js</code> within an <code>errors</code> folder:</p>
+<h4 id="creating-custom-errors">カスタムエラーを作成する</h4>
+<p>上記の解決策では、エラーミドルウェア関数は、どんなエラーであっても実質的に<code>500</code>ステータスコードでしか応答できません。しかし、もし本当に<code>404</code>を送りたい場合はどうでしょうか?これを行う一般的な方法は、Errorオブジェクトを拡張して独自のカスタムエラーを作成することです。</p>
+<p><code>errors</code>フォルダの中に、以下のファイル<code>CustomNotFoundError.js</code>を作成してください:</p>
 <pre class="highlight"><code class="language-javascript">// errors/CustomNotFoundError.js
 
 class CustomNotFoundError extends Error {
@@ -239,7 +239,7 @@ class CustomNotFoundError extends Error {
 }
 
 module.exports = CustomNotFoundError;</code></pre>
-<p>We can then use this custom error class and refactor the earlier version of <code>getAuthorById</code> like so:</p>
+<p>これで、このカスタムエラークラスを使って、先ほどの<code>getAuthorById</code>のバージョンを次のようにリファクタリングできます:</p>
 <pre class="highlight"><code class="language-javascript">const CustomNotFoundError = require("../errors/CustomNotFoundError");
 
 const getAuthorById = async (req, res) =&gt; {
@@ -253,16 +253,16 @@ const getAuthorById = async (req, res) =&gt; {
 
   res.send(`Author Name: ${author.name}`);
 };</code></pre>
-<p>Since Express will auto-catch any thrown errors in the async middleware function, we don't need to send an error response inside of this function but instead just throw an error. Express calls <code>next()</code>, passing in the caught error as an argument, which passes control to our custom error handler!</p>
-<p>It will eventually end up in the error middleware function where we can also modify:</p>
+<p>Expressは非同期のミドルウェア関数でスローされたエラーを自動的に捕捉してくれるため、この関数の中でエラーレスポンスを送信する必要はなく、代わりにただエラーをスローするだけで済みます。Expressは<code>next()</code>を呼び出し、捕捉したエラーを引数として渡すことで、私たちのカスタムエラーハンドラに制御を渡してくれます!</p>
+<p>これは最終的にエラーミドルウェア関数に行き着き、そこでも次のように変更を加えることができます:</p>
 <pre class="highlight"><code class="language-javascript">app.use((err, req, res, next) =&gt; {
   console.error(err);
   // We can now specify the `err.statusCode` that exists in our custom error class and if it does not exist it's probably an internal server error
   res.status(err.statusCode || 500).send(err.message);
 });</code></pre>
-<p>This is a useful pattern and we can create more custom error classes for different use cases if needed.</p>
-<h4>What is the next function</h4>
-<p>We've used the <code>next</code> function a few times now. But what exactly is it? Well, to put it simply, it is used to pass control to the next middleware function in the application's request-response cycle. To give an example:</p>
+<p>これは便利なパターンであり、必要に応じてさまざまなユースケースのために、さらにカスタムエラークラスを作成することができます。</p>
+<h4 id="what-is-the-next-function">next関数とは何か</h4>
+<p>これまでに<code>next</code>関数を何度か使ってきました。しかし、それは正確には何なのでしょうか?簡単に言うと、それはアプリケーションのリクエスト-レスポンスサイクルの中で、次のミドルウェア関数に制御を渡すために使われます。例を挙げてみましょう:</p>
 <pre class="highlight"><code class="language-javascript">function middleware1(req, res, next) {
   console.log("Middleware 1");
   next(); // Pass control to the next middleware
@@ -283,17 +283,17 @@ app.use(middleware1);
 app.use(middleware2);
 app.use(middleware3);
 // will log `Middleware 1` -&gt; `Middleware 2` and send a response with the text "Response from Middleware 2"</code></pre>
-<p>Here we have <code>middleware1</code>, <code>middleware2</code>, and <code>middleware3</code>. <code>middleware1</code> calls the <code>next</code> function, and since we are not yet sending a response, we pass the control to the next middleware function - <code>middleware2</code> (as indicated by the order of <code>app.use</code> calls). In <code>middleware2</code>, we send a response which ends the request-response cycle. Since it has ended, the third middleware function (<code>middleware3</code>) does not run. But if we somehow did not call the <code>next</code> function in <code>middleware1</code>, do you know what would happen? Perhaps pop in the <a href="https://discord.gg/fbFCkYabZB">TOP Discord server</a> and let us know what you think!</p>
-<p>Also, as we've discussed earlier with regards to calling the <code>next</code> function. We have the following arguments that we can pass to it:</p>
+<p>ここでは<code>middleware1</code>、<code>middleware2</code>、<code>middleware3</code>があります。<code>middleware1</code>は<code>next</code>関数を呼び出し、まだレスポンスを送信していないため、制御を次のミドルウェア関数――<code>middleware2</code>(<code>app.use</code>呼び出しの順番によって示される通り)――に渡します。<code>middleware2</code>の中では、レスポンスを送信し、それによってリクエスト-レスポンスサイクルが終了します。それが終了したため、3番目のミドルウェア関数(<code>middleware3</code>)は実行されません。しかし、もし何らかの理由で<code>middleware1</code>の中で<code>next</code>関数を呼び出さなかったら、どうなるかわかりますか?ぜひ<a href="https://discord.gg/fbFCkYabZB">TOP Discordサーバー</a>に立ち寄って、あなたの考えを教えてください!</p>
+<p>また、先ほど<code>next</code>関数の呼び出しについて説明したように、それに渡すことができる引数には以下のものがあります:</p>
 <ol>
-<li>No argument <code>next()</code> - Will pass control to the next middleware function. Very simple and straightforward.</li>
-<li>With an error argument <code>next(new Error(...))</code> - Will pass control directly to the error middleware function.</li>
-<li>With the string <code>next('route')</code> - Will pass control to the next route handler with the same matching path (if there is one). This only works for <code>app.METHOD</code> or <code>router.METHOD</code>. Potentially, it can also be the same as just calling <code>next</code> with no argument.</li>
-<li>With the string <code>next('router')</code> - Will skip all middleware functions attached to the specific router instance and pass control back out of the router instance. Basically, we exit the router and go back to the parent router, e.g. <code>app</code> (yes, the Express app is also just a router under the hood).</li>
+<li>引数なしの<code>next()</code> - 次のミドルウェア関数に制御を渡します。とてもシンプルでわかりやすいですね。</li>
+<li>エラー引数を伴う<code>next(new Error(...))</code> - 制御を直接エラーミドルウェア関数に渡します。</li>
+<li>文字列<code>next('route')</code> - (もしあれば)同じ一致するパスを持つ、次のルートハンドラに制御を渡します。これは<code>app.METHOD</code>または<code>router.METHOD</code>でのみ機能します。場合によっては、これは単に引数なしで<code>next</code>を呼び出すのと同じ結果になることもあります。</li>
+<li>文字列<code>next('router')</code> - 特定のルーターインスタンスにアタッチされたすべてのミドルウェア関数をスキップし、そのルーターインスタンスの外側に制御を戻します。基本的には、そのルーターを抜けて、親のルーター、例えば<code>app</code>に戻ります(そう、Expressアプリ自体も、内部的には単なるルーターにすぎません)。</li>
 </ol>
-<p>Out of the four, we will likely only use the first two, unless we have a very specific need that requires the other two.</p>
-<h3>Consolidating what we've learned</h3>
-<p>The following is the folder structure you'd end up with if you had been coding along:</p>
+<p>この4つのうち、他の2つが必要になるような非常に特殊なニーズがない限り、私たちはおそらく最初の2つしか使わないでしょう。</p>
+<h3>学んだことをまとめる</h3>
+<p>もしここまでコードを書きながら進めてきたなら、以下のようなフォルダ構造になっているはずです:</p>
 <pre class="highlight"><code class="language-text">express-app/
 ├─ errors/
 │  ├─ CustomNotFoundError.js
@@ -304,43 +304,43 @@ app.use(middleware3);
 │  ├─ ... other routers
 ├─ app.js
 ├─ db.js</code></pre>
-<p>As an exercise, feel free to create more sample data in our <code>db.js</code> file and controllers for the other routes we've previously created.</p>
-<h3>Assignment</h3>
+<p>練習として、<code>db.js</code>ファイルにもっとサンプルデータを作成したり、これまでに作成した他のルート用のコントローラーを作成したりしてみてください。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
 <li>
-<p>This article <a href="https://medium.com/@viral_shah/express-middlewares-demystified-f0c2c37ea6a1">Express Middlewares, Demystified</a> Written by Viral Shah will help understand how middlewares work in a deeper way. The article also encourages you to read the source code of Express which you can likely do by now.</p>
+<p>Viral Shah氏によるこの記事<a href="https://medium.com/@viral_shah/express-middlewares-demystified-f0c2c37ea6a1">Express Middlewares, Demystified</a>は、ミドルウェアがどのように機能するかをより深く理解する助けになります。この記事はまた、Expressのソースコードを読むことを勧めていますが、今のあなたならおそらくそれができるでしょう。</p>
 <div class="lesson-note" markdown="1">
-<h4>Asynchronous Handlers</h4>
-<p>While reading the article attached above, you might notice this paragraph:</p>
+<h4>非同期ハンドラ</h4>
+<p>上記の記事を読んでいると、次のような段落に気づくかもしれません:</p>
 <blockquote>
-<p>— Express was not built to await on handlers or handle returned promises. Hence, when a handler function is an async function, it will return a promise. When we throw an error, we are simply rejecting that promise. So, the only way to pass an error is via ‘next(err)’ function</p>
+<p>— Express was not built to await on handlers or handle returned promises. Hence, when a handler function is an async function, it will return a promise. When we throw an error, we are simply rejecting that promise. So, the only way to pass an error is via 'next(err)' function</p>
 </blockquote>
-<p>As of the current version of Express (v5), async route handlers are now natively supported. Please note that this article is outdated in this regard.</p>
+<p>Expressの現在のバージョン(v5)では、非同期のルートハンドラがネイティブでサポートされるようになりました。この点に関しては、この記事は古くなっていることに注意してください。</p>
 </li>
 </ol>
 </div>
 <ol>
-<li>Watch this short 10 minutes <a href="https://www.youtube.com/watch?v=Cgvopu9zg8Y">video tutorial of the MVC pattern</a>. There is not much to this other than consolidating what you already know.</li>
+<li>MVCパターンについてのこの短い10分間の<a href="https://www.youtube.com/watch?v=Cgvopu9zg8Y">動画チュートリアル</a>を見てください。すでに知っていることをまとめるだけなので、それほど多くはありません。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#handling-responses">What are the common response methods and their use cases?</a></li>
-<li><a href="#middleware">What are the types of middleware?</a></li>
-<li><a href="#middleware">How does a middleware get executed? In which order?</a></li>
-<li><a href="#what-is-the-next-function">What does calling the next function do? What if we pass an error argument?</a></li>
-<li><a href="#what-is-the-next-function">What are the other arguments you can pass to the next function?</a></li>
-<li><a href="#controllers">What is a controller?</a></li>
-<li><a href="#controllers">What is the difference between a controller and a middleware?</a></li>
-<li><a href="#error-handler-middleware">What happens if you define a middleware function with four parameters?</a></li>
-<li><a href="#creating-custom-errors">What would you do to create a custom error?</a></li>
+<li><a href="#handling-responses">よく使われるレスポンスメソッドとそのユースケースには、どのようなものがありますか?</a></li>
+<li><a href="#middleware">ミドルウェアにはどのような種類がありますか?</a></li>
+<li><a href="#middleware">ミドルウェアはどのように実行されますか?どのような順番でですか?</a></li>
+<li><a href="#what-is-the-next-function">next関数を呼び出すと何が起こりますか?エラー引数を渡した場合はどうなりますか?</a></li>
+<li><a href="#what-is-the-next-function">next関数に渡すことができる、他の引数にはどのようなものがありますか?</a></li>
+<li><a href="#controllers">コントローラーとは何ですか?</a></li>
+<li><a href="#controllers">コントローラーとミドルウェアの違いは何ですか?</a></li>
+<li><a href="#error-handler-middleware">4つのパラメータを持つミドルウェア関数を定義すると、何が起こりますか?</a></li>
+<li><a href="#creating-custom-errors">カスタムエラーを作成するには、どうすればよいですか?</a></li>
 </ul>
-<h3>Additional resources</h3>
-<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<h3>追加リソース</h3>
+<p>このセクションには、関連コンテンツへの役立つリンクが含まれています。必須ではないので、補足として捉えてください。</p>
 <ul>
-<li>The Express documentation for <a href="https://expressjs.com/en/guide/using-middleware.html">Using Express Middleware</a> is a short one with the same information, but has more examples that you can run through.</li>
+<li><a href="https://expressjs.com/en/guide/using-middleware.html">Using Express Middleware</a>についてのExpressのドキュメントは、同じ情報を短くまとめたものですが、実際に試せる例がより多く含まれています。</li>
 </ul>
       </div>
     </article>

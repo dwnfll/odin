@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,27 +28,27 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">HashMap</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
     </header>
     <p class="tvp-lesson__desc">Build your very first hash map data structure from scratch</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>You already know the magic behind hash maps. Now it's time to write your own implementation!</p>
-<h4>Limitation</h4>
-<p>Before we get started, we need to lay down some ground rules. JavaScript's dynamic nature of arrays allows us to insert and retrieve indexes that are outside our array size range. Example: if we create an array of size <code>16</code> to represent our buckets, nothing stops us from storing items at index <code>500</code>. This defeats the purpose of limiting storage size in hash maps, so we need to enforce some restrictions.</p>
-<p>Use the following snippet whenever you access a bucket through an index. We want to throw an error if we try to access an out-of-bounds index:</p>
+        <h3>イントロダクション</h3>
+<p>ハッシュマップの裏側にある魔法については、もう理解しています。今度は、自分自身の実装を書く番です!</p>
+<h4>制限事項</h4>
+<p>始める前に、いくつかの基本ルールを定めておく必要があります。JavaScriptの配列の動的な性質により、配列のサイズの範囲外にあるインデックスに対しても、挿入や取得ができてしまいます。例えば、バケットを表すためにサイズ<code>16</code>の配列を作成したとしても、インデックス<code>500</code>に項目を保存することを何も妨げません。これでは、ハッシュマップにおいてストレージサイズを制限するという目的が損なわれてしまうため、いくつかの制約を課す必要があります。</p>
+<p>インデックスを通じてバケットにアクセスするときは常に、以下のスニペットを使ってください。範囲外のインデックスにアクセスしようとした場合は、エラーをスローしたいのです:</p>
 <pre class="highlight"><code class="language-javascript">if (index &lt; 0 || index &gt;= buckets.length) {
   throw new Error("Trying to access index out of bounds");
 }</code></pre>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
-<p>Start by creating a <code>HashMap</code> class or factory function. It's up to you which you want to use. It should have at least two variables for <code>load factor</code> and <code>capacity</code>. For a <code>load factor</code> of <code>0.75</code> you should have an initial <code>capacity</code> of size <code>16</code>. Then proceed to create the following methods:</p>
+<p>まず、<code>HashMap</code>クラスまたはファクトリ関数を作成することから始めましょう。どちらを使うかはあなた次第です。少なくとも<code>load factor</code>と<code>capacity</code>のための2つの変数を持つ必要があります。<code>load factor</code>が<code>0.75</code>の場合、<code>capacity</code>の初期値はサイズ<code>16</code>にする必要があります。それができたら、以下のメソッドを作成していきましょう:</p>
 <ol>
 <li>
-<p><code>hash(key)</code> takes a string key and produces a hash code with it (in the real world, hash maps can accommodate various data types as keys, such as numbers or even other objects, but we'll keep it simple for now). We already implemented a fairly good <code>hash</code> function in the previous lesson. As a reminder:</p>
+<p><code>hash(key)</code>は文字列のキーを受け取り、それを使ってハッシュコードを生成します(現実の世界では、ハッシュマップは数値や他のオブジェクトなど、さまざまなデータ型をキーとして扱うことができますが、ここではシンプルにしておきます)。前回のレッスンで、すでにかなり良い<code>hash</code>関数を実装しました。おさらいすると:</p>
 <pre class="highlight"><code class="language-javascript">function hash(key) {
   let hashCode = 0;
 
@@ -59,53 +59,53 @@
 
   return hashCode;
 } </code></pre>
-<p>You are free to use that, or you can conduct your own research on hashing algorithms. Beware, this is a deep, deep rabbit hole. Remember that to ensure we get an index that fits in our buckets (regardless of growth), we need to modulo (<code>%</code>) the hash code by our current capacity before we return it. An important edge case to note is that with very long keys, we may end up exceeding the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER">maximum safe integer</a> and calculations end up inaccurate. Therefore, it'd be sensible to modulo the hash code by the current capacity on every iteration in the loop, rather than only once after the loop has completed.</p>
-<p>You might find yourself confusing keys with hash codes while accessing key-value pairs later. We would like to stress that the key is what your <code>hash</code> function will take as an input. In a way, we could say that the key is important for us <em>only</em> inside the <code>hash</code> function, as we never access a bucket directly with the key. Instead, we always do so with the hash code.</p>
+<p>これをそのまま使ってもかまいませんし、ハッシュ化アルゴリズムについて自分で調べてみてもかまいません。ただし注意してください、これはとても、とても深い沼です。忘れないでいただきたいのは、(バケット配列の成長にかかわらず)バケットに収まるインデックスを確実に得るために、ハッシュコードを返す前に現在の<code>capacity</code>で剰余(<code>%</code>)を取る必要がある、ということです。注意すべき重要なエッジケースとして、非常に長いキーの場合、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER">最大安全整数(maximum safe integer)</a>を超えてしまい、計算結果が不正確になってしまうことがあります。そのため、ループが完了した後に一度だけ剰余を取るのではなく、ループの各繰り返しのたびに、現在の<code>capacity</code>でハッシュコードの剰余を取るほうが賢明です。</p>
+<p>後でキーと値のペアにアクセスする際に、キーとハッシュコードを混同してしまうことがあるかもしれません。強調しておきたいのは、キーとは、あなたの<code>hash</code>関数が入力として受け取るものだ、ということです。ある意味では、キーが重要なのは<code>hash</code>関数の中だけ、とも言えます。というのも、キーを使って直接バケットにアクセスすることは決してなく、常にハッシュコードを使ってアクセスするからです。</p>
 </li>
 <li>
-<p><code>set(key, value)</code> takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten, and we can say that we <em>update</em> the key's value (e.g. <code>Carlos</code> is our key but it is called twice: once with value <code>I am the old value.</code>, and once with value <code>I am the new value.</code>. Following this logic, <code>Carlos</code> should contain only the latter value).</p>
-<p>Recall that collisions occur when <em>TWO DIFFERENT</em> keys generate the same hash code and get assigned to the same bucket. (e.g. <code>Rama</code> and <code>Sita</code> are both hashed to <code>3</code>, so <code>3</code> becomes a location for <code>Rama</code> AND <code>Sita</code>. However, we know that this is not an update because the keys are different). Review the <a href="https://www.theodinproject.com/lessons/javascript-hashmap-data-structure#collisions">dealing with collisions</a> section of the previous lesson to find a way to handle our collisions.</p>
+<p><code>set(key, value)</code>は2つの引数を受け取ります。1つ目はキー、2つ目はそのキーに割り当てられる値です。もしそのキーがすでに存在する場合は、古い値が上書きされ、私たちはそのキーの値を<em>更新した</em>と言うことができます(例えば、<code>Carlos</code>がキーだとして、これが2回呼び出されたとします: 1回目は値<code>I am the old value.</code>、2回目は値<code>I am the new value.</code>。このロジックに従うと、<code>Carlos</code>には後者の値だけが残るはずです)。</p>
+<p>衝突は、<em>2つの異なる</em>キーが同じハッシュコードを生成し、同じバケットに割り当てられたときに発生することを思い出してください(例えば、<code>Rama</code>と<code>Sita</code>が両方とも<code>3</code>にハッシュ化されたとすると、<code>3</code>は<code>Rama</code>と<code>Sita</code>の両方の場所になります。しかし、キーが異なるため、これは更新ではないとわかります)。私たちの衝突をどう処理するかについては、前のレッスンの<a href="https://www.theodinproject.com/lessons/javascript-hashmap-data-structure#collisions">衝突への対処</a>のセクションを復習してください。</p>
 <ul>
-<li>Remember to grow your buckets to double their capacity when your hash map reaches the <code>load factor</code>. The methods mentioned later in this assignment can help you handle the growth logic, so you may want to implement this feature near the end. However, we mention this with <code>set()</code> because it's important to grow buckets exactly as they are being expanded.</li>
+<li>ハッシュマップが<code>load factor</code>に達したときに、バケットをその容量の2倍に成長させることを忘れないでください。この課題の後半で紹介するメソッドが、成長のロジックを扱う際に役立つはずなので、この機能は最後のほうで実装したいと思うかもしれません。とはいえ、バケットがまさに拡張されるタイミングで成長させることが重要なので、ここ<code>set()</code>の説明の中で触れています。</li>
 </ul>
 </li>
 <li>
-<p><code>get(key)</code> takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return <code>null</code>.</p>
+<p><code>get(key)</code>はキーを1つの引数として受け取り、そのキーに割り当てられている値を返します。キーが見つからない場合は、<code>null</code>を返します。</p>
 </li>
 <li>
-<p><code>has(key)</code> takes a key as an argument and returns <code>true</code> or <code>false</code> based on whether or not the key is in the hash map.</p>
+<p><code>has(key)</code>はキーを引数として受け取り、そのキーがハッシュマップの中に存在するかどうかに応じて、<code>true</code>または<code>false</code>を返します。</p>
 </li>
 <li>
-<p><code>remove(key)</code> takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return <code>true</code>. If the key isn't in the hash map, it should return <code>false</code>.</p>
+<p><code>remove(key)</code>はキーを引数として受け取ります。指定されたキーがハッシュマップの中に存在する場合は、そのキーを持つエントリを削除し、<code>true</code>を返す必要があります。キーがハッシュマップの中に存在しない場合は、<code>false</code>を返す必要があります。</p>
 </li>
 <li>
-<p><code>length()</code> returns the number of stored keys in the hash map.</p>
+<p><code>length()</code>はハッシュマップに保存されているキーの数を返します。</p>
 </li>
 <li>
-<p><code>clear()</code> removes all entries in the hash map.</p>
+<p><code>clear()</code>はハッシュマップ内のすべてのエントリを削除します。</p>
 </li>
 <li>
-<p><code>keys()</code> returns an array containing all the keys inside the hash map.</p>
+<p><code>keys()</code>はハッシュマップ内のすべてのキーを含む配列を返します。</p>
 </li>
 <li>
-<p><code>values()</code> returns an array containing all the values.</p>
+<p><code>values()</code>はすべての値を含む配列を返します。</p>
 </li>
 <li>
-<p><code>entries()</code> returns an array that contains each <code>key, value</code> pair. Example: <code>[[firstKey, firstValue], [secondKey, secondValue]]</code></p>
+<p><code>entries()</code>は各<code>キー, 値</code>のペアを含む配列を返します。例: <code>[[firstKey, firstValue], [secondKey, secondValue]]</code></p>
 </li>
 </ol>
-<p>Remember that a hash map does not preserve insertion order when you are retrieving your hash map's data. It is normal and expected for keys and values to appear out of the order you inserted them in.</p>
-<h4>Test Your Hash Map</h4>
+<p>ハッシュマップは、データを取得する際に挿入順序を保持しないことを思い出してください。キーと値が、挿入した順序とは異なる順序で現れるのは、正常であり、想定されていることです。</p>
+<h4>ハッシュマップをテストする</h4>
 <ol>
 <li>
-<p>Create a new JavaScript file.</p>
+<p>新しいJavaScriptファイルを作成してください。</p>
 </li>
 <li>
-<p>Create a new instance of your hash map and set the load factor to be <code>0.75</code>.</p>
+<p>あなたのハッシュマップの新しいインスタンスを作成し、load factorを<code>0.75</code>に設定してください。</p>
 <pre class="highlight"><code class="language-javascript">const test = new HashMap() // or HashMap() if using a factory</code></pre>
 </li>
 <li>
-<p>Populate your hash map using the <code>set(key, value)</code> method by copying the following:</p>
+<p>以下をコピーして、<code>set(key, value)</code>メソッドを使ってハッシュマップにデータを入れてください:</p>
 <pre class="highlight"><code class="language-javascript">test.set('apple', 'red')
 test.set('banana', 'yellow')
 test.set('carrot', 'orange')
@@ -120,28 +120,28 @@ test.set('kite', 'pink')
 test.set('lion', 'golden')</code></pre>
 </li>
 <li>
-<p>After populating your hash map with the data above, your hash map's current load levels should now be at <code>0.75</code> (full capacity).</p>
+<p>上記のデータでハッシュマップにデータを入れ終えると、ハッシュマップの現在の負荷レベルは<code>0.75</code>(満容量)になっているはずです。</p>
 </li>
 <li>
-<p>Now with a full hash map, try overwriting a few nodes using <code>set(key, value)</code>. This should only overwrite the existing <code>values</code> of your nodes and not add new ones, so <code>length()</code> should still return the same value and <code>capacity</code> should remain the same.</p>
+<p>ハッシュマップが満杯の状態で、今度は<code>set(key, value)</code>を使っていくつかのノードを上書きしてみてください。これは、ノードの既存の<code>value</code>を上書きするだけで、新しいノードを追加するものではないはずなので、<code>length()</code>は同じ値を返し続け、<code>capacity</code>も変わらないはずです。</p>
 </li>
 <li>
-<p>After that, populate your hash map with the last node below. This will make your load levels exceed your <code>load factor</code>, triggering your hash map's growth functionality and doubling its <code>capacity</code>:</p>
+<p>その後、以下の最後のノードをハッシュマップに追加してください。これにより負荷レベルが<code>load factor</code>を超え、ハッシュマップの成長機能が発動して、その<code>capacity</code>が2倍になります:</p>
 <pre class="highlight"><code class="language-javascript">test.set('moon', 'silver')</code></pre>
 </li>
 <li>
-<p>If you have implemented your hash map correctly, the load levels of your expanded hash map should drop well below your load factor, and the entries should be spread evenly among the expanded buckets.</p>
+<p>ハッシュマップを正しく実装できていれば、拡張後のハッシュマップの負荷レベルはload factorをかなり下回っているはずで、エントリは拡張後のバケットに均等に分散されているはずです。</p>
 </li>
 <li>
-<p>With your new hash map, try overwriting a few nodes using <code>set(key, value)</code>. Again, this should only overwrite existing <code>values</code> of your nodes.</p>
+<p>新しくなったハッシュマップに対しても、<code>set(key, value)</code>を使っていくつかのノードを上書きしてみてください。これも、ノードの既存の<code>value</code>を上書きするだけのはずです。</p>
 </li>
 <li>
-<p>Test the other methods of your hash map, such as <code>get(key)</code>, <code>has(key)</code>, <code>remove(key)</code>, <code>length()</code>, <code>clear()</code>, <code>keys()</code>, <code>values()</code>, and <code>entries()</code>, to check if they are still working as expected after expanding your hash map.</p>
+<p><code>get(key)</code>、<code>has(key)</code>、<code>remove(key)</code>、<code>length()</code>、<code>clear()</code>、<code>keys()</code>、<code>values()</code>、<code>entries()</code>など、ハッシュマップの他のメソッドもテストして、ハッシュマップを拡張した後も期待通りに動作しているかを確認してください。</p>
 </li>
 </ol>
-<h4>Extra Credit</h4>
+<h4>追加課題</h4>
 <ul>
-<li>Create a <code>HashSet</code> class or factory function that behaves the same as a <code>HashMap</code> but only contains <code>keys</code> with no <code>values</code>.</li>
+<li><code>HashMap</code>と同じように振る舞うものの、<code>values</code>を持たず<code>keys</code>だけを持つ、<code>HashSet</code>クラスまたはファクトリ関数を作成してください。</li>
 </ul>
 </div>
       </div>

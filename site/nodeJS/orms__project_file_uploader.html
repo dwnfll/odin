@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,29 +28,29 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">File Uploader</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">File uploader project</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>In this project, we'll be building a stripped down version of <a href="https://www.google.com/drive/">Google Drive</a> (or any other personal storage service).</p>
-<h3>Assignment</h3>
+        <h3>イントロダクション</h3>
+<p>このプロジェクトでは、<a href="https://www.google.com/drive/">Google Drive</a>(あるいは他の個人向けストレージサービス)の簡略版を構築していきます。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Set up a new project using Express and Prisma. Install all the necessary dependencies including Passport etc.</li>
-<li>Set up session based authentication using Passport.js. Use the <a href="https://github.com/kleydon/prisma-session-store#readme">Prisma session store library</a> to persist sessions in the database.</li>
-<li>Add a form where authenticated users can upload a file. Save the file in your filesystem for now. You'll need to integrate the <a href="https://github.com/expressjs/multer">multer middleware</a>. We'll upload these files once we have all other features working.</li>
-<li>Add folders. Users should be able to CRUD folders and upload files in them. Set up routes and necessary database interactions for this.</li>
-<li>Add a route to view specific file details like name, size, and upload time. There should be a download button to allow users to download the file.</li>
-<li>Finally, add logic to upload files. You could store it in a database, but it's advised to use a cloud storage service for this usecase. You can use <a href="https://cloudinary.com/">Cloudinary</a> or <a href="https://supabase.com/docs/guides/storage">Supabase storage</a>. When a file is uploaded, save the file URL in the database.</li>
-<li>Validate your files! How you do this is up to you. You can limit certain file types to upload and/or restrict files that are too heavy.</li>
+<li>ExpressとPrismaを使って、新しいプロジェクトをセットアップしてください。Passportなど、必要なすべての依存関係をインストールしてください。</li>
+<li>Passport.jsを使って、セッションベースの認証をセットアップしてください。セッションをデータベースに永続化するために、<a href="https://github.com/kleydon/prisma-session-store#readme">Prisma session storeライブラリ</a>を使ってください。</li>
+<li>認証されたユーザーがファイルをアップロードできるフォームを追加してください。今のところ、ファイルはあなたのファイルシステムに保存してください。<a href="https://github.com/expressjs/multer">multerミドルウェア</a>を統合する必要があります。他のすべての機能が動くようになったら、これらのファイルをアップロードするようにします。</li>
+<li>フォルダを追加してください。ユーザーはフォルダをCRUDし、その中にファイルをアップロードできるべきです。そのために必要なルートとデータベースのやり取りをセットアップしてください。</li>
+<li>名前、サイズ、アップロード日時といった、特定のファイルの詳細を表示するルートを追加してください。ユーザーがファイルをダウンロードできるように、ダウンロードボタンがあるべきです。</li>
+<li>最後に、ファイルをアップロードするロジックを追加してください。データベースに保存することもできますが、このユースケースにはクラウドストレージサービスを使うことをおすすめします。<a href="https://cloudinary.com/">Cloudinary</a>や<a href="https://supabase.com/docs/guides/storage">Supabase storage</a>を使うことができます。ファイルがアップロードされたら、そのファイルのURLをデータベースに保存してください。</li>
+<li>ファイルをバリデーションしてください!どのように行うかはあなた次第です。アップロードできるファイルの種類を制限したり、大きすぎるファイルを制限したりできます。</li>
 </ol>
-<h4>Extra credit</h4>
+<h4>発展課題</h4>
 <ul>
-<li>Add a share folder functionality. When a user wants to share a folder (and all of its contents), they should have a form to specify the duration i.e. 1d, 10d etc. This should generate a link that can be shared with anyone (unauthenticated users). For example, the link could be in the following format: <code>https://yourapp.com/share/c758c495-0705-44c6-8bab-6635fd12cf81</code></li>
+<li>フォルダ共有機能を追加してください。ユーザーがフォルダ(とそのすべての中身)を共有したいとき、期間(1日、10日など)を指定するフォームがあるべきです。これにより、誰とでも(認証されていないユーザーとでも)共有できるリンクが生成されるべきです。例えば、そのリンクは以下のような形式になります: <code>https://yourapp.com/share/c758c495-0705-44c6-8bab-6635fd12cf81</code></li>
 </ul>
 </div>
       </div>

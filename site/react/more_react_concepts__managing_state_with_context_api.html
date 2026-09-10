@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,30 +28,30 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Managing State With The Context API</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Managing State With The Context API</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Throughout the lessons, we've learned how to manage state, and pass data and props between components. However, as our application grows in size, not only will this process of managing states and passing data around become repetitive and inconvenient, but it will also be hard to manage. In the <a href="https://www.theodinproject.com/lessons/node-path-react-new-react-router#outlets-and-state">React Router lesson</a>, we mentioned how we could use outlet context to pass data from a parent component through an <code>&lt;Outlet /&gt;</code> to a child component. This lesson will cover how we can use the Context API to do similar things outside of outlet scenarios.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>これまでのレッスンを通して、stateを管理する方法や、コンポーネント間でデータとpropsを受け渡す方法を学んできました。しかし、アプリケーションが大きくなるにつれて、stateを管理しデータをやり取りするこのプロセスは、繰り返しが多く不便になるだけでなく、管理も難しくなっていきます。<a href="https://www.theodinproject.com/lessons/node-path-react-new-react-router#outlets-and-state">React Routerのレッスン</a>で、outletのコンテキストを使って、親コンポーネントから<code>&lt;Outlet /&gt;</code>を通して子コンポーネントにデータを渡す方法について触れました。このレッスンでは、outletを使わない場面でも同じようなことを行うために、Context APIをどう使えるかを扱います。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Using the Context API to pass state and data deep into React components.</li>
-<li>Real-world application of the Context API.</li>
-<li>Drawbacks of using the Context API.</li>
+<li>Context APIを使って、Reactコンポーネントの深いところまでstateやデータを渡す。</li>
+<li>Context APIの実際の活用例。</li>
+<li>Context APIを使うことの欠点。</li>
 </ul>
-<h3>Why do we need Context API</h3>
-<p>The Context API in React is a feature that allows you to manage the global state of your application without the need to pass data through multiple levels of components using props. It provides a way to share data and functionality across different components, regardless of where they are located in the component tree.</p>
-<p>To give a more concrete example, let's go back to a project that we've already built previously. In the Shopping Cart project, you might have a Product Detail Page that might or might not look like this very awesome shop:</p>
-<p><img alt="Rough layout of a shopping website product page" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/e6a43abb8ad6836796159e0ab6160045293e2a27/react/more-react-concepts/managing-state-with-context-api/imgs/00.png" /></p>
-<p>You have a counter in the header that displays the number of items currently in the cart. You can add items to the cart through the "Add to Cart" button.</p>
-<p>For the examples below, we will omit the routing that we did in the project and other components that are not necessary for our examples. We will just look at the code relevant to this lesson.</p>
-<p>As we already know, if we want the state to persist and be shared between components, what we want to do is to <a href="https://react.dev/learn/sharing-state-between-components">Lift the state up</a> to a common ancestor/parent.</p>
-<p>Our application code might look like this:</p>
+<h3>なぜContext APIが必要なのですか?</h3>
+<p>ReactのContext APIは、propsを使って複数階層のコンポーネントにデータを渡す必要なく、アプリケーションのグローバルなstateを管理できるようにしてくれる機能です。これは、コンポーネントツリーのどこに位置しているかにかかわらず、異なるコンポーネント間でデータや機能を共有する方法を提供してくれます。</p>
+<p>より具体的な例を挙げるために、以前すでに構築したプロジェクトに戻ってみましょう。Shopping Cartプロジェクトでは、この非常に素晴らしいショップのような見た目をしている(あるいはしていない)、商品詳細ページがあるかもしれません:</p>
+<p><img alt="ショッピングサイトの商品ページの大まかなレイアウト" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/e6a43abb8ad6836796159e0ab6160045293e2a27/react/more-react-concepts/managing-state-with-context-api/imgs/00.png" /></p>
+<p>ヘッダーには、現在カートに入っている商品の数を表示するカウンターがあります。「Add to Cart」ボタンを使って、カートに商品を追加できます。</p>
+<p>以下の例では、プロジェクトで行ったルーティングや、この例に必要のない他のコンポーネントは省略します。このレッスンに関連するコードだけを見ていきます。</p>
+<p>すでに知っている通り、stateを永続させ、コンポーネント間で共有したい場合、私たちが行いたいのは、共通の祖先/親に<a href="https://react.dev/learn/sharing-state-between-components">stateをリフトアップする</a>ことです。</p>
+<p>私たちのアプリケーションのコードは、次のようになるかもしれません:</p>
 <pre class="highlight"><code class="language-jsx">import { useState } from "react";
 // other imports for Header and ProductDetail
 
@@ -72,8 +72,8 @@ export default function App() {
     &lt;/&gt;
   );
 }</code></pre>
-<p>Let's focus on the <code>Header</code> and <code>ProductDetail</code> components.</p>
-<p>Our Header might look like this:</p>
+<p><code>Header</code>コンポーネントと<code>ProductDetail</code>コンポーネントに焦点を当てましょう。</p>
+<p>私たちのHeaderは、次のような見た目になるかもしれません:</p>
 <pre class="highlight"><code class="language-jsx">// import for Link
 
 function Links({ cartItemsCount }) {
@@ -100,7 +100,7 @@ export default function Header({ cartItemsCount }) {
     &lt;/header&gt;
   );
 }</code></pre>
-<p>Our <code>ProductDetail</code> component:</p>
+<p>私たちの<code>ProductDetail</code>コンポーネント:</p>
 <pre class="highlight"><code class="language-jsx">export default function ProductDetail({ products, addToCart }) {
   const product = products.find(/* Logic to find the specific product */);
 
@@ -116,34 +116,34 @@ export default function Header({ cartItemsCount }) {
     &lt;/div&gt;
   );
 }</code></pre>
-<p>Great. This is a very common pattern, we pass data/functions between components, nothing too complicated. But there's a lot to micro-manage, a lot of components that you need to pass props to, and there's even a little bit of prop drilling that's happening, where the <code>cartItemsCount</code> is passed from <code>App</code> -&gt; <code>Header</code> -&gt; <code>Links</code>.</p>
-<p>So far, what we've done in the <code>App</code> component is:</p>
+<p>素晴らしいですね。これは非常によくあるパターンで、コンポーネント間でデータや関数を受け渡しているだけで、特に複雑なことはしていません。しかし、細かく管理しなければならないことがたくさんあり、propsを渡さなければならないコンポーネントもたくさんあり、<code>cartItemsCount</code>が<code>App</code> -&gt; <code>Header</code> -&gt; <code>Links</code>と渡されていく、ちょっとしたprop drillingも起こっています。</p>
+<p>ここまで、<code>App</code>コンポーネントの中で私たちが行ってきたのは:</p>
 <ul>
-<li>Pass <code>products</code> and <code>addToCart</code> down to the <code>ProductDetail</code> component</li>
-<li>Pass <code>cartItemsCount</code> down to the <code>Header</code> component and the <code>Links</code> component that is part of the <code>Header</code></li>
+<li><code>products</code>と<code>addToCart</code>を<code>ProductDetail</code>コンポーネントに渡す</li>
+<li><code>cartItemsCount</code>を<code>Header</code>コンポーネントと、<code>Header</code>の一部である<code>Links</code>コンポーネントに渡す</li>
 </ul>
-<p>This is a very basic application, but imagine the application grows in size as more features are added, say in the Product Detail Page. There will be a lot more components to nest, and potentially more nested props. What if we have a <code>Cart</code> component and a <code>ProductListing</code> component? What if we added more functionalities other than just <code>addToCart</code>? It can get repetitive and complex because, as we all know, more features equal more complexities. This is especially frequent in component-based frameworks since we're more inclined to create separate reusable components instead of inlining elements, which in turn creates more nesting and passing of props.</p>
-<h3>Implementing Context API</h3>
-<p>To simplify our application and reduce complexity, we can implement the Context API. There are three key elements in this API that we need to understand:</p>
+<p>これは非常に基本的なアプリケーションですが、例えばProduct Detail Pageに、さらに多くの機能が追加されて、アプリケーションが大きくなっていく様子を想像してみてください。ネストするコンポーネントがもっと増え、ネストするpropsも増える可能性があります。もし<code>Cart</code>コンポーネントや<code>ProductListing</code>コンポーネントがあったらどうでしょうか?<code>addToCart</code>以外にも、さらに多くの機能を追加したらどうでしょうか?ご存知の通り、機能が増えれば複雑さも増すため、繰り返しが多く複雑になっていく可能性があります。これは特に、コンポーネントベースのフレームワークでよく起こります。というのも、要素をインラインで書く代わりに、独立した再利用可能なコンポーネントを作りたくなる傾向が強いため、それがさらに多くのネストとpropsの受け渡しを生み出すからです。</p>
+<h3>Context APIを実装する</h3>
+<p>アプリケーションを単純化し、複雑さを減らすために、Context APIを実装することができます。このAPIには、理解しておく必要がある3つの重要な要素があります:</p>
 <ol>
-<li><code>createContext</code> - This "creates the context" Duh... But yes, it's how we can create the context. It takes in any value, be it a number, string, or object, which can be referred to as the <em>default value</em> of the context, and returns a context object that can be used to pass down data to components</li>
-<li><code>useContext</code> - This hook is used to consume data from a context object created by <code>createContext</code>. We can use this hook inside our component to retrieve the data that we need. This hook accepts the context object as an argument</li>
-<li><code>ContextObject</code> - The context object is a component that accepts a prop called <code>value</code>, which is the context value that's going to be passed down to the components no matter how deeply they're nested. In other words, a way to "provide" the context value to these components. Prior to React 19, <code>ContextObject.Provider</code> was used instead of <code>ContextObject</code>, so wherever you see <code>Provider</code> we mean <code>ContextObject</code></li>
+<li><code>createContext</code> - これは「コンテキストを作成する」ものです。当たり前ですね……でも、その通りです。これが、コンテキストを作成する方法です。これは、数値、文字列、オブジェクトなど、どんな値でも受け取ることができ、それはコンテキストの<em>デフォルト値</em>と呼ぶことができるもので、コンポーネントにデータを渡すために使えるコンテキストオブジェクトを返します</li>
+<li><code>useContext</code> - このフックは、<code>createContext</code>によって作成されたコンテキストオブジェクトからデータを利用するために使われます。私たちは、コンポーネントの中でこのフックを使って、必要なデータを取得できます。このフックは、コンテキストオブジェクトを引数として受け取ります</li>
+<li><code>ContextObject</code> - コンテキストオブジェクトは、<code>value</code>と呼ばれるpropを受け取るコンポーネントです。これは、どれだけ深くネストされていても、コンポーネントに渡されることになるコンテキストの値です。言い換えると、これらのコンポーネントにコンテキストの値を「提供する」方法です。React 19より前は、<code>ContextObject</code>の代わりに<code>ContextObject.Provider</code>が使われていました。そのため、<code>Provider</code>という表記を見かけたら、それは<code>ContextObject</code>を意味しています</li>
 </ol>
-<p>We can start by using the <code>createContext</code> function that can be imported from the <code>react</code> module.</p>
+<p><code>react</code>モジュールからインポートできる<code>createContext</code>関数を使うところから始められます。</p>
 <pre class="highlight"><code class="language-javascript">import { createContext } from "react";</code></pre>
-<p>As we have described earlier, when you create a new context using <code>createContext</code>, you can specify an initial value for the context. This is known as the default value of the context. The default value can be any type of value - a string, number, boolean, or even an object or array. Do note that this default value does not change, it's static.</p>
-<p>In our case, we will be using an object that contains the following shape:</p>
+<p>先ほど説明したように、<code>createContext</code>を使って新しいコンテキストを作成する際、そのコンテキストの初期値を指定できます。これは、コンテキストのデフォルト値として知られています。デフォルト値は、文字列、数値、真偽値、あるいはオブジェクトや配列であっても、どんな型の値でもかまいません。このデフォルト値は変化せず、静的なものであることに注意してください。</p>
+<p>私たちの場合は、以下のような形のオブジェクトを使います:</p>
 <pre class="highlight"><code class="language-javascript">const ShopContext = createContext({
   products: [],
   cartItems: [],
   addToCart: () =&gt; {},
 });</code></pre>
-<p>In this example, our default value is an object with three properties - <code>products</code>, <code>cartItems</code>, and <code>addToCart</code>. <code>products</code> and <code>cartItems</code> are arrays that will hold the products and items in the user's cart, respectively. <code>addToCart</code> is a function that will allow us to add items to the cart.</p>
-<p>This object that we've defined is not necessary. We can of course do this as well and it will not be a problem at all:</p>
+<p>この例では、私たちのデフォルト値は、<code>products</code>、<code>cartItems</code>、<code>addToCart</code>という3つのプロパティを持つオブジェクトです。<code>products</code>と<code>cartItems</code>は配列であり、それぞれ商品とユーザーのカートに入っている商品を保持します。<code>addToCart</code>は、カートに商品を追加できるようにしてくれる関数です。</p>
+<p>私たちが定義したこのオブジェクトは、必須ではありません。もちろん、以下のようにすることもでき、それでもまったく問題ありません:</p>
 <pre class="highlight"><code class="language-javascript">const ShopContext = createContext(null);</code></pre>
-<p>However, the reason why we're adding the object, is so that even if we somehow use the context inside a component that is not nested inside a Provider, because we have set a <em>default value</em>, our application will not break (This is also good for testing since we don't need to wrap a component in a Provider to get a value) and also take advantage of IDE features like auto-completion when we have an object as the value. When we use this context in our components, we will be able to access the properties directly from the context. It's basically a bonus! It's up to you if you want to set the default value to the object or just <code>null</code> because we're going to overwrite this default value anyway.</p>
-<p>So how do we use this context? And that is by using the Context object as a component and nesting the children components inside it. In this example, we will remove the props altogether.</p>
+<p>しかし、私たちがこのオブジェクトを追加している理由は、たとえ何らかの形でProviderの中にネストされていないコンポーネントの中でコンテキストを使ってしまったとしても、<em>デフォルト値</em>を設定しているため、アプリケーションが壊れないようにするためです(これは、値を取得するためにコンポーネントをProviderでラップする必要がないため、テストにも都合が良いです)。また、値としてオブジェクトを持っていると、オートコンプリートのようなIDEの機能も活用できます。コンポーネントの中でこのコンテキストを使うとき、コンテキストから直接プロパティにアクセスできるようになります。これは基本的におまけのようなものです!デフォルト値をオブジェクトにするか、単に<code>null</code>にするかは、あなた次第です。というのも、いずれにせよこのデフォルト値は上書きすることになるからです。</p>
+<p>では、このコンテキストをどう使えばよいのでしょうか?それは、Contextオブジェクトをコンポーネントとして使い、その中に子コンポーネントをネストさせることによってです。この例では、propsを完全に取り除きます。</p>
 <pre class="highlight"><code class="language-jsx">import { useState, createContext } from "react";
 // other imports for Header and ProductDetail
 
@@ -172,7 +172,7 @@ export default function App() {
     &lt;/ShopContext&gt;
   );
 }</code></pre>
-<p>Great! Now let's try to look at our <code>Header</code> component again, we will also remove all the props that we've defined earlier, and to retrieve the data, we'll be using the <code>useContext</code> hook that can be imported in the <code>react</code> module.</p>
+<p>素晴らしい!では、<code>Header</code>コンポーネントをもう一度見てみましょう。先ほど定義したすべてのpropsも取り除き、データを取得するために、<code>react</code>モジュールからインポートできる<code>useContext</code>フックを使います。</p>
 <pre class="highlight"><code class="language-jsx">import { useContext } from "react";
 // import for ShopContext
 // import for Link
@@ -203,8 +203,8 @@ export default function Header() {
     &lt;/header&gt;
   );
 }</code></pre>
-<p>We've completely removed the prop drill problem, and we can conveniently get the <code>cartItems</code> directly in the <code>Links</code> component itself as we already know that no matter how deeply nested the component is, we can still get the data as long as <em>it's nested inside the Provider</em>.</p>
-<p>Let's also change our <code>ProductDetail</code> component to do the same:</p>
+<p>prop drillingの問題を完全に取り除くことができ、コンポーネントがどれだけ深くネストされていても、<em>それがProviderの中にネストされている</em>限りデータを取得できることをすでに知っているため、<code>Links</code>コンポーネント自体の中で<code>cartItems</code>を直接、便利に取得できるようになりました。</p>
+<p>同じように、<code>ProductDetail</code>コンポーネントも変更しましょう:</p>
 <pre class="highlight"><code class="language-jsx">import { useContext } from "react";
 // import for ShopContext
 
@@ -225,35 +225,35 @@ export default function ProductDetail() {
   );
 }</code></pre>
 <p><a name="context-api-benefits"></a>
-In the <code>Header</code> component, we used <code>useContext()</code> to access <code>cartItems</code> from the <code>ShopContext</code>. Similarly, in the <code>ProductDetail</code> component, we can use the <code>products</code> and <code>addToCart</code> function.</p>
-<p>With this implementation, we no longer need to pass down props from the <code>App</code> component to the <code>Header</code> and <code>ProductDetail</code> components. The <code>Header</code> and <code>ProductDetail</code> components can access the <code>cartItems</code> state and <code>addToCart</code> function from the <code>ShopContext</code>.</p>
-<p>Overall, the implementation of the Context API has allowed for a more efficient, cleaner, and streamlined way of passing down data across multiple components. By using the <code>createContext()</code> function and the <code>useContext()</code> hook, we can easily pass down state and functions to child components without the need for prop drilling. It's also more centralized since we're keeping our data in a single location. All of these make our code easier to reason about.</p>
-<h3>Drawbacks of using Context API</h3>
-<p>Although the Context API can be a powerful tool for managing state in larger React applications, it also has some drawbacks that you should be aware of:</p>
+<code>Header</code>コンポーネントでは、<code>ShopContext</code>から<code>cartItems</code>にアクセスするために<code>useContext()</code>を使いました。同様に、<code>ProductDetail</code>コンポーネントでも、<code>products</code>と<code>addToCart</code>関数を使うことができます。</p>
+<p>この実装により、<code>App</code>コンポーネントから<code>Header</code>と<code>ProductDetail</code>コンポーネントにpropsを渡す必要がなくなりました。<code>Header</code>と<code>ProductDetail</code>コンポーネントは、<code>ShopContext</code>から<code>cartItems</code>stateと<code>addToCart</code>関数にアクセスできます。</p>
+<p>全体として、Context APIの実装によって、複数のコンポーネントにわたってデータを渡す、より効率的で、よりクリーンで、より合理化された方法が可能になりました。<code>createContext()</code>関数と<code>useContext()</code>フックを使うことで、prop drillingを行うことなく、簡単にstateや関数を子コンポーネントに渡すことができます。データを単一の場所に保持しているため、より集中管理もされています。これらすべてが、私たちのコードについて考えることを容易にしてくれます。</p>
+<h3 id="drawbacks-of-using-context-api">Context APIを使うことの欠点</h3>
+<p>Context APIは、より大規模なReactアプリケーションでstateを管理するための強力なツールになり得ますが、知っておくべきいくつかの欠点もあります:</p>
 <ol>
-<li>It can lead to performance issues: When you update the state in a context, it can cause all components that are consuming that context to re-render, even if the state that they are using hasn't changed. This can lead to performance issues, especially if you have a lot of components that are consuming the same context.</li>
-<li>It can make your code harder to follow: With the Context API, it's easier to access the state from any component in your application. However, this can also make your code harder to follow, especially if you have a lot of nested components that are consuming the same context. It's important to keep your code organized and well-structured to avoid confusion.</li>
+<li>パフォーマンスの問題につながる可能性があります: コンテキスト内のstateを更新すると、そのコンテキストを利用しているすべてのコンポーネントが、たとえそれらが使っているstateが変化していなくても、再レンダーされてしまうことがあります。これは、特に同じコンテキストを利用しているコンポーネントがたくさんある場合、パフォーマンスの問題につながる可能性があります。</li>
+<li>コードを追いにくくする可能性があります: Context APIを使うと、アプリケーション内のどのコンポーネントからでもstateにアクセスしやすくなります。しかし、これによって、特に同じコンテキストを利用しているネストされたコンポーネントがたくさんある場合、コードが追いにくくなることもあります。混乱を避けるために、コードを整理し、うまく構造化しておくことが重要です。</li>
 </ol>
-<h3>Potential solutions</h3>
+<h3>考えられる解決策</h3>
 <ol>
-<li>Use multiple smaller contexts instead of a single large context. Instead of using a single large context to manage all of your application states, consider using multiple smaller contexts to manage related pieces of state. This can help to reduce the number of components that are consuming the context and minimize unnecessary re-renders.</li>
-<li>Sometimes Context API might not even be the best solution for the problems that we want to deal with. Take a look at <a href="https://www.robinwieruch.de/react-component-composition/">React Component Composition</a> article by Robin Wieruch.</li>
-<li>You can rely on external state management systems like <a href="https://github.com/pmndrs/zustand">Zustand</a> and <a href="https://redux.js.org/">Redux</a>. They have a lot of optimizations built-in and are feature rich. Unfortunately, they do have a learning curve, and we recommend sticking to the Context API for the rest of this course as it's still reliable for majority of the projects we're going to build.</li>
+<li>単一の大きなコンテキストの代わりに、複数の小さなコンテキストを使う。アプリケーションのすべてのstateを管理するために単一の大きなコンテキストを使う代わりに、関連するstateの部分を管理するために複数の小さなコンテキストを使うことを検討してください。これにより、そのコンテキストを利用するコンポーネントの数を減らし、不要な再レンダーを最小限に抑えることができます。</li>
+<li>場合によっては、Context APIが、私たちが対処したい問題にとって最善の解決策でさえないこともあります。Robin Wieruchによる<a href="https://www.robinwieruch.de/react-component-composition/">React Component Composition</a>の記事を見てみてください。</li>
+<li><a href="https://github.com/pmndrs/zustand">Zustand</a>や<a href="https://redux.js.org/">Redux</a>のような、外部のstate管理システムに頼ることもできます。これらには最適化が数多く組み込まれており、機能も豊富です。残念ながら、これらには学習曲線があるため、このコースの残りの部分ではContext APIを使い続けることをお勧めします。これから構築するプロジェクトの大部分にとって、Context APIは依然として信頼できるものだからです。</li>
 </ol>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>The React Docs provides more engaging examples and possible optimizations for the Context API. You can check it out by going through their <a href="https://react.dev/learn/passing-data-deeply-with-context">documentation on passing data deeply with Context</a>. Be sure to try out each example!</li>
-<li>Read the short article <a href="https://kentcdodds.com/blog/prop-drilling">Prop Drilling</a> by Kent C. Dodds. This is a great article to get more understanding for prop drilling, it features digestible examples.</li>
+<li>ReactのドキュメントにはContext APIについての、より興味深い例や、考えられる最適化が用意されています。<a href="https://react.dev/learn/passing-data-deeply-with-context">Contextを使ってデータを深く渡すことについてのドキュメント</a>に目を通すことで、それを確認できます。それぞれの例を必ず試してみてください!</li>
+<li>Kent C. Dodds氏による短い記事、<a href="https://kentcdodds.com/blog/prop-drilling">Prop Drilling</a>を読んでください。これは、消化しやすい例を交えながら、prop drillingについての理解を深めるのに最適な記事です。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="https://kentcdodds.com/blog/prop-drilling#what-problems-can-prop-drillingcause">What problems can prop drilling cause?</a></li>
-<li><a href="https://kentcdodds.com/blog/prop-drilling#how-can-we-avoid-problems-with-prop-drilling">How can we avoid problems with prop drilling?</a></li>
-<li><a href="#context-api-benefits">What are the benefits of using the Context API over passing props down through multiple levels of components?</a></li>
-<li><a href="#drawbacks-of-using-context-api">What are the drawbacks in using the Context API?</a></li>
+<li><a href="https://kentcdodds.com/blog/prop-drilling#what-problems-can-prop-drillingcause">prop drillingはどのような問題を引き起こす可能性がありますか?</a></li>
+<li><a href="https://kentcdodds.com/blog/prop-drilling#how-can-we-avoid-problems-with-prop-drilling">prop drillingの問題をどのように避けられますか?</a></li>
+<li><a href="#context-api-benefits">複数階層のコンポーネントにpropsを渡していくことと比べて、Context APIを使うことの利点は何ですか?</a></li>
+<li><a href="#drawbacks-of-using-context-api">Context APIを使うことの欠点は何ですか?</a></li>
 </ul>
       </div>
     </article>

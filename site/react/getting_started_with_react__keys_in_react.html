@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,43 +28,43 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Keys In React</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Keys In React</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>In this lesson, we will cover keys in React. Keys are special props for our components and we'll learn why they are used.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>このレッスンでは、Reactにおけるkeyについて扱います。keyはコンポーネントのための特別なpropsであり、なぜそれが使われるのかを学んでいきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>What keys are and how React uses them.</li>
-<li>Good and bad usage of keys in React applications.</li>
+<li>keyとは何か、そしてReactがそれをどう使うか。</li>
+<li>Reactアプリケーションにおけるkeyの良い使い方と悪い使い方。</li>
 </ul>
-<h3>Why does React need keys?</h3>
-<p>You may recall that React uses a "virtual DOM" under the hood to decide what things in the real DOM to update, minimising unnecessary actions. When a re-render occurs, it first recreates this virtual DOM, diffs (compares changes) the new and previous virtual DOMs, then makes real DOM updates only to the things that actually did change.</p>
-<p>React needs to be able to tell the difference between each of these components, as they'll each have their own props and states. Therefore, every component will be given an ID under the hood - a <strong>key</strong>. For example, if you update state, it's still the same instance of the component and React will know this because the component's key hasn't changed, and it can avoid unnecessary action. If the key changes, however, React knows this is now a brand new instance of that component and can build a new one with fresh states.</p>
-<p>Normally, you do not need to manually give components keys, as React will handle this automatically. However, there are a couple of cases where we can make use of them.</p>
-<h3>Keys when rendering lists</h3>
-<p>In the previous lesson, we used the <code>.map()</code> method to iterate over an array of data and return a component, rendering a list of components. Now imagine, if any of the items in the list were to change, how would React know which item to update behind the scenes?</p>
-<p>If the list were to change, we might want one of two things to happen:</p>
+<h3 id="why-does-react-need-keys">なぜReactにはkeyが必要なのですか?</h3>
+<p>Reactは内部で「仮想DOM」を使って、実際のDOMの中で何を更新すべきかを判断し、不要な処理を最小限に抑えていることを思い出すかもしれません。再レンダーが発生すると、Reactはまずこの仮想DOMを再作成し、新しい仮想DOMと以前の仮想DOMの差分を取り(変更点を比較し)、それから実際に変更があったものについてのみ、実際のDOMを更新します。</p>
+<p>Reactは、これらの各コンポーネントの違いを見分けられる必要があります。それぞれが独自のpropsとstateを持つことになるからです。そのため、すべてのコンポーネントには内部でIDが与えられます。それが<strong>key</strong>です。例えば、stateを更新しても、それは依然として同じインスタンスのコンポーネントであり、コンポーネントのkeyが変わっていないため、Reactはそれを認識でき、不要な処理を避けることができます。しかし、もしkeyが変われば、Reactはこれがそのコンポーネントの新しいインスタンスであることを認識し、新しいstateを持つ新しいインスタンスを構築できます。</p>
+<p>通常、Reactがこれを自動的に処理してくれるため、コンポーネントに手動でkeyを与える必要はありません。しかし、それらを活用できるいくつかのケースがあります。</p>
+<h3 id="keys-when-rendering-lists">リストをレンダーするときのkey</h3>
+<p>前のレッスンでは、<code>.map()</code>メソッドを使ってデータの配列を反復処理し、コンポーネントを返すことで、コンポーネントのリストをレンダーしました。では、もしそのリストの中のいずれかの項目が変わったとしたら、Reactは内部でどの項目を更新すればよいのか、どうやって知るのでしょうか?</p>
+<p>リストが変化した場合、私たちは次の2つのうちどちらかが起こることを望むかもしれません:</p>
 <ol>
-<li>Completely re-render the entire list</li>
-<li>Hunt down the specific items that were changed and only re-render those</li>
+<li>リスト全体を完全に再レンダーする</li>
+<li>変更された特定の項目だけを見つけ出し、それらだけを再レンダーする</li>
 </ol>
-<p>We want React to hunt down only the changed item(s) and NOT re-render the entire list (to avoid unnecessary work). Therefore, each item in that list needs a key.</p>
-<p>If we hard-coded the components in JSX, we can leave React to handle keys automatically, as instructions are explicit and static; across re-renders, there's no ambiguity between one component and another.</p>
-<p>However, if we were to render a list via mapping over an array, things are dynamic. We'd write only a single return value for the <code>.map()</code> method but the end result could be 2, 3 or even 100 instances of that return component, and both the count and order of these could change between renders. React would not be able to automatically provide keys for each of these components in a way that lets it reliably match specific instances across re-renders. What if the count and/or order of items change? How will it know for certain which components need to be remade from scratch with new state and which are existing instances that keep/update their state?</p>
-<p>This is why we must provide our own key when dynamically rendering lists, so that when the list is updated for whatever reason (either from a server or a user interaction), React matches the keys of each of the previous list items to the updated list. If there were any changes, React will only update the items that have changed.</p>
-<p>As long as <code>keys</code> remain consistent and unique, React can handle the DOM effectively and efficiently.</p>
-<h3>Using keys</h3>
-<p>Keys are passed into the component or a DOM element as a prop. You should already be familiar with the syntax.</p>
+<p>私たちは、Reactに変更された項目だけを見つけ出してほしいのであって、(不要な作業を避けるために)リスト全体を再レンダーしてほしくはありません。そのため、そのリストの各項目にはkeyが必要です。</p>
+<p>もしJSXの中でコンポーネントをハードコードするなら、Reactにkeyを自動的に処理させておくことができます。指示が明示的かつ静的であるため、再レンダーをまたいでも、あるコンポーネントと別のコンポーネントの間で曖昧さが生じることはありません。</p>
+<p>しかし、配列に対してmapすることでリストをレンダーする場合、状況は動的になります。<code>.map()</code>メソッドに対して書くのはたった一つの戻り値だけですが、最終的な結果は、その戻り値のコンポーネントの2個、3個、あるいは100個のインスタンスになることもあり、それらの数も順序も、レンダーごとに変化する可能性があります。Reactは、再レンダーをまたいで特定のインスタンスを確実に一致させられるような形で、これらの各コンポーネントに自動的にkeyを提供することはできません。もし項目の数や順序が変わったらどうでしょうか?どのコンポーネントを新しいstateでゼロから作り直す必要があり、どれがstateを保持・更新する既存のインスタンスなのかを、どうやって確実に知ることができるでしょうか?</p>
+<p>だからこそ、リストを動的にレンダーする際は、自分自身でkeyを提供しなければなりません。そうすることで、(サーバーからであれ、ユーザーの操作からであれ)何らかの理由でリストが更新されたときに、Reactは以前のリストの各項目のkeyを、更新後のリストと照合できます。もし何か変更があれば、Reactは変更があった項目だけを更新します。</p>
+<p><code>key</code>が一貫していて一意である限り、ReactはDOMを効果的かつ効率的に処理できます。</p>
+<h3 id="using-keys">keyを使う</h3>
+<p>keyは、propとしてコンポーネントやDOM要素に渡されます。この構文にはすでに馴染みがあるはずです。</p>
 <pre class="highlight"><code class="language-jsx">&lt;Component key={keyValue} /&gt;
 &lt;div key={keyValue}&gt;&lt;/div&gt;</code></pre>
-<p>An important difference to note is that the <code>key</code> prop is private, used only for internal React stuff. It is not passed to the component itself via the <code>props</code> param object.</p>
-<p><span id="keys-from-data">Now that we know the syntax, the next question is: what should be used as a key? Ideally, there should be some identifier that is unique to each item in the list. Most databases assign a unique id to each entry, so you shouldn't have to worry about assigning an id yourself. If you are defining data yourself, it is good practice to assign a unique <code>id</code> to each item. For example, you can use the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID">crypto.randomUUID() function</a> to generate a unique id. Let's look at an example:</span></p>
+<p>注目すべき重要な違いは、<code>key</code>propはプライベートであり、React内部の処理のためだけに使われる、という点です。これは<code>props</code>パラメータオブジェクトを介してコンポーネント自体に渡されることはありません。</p>
+<p><span id="keys-from-data">構文がわかったところで、次の疑問は、keyとして何を使うべきか、ということです。理想的には、リストの各項目に一意な識別子があるべきです。ほとんどのデータベースは各エントリに一意なidを割り当てるため、自分でidを割り当てる心配をする必要はないはずです。もし自分でデータを定義している場合は、各項目に一意な<code>id</code>を割り当てるのが良いプラクティスです。例えば、一意なidを生成するために<a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID">crypto.randomUUID()関数</a>を使うことができます。例を見てみましょう:</span></p>
 <pre class="highlight"><code class="language-jsx">// a list of todos, each todo object has a task and an id
 const todos = [
   { task: "mow the yard", id: crypto.randomUUID() },
@@ -82,7 +82,7 @@ function TodoList() {
     &lt;/ul&gt;
   );
 }</code></pre>
-<p><span id="index-as-key">Additionally, if you're sure the list will remain unchanged throughout the application's life,  you can use the array index as a key. However, this is not recommended since it can lead to confusing bugs if the list changes when items are deleted, inserted, or rearranged. You will learn more about this in the assignment section's linked article.</span></p>
+<p><span id="index-as-key">さらに、リストがアプリケーションの存続期間を通じて変化しないと確信できる場合は、配列のインデックスをkeyとして使うこともできます。しかし、項目が削除・挿入・並べ替えられることでリストが変化する場合、わかりにくいバグにつながる可能性があるため、これは推奨されません。これについては、課題セクションでリンクされている記事でさらに詳しく学びます。</span></p>
 <pre class="highlight"><code class="language-jsx">const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 function MonthList() {
@@ -93,7 +93,7 @@ function MonthList() {
     &lt;/ul&gt;
   );
 }</code></pre>
-<p><span id="anti-pattern">Keys are straightforward to use, though there is an anti-pattern you should be aware of. Keys should never be generated on the fly. Using <code>key={Math.random()}</code> or <code>key={crypto.randomUUID()}</code> <em>while</em> rendering the list defeats the purpose of the key, as now a new <code>key</code> will get created for every render of the list. As shown in the above example, <code>key</code> should be inferred from the data itself.</span></p>
+<p><span id="anti-pattern">keyの使い方自体はシンプルですが、知っておくべきアンチパターンが一つあります。keyは決してその場で生成すべきではありません。リストをレンダーしている<em>最中</em>に<code>key={Math.random()}</code>や<code>key={crypto.randomUUID()}</code>を使うと、keyの目的が損なわれてしまいます。というのも、リストがレンダーされるたびに新しい<code>key</code>が作られてしまうからです。上の例で示したように、<code>key</code>はデータ自体から導き出されるべきです。</span></p>
 <pre class="highlight"><code class="language-jsx">const todos = [
   { task: "mow the yard", id: crypto.randomUUID() },
   { task: "Work on Odin Projects", id: crypto.randomUUID() },
@@ -110,33 +110,33 @@ function TodoList() {
     &lt;/ul&gt;
   );
 }</code></pre>
-<h3>Keys and state</h3>
-<p>Dynamically rendering lists is definitely the most common situation where you'd need to manually provide a key, but it's certainly not the only time. Since keys are just internal IDs for React to differentiate between component instances, we can also provide our own keys if we purposely want control over when a specific component should be the same instance as its state updates or a brand new instance with fresh state.</p>
-<p>Imagine you have a game and when it ends, you want to be able to reset it to its original state. Refreshing the page is probably not sensible, especially if there are other components with their own states you want to keep untouched. You could write a function that will set each of the relevant states to its initial value, but then you'd have to make sure you didn't miss any states or set the wrong values, and you'd need to keep this up to date should you add or remove any states.</p>
-<p>What if we had a much simpler way of telling React "render this component from scratch with fresh state"? Well, we can just update the key. For example:</p>
+<h3 id="keys-and-state">keyとstate</h3>
+<p>リストを動的にレンダーすることは、間違いなく、手動でkeyを提供する必要がある最も一般的な状況ですが、それが唯一のケースというわけでは決してありません。keyは単に、Reactがコンポーネントのインスタンスを区別するための内部的なIDにすぎないため、特定のコンポーネントがそのstateの更新に伴って同じインスタンスであるべきか、それとも新しいstateを持つまったく新しいインスタンスであるべきかを、意図的に自分でコントロールしたい場合にも、自分自身でkeyを提供できます。</p>
+<p>あなたがゲームを持っていて、それが終わったときに、元のstateにリセットできるようにしたいとします。ページをリフレッシュするのはおそらく賢明ではありません。特に、手を触れずにおきたい独自のstateを持つ他のコンポーネントがある場合はなおさらです。関連するそれぞれのstateを初期値に設定する関数を書くこともできますが、その場合、stateを見落としたり、間違った値を設定したりしないよう気をつけなければならず、またstateを追加・削除するたびにこれを最新の状態に保つ必要が出てきます。</p>
+<p>「このコンポーネントを新しいstateでゼロからレンダーしてほしい」とReactに伝える、もっとずっとシンプルな方法があったらどうでしょうか?実は、keyを更新するだけでよいのです。例えば:</p>
 <pre class="highlight"><code class="language-jsx">function GamePage() {
   const [key, setKey] = useState(0);
 
   return &lt;Game key={key} resetGame={() =&gt; setKey(key + 1)} /&gt;;
 }</code></pre>
-<p><code>Game</code> will have its own states and render its own components. When it re-renders, it's still the same instance of <code>Game</code> because its key hasn't changed, so its states are preserved/updated. If we have a button somewhere inside <code>Game</code> that calls <code>resetGame()</code> when clicked, clicking it would cause the <code>key</code> state to change. <code>GamePage</code> then re-renders and because <code>Game</code> now has a new key, React sees it as a brand new instance of <code>Game</code>, and will make a fresh one with new states.</p>
-<h3>Assignment</h3>
+<p><code>Game</code>は独自のstateを持ち、独自のコンポーネントをレンダーします。再レンダーされても、keyが変わっていない限り、それは依然として同じインスタンスの<code>Game</code>であるため、そのstateは保持/更新されます。もし<code>Game</code>の内部のどこかに、クリックされると<code>resetGame()</code>を呼び出すボタンがあれば、それをクリックすることで<code>key</code>のstateが変化します。すると<code>GamePage</code>が再レンダーされ、<code>Game</code>が新しいkeyを持つようになったため、Reactはそれを<code>Game</code>のまったく新しいインスタンスと見なし、新しいstateを持つ新しいインスタンスを作成します。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Read this <a href="https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key">section on keys in the React docs</a>.</li>
-<li>Watch this short video demonstrating <a href="https://youtu.be/xlPxnc5uUPQ">index as key being an anti-pattern</a>.</li>
+<li>Reactドキュメントの<a href="https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key">keyについてのこのセクション</a>を読んでください。</li>
+<li><a href="https://youtu.be/xlPxnc5uUPQ">keyとしてインデックスを使うことがアンチパターンである</a>ことを示す、この短い動画を見てください。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#why-does-react-need-keys">Why does React need keys?</a></li>
-<li><a href="#keys-when-rendering-lists">Why does React need keys when rendering lists?</a></li>
-<li><a href="#using-keys">How do you use keys?</a></li>
-<li><a href="#keys-from-data">Where should the key value ideally come from?</a></li>
-<li><a href="#index-as-key">When can we use an array index as the key value?</a></li>
-<li><a href="#anti-pattern">What is an anti-pattern when using keys?</a></li>
-<li><a href="#keys-and-state">How are keys related to state?</a></li>
+<li><a href="#why-does-react-need-keys">なぜReactにはkeyが必要なのですか?</a></li>
+<li><a href="#keys-when-rendering-lists">なぜReactは、リストをレンダーする際にkeyを必要とするのですか?</a></li>
+<li><a href="#using-keys">keyはどのように使いますか?</a></li>
+<li><a href="#keys-from-data">keyの値は、理想的にはどこから得るべきですか?</a></li>
+<li><a href="#index-as-key">配列のインデックスをkeyの値として使えるのはどんなときですか?</a></li>
+<li><a href="#anti-pattern">keyを使う際のアンチパターンとは何ですか?</a></li>
+<li><a href="#keys-and-state">keyはstateとどのように関係していますか?</a></li>
 </ul>
       </div>
     </article>

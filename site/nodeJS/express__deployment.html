@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,200 +28,200 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Deployment</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">There&#x27;s nothing quite like seeing your application on a real website. We&#x27;ll show you how it&#x27;s done.</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Before continuing our web development journey, we must address one important task - showcasing our hard work to the world.</p>
-<p>Whether it's to share our creations with friends, create a portfolio for future employers, or launch an online business, we need to host our applications somewhere others can publicly access on the internet.</p>
-<p>In this lesson, we will learn how to deploy our apps to a hosting provider, allowing us to run, build, and operate our web applications in the cloud.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>ウェブ開発の旅を続ける前に、一つ重要な作業に取り組む必要があります――それは、私たちの努力の成果を世界に披露することです。</p>
+<p>友人と自分の作品を共有するためであれ、将来の雇用主のためにポートフォリオを作るためであれ、オンラインビジネスを立ち上げるためであれ、私たちは、インターネット上で他の人が公にアクセスできる場所に、自分のアプリケーションをホストする必要があります。</p>
+<p>このレッスンでは、アプリをホスティングプロバイダーにデプロイする方法を学び、クラウド上でウェブアプリケーションを実行、ビルド、運用できるようにします。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Understand what a hosting provider is.</li>
-<li>Understand the difference between static and dynamic sites.</li>
-<li>Understand what a PaaS is and how they work.</li>
-<li>Know how to deploy to a PaaS provider.</li>
-<li>Know how to troubleshoot common deployment issues.</li>
+<li>ホスティングプロバイダーとは何かを理解する。</li>
+<li>静的サイトと動的サイトの違いを理解する。</li>
+<li>PaaSとは何か、どのように機能するかを理解する。</li>
+<li>PaaSプロバイダーへのデプロイ方法を知る。</li>
+<li>よくあるデプロイの問題をトラブルシューティングする方法を知る。</li>
 </ul>
-<h3>What are hosting providers?</h3>
-<p>Hosting providers are like server landlords. They own servers and rent space on them to customers, who can then use the space to store their websites and make them accessible to anyone on the web.</p>
-<p>You've already had some experience using a hosting provider when you deployed projects to Github pages earlier in the curriculum. GitHub pages is great for hosting <strong>static</strong> web pages for free, but we won't be able to use it for hosting our <strong>dynamic</strong> Node apps. We're going to need something more powerful.</p>
-<h3>Static vs dynamic sites</h3>
-<p>Static websites consist of pre-written HTML pages. They are "static" because everyone who visits them will see the same content. To build static sites, you only need HTML, CSS and JavaScript.</p>
-<p>Dynamic websites, on the other hand, are websites that can change content based on the user who is visiting them. X (formerly known as Twitter) is a good example; every user sees different content on their homepage feed based on who they follow. To build dynamic sites, you still need HTML, CSS and JS. But additionally, you need a server-side application and a database.</p>
-<p>This additional tech prohibits us from using GitHub Pages for hosting our Node apps. GitHub pages cannot run Node.js applications and doesn't have database services we can use. Similarly, host providers like Netlify and Vercel, which you may have used back in the React course, do not have the same capabilities to run our Node.js servers and databases. They're not the right tools for our back ends.</p>
-<p>Luckily, many hosting providers do offer everything we need. They range from the big and complex cloud providers like <a href="https://aws.amazon.com/">AWS</a>, <a href="https://cloud.google.com/">Google Cloud</a>, and <a href="https://azure.microsoft.com/">Microsoft Azure</a> to the more beginner-friendly platform as a service (PaaS) providers like <a href="https://railway.app/">Railway</a> and <a href="https://render.com/">Render</a>. We will be focusing on and utilizing these latter providers in this lesson.</p>
-<h3>What is a PaaS?</h3>
-<p>Platform as a Service is a specific kind of hosting provider. The most important thing to know about them is they are much easier to use and more approachable for beginners than other hosting providers. They manage many of the low-level nitty-gritty details with the underlying server infrastructure, which allows us as developers to focus more of our time on building our applications instead of configuring and managing the servers they run on.</p>
-<p>Taking the landlord metaphor we used earlier a little further, a PaaS platform is like having a landlord who takes care of all the utilities, building maintenance and security. Meanwhile, you, the developer, focus on furnishing, decorating and living in the space.</p>
-<p>It's an incredibly powerful model and perfect for us right now. Using a PaaS provider for deployment, we can focus on learning and mastering Node without taking a significant diversion to learn the specialized knowledge needed to manage and maintain servers ourselves.</p>
-<p>We will provide a list of our recommended PaaS providers later in the lesson. First, let us explore from a high level how PaaS providers work.</p>
-<h3>How do PaaS services work?</h3>
-<p>PaaS providers work by giving you easy access to a few resources that any Node app can't live without to function on the web.</p>
-<h4>Instances</h4>
-<p>The first and most crucial thing PaaS providers give you are virtual "computers" called instances which run your app. Basically, one instance means a single instance of your application running at one time. That's like having a single computer run your app like you do on Localhost. Multiple instances are like having several copies of your app running simultaneously, which allows you to handle more traffic.</p>
-<p>For most of your apps, one instance is plenty enough. You can support a lot of traffic using just a single instance. Many of the PaaS providers we will recommend later in this lesson give you your first one for free.</p>
+<h3>ホスティングプロバイダーとは?</h3>
+<p>ホスティングプロバイダーは、いわばサーバーの大家のようなものです。彼らはサーバーを所有し、その上のスペースを顧客に貸し出します。顧客はそのスペースを使って自分のウェブサイトを保存し、ウェブ上の誰からもアクセスできるようにすることができます。</p>
+<p>カリキュラムの前半でGitHub Pagesにプロジェクトをデプロイしたとき、すでにホスティングプロバイダーを使う経験をしています。GitHub Pagesは<strong>静的</strong>なウェブページを無料でホストするのに最適ですが、私たちの<strong>動的</strong>なNodeアプリをホストするためには使えません。もっと強力な何かが必要です。</p>
+<h3 id="static-vs-dynamic-sites">静的サイト対動的サイト</h3>
+<p>静的ウェブサイトは、事前に書かれたHTMLページで構成されています。それらが「静的」と呼ばれるのは、それを訪れる誰もが同じコンテンツを見るからです。静的サイトを構築するには、HTML、CSS、JavaScriptだけが必要です。</p>
+<p>一方、動的ウェブサイトは、それを訪れているユーザーに応じてコンテンツを変えることができるウェブサイトです。X(旧Twitter)はその良い例です――すべてのユーザーは、自分がフォローしている相手に応じて、ホームページのフィードで異なるコンテンツを目にします。動的サイトを構築するにも、やはりHTML、CSS、JSが必要です。しかしそれに加えて、サーバーサイドのアプリケーションとデータベースが必要になります。</p>
+<p>この追加の技術のせいで、私たちはNodeアプリのホスティングにGitHub Pagesを使うことができません。GitHub PagesはNode.jsアプリケーションを実行できませんし、私たちが使えるデータベースサービスもありません。同様に、Reactコースですでに使ったことがあるかもしれない、NetlifyやVercelのようなホスティングプロバイダーも、私たちのNode.jsサーバーやデータベースを実行するための同じ機能を持っていません。それらは、私たちのバックエンドには適したツールではありません。</p>
+<p>幸いなことに、多くのホスティングプロバイダーが、私たちに必要なものをすべて提供してくれています。それらは、<a href="https://aws.amazon.com/">AWS</a>、<a href="https://cloud.google.com/">Google Cloud</a>、<a href="https://azure.microsoft.com/">Microsoft Azure</a>のような大規模で複雑なクラウドプロバイダーから、<a href="https://railway.app/">Railway</a>や<a href="https://render.com/">Render</a>のような、より初心者に優しいPlatform as a Service(PaaS)プロバイダーまで多岐にわたります。このレッスンでは、後者のプロバイダーに焦点を当てて活用していきます。</p>
+<h3 id="what-is-a-paas">PaaSとは?</h3>
+<p>Platform as a Serviceは、ホスティングプロバイダーの特定の一種です。それらについて知っておくべき最も重要なことは、他のホスティングプロバイダーに比べて、使うのがはるかに簡単で、初心者にとって親しみやすいということです。それらは、基盤となるサーバーインフラの細かい低レベルの詳細の多くを管理してくれるため、私たち開発者は、サーバーの設定や管理よりも、アプリケーションの構築により多くの時間を割くことができます。</p>
+<p>先ほど使った大家のたとえをもう少し発展させると、PaaSプラットフォームは、すべての公共設備、建物のメンテナンス、セキュリティを世話してくれる大家がいるようなものです。その一方で、開発者であるあなたは、そのスペースの家具の配置、装飾、そしてそこで生活することに集中できます。</p>
+<p>これは非常に強力なモデルであり、今の私たちにはぴったりです。デプロイにPaaSプロバイダーを使うことで、サーバー自体を自分で管理・保守するために必要な専門知識を学ぶという大きな回り道をせずに、Nodeを学び習得することに集中できます。</p>
+<p>このレッスンの後半で、おすすめのPaaSプロバイダーの一覧を提供します。まずは、PaaSプロバイダーがどのように機能するかを、大まかなレベルで見ていきましょう。</p>
+<h3>PaaSサービスはどのように機能するか?</h3>
+<p>PaaSプロバイダーは、どんなNodeアプリでもウェブ上で機能するために欠かせない、いくつかのリソースへの簡単なアクセスを提供することで機能します。</p>
+<h4 id="instances">インスタンス</h4>
+<p>PaaSプロバイダーが提供してくれる、最初で最も重要なものは、あなたのアプリを実行する「コンピュータ」の仮想版であるインスタンスです。基本的に、一つのインスタンスとは、ある時点で実行されているあなたのアプリケーションの単一のインスタンスを意味します。これは、Localhostでするのと同じように、一台のコンピュータであなたのアプリを実行するようなものです。複数のインスタンスは、あなたのアプリの複数のコピーを同時に実行するようなもので、それによってより多くのトラフィックを処理できるようになります。</p>
+<p>あなたのアプリの多くにとって、一つのインスタンスで十分すぎるほどです。単一のインスタンスだけでも、かなりのトラフィックをさばくことができます。このレッスンの後半でおすすめする多くのPaaSプロバイダーは、最初の一つを無料で提供してくれます。</p>
 <div class="lesson-note">
-<h4>Server instance and database instance</h4>
-<p>Learners can keep their server instance and database instance on one PaaS or use separate PaaSes if necessary. When you deal with paid plans, it might even reduce hosting costs!</p>
+<h4>サーバーインスタンスとデータベースインスタンス</h4>
+<p>学習者は、サーバーインスタンスとデータベースインスタンスを一つのPaaSにまとめておくこともできますし、必要であれば別々のPaaSを使うこともできます。有料プランを扱う場合、こうすることでホスティングコストを削減できることさえあります!</p>
 </div>
-<h4>Databases</h4>
-<p>The second most important thing PaaS providers give you is databases. They make it easy to spin up a new database for each app by doing all the setup and configuration for you.</p>
-<p>Many providers even manage the database for you by setting up automatic backups, ensuring the database is constantly updated with the latest critical security patches and ongoing maintenance that keeps your databases up and running smoothly.</p>
-<p>The peace of mind this affords you can't be overstated. You never want to be in a position where you're waking at 4 am to multiple alerts. Your database is on the fritz because of some security patch you forgot to apply, and there are no backups to fall back on.</p>
-<p>Many PaaS services come with SQL databases included.</p>
-<p>For now, we encourage you to try and figure out how to deploy your mini-message board project with just what you learn in this lesson.</p>
-<h4>Domain names</h4>
-<p>PaaS providers will give you a random domain name when you first deploy. In Heroku's case, it's usually something zen-like "afternoon-falls-4209". If you want to visit the app, you can go directly to <code>http://afternoon-falls-4209.herokuapp.com</code> to see your app live on the web in all its glory.</p>
-<p>The domain name will always be yours on a PaaS provider. They give each app a unique domain name that's yours as long as your app lives on their platform.</p>
-<p>In the real world, you'll want to link it to your own custom domain, for example, <code>http://mycooldomain.com</code>. It's worth mentioning that you don't need custom domain names for the portfolio projects you'll be building in this course. The random domains your PaaS provider gives you will be good enough. However, if you have an itch for tricking out your app with a custom domain name, you'll first need to purchase a domain from a registrar like <a href="https://porkbun.com/">Porkbun</a> or <a href="https://www.namesilo.com/">NameSilo</a>.</p>
-<p>To find a new domain, try using <a href="https://domainr.com/">Domainr</a>.</p>
-<p>Once you have your domain, you need to point it to your project. The provider you are using will have exhaustive documentation on using custom domain names on their platform.</p>
-<h3>Our recommended PaaS services</h3>
-<p>Choosing a PaaS provider was once a simple decision. Heroku had a free tier that gave you everything needed to host as many small apps as you wanted, but they unfortunately discontinued it in 2022.</p>
-<p>Luckily, there are still plenty of other great options out there. The downside is that they all have very limited free tiers. For this reason, and to accommodate as many of our learners as possible, we're going to recommend a range of options instead of just one.</p>
-<p>You can host most of your projects for free using a combination of the different providers we recommend, but you'll have a bit more leg work to do. You'll have to create an account and get familiar with a few different providers.</p>
-<p>If you can pay for hosting, things are more straightforward. It will afford you the luxury of choosing one provider you can learn deeply, and you'll be able to manage all your apps from one place.</p>
-<p>Whatever your circumstances, we've got you covered. Here are the PaaS providers we recommend.</p>
+<h4>データベース</h4>
+<p>PaaSプロバイダーが提供してくれる、2番目に重要なものはデータベースです。それらは、すべてのセットアップと設定を代わりに行ってくれることで、それぞれのアプリ用に新しいデータベースを簡単に立ち上げられるようにしてくれます。</p>
+<p>多くのプロバイダーは、自動バックアップを設定したり、データベースが常に最新の重要なセキュリティパッチで更新されるようにしたり、データベースを円滑に稼働させ続けるための継続的なメンテナンスを行ったりすることで、データベースの管理さえも代わりに行ってくれます。</p>
+<p>これがもたらしてくれる安心感は、いくら強調してもし過ぎることはありません。朝4時に複数のアラートで目を覚ますような状況には、決して陥りたくないはずです。あなたが適用し忘れたセキュリティパッチのせいでデータベースが不調になり、頼れるバックアップも存在しない、というような状況です。</p>
+<p>多くのPaaSサービスには、SQLデータベースが含まれています。</p>
+<p>とりあえず、このレッスンで学んだことだけを使って、あなたのmini-message boardプロジェクトをどうデプロイするか、自分で試して考えてみることをおすすめします。</p>
+<h4>ドメイン名</h4>
+<p>PaaSプロバイダーは、最初にデプロイしたときに、ランダムなドメイン名をあなたに与えてくれます。Herokuの場合、それは通常「afternoon-falls-4209」のような、どこか禅的な名前です。もしそのアプリを訪問したければ、<code>http://afternoon-falls-4209.herokuapp.com</code>に直接アクセスすれば、そのすべての栄光とともに、ウェブ上でライブになっているあなたのアプリを見ることができます。</p>
+<p>そのドメイン名は、PaaSプロバイダー上では常にあなたのものです。彼らは、あなたのアプリがそのプラットフォーム上に存在する限り、それぞれのアプリに一意のドメイン名を与えてくれます。</p>
+<p>現実の世界では、それを、例えば<code>http://mycooldomain.com</code>のような、自分だけのカスタムドメインとリンクさせたいと思うでしょう。ただ、このコースで作成するポートフォリオプロジェクトには、カスタムドメイン名は必要ないということは、言及しておく価値があります。PaaSプロバイダーが与えてくれるランダムなドメインで十分でしょう。しかし、もしカスタムドメイン名であなたのアプリを飾りたいという衝動に駆られたら、まず<a href="https://porkbun.com/">Porkbun</a>や<a href="https://www.namesilo.com/">NameSilo</a>のようなレジストラからドメインを購入する必要があります。</p>
+<p>新しいドメインを見つけるには、<a href="https://domainr.com/">Domainr</a>を使ってみてください。</p>
+<p>ドメインを手に入れたら、それをあなたのプロジェクトに向ける必要があります。あなたが使っているプロバイダーには、そのプラットフォーム上でカスタムドメイン名を使うことについての、詳細なドキュメントがあるはずです。</p>
+<h3>おすすめのPaaSサービス</h3>
+<p>かつて、PaaSプロバイダーを選ぶのは簡単な決断でした。Herokuには無料枠があり、好きなだけ小さなアプリをホストするために必要なものがすべて揃っていましたが、残念ながら2022年にそれは廃止されてしまいました。</p>
+<p>幸いなことに、他にも素晴らしい選択肢がまだたくさんあります。欠点は、それらすべてに、非常に限られた無料枠しかないということです。この理由から、そしてできるだけ多くの学習者に対応するために、私たちは一つだけではなく、いくつかの選択肢をおすすめすることにします。</p>
+<p>私たちがおすすめするさまざまなプロバイダーの組み合わせを使えば、あなたのプロジェクトのほとんどを無料でホストできますが、その分、いくらか手間がかかります。アカウントを作成し、いくつかの異なるプロバイダーに慣れる必要があるでしょう。</p>
+<p>もしホスティングにお金を払えるのであれば、話はもっとシンプルになります。それによって、深く学べる一つのプロバイダーを選ぶという贅沢が可能になり、すべてのアプリを一つの場所から管理できるようになります。</p>
+<p>あなたの状況がどうであれ、私たちがしっかりサポートします。以下は、私たちがおすすめするPaaSプロバイダーです。</p>
 <hr />
 <h4>Railway.app</h4>
-<p>Can deploy both servers and databases.</p>
+<p>サーバーとデータベースの両方をデプロイできます。</p>
 <ul>
-<li>Railway has a convenient deployment process. You link to your project's GitHub repo.</li>
-<li>Pay for what you use model.</li>
-<li>$5 a month should be enough to host four applications.</li>
+<li>Railwayには便利なデプロイプロセスがあります。プロジェクトのGitHubリポジトリにリンクします。</li>
+<li>使った分だけ支払うモデルです。</li>
+<li>月5ドルあれば、4つのアプリケーションをホストするのに十分なはずです。</li>
 </ul>
-<h5>Railway.app: Free Plan</h5>
+<h5>Railway.app: 無料プラン</h5>
 <ul>
-<li>You get a free one-time grant of $5 on their free trial, and the applications are never put to sleep when inactive.</li>
-<li>After 30 days has passed or you have used up $5 grant, Railway rolls you back to their limited trial, which you can only deploy database.</li>
+<li>無料トライアルで、5ドル分の一回限りの無料付与を受けられ、アプリケーションは非アクティブになってもスリープさせられることはありません。</li>
+<li>30日が経過するか、5ドルの付与分を使い切ると、Railwayはあなたを、データベースのみデプロイ可能な、制限付きトライアルに戻します。</li>
 </ul>
-<h5>Railway.app: Links</h5>
+<h5>Railway.app: リンク</h5>
 <ul>
-<li><a href="https://railway.app/">Railway homepage</a></li>
-<li><a href="https://docs.railway.app/">Railway documentation</a></li>
+<li><a href="https://railway.app/">Railwayホームページ</a></li>
+<li><a href="https://docs.railway.app/">Railwayドキュメント</a></li>
 </ul>
 <hr />
 <h4>Render</h4>
-<p>Can deploy both servers and databases.</p>
+<p>サーバーとデータベースの両方をデプロイできます。</p>
 <ul>
-<li>Render allows you to deploy using "Blueprints", which link to your project's GitHub repo.</li>
-<li>The free 750-hour allowance is enough to host a few apps without paying anything. However, databases are separate on Render, and the lowest spec databases cost $7 each.</li>
-<li>$21 a month is enough to host three applications as each app's database will cost $7.</li>
+<li>Renderでは、プロジェクトのGitHubリポジトリにリンクする「Blueprints」を使ってデプロイできます。</li>
+<li>無料の750時間の割り当てがあれば、何も支払わずにいくつかのアプリをホストするのに十分です。ただし、Renderではデータベースは別扱いで、最も低いスペックのデータベースでもそれぞれ7ドルかかります。</li>
+<li>それぞれのアプリのデータベースに7ドルかかるため、月21ドルあれば、3つのアプリケーションをホストするのに十分です。</li>
 </ul>
-<h5>Render: Free Plan</h5>
+<h5>Render: 無料プラン</h5>
 <ul>
-<li>750 hours of free usage per month.</li>
-<li>Applications are put to sleep automatically after 15 minutes of inactivity, so the 750 free hours should be enough to host a few apps for the entire month.</li>
+<li>月あたり750時間の無料利用。</li>
+<li>アプリケーションは15分間非アクティブになると自動的にスリープするため、無料の750時間があれば、ひと月まるまるいくつかのアプリをホストするのに十分なはずです。</li>
 </ul>
-<h5>Render: Links</h5>
+<h5>Render: リンク</h5>
 <ul>
-<li><a href="https://render.com/">Render homepage</a></li>
-<li><a href="https://render.com/docs/">Render documentation</a></li>
-<li><a href="https://render.com/docs/deploy-node-express-app">Guide: Official getting started with Node/Express on Render guide</a></li>
-<li><a href="https://www.youtube.com/watch?v=bnCOyGaSe84&amp;ab_channel=CodeBrah">Guide: CodeBrah video guide for deploying Node applications to Render</a></li>
+<li><a href="https://render.com/">Renderホームページ</a></li>
+<li><a href="https://render.com/docs/">Renderドキュメント</a></li>
+<li><a href="https://render.com/docs/deploy-node-express-app">ガイド: RenderでのNode/Expressの公式スタートガイド</a></li>
+<li><a href="https://www.youtube.com/watch?v=bnCOyGaSe84&amp;ab_channel=CodeBrah">ガイド: RenderへのNodeアプリケーションのデプロイについてのCodeBrahの動画ガイド</a></li>
 </ul>
 <hr />
 <h4>Neon</h4>
-<p>Can deploy databases only.</p>
+<p>データベースのみデプロイできます。</p>
 <ul>
-<li>24/7 for your main database.</li>
-<li>20 additional hours of database branching.</li>
-<li>Point-in-time restore (24 Hours)</li>
-<li>No credit card required.</li>
+<li>メインのデータベースは24時間365日稼働。</li>
+<li>データベースブランチ用に追加で20時間。</li>
+<li>ポイントインタイムリストア(24時間)。</li>
+<li>クレジットカード不要。</li>
 </ul>
-<h5>Neon: Free Plan</h5>
+<h5>Neon: 無料プラン</h5>
 <ul>
-<li>10 projects</li>
-<li>0.5 GiB of storage per project</li>
-<li>24/7 for your main compute</li>
-<li>No credit card required</li>
+<li>10プロジェクト</li>
+<li>プロジェクトあたり0.5GiBのストレージ</li>
+<li>メインのコンピュートは24時間365日稼働</li>
+<li>クレジットカード不要</li>
 </ul>
-<h5>Neon: Links</h5>
+<h5>Neon: リンク</h5>
 <ul>
-<li><a href="https://neon.tech/">Neon homepage</a></li>
-<li><a href="https://neon.tech/docs/introduction">Neon documentation</a></li>
-<li><a href="https://neon.tech/docs/guides/node">Guide: Connect a Node.js application to Neon</a></li>
+<li><a href="https://neon.tech/">Neonホームページ</a></li>
+<li><a href="https://neon.tech/docs/introduction">Neonドキュメント</a></li>
+<li><a href="https://neon.tech/docs/guides/node">ガイド: Node.jsアプリケーションをNeonに接続する</a></li>
 </ul>
 <hr />
 <h4>Aiven</h4>
-<p>Can deploy databases only.</p>
+<p>データベースのみデプロイできます。</p>
 <ul>
-<li>24/7 for all database services.</li>
-<li>High availability and automatic backups.</li>
-<li>Point-in-time recovery (varies by service).</li>
-<li>No credit card required.</li>
+<li>すべてのデータベースサービスが24時間365日稼働。</li>
+<li>高可用性と自動バックアップ。</li>
+<li>ポイントインタイムリカバリ(サービスによって異なります)。</li>
+<li>クレジットカード不要。</li>
 </ul>
-<h5>Aiven: Free Plan</h5>
+<h5>Aiven: 無料プラン</h5>
 <ul>
-<li>5 GiB of storage.</li>
-<li>24/7 for all database services.</li>
-<li>One free database for every services including PostgreSQL, MySQL and Redis.</li>
-<li>No credit card required.</li>
+<li>5GiBのストレージ。</li>
+<li>すべてのデータベースサービスが24時間365日稼働。</li>
+<li>PostgreSQL、MySQL、Redisを含むすべてのサービスで、それぞれ無料のデータベースを一つ利用可能。</li>
+<li>クレジットカード不要。</li>
 </ul>
-<h5>Aiven: Links</h5>
+<h5>Aiven: リンク</h5>
 <ul>
-<li><a href="https://aiven.io/">Aiven homepage</a></li>
-<li><a href="https://aiven.io/docs/get-started">Aiven documentation</a></li>
-<li><a href="https://aiven.io/docs/products/postgresql/howto/connect-node">Guide: Connect a Node.js application to Aiven</a></li>
+<li><a href="https://aiven.io/">Aivenホームページ</a></li>
+<li><a href="https://aiven.io/docs/get-started">Aivenドキュメント</a></li>
+<li><a href="https://aiven.io/docs/products/postgresql/howto/connect-node">ガイド: Node.jsアプリケーションをAivenに接続する</a></li>
 </ul>
 <div class="lesson-note lesson-note--tip">
-<h4>Keep your secrets safe!</h4>
-<p>This guide provides a sample for configuring a database connection. Please do not store credentials directly in your code. Refer to the <a href="https://www.theodinproject.com/lessons/nodejs-environment-variables">Environment Variables</a> section for best practices.</p>
+<h4>あなたの秘密を守ってください!</h4>
+<p>このガイドは、データベース接続を設定するためのサンプルを提供しています。認証情報をコード内に直接保存しないでください。ベストプラクティスについては<a href="https://www.theodinproject.com/lessons/nodejs-environment-variables">環境変数</a>のセクションを参照してください。</p>
 </div>
 <hr />
-<h3>Debugging and troubleshooting deployments</h3>
-<p>Errors are an inevitable part of the software development process. They especially have a habit of popping up when deploying to a new environment like a hosting provider. When this happens, the key is not to panic and to follow a calm, step-by-step debugging process.</p>
-<p>In most cases, you'll be running into errors that thousands of developers have encountered before. These errors are well documented and often have solutions you can find with a little bit of Google-fu.</p>
-<p>There are two stages of the deployment process where you are most likely to encounter problems. These are during deployment and right after.</p>
-<h4>Node version compatibility</h4>
-<p>Depending on the host provider you use, the supported Node versions and default selected version may differ. You can refer to the providers' documentation for more information on what is supported and selected, and depending on what features you use in your code, you may need to <a href="https://docs.npmjs.com/cli/v10/configuring-npm/package-json#engines">specify what Node versions your project is compatible with in your <code>package.json</code></a>.</p>
-<h4>On deployment</h4>
-<p>If you run into an error while deploying, the first thing to do is to check the build logs. Finding the build logs should be easy; it's the stream of output you'll see after kicking off a new deployment.</p>
-<p>Scroll through these logs and find the point where the deployment encountered the error. It should stand out from the rest of the output and will often look like the stack traces you've already seen with JavaScript/Node. The error output will tell you exactly what went wrong.</p>
-<p>If you don't recognize the error or what might cause it, your next step will be to copy and paste it into your favorite online search engine. You'll likely find a Stack Overflow post with a solution. You can get support in our Discord server if searching doesn't lead to anything conclusive.</p>
-<p>Most of the errors you'll face during this stage will be related to properly setting up your app with what your hosting provider needs. Double-checking the deployment guide for your hosting provider is always a good place to start. It's very easy to miss a step or mistype something.</p>
-<h4>After deployment</h4>
-<p>You've just deployed your app successfully; everything is going your way, and this will be a great day! However, when you visit your app... you are greeted with the dreaded 500 page.</p>
-<p>Nothing induces panic in a developer quite like a 500 page. It could mean just about anything. Error pages in production are deliberately vague to let users know something went wrong without all the overwhelming technical jargon. Another important reason is to prevent attackers from using errors in your system to their advantage.</p>
-<p>You have a few tools at your disposal to help you diagnose the problem. The first is the application logs.</p>
-<p>The application logs are the output of your application as it's running. It tells you what's happening with your app as it's happening. All the incoming requests and database queries are recorded, and you can see them being recorded in real-time.</p>
-<p>So if you're getting a 500 error, you can open up the logs and watch them closely as you refresh the page on your app in the browser to reproduce the error. This will either tell you exactly what the problem is or generate some leads you can use to dig further.</p>
-<h4>Going further with troubleshooting tools</h4>
-<p>As your application grows, you'll want to get more sophisticated with your error-tracking tools. For example, you can use services like <a href="https://sentry.io/">Sentry</a> to track and monitor errors using a slick, easy-to-use interface and get notified when they happen.</p>
-<p>These services will give you more information about the error and the request that caused it, saving you a ton of time. However, setting up and using these services are out of the scope of this lesson. You can get by just fine with the logs for your first few apps.</p>
-<h4>One final tip</h4>
-<p>If something has broken in your latest deployment after successful deployments in the past, backtrack to the last working version to determine what changes you made and slowly reintroduce those changes again if you need to.</p>
-<p>This will be where the Git skills you've been learning will start to really pay off and save you an immense amount of time. You'll be able to use <code>git log</code> to see the history of your latest changes and <code>git checkout</code> to revert to a previous working version quickly.</p>
-<h3>Assignment</h3>
+<h3 id="debugging-and-troubleshooting-deployments">デプロイのデバッグとトラブルシューティング</h3>
+<p>エラーは、ソフトウェア開発プロセスの避けられない一部です。特に、ホスティングプロバイダーのような新しい環境にデプロイするときに、頻繁に現れる習性があります。こうしたことが起きたときに重要なのは、パニックにならず、落ち着いて段階的なデバッグプロセスに従うことです。</p>
+<p>ほとんどの場合、あなたが遭遇するのは、これまで何千人もの開発者がすでに遭遇してきたエラーです。これらのエラーはよく文書化されており、少しGoogle検索のコツを使えば見つけられる解決策があることがよくあります。</p>
+<p>デプロイのプロセスには、問題に遭遇する可能性が最も高い、2つの段階があります。それは、デプロイ中と、その直後です。</p>
+<h4>Nodeバージョンの互換性</h4>
+<p>使用するホストプロバイダーによって、サポートされているNodeのバージョンやデフォルトで選択されるバージョンは異なる場合があります。何がサポートされ、選択されるかについての詳細は、プロバイダーのドキュメントを参照してください。そして、コードの中でどの機能を使うかによっては、<a href="https://docs.npmjs.com/cli/v10/configuring-npm/package-json#engines">あなたのプロジェクトがどのNodeバージョンと互換性があるかを<code>package.json</code>の中で指定する</a>必要があるかもしれません。</p>
+<h4 id="on-deployment">デプロイ中</h4>
+<p>デプロイ中にエラーに遭遇した場合、最初にすべきことはビルドログを確認することです。ビルドログを見つけるのは簡単なはずです――それは、新しいデプロイを開始した後に表示される出力のストリームです。</p>
+<p>これらのログをスクロールして、デプロイがエラーに遭遇した箇所を見つけてください。それは、他の出力から際立って見えるはずで、多くの場合、JavaScript/Nodeですでに見たことのあるスタックトレースのように見えます。エラー出力は、何が間違っていたのかを正確に教えてくれます。</p>
+<p>そのエラーや、それを引き起こしうる原因に心当たりがない場合、次のステップは、それをコピーしてお気に入りの検索エンジンに貼り付けることです。おそらく、解決策が書かれたStack Overflowの投稿が見つかるでしょう。検索しても決定的なものが見つからない場合は、私たちのDiscordサーバーでサポートを受けることができます。</p>
+<p>この段階で直面するエラーのほとんどは、ホスティングプロバイダーが必要とするものに合わせて、あなたのアプリを正しくセットアップすることに関連しています。使用しているホスティングプロバイダーのデプロイガイドをもう一度確認することは、常に良い出発点です。ステップを見落としたり、何かを打ち間違えたりするのは、とても簡単に起こり得ることです。</p>
+<h4 id="after-deployment">デプロイ後</h4>
+<p>あなたはたった今、アプリを無事にデプロイしました。すべてが順調で、今日は素晴らしい一日になりそうです!しかし、あなたのアプリを訪問すると……あの忌まわしい500ページに出迎えられます。</p>
+<p>500ページほど、開発者にパニックを引き起こすものはそうそうありません。それは、ほぼどんなことでも意味している可能性があります。本番環境のエラーページは、圧倒的な技術用語を並べ立てることなく、何かがうまくいかなかったことをユーザーに知らせるために、意図的に曖昧に作られています。もう一つの重要な理由は、攻撃者があなたのシステムのエラーを悪用するのを防ぐためです。</p>
+<p>問題を診断するために使える、いくつかのツールがあなたの手元にあります。最初の一つはアプリケーションログです。</p>
+<p>アプリケーションログは、実行中のあなたのアプリケーションの出力です。それは、あなたのアプリで何が起きているかを、それが起きているまさにそのときに教えてくれます。受信したすべてのリクエストとデータベースクエリが記録され、それらがリアルタイムで記録されていく様子を見ることができます。</p>
+<p>そのため、もし500エラーが発生した場合は、ログを開いて、ブラウザでアプリのページを再読み込みしてエラーを再現しながら、それを注意深く観察することができます。これにより、問題が正確に何であるかがわかるか、あるいはさらに深く調べるために使えるいくつかの手がかりが得られるはずです。</p>
+<h4>トラブルシューティングツールをさらに活用する</h4>
+<p>あなたのアプリケーションが成長するにつれて、エラー追跡ツールをより洗練されたものにしていきたくなるでしょう。例えば、<a href="https://sentry.io/">Sentry</a>のようなサービスを使えば、洗練された使いやすいインターフェースでエラーを追跡・監視し、それが発生したときに通知を受け取ることができます。</p>
+<p>これらのサービスは、エラーとそれを引き起こしたリクエストについて、より多くの情報を提供してくれるため、大量の時間を節約できます。しかし、これらのサービスのセットアップと使用は、このレッスンの範囲外です。最初の数個のアプリについては、ログだけで十分にやっていけるでしょう。</p>
+<h4>最後に一つのヒント</h4>
+<p>過去にはうまくデプロイできていたのに、最新のデプロイで何かが壊れてしまった場合は、最後に動作していたバージョンまでさかのぼり、どんな変更を加えたのかを特定し、必要であればそれらの変更をゆっくりと再度取り入れていってください。</p>
+<p>これはまさに、あなたがこれまで学んできたGitのスキルが本当に活きてきて、莫大な時間を節約してくれる場面です。<code>git log</code>を使えば最新の変更履歴を確認でき、<code>git checkout</code>を使えば、以前の動作していたバージョンにすばやく戻すことができます。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Deploy your <a href="https://www.theodinproject.com/lessons/node-path-nodejs-mini-message-board">Mini Message Board project</a> to one of the hosting providers we've mentioned. Any of the free options will work for curriculum purposes, so it doesn’t matter which you pick for your projects. The important thing to take away from this first deployment is getting experience deploying. Don’t worry if you don’t understand everything that’s happening. That will come with time.<ul>
-<li>Use one of the linked deploy guides for your PaaS provider to help you through the process.</li>
-<li>If you're having trouble deploying, check out the <a href="#debugging-and-troubleshooting-deployments">Debugging and Troubleshooting Deployments</a> section for some tips.</li>
+<li>あなたの<a href="https://www.theodinproject.com/lessons/node-path-nodejs-mini-message-board">Mini Message Boardプロジェクト</a>を、これまでに紹介したホスティングプロバイダーのいずれかにデプロイしてください。カリキュラムの目的のためには、無料オプションのどれでも構わないので、プロジェクトのためにどれを選ぶかは重要ではありません。この最初のデプロイから得るべき大切なことは、デプロイの経験を積むことです。起きていることをすべて理解できなくても心配いりません。それは時間とともに身についていきます。<ul>
+<li>プロセスを進める助けとして、あなたのPaaSプロバイダー用の、リンクされたデプロイガイドのいずれかを使ってください。</li>
+<li>デプロイに苦労している場合は、<a href="#debugging-and-troubleshooting-deployments">デプロイのデバッグとトラブルシューティング</a>セクションでいくつかのヒントを確認してください。</li>
 </ul>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#static-vs-dynamic-sites">What's the difference between static and dynamic websites?</a></li>
-<li><a href="#what-is-a-paas">What does 'PaaS' stand for?</a></li>
-<li><a href="#what-is-a-paas">What are the advantages of using a PaaS hosting provider?</a></li>
-<li><a href="#instances">What is an instance?</a></li>
-<li><a href="#on-deployment">What steps can you take to diagnose an issue that arises during deployment?</a></li>
-<li><a href="#after-deployment">What steps can you take to diagnose an issue that only appears after deployment?</a></li>
+<li><a href="#static-vs-dynamic-sites">静的ウェブサイトと動的ウェブサイトの違いは何ですか?</a></li>
+<li><a href="#what-is-a-paas">「PaaS」とは何の略ですか?</a></li>
+<li><a href="#what-is-a-paas">PaaSホスティングプロバイダーを使う利点は何ですか?</a></li>
+<li><a href="#instances">インスタンスとは何ですか?</a></li>
+<li><a href="#on-deployment">デプロイ中に発生した問題を診断するために、どのようなステップを取れますか?</a></li>
+<li><a href="#after-deployment">デプロイ後にのみ現れる問題を診断するために、どのようなステップを取れますか?</a></li>
 </ul>
-<h3>Additional resources</h3>
-<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<h3>追加リソース</h3>
+<p>このセクションには、関連コンテンツへの役立つリンクが含まれています。必須ではないので、補足として捉えてください。</p>
 <ul>
-<li><a href="https://free-for.dev/">free-for.dev</a>. This is a huge repository of software such as SaaS, PaaS, IaaS, etc. and other offerings with free developer tiers.</li>
+<li><a href="https://free-for.dev/">free-for.dev</a>。これは、SaaS、PaaS、IaaSなどのソフトウェアや、無料の開発者向けプランを提供するその他のサービスについての、巨大なリポジトリです。</li>
 </ul>
       </div>
     </article>

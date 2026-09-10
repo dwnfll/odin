@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,36 +28,36 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Messaging App</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">Messaging App</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Think of your favorite messaging app - Discord, Telegram, WhatsApp, Facebook Messenger, AOL Instant Messenger, etc. - and imagine what it would be like if you could build your own. This project will give you a chance to do just that. You'll be building a web app that allows users to send messages to each other.</p>
-<h3>Assignment</h3>
+        <h3>イントロダクション</h3>
+<p>あなたのお気に入りのメッセージングアプリ――Discord、Telegram、WhatsApp、Facebook Messenger、AOL Instant Messengerなど――を思い浮かべ、もし自分でそれを作れたらどんな感じだろうと想像してみてください。このプロジェクトでは、まさにそれを行う機会が得られます。ユーザーが互いにメッセージを送り合えるウェブアプリを構築していきます。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Keep in mind that the apps we mentioned earlier have entire teams of developers working on them, so you shouldn't feel the need to go overboard with features in your app. At a minimum, though, your app should include the following core functionality:<ol>
-<li>Authorization</li>
-<li>Sending messages to another user</li>
-<li>Customizing a user profile</li>
+<li>先ほど挙げたアプリには、それに取り組む開発者のチームが丸ごとついていることを念頭に置いてください。そのため、あなたのアプリに機能を詰め込みすぎる必要性を感じるべきではありません。とはいえ、最低限、あなたのアプリには以下のコア機能が含まれるべきです:<ol>
+<li>認可(Authorization)</li>
+<li>別のユーザーへのメッセージ送信</li>
+<li>ユーザープロフィールのカスタマイズ</li>
 </ol>
 </li>
-<li>Spend some time planning out your app. What will the user interface look like? What will the data model look like? What libraries will you need to use?</li>
-<li>Start building your app by implementing the core functionality in your backend and frontend.<ol>
-<li>You may have realized that a REST API backend cannot handle real time updates. It is "request-response", so the server can only respond to a request. If a user sends a message to another user, a REST API cannot automatically notify the recipient as the recipient will not have requested that data. Methods for real time server-client updates (particularly when dealing with a split front/backend) have not been taught, so you are not expected to implement any in this app.</li>
+<li>あなたのアプリを計画するために、しばらく時間をかけてください。ユーザーインターフェースはどのような見た目になりますか?データモデルはどのようなものになりますか?どんなライブラリを使う必要がありますか?</li>
+<li>バックエンドとフロントエンドでコア機能を実装することから、アプリの構築を始めてください。<ol>
+<li>REST APIのバックエンドはリアルタイムの更新を扱えない、ということにすでに気づいたかもしれません。それは「リクエスト-レスポンス」形式であるため、サーバーはリクエストに応答することしかできません。あるユーザーが別のユーザーにメッセージを送っても、受信者はそのデータをリクエストしていないため、REST APIは自動的に受信者に通知することができません。リアルタイムなサーバー-クライアント間の更新の方法(特にフロント/バックエンドが分かれている場合)については教えていないため、このアプリでそれを実装することは期待されていません。</li>
 </ol>
 </li>
-<li>Deploy your app to the web and showcase it in the submissions below as well as on our Discord. We'd love to see what you've built!</li>
+<li>あなたのアプリをウェブにデプロイし、以下の提出欄と、私たちのDiscordの両方でそれを披露してください。あなたが作り上げたものをぜひ見てみたいです!</li>
 </ol>
-<h4>Extra credit</h4>
+<h4>発展課題</h4>
 <ul>
-<li>Allow sending images in chat</li>
-<li>Add a friends list that users can add other users to and see when someone is online (alternative: "Add a users list to show which users are currently online"; same thing except maybe a step or two less since it doesn't require adding a friend)</li>
-<li>Allow users to create and send messages in group chats</li>
+<li>チャットで画像を送信できるようにする</li>
+<li>ユーザーが他のユーザーを追加でき、誰かがオンラインかどうかを確認できる、フレンドリストを追加する(代替案:「現在オンラインになっているユーザーを示す、ユーザーリストを追加する」。フレンドを追加する必要がない分、手順が1、2ステップ少なくなる以外はほぼ同じ)</li>
+<li>ユーザーがグループチャットでメッセージを作成し、送信できるようにする</li>
 </ul>
 </div>
       </div>

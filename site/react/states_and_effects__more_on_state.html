@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,27 +28,27 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">More On State</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">More On State</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>This lesson will build upon the previous lesson on state and introduce further concepts and techniques to manage state. Let's dive in.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>このレッスンは、前のstateについてのレッスンを土台として、stateを管理するためのさらなる概念とテクニックを紹介します。早速見ていきましょう。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>How to structure state.</li>
-<li>How state updates.</li>
-<li>Learn about controlled components.</li>
+<li>stateの構造化の仕方。</li>
+<li>stateがどのように更新されるか。</li>
+<li>制御されたコンポーネントについて学ぶ。</li>
 </ul>
-<h3>How to structure state</h3>
-<p>Managing and structuring state effectively is by far one of the most crucial parts of building your application. If not done correctly, it can become a source of bugs and headaches.</p>
-<p>The assignment items go through the topic thoroughly, but as a general rule of thumb: don't put values in state that can be calculated using existing values, state, and/or props.</p>
-<h4>State should not be mutated</h4>
-<p>Mutating state is a no-go area in React as it leads to unpredictable results. Primitives are already immutable, but if you are using reference-type values, i.e., arrays and objects, never mutate them. According to the React documentation, we should treat state as if it was <em>immutable</em>. To change state, we should always use the <code>setState</code> function, which in the case of the example below is the <code>setPerson</code> function.</p>
+<h3 id="how-to-structure-state">stateの構造化の仕方</h3>
+<p>stateを効果的に管理し構造化することは、間違いなく、アプリケーションを構築する上で最も重要な部分の一つです。正しく行わないと、バグや頭痛の種になってしまうことがあります。</p>
+<p>課題の項目でこのトピックを詳しく扱いますが、一般的な経験則として、既存の値、state、propsを使って計算できる値は、stateに入れないようにしましょう。</p>
+<h4 id="state-should-not-be-mutated">stateをミューテートしてはいけない</h4>
+<p>stateをミューテート(mutate、直接変更)することは、予測不可能な結果につながるため、Reactでは踏み込んではいけない領域です。プリミティブはすでにイミュータブル(不変)ですが、もし参照型の値、つまり配列やオブジェクトを使っている場合は、決してそれらをミューテートしないでください。Reactのドキュメントによると、stateはあたかも<em>イミュータブル</em>であるかのように扱うべきです。stateを変更するには、常に<code>setState</code>関数を使うべきであり、以下の例の場合、それは<code>setPerson</code>関数です。</p>
 <pre class="highlight"><code class="language-jsx">function Person() {
   const [person, setPerson] = useState({ name: "John", age: 100 });
 
@@ -76,14 +76,14 @@
   );
 }</code></pre>
 <div class="lesson-note lesson-note--tip">
-<h4>Objects and arrays in state</h4>
-<p>In the above example, notice how we <em>create</em> a new object and then copy the existing state values into the new object while providing a new value for <code>age</code>.
-That is because if we don't provide a new object to <code>setState</code> it is not guaranteed to re-render the page. Therefore, we should always provide a new Object for <code>setState</code> to trigger a re-render. <code>setState</code> uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is">Object.is()</a> to determine if the previous state is the same.</p>
-<p>As for nested objects and arrays, state can get tricky fast since you will have to copy the nested items as well. Be careful when using them.</p>
+<h4 id="objects-and-arrays-in-state">stateの中のオブジェクトと配列</h4>
+<p>上の例で、私たちが新しいオブジェクトを<em>作成</em>し、それから既存のstateの値をその新しいオブジェクトにコピーしながら、<code>age</code>には新しい値を渡している点に注目してください。
+これは、<code>setState</code>に新しいオブジェクトを渡さないと、ページが再レンダーされる保証がないためです。そのため、再レンダーを発生させるためには、常に<code>setState</code>に新しいオブジェクトを渡すべきです。<code>setState</code>は、以前のstateと同じかどうかを判断するために<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is">Object.is()</a>を使います。</p>
+<p>ネストしたオブジェクトや配列については、ネストした項目もコピーする必要が出てくるため、stateがすぐにやっかいになることがあります。それらを使う際は注意してください。</p>
 </div>
-<h3>How state updates</h3>
-<p>State updates are asynchronous. What this implies is that whenever you call the <code>setState</code> function, React will apply the update in the <strong>next</strong> component render. This concept can take a while to wrap your head around. With a lot of practice, you'll get the hang of it in no time.</p>
-<p>Remember, state variables aren't reactive; the component is. This can be understood by the fact that calling <code>setState</code> re-renders the entire component instead of just changing the state variable on the fly.</p>
+<h3 id="how-state-updates">stateはどのように更新されるか</h3>
+<p>stateの更新は非同期です。これが意味するのは、<code>setState</code>関数を呼び出すたびに、Reactはその更新を<strong>次の</strong>コンポーネントのレンダーで適用する、ということです。この概念を理解するには少し時間がかかるかもしれません。たくさん練習すれば、あっという間にコツをつかめるでしょう。</p>
+<p>覚えておいてほしいのは、state変数自体がリアクティブなのではなく、コンポーネントがリアクティブだ、ということです。これは、<code>setState</code>を呼び出すと、その場でstate変数を変更するのではなく、コンポーネント全体が再レンダーされるという事実から理解できます。</p>
 <pre class="highlight"><code class="language-jsx">function Person() {
   const [person, setPerson] = useState({ name: "John", age: 100 });
 
@@ -106,18 +106,18 @@ That is because if we don't provide a new object to <code>setState</code> it is 
     &lt;/&gt;
   );
 }</code></pre>
-<p>These are the logs:</p>
-<p><img alt="browser console of the above code snippet" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/103edd69831b1f0e946258009fe36a462c70c163/react/states_and_effects/more_on_state/imgs/00.png" /></p>
-<p>Uh-oh, what is happening? Let's break it down (ignore the double <code>console.log</code>s for the render case; this is covered in the upcoming lessons).</p>
+<p>以下がそのログです:</p>
+<p><img alt="上のコードスニペットのブラウザコンソール" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/103edd69831b1f0e946258009fe36a462c70c163/react/states_and_effects/more_on_state/imgs/00.png" /></p>
+<p>おっと、何が起こっているのでしょうか?分解して見ていきましょう(レンダーの場合の<code>console.log</code>が2回出ている点は無視してください。これはこの先のレッスンで扱います)。</p>
 <ol>
-<li>The component renders for the first time. The <code>person</code> state variable is initialized to <code>{ name: 'John', age: 100 }</code>. The "during render" <code>console.log</code> prints the state variable.</li>
-<li>The button is clicked invoking <code>handleIncreaseAge</code>. Interestingly, the <code>console.log</code> before and after the <code>setPerson</code> call prints the same value.</li>
-<li>The component re-renders. The <code>person</code> state variable is updated to <code>{ name: 'John', age: 101 }</code>.</li>
+<li>コンポーネントが最初にレンダーされます。<code>person</code>というstate変数は<code>{ name: 'John', age: 100 }</code>に初期化されます。「during render」の<code>console.log</code>が、このstate変数を出力します。</li>
+<li>ボタンがクリックされ、<code>handleIncreaseAge</code>が呼び出されます。興味深いことに、<code>setPerson</code>の呼び出しの前後にある<code>console.log</code>は、同じ値を出力します。</li>
+<li>コンポーネントが再レンダーされます。<code>person</code>というstate変数は<code>{ name: 'John', age: 101 }</code>に更新されます。</li>
 </ol>
-<p>The <code>person</code> state stays the same throughout the current render of the component. This is what "state as a snapshot" refers to. The <code>setState</code> call triggers a component re-render, and the <code>person</code> state is updated to the new value.</p>
+<p><code>person</code>のstateは、コンポーネントの現在のレンダーの間、ずっと同じままです。これが「スナップショットとしてのstate」が指しているものです。<code>setState</code>の呼び出しはコンポーネントの再レンダーを引き起こし、<code>person</code>のstateは新しい値に更新されます。</p>
 <div class="lesson-note lesson-note--warning">
-<h4>The unexpected infinite loop</h4>
-<p>The following would cause an infinite loop, but React can, under certain circumstances, detect infinite re-renders and throw an error. Can you guess why React will throw an error here, warning you about too many re-renders? Drop by in the <a href="https://discord.gg/fbFCkYabZB">TOP Discord server</a>, tell us why, and score a brownie point!</p>
+<h4>予期せぬ無限ループ</h4>
+<p>以下のコードは無限ループを引き起こしますが、Reactは特定の状況下で無限に再レンダーが発生していることを検知し、エラーをスローすることができます。ここでReactがなぜエラーをスローし、再レンダーが多すぎることを警告するのか、見当がつきますか?<a href="https://discord.gg/fbFCkYabZB">TOPのDiscordサーバー</a>に立ち寄って、その理由を教えてください。ポイント獲得のチャンスです!</p>
 <pre class="highlight"><code class="language-jsx">function Component() {
   const [count, setCount] = useState(0);
 
@@ -126,29 +126,29 @@ That is because if we don't provide a new object to <code>setState</code> it is 
   return &lt;h1&gt;{count}&lt;/h1&gt;;
 }</code></pre>
 </div>
-<h4>State updater functions</h4>
-<p>A trick question. Let's look at another implementation of <code>handleIncreaseAge</code>; what do you think it does?</p>
+<h4 id="state-updater-functions">stateの更新関数</h4>
+<p>ちょっとしたひっかけ問題です。<code>handleIncreaseAge</code>の別の実装を見てみましょう。これが何をするか、わかりますか?</p>
 <pre class="highlight"><code class="language-jsx">const handleIncreaseAge = () =&gt; {
   setPerson({ ...person, age: person.age + 1 });
   setPerson({ ...person, age: person.age + 1 });
 };</code></pre>
-<p>Surely, it will increase the age by 2? Nope. The above code is saying to React:</p>
+<p>きっと、ageを2増やすのだろう、と思いますよね?いいえ、違います。上のコードは、Reactに対してこう言っています:</p>
 <blockquote>
-<p>Hey, replace the current render's <code>person</code> with an increase in age by 1. Then, replace the current render's <code>person</code> with an increase in age by 1.</p>
+<p>ねえ、現在のレンダーの<code>person</code>を、ageを1増やしたものに置き換えて。それから、現在のレンダーの<code>person</code>を、ageを1増やしたものに置き換えて。</p>
 </blockquote>
-<p>Notice the word "replace". When you pass in the value to the <code>setState</code> function, React will replace the current state with the value you passed in. You might be wondering, what if I want to update the state multiple times using the latest state? This is where the state updater function comes in.</p>
+<p>「置き換える」という言葉に注目してください。<code>setState</code>関数に値を渡すと、Reactは現在のstateを、渡された値で置き換えます。では、最新のstateを使って複数回stateを更新したい場合はどうすればいいのか、と疑問に思うかもしれません。ここで登場するのが、stateの更新関数です。</p>
 <pre class="highlight"><code class="language-jsx">const handleIncreaseAge = () =&gt; {
   setPerson((prevPerson) =&gt; ({ ...prevPerson, age: prevPerson.age + 1 }));
   setPerson((prevPerson) =&gt; ({ ...prevPerson, age: prevPerson.age + 1 }));
 };</code></pre>
-<p>When a callback is passed to the <code>setState</code> function, it ensures that the latest state is passed in as an argument to the callback.</p>
-<p>Using an updater is not always necessary. If you want to change the state using your previous state and you prefer consistency over verbosity, then you might consider using an updater.</p>
+<p><code>setState</code>関数にコールバックが渡されると、最新のstateがそのコールバックの引数として渡されることが保証されます。</p>
+<p>更新関数を使うことが常に必要というわけではありません。以前のstateを使ってstateを変更したく、冗長さよりも一貫性を優先したい場合には、更新関数の使用を検討するとよいでしょう。</p>
 <div class="lesson-note">
-<h4>React batches state updates</h4>
-<p>There are two <code>setPerson</code> calls in the above example, and from what we've learned so far, a <code>setState</code> call triggers a component re-render. So, the component should re-render twice, right? You would say yes, but React is smart. Wherever possible, React batches the state updates. Here, the component only re-renders once. We'd encourage you to use <code>console.log</code>s to verify this.</p>
+<h4>Reactはstateの更新をバッチ処理する</h4>
+<p>上の例には2回の<code>setPerson</code>の呼び出しがあり、これまで学んできたことからすると、<code>setState</code>の呼び出しはコンポーネントの再レンダーを引き起こします。ということは、コンポーネントは2回再レンダーされるはずですよね?そう思うかもしれませんが、Reactは賢いのです。可能な限り、Reactはstateの更新をバッチ処理します。ここでは、コンポーネントは1回しか再レンダーされません。これを確認するために、<code>console.log</code>を使ってみることをお勧めします。</p>
 </div>
-<h3>Controlled components</h3>
-<p>There are native HTML elements that maintain their own internal state. The <code>input</code> element is a great example. You type into an <code>input</code> and it updates its own value on every keystroke. For many use-cases, you would like to <em>control</em> the value of the <code>input</code> element, i.e., set its value yourself. This is where controlled components come in.</p>
+<h3 id="controlled-components">制御されたコンポーネント</h3>
+<p>独自の内部stateを保持するネイティブHTML要素があります。<code>input</code>要素はその良い例です。<code>input</code>に入力すると、キー入力のたびに自身の値が更新されます。多くのユースケースでは、<code>input</code>要素の値を<em>制御</em>したい、つまり自分でその値を設定したいと思うでしょう。ここで登場するのが、制御されたコンポーネントです。</p>
 <pre class="highlight"><code class="language-jsx">function CustomInput() {
   const [value, setValue] = useState("");
 
@@ -160,13 +160,13 @@ That is because if we don't provide a new object to <code>setState</code> it is 
     /&gt;
   );
 }</code></pre>
-<p>Instead of letting the <code>input</code> maintain its own state, we define our own state using the <code>useState</code> hook. We then set the <code>value</code> prop of the <code>input</code> to the state variable and update the state variable on every <code>onChange</code> event. Now, every time the user types something in the input, React will ensure you have the latest comment, review, or post (whatever the user was typing) in <code>value</code>.</p>
-<p>This pattern is extremely useful wherever you need more control over user input, such as live validation or anything else that may require you to access the latest state value from these inputs. Contrarily, yes, the <code>input</code> element can be left uncontrolled and access its value through some other method. You don't need to worry about it yet, as it will be covered later on in the course. For now, control your components!</p>
-<h3>Assignment</h3>
+<p><code>input</code>に独自のstateを保持させる代わりに、<code>useState</code>フックを使って自分自身のstateを定義します。それから、<code>input</code>の<code>value</code>propをこのstate変数に設定し、<code>onChange</code>イベントのたびにstate変数を更新します。これにより、ユーザーがinputに何かを入力するたびに、Reactは最新のコメント、レビュー、投稿(ユーザーが入力していたもの)が<code>value</code>に反映されていることを保証してくれます。</p>
+<p>このパターンは、ライブバリデーションのように、ユーザー入力をより細かく制御する必要がある場合や、これらのinputから最新のstateの値にアクセスする必要があるその他の場合に、非常に役立ちます。逆に言えば、<code>input</code>要素を非制御のままにしておき、他の方法でその値にアクセスすることもできます。これについては今のところ心配する必要はありません。コースの後半で扱います。今のところは、あなたのコンポーネントを制御しましょう!</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
 <li>
-<p>Read the following articles from the React documentation:</p>
+<p>Reactドキュメントの以下の記事を読んでください:</p>
 <ul>
 <li><a href="https://react.dev/learn/state-as-a-snapshot">State as a Snapshot</a></li>
 <li><a href="https://react.dev/learn/choosing-the-state-structure">Choosing the State Structure</a></li>
@@ -174,23 +174,23 @@ That is because if we don't provide a new object to <code>setState</code> it is 
 </ul>
 </li>
 <li>
-<p>Update the <code>Person</code> component we've been using above.</p>
+<p>これまで上で使ってきた<code>Person</code>コンポーネントを更新してください。</p>
 <ul>
-<li>Add two separate input fields for the first name and the last name. Either of these should be able to update the full name in the <code>h1</code> element with every keystroke.</li>
-<li>There are many ways you can do this. Keep in mind what you've learned in this lesson while coding it out.</li>
+<li>名(first name)と姓(last name)のための、2つの別々の入力フィールドを追加してください。どちらの入力フィールドも、キー入力のたびに<code>h1</code>要素内のフルネームを更新できるようにしてください。</li>
+<li>これを実現する方法はたくさんあります。コーディングする際は、このレッスンで学んだことを念頭に置いてください。</li>
 </ul>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#how-to-structure-state">What should you keep in mind while declaring state?</a></li>
-<li><a href="#state-should-not-be-mutated">Why should we always use <code>setState</code> to update our state?</a></li>
-<li><a href="#how-state-updates">What does "state as a snapshot" mean?</a></li>
-<li><a href="#state-updater-functions">What's the difference between passing a value vs a callback to the <code>setState</code> function?</a></li>
-<li><a href="#objects-and-arrays-in-state">Why should we always provide a new Object to <code>setState</code>?</a></li>
-<li><a href="#controlled-components">Why would you want to control a component?</a></li>
+<li><a href="#how-to-structure-state">stateを宣言する際、何を心に留めておくべきですか?</a></li>
+<li><a href="#state-should-not-be-mutated">なぜ、stateを更新するには常に<code>setState</code>を使うべきなのですか?</a></li>
+<li><a href="#how-state-updates">「スナップショットとしてのstate」とはどういう意味ですか?</a></li>
+<li><a href="#state-updater-functions"><code>setState</code>関数に値を渡す場合とコールバックを渡す場合の違いは何ですか?</a></li>
+<li><a href="#objects-and-arrays-in-state">なぜ、常に<code>setState</code>に新しいオブジェクトを渡すべきなのですか?</a></li>
+<li><a href="#controlled-components">なぜコンポーネントを制御したいのですか?</a></li>
 </ul>
       </div>
     </article>

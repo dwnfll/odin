@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,48 +28,48 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">API Security</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">We learn how to secure our APIs using JSON web tokens</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Securing your API is an important step. When we were using Express to serve view templates we used PassportJS along with a username and password to authenticate users, but that is not the only way to secure an Express app, and in the context of an API it often makes sense to use a different strategy.  The username and password session pattern that we learned previously will still work of course, though it is made a little more complicated by the fact that we've separated our front-end code from the back-end.</p>
-<p>Another strategy is to generate and pass a secure <strong>token</strong> between our back-end and front-end code.  <span id='secure-token'>Doing so will make sure that our user's username and password are not compromised and will also give us the ability to expire our user's session for added security</span>. The basic idea is that when a user signs in to our app, a secure token is created, and then for all subsequent requests <span id='pass-token'>that token is passed in the header of our request object</span>. In the end, the process is straightforward since you should already be comfortable with using passport to authenticate users.</p>
-<p>This strategy, while particularly useful with APIs can be used with a traditional view-template project as well. The main difference here is that instead of setting and checking a cookie we're passing a special token in the header of our request. In our previous Authentication Tutorial, the Passport middleware checked the cookie that was sent and then either authenticated or denied our user. In this case, we're going to do something very similar, but instead of using cookies, we're going to pass the token.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>あなたのAPIを保護することは、重要なステップです。ビューテンプレートを提供するためにExpressを使っていたときは、ユーザーを認証するためにユーザー名とパスワードとともにPassportJSを使いましたが、それはExpressアプリを保護する唯一の方法ではなく、APIの文脈では、別のstrategyを使う方が理にかなっていることがよくあります。以前学んだユーザー名とパスワードのセッションパターンは、もちろんそれでも機能しますが、フロントエンドのコードとバックエンドを分離したことで、少し複雑になります。</p>
+<p>もう一つのstrategyは、私たちのバックエンドとフロントエンドのコードの間で、安全な<strong>トークン</strong>を生成し、渡すことです。<span id='secure-token'>そうすることで、ユーザーのユーザー名とパスワードが漏洩しないことを保証でき、さらなるセキュリティのために、ユーザーのセッションを失効させる能力も得られます</span>。基本的な考え方は、ユーザーが私たちのアプリにサインインすると、安全なトークンが作成され、それ以降のすべてのリクエストで、<span id='pass-token'>そのトークンが私たちのリクエストオブジェクトのヘッダーの中で渡される</span>、というものです。結局のところ、あなたはすでにpassportを使ってユーザーを認証することに慣れているはずなので、このプロセスは簡単です。</p>
+<p>このstrategyは、特にAPIで有用ですが、従来のビューテンプレートのプロジェクトでも使うことができます。ここでの主な違いは、クッキーを設定して確認する代わりに、私たちのリクエストのヘッダーの中で特別なトークンを渡すという点です。以前の認証のチュートリアルでは、Passportミドルウェアが送られてきたクッキーを確認し、それから私たちのユーザーを認証するか拒否するかを判断していました。今回は、それととても似たことを行いますが、クッキーを使う代わりに、トークンを渡すことになります。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Explain how token authentication differs from session based authentication.</li>
-<li>Learn about JSON Web Tokens.</li>
-<li>Read about an authorization header and how to use it.</li>
-<li>Identify and explain the methods used to sign and verify tokens.</li>
-<li>Write custom middleware to verify tokens on a given route.</li>
-<li>Have familiarity with token expiration with JWT.</li>
-<li>Expand PassportJS implementations to use JSON Web Tokens.</li>
+<li>トークン認証がセッションベースの認証とどう違うかを説明する。</li>
+<li>JSON Web Tokenについて学ぶ。</li>
+<li>authorizationヘッダーと、その使い方について読む。</li>
+<li>トークンに署名し検証するために使われるメソッドを特定し、説明する。</li>
+<li>特定のルートでトークンを検証するための、カスタムミドルウェアを書く。</li>
+<li>JWTにおけるトークンの失効について理解を深める。</li>
+<li>JSON Web Tokenを使うように、PassportJSの実装を拡張する。</li>
 </ul>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>This video is a great resource that explains everything you need to know about <a href="https://www.youtube.com/watch?v=7nafaH9SddU">creating and verifying JSON Web Tokens</a>.</li>
-<li>This video presents <a href="https://www.youtube.com/watch?v=7Q17ubqLfaM">different ways in which JWTs can be useful</a>.</li>
+<li>この動画は、<a href="https://www.youtube.com/watch?v=7nafaH9SddU">JSON Web Tokenの作成と検証</a>について知っておくべきすべてのことを説明してくれる、素晴らしいリソースです。</li>
+<li>この動画は、<a href="https://www.youtube.com/watch?v=7Q17ubqLfaM">JWTが役立つさまざまな方法</a>を紹介しています。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="https://www.youtube.com/watch?v=7Q17ubqLfaM">What is a JSON web token?</a></li>
-<li><a href="#secure-token">What are two things a secure token will do?</a></li>
-<li><a href="#pass-token">Where in the code is a secure token passed?</a></li>
+<li><a href="https://www.youtube.com/watch?v=7Q17ubqLfaM">JSON web tokenとは何ですか?</a></li>
+<li><a href="#secure-token">安全なトークンが行う2つのことは何ですか?</a></li>
+<li><a href="#pass-token">コードの中で、安全なトークンはどこで渡されますか?</a></li>
 </ul>
-<h3>Additional resources</h3>
-<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<h3>追加リソース</h3>
+<p>このセクションには、関連コンテンツへの役立つリンクが含まれています。必須ではないので、補足として捉えてください。</p>
 <ul>
-<li>This article is a <a href="https://web.archive.org/web/20230207144457/https://laptrinhx.com/a-practical-guide-for-jwt-authentication-using-node-js-and-express-917791379/">guide for JWT Authentication Using Node.js and Express</a>.</li>
-<li>This article is a <a href="https://medium.com/@paul.allies/stateless-auth-with-express-passport-jwt-7a55ffae0a5c">more concise guide for using JWTs in Express</a>.</li>
-<li><a href="https://www.youtube.com/watch?v=JdGOb7AxUo0">Not everyone agrees that JWTs are the best way to store authentication data</a>. This video is one argument against using them, and some of the pitfalls that you may encounter with using them.</li>
+<li>この記事は、<a href="https://web.archive.org/web/20230207144457/https://laptrinhx.com/a-practical-guide-for-jwt-authentication-using-node-js-and-express-917791379/">Node.jsとExpressを使ったJWT認証のガイド</a>です。</li>
+<li>この記事は、<a href="https://medium.com/@paul.allies/stateless-auth-with-express-passport-jwt-7a55ffae0a5c">Expressで JWTを使うための、より簡潔なガイド</a>です。</li>
+<li><a href="https://www.youtube.com/watch?v=JdGOb7AxUo0">JWTが認証データを保存する最良の方法であることに、誰もが同意しているわけではありません</a>。この動画は、それらを使うことに反対する一つの主張であり、それらを使う際に遭遇するかもしれない、いくつかの落とし穴についてのものです。</li>
 </ul>
       </div>
     </article>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,68 +28,68 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Battleship</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
     </header>
     <p class="tvp-lesson__desc">Battleship</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>It's time to really flex your muscles. Test Driven Development (TDD) can certainly feel uncomfortable at first, but becomes more natural with practice. We're going to implement the classic game 'Battleship'. If you've never played it, or need a refresher, you can read about <a href="https://en.wikipedia.org/wiki/Battleship_(game)">Battleship's rules</a> and you can <a href="http://en.battleship-game.org/">play an online version of Battleship</a>.</p>
-<p>Since we're doing TDD, it's important that you don't get overwhelmed. Take it one step at a time. Write a test, then make it pass. Since this project has more moving parts across different modules compared to previous projects that utilized testing, if you are unsure what to test or how to approach the testing, consider revisiting the ideas and assignments from the <a href="https://www.theodinproject.com/lessons/node-path-javascript-more-testing">More Testing lesson</a>.</p>
-<p>We have not yet discussed testing the appearance of a webpage, which requires a separate set of tools and is outside the scope of this unit, but this is something we will cover later in the curriculum. Therefore, you should not test the DOM for this assignment. Instead, do your best to isolate every bit of application functionality from the actual DOM manipulation bits.</p>
-<h3>Assignment</h3>
+        <h3>イントロダクション</h3>
+<p>いよいよ本領を発揮するときです。テスト駆動開発(TDD)は、最初は確かに違和感を覚えるかもしれませんが、練習を重ねるうちにより自然に感じられるようになります。今回は、クラシックなゲーム「バトルシップ(Battleship)」を実装していきます。プレイしたことがない場合や、ルールを思い出す必要がある場合は、<a href="https://en.wikipedia.org/wiki/Battleship_(game)">バトルシップのルール</a>を読んだり、<a href="http://en.battleship-game.org/">オンライン版のバトルシップ</a>をプレイしたりしてみてください。</p>
+<p>TDDを行うにあたって、圧倒されすぎないことが重要です。一歩ずつ進めていきましょう。テストを書き、それを通過させる。このプロジェクトは、これまでテストを利用してきたプロジェクトと比べて、複数のモジュールにまたがるより多くの可動部分があるため、何をテストすればよいか、どうテストに取り組めばよいかわからない場合は、<a href="https://www.theodinproject.com/lessons/node-path-javascript-more-testing">More Testingのレッスン</a>のアイデアや課題を見直すことを検討してください。</p>
+<p>ウェブページの見た目をテストすることについては、まだ扱っていません。これには別のツール群が必要であり、このユニットの範囲外ですが、カリキュラムの後半で扱うことになります。したがって、この課題ではDOMをテストするべきではありません。代わりに、アプリケーションの機能のあらゆる部分を、実際のDOM操作の部分から切り離すよう最善を尽くしてください。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <div class="lesson-note lesson-note--warning">
-<h4>Jest and ESM</h4>
-<p>Remember that Jest does not have built-in stable support for ESM, so you will need to <a href="https://www.theodinproject.com/lessons/node-path-javascript-testing-basics#using-es6-import-statements-with-jest">set up Babel for Jest ESM/CJS conversion</a>.</p>
+<h4>JestとESM</h4>
+<p>Jestには、ESMに対する組み込みの安定したサポートがないことを思い出してください。そのため、<a href="https://www.theodinproject.com/lessons/node-path-javascript-testing-basics#using-es6-import-statements-with-jest">JestのESM/CJS変換のためにBabelをセットアップする</a>必要があります。</p>
 </div>
 <ol>
-<li>Begin your app by creating the <code>Ship</code> class/factory (your choice).<ol>
-<li>Your 'ships' will be objects that include their length, the number of times they've been hit and whether or not they've been sunk.</li>
-<li><strong>REMEMBER</strong> you only have to test your object's public interface. Only methods or properties that are used outside of your 'ship' object need unit tests.</li>
-<li>Ships should have a <code>hit()</code> function that increases the number of 'hits' in your ship.</li>
-<li><code>isSunk()</code> should be a function that calculates whether a ship is considered sunk based on its length and the number of hits it has received.</li>
+<li><code>Ship</code>クラス/ファクトリ(どちらでもお好きな方)を作成することから、アプリを始めてください。<ol>
+<li>あなたの「船(ship)」は、その長さ、被弾した回数、そして沈没したかどうかを含むオブジェクトになります。</li>
+<li><strong>忘れないでください</strong>、テストする必要があるのは、オブジェクトの公開インターフェースだけです。「船」オブジェクトの外部で使われるメソッドやプロパティだけが、ユニットテストを必要とします。</li>
+<li>船には、船の「被弾」回数を増加させる<code>hit()</code>関数が必要です。</li>
+<li><code>isSunk()</code>は、船の長さと受けた被弾回数に基づいて、その船が沈没したと見なされるかどうかを計算する関数である必要があります。</li>
 </ol>
 </li>
-<li>Create a <code>Gameboard</code> class/factory.<ol>
-<li>Note that we have not yet created any User Interface. We should know our code is coming together by running the tests. You shouldn't be relying on <code>console.log</code> or DOM methods to make sure your code is doing what you expect it to.</li>
-<li>Gameboards should be able to place ships at specific coordinates by calling the ship factory or class.</li>
-<li>Gameboards should have a <code>receiveAttack</code> function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the 'hit' function to the correct ship, or records the coordinates of the missed shot.</li>
-<li>Gameboards should keep track of missed attacks so they can display them properly.</li>
-<li>Gameboards should be able to report whether or not all of their ships have been sunk.</li>
+<li><code>Gameboard</code>クラス/ファクトリを作成してください。<ol>
+<li>まだユーザーインターフェースは何も作成していないことに注意してください。コードがうまくまとまっていっているかどうかは、テストを実行することでわかるはずです。コードが期待通りに動作していることを確認するために、<code>console.log</code>やDOMメソッドに頼るべきではありません。</li>
+<li>Gameboardは、shipのファクトリまたはクラスを呼び出すことで、特定の座標に船を配置できる必要があります。</li>
+<li>Gameboardには、座標のペアを受け取り、その攻撃が船に命中したかどうかを判定し、命中していれば正しい船に「hit」関数を送り、外れていれば外れた攻撃の座標を記録する、<code>receiveAttack</code>関数が必要です。</li>
+<li>Gameboardは、外れた攻撃を正しく表示できるように、それらを記録しておく必要があります。</li>
+<li>Gameboardは、自分のすべての船が沈没したかどうかを報告できる必要があります。</li>
 </ol>
 </li>
-<li>Create a <code>Player</code> class/factory.<ol>
-<li>There will be two types of players in the game, 'real' players and 'computer' players.</li>
-<li>Each player object should contain its own gameboard.</li>
+<li><code>Player</code>クラス/ファクトリを作成してください。<ol>
+<li>ゲームには2種類のプレイヤー、「本物の」プレイヤーと「コンピューター」プレイヤーが存在します。</li>
+<li>各プレイヤーオブジェクトは、自分自身のgameboardを持つ必要があります。</li>
 </ol>
 </li>
-<li>Import your classes/factories into another file, and drive the game using event listeners to interact with your objects. Create a module that helps you manage actions that should happen in the DOM.<ol>
-<li>At this point it is appropriate to begin crafting your User Interface.</li>
-<li>Set up a new game by creating Players. For now just populate each player's Gameboard with predetermined coordinates. You are going to implement a system for allowing players to place their ships later.</li>
-<li>We’ll leave the HTML implementation up to you for now, but you should display both the player’s boards and render them using information from the Gameboard class/factory.<ul>
-<li>You'll need methods to render each player's Gameboard, so put them in an appropriate module.</li>
+<li>あなたのクラス/ファクトリを別のファイルにインポートし、イベントリスナーを使ってオブジェクトとやり取りしながらゲームを進行させてください。DOM内で発生すべきアクションを管理する助けとなる、モジュールを作成してください。<ol>
+<li>この時点で、ユーザーインターフェースの作成を始めるのが適切です。</li>
+<li>Playerを作成して、新しいゲームをセットアップしてください。今のところは、あらかじめ決められた座標で、各プレイヤーのGameboardを埋めるだけにしておいてください。プレイヤーが自分の船を配置できるようにする仕組みは、後で実装します。</li>
+<li>HTMLの実装は今のところあなたに任せますが、両方のプレイヤーのボードを表示し、Gameboardクラス/ファクトリからの情報を使ってそれらをレンダリングする必要があります。<ul>
+<li>各プレイヤーのGameboardをレンダリングするためのメソッドが必要になるので、それらを適切なモジュールに配置してください。</li>
 </ul>
 </li>
-<li>Your event listeners should step through the game turn by turn using only methods from other objects. If at any point you are tempted to write a new function, step back and figure out which class or module that function should belong to.</li>
-<li>For attacks, let the user click on a coordinate in the enemy Gameboard. Send the user input to methods on your objects, and re-render the boards to display the new information.<ul>
-<li>Players should take turns playing the game by attacking the enemy Gameboard. If you feel the need to keep track of the current player's turn, it's appropriate to manage that in this module, instead of another mentioned object.</li>
-<li>The game is played against the computer, so make the ‘computer’ players capable of making random plays. The computer does not have to be smart, but it should know whether or not a given move is legal (i.e. it shouldn’t shoot the same coordinate twice).</li>
+<li>あなたのイベントリスナーは、他のオブジェクトのメソッドだけを使って、ゲームをターンごとに進めていく必要があります。もし途中で新しい関数を書きたくなったら、一歩下がって、その関数がどのクラスやモジュールに属するべきかを考えてください。</li>
+<li>攻撃については、ユーザーが敵のGameboard上の座標をクリックできるようにしてください。ユーザーの入力をオブジェクトのメソッドに送り、新しい情報を表示するためにボードを再レンダリングしてください。<ul>
+<li>プレイヤーは、敵のGameboardを攻撃することで、交代でゲームをプレイする必要があります。現在のプレイヤーのターンを記録しておく必要があると感じた場合は、他の(先に触れた)オブジェクトではなく、このモジュールでそれを管理するのが適切です。</li>
+<li>このゲームはコンピューターを相手にプレイするので、「コンピューター」プレイヤーがランダムなプレイをできるようにしてください。コンピューターが賢い必要はありませんが、与えられた手が合法かどうか(つまり、同じ座標を2回撃つべきではない、など)は把握している必要があります。</li>
 </ul>
 </li>
-<li>Create conditions so that the game ends once one player’s ships have all been sunk. This function is also appropriate for this module.</li>
+<li>一方のプレイヤーの船がすべて沈没したら、ゲームが終了するような条件を作成してください。この関数も、このモジュールに置くのが適切です。</li>
 </ol>
 </li>
-<li>Finish it up by implementing a system that allows players to place their ships. For example, you can let them type coordinates for each ship or have a button to cycle through random placements.</li>
+<li>プレイヤーが自分の船を配置できるようにする仕組みを実装して、仕上げてください。例えば、各船の座標を入力させたり、ランダムな配置を切り替えるボタンを用意したりすることができます。</li>
 </ol>
-<h4>Extra credit</h4>
-<p>Make your battleship project more impressive by introducing any of these modifications.</p>
+<h4>追加課題</h4>
+<p>以下の変更のいずれかを取り入れて、バトルシッププロジェクトをより印象的なものにしてください。</p>
 <ul>
-<li>Implement drag and drop to allow players to place their ships.</li>
-<li>Create a 2-player option that lets users take turns by passing the laptop back and forth, or by spinning the monitor around on a desktop. Implement a 'pass device' screen so that players don't see each other's boards!</li>
-<li>Polish the intelligence of the computer player by having it try adjacent slots after getting a 'hit'.</li>
+<li>ドラッグアンドドロップを実装して、プレイヤーが自分の船を配置できるようにする。</li>
+<li>ノートパソコンを行ったり来たり手渡ししたり、デスクトップならモニターを回転させたりすることで、ユーザーが交代でプレイできる2人プレイオプションを作成する。プレイヤーがお互いのボードを見てしまわないように、「デバイスを渡す」画面を実装してください!</li>
+<li>「命中」した後に隣接するマスを狙わせることで、コンピュータープレイヤーの知能を磨く。</li>
 </ul>
 </div>
       </div>

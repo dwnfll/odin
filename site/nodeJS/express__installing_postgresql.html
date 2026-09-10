@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,48 +28,48 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Installing PostgreSQL</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">How to install PostgreSQL on a local machine.</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Data persistence is integral to the vast majority of web applications. Data persistence is achieved through databases. Being able to understand how to structure, build, and query your own database are important skills for any full-stack developer to have.</p>
-<p>For example, consider The Odin Project. Where is your username stored? Where are project submissions stored? Where does this lesson content, the one you're reading right now, get stored? Yes, a database!</p>
-<p>We've chosen <a href="https://www.postgresql.org/">PostgreSQL</a> as our database of choice for the curriculum. All SQL knowledge that you've learned in the earlier course should be transferable to PostgreSQL. We'll also learn new PostgreSQL specific things. Watch through this <a href="https://www.youtube.com/watch?v=n2Fluyr3lbc">fun and short introduction video to PostgreSQL by Fireship</a>.</p>
-<p>In this lesson, we'll install PostgreSQL and in the next lesson we'll learn how to use it in our Express application.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3 id="introduction">イントロダクション</h3>
+<p>データの永続化は、ウェブアプリケーションの大多数にとって不可欠なものです。データの永続化は、データベースを通じて実現されます。自分のデータベースをどう構造化し、構築し、クエリするかを理解できることは、あらゆるフルスタック開発者にとって重要なスキルです。</p>
+<p>例えば、The Odin Projectについて考えてみてください。あなたのユーザー名はどこに保存されているのでしょうか?プロジェクトの提出物はどこに保存されているのでしょうか?今まさにあなたが読んでいる、このレッスンのコンテンツはどこに保存されているのでしょうか?そう、データベースです!</p>
+<p>私たちはカリキュラムのデータベースとして<a href="https://www.postgresql.org/">PostgreSQL</a>を選びました。以前のコースで学んだSQLの知識はすべて、PostgreSQLにそのまま応用できるはずです。また、PostgreSQL特有の新しいことも学んでいきます。Fireshipによるこの<a href="https://www.youtube.com/watch?v=n2Fluyr3lbc">楽しくて短いPostgreSQLの入門動画</a>を見てみてください。</p>
+<p>このレッスンではPostgreSQLをインストールし、次のレッスンでは、それをExpressアプリケーションの中でどう使うかを学びます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>The PostgreSQL shell.</li>
-<li>How to install PostgreSQL.</li>
+<li>PostgreSQLシェル。</li>
+<li>PostgreSQLのインストール方法。</li>
 </ul>
-<h3>PostgreSQL shell</h3>
+<h3 id="postgresql-shell">PostgreSQLシェル</h3>
 <div class="lesson-note lesson-note--critical">
-<h4>Complete the SQL course</h4>
-<p>Make sure you've completed the <a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/databases">SQL course</a>.</p>
-<p>This lesson and all subsequent lessons will assume you understand SQL syntax and concepts.</p>
+<h4>SQLコースを完了してください</h4>
+<p>必ず<a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/databases">SQLコース</a>を完了しておいてください。</p>
+<p>このレッスンおよびそれ以降のすべてのレッスンは、あなたがSQLの構文と概念を理解していることを前提としています。</p>
 </div>
-<p>The PostgreSQL shell, also known as psql, is a terminal-based front end to PostgreSQL that allows users to interactively execute SQL queries and manage the database.</p>
-<p>It is typically included with the PostgreSQL installation and can be accessed through the command line. Its scope includes running queries, creating and modifying database structures, and interacting with the database in a command-line environment, psql provides a number of meta-commands and various shell-like features to facilitate writing scripts and automating a wide variety of tasks.</p>
-<p>The database using the psql terminal is located inside the file system or local machine, as PostgreSQL stores databases in ordinary files within the filesystem. The default location of the data directory may vary between different operating systems.</p>
-<h3>Assignment</h3>
+<p>psqlとしても知られるPostgreSQLシェルは、ユーザーがSQLクエリを対話的に実行し、データベースを管理できるようにする、PostgreSQL用のターミナルベースのフロントエンドです。</p>
+<p>これは通常PostgreSQLのインストールに含まれており、コマンドラインからアクセスできます。その範囲には、クエリの実行、データベース構造の作成や変更、コマンドライン環境でのデータベースとの対話が含まれており、psqlはスクリプトの記述やさまざまなタスクの自動化を容易にするための、多くのメタコマンドやシェルライクな機能を提供しています。</p>
+<p>psqlターミナルが使うデータベースは、ファイルシステムやローカルマシンの内部にあります。というのも、PostgreSQLはデータベースをファイルシステム内の通常のファイルとして保存するからです。データディレクトリのデフォルトの場所は、オペレーティングシステムによって異なる場合があります。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Depending on the OS you are running, follow the appropriate PostgreSQL installation guide below:<ul>
+<li>使用しているOSに応じて、以下の該当するPostgreSQLインストールガイドに従ってください:<ul>
 <li><a href="https://github.com/TheOdinProject/curriculum/tree/main/nodeJS/express/installation_guides/postgresql/linux.md" title="PostgreSQL installation for Linux">Linux</a></li>
 <li><a href="https://github.com/TheOdinProject/curriculum/tree/main/nodeJS/express/installation_guides/postgresql/macos.md" title="PostgreSQL installation for macOS">macOS</a></li>
 </ul>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#introduction">Why is data persistence important in web applications?</a></li>
-<li><a href="#postgresql-shell">What is the PostgreSQL shell?</a></li>
+<li><a href="#introduction">ウェブアプリケーションにおいて、データの永続化はなぜ重要なのですか?</a></li>
+<li><a href="#postgresql-shell">PostgreSQLシェルとは何ですか?</a></li>
 </ul>
       </div>
     </article>

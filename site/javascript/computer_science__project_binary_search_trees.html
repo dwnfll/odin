@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,31 +28,31 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Binary Search Trees</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
     </header>
     <p class="tvp-lesson__desc">In this project you&#x27;ll get your hands dirty with one of the most common computer science problems, searching binary trees.</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>You have learned about <a href="http://en.wikipedia.org/wiki/Binary_search_tree">binary search trees</a>, where you take a group of data items and turn them into a tree full of nodes, with each left node being "lower" than each right node. The tree starts with the "root node" and any node with no children is called a "leaf node". You have also learned about tree traversal algorithms like breadth-first and depth-first.</p>
-<p>Now, let's take a look at balanced binary search trees (BST). A BST allows fast operations for lookup, insertion, and deletion of data items. Read this <a href="https://www.geeksforgeeks.org/sorted-array-to-balanced-bst/">article on building balanced BSTs</a>. Here is a <a href="https://youtu.be/VCTP81Ij-EM">video on building balanced BSTs</a> as well. Although the last resource does not use JavaScript, you should understand it well enough to develop your own pseudocode.</p>
-<h3>Assignment</h3>
-<p>You'll build a balanced BST in this assignment. Do not use duplicate values because they make it more complicated and result in trees that are much harder to balance. Therefore, be sure to always remove duplicate values or check for an existing value before inserting.</p>
+        <h3>イントロダクション</h3>
+<p>あなたはすでに<a href="http://en.wikipedia.org/wiki/Binary_search_tree">二分探索木</a>について学んでいます。これは、データ項目の集まりを、ノードでいっぱいの木構造に変換したもので、それぞれの左のノードは右のノードよりも"低い"値を持ちます。木は"ルートノード"から始まり、子を持たないノードは"葉ノード"と呼ばれます。あなたはまた、幅優先や深さ優先といった、木の走査アルゴリズムについても学んでいます。</p>
+<p>では、バランスの取れた二分探索木(BST)を見ていきましょう。BSTを使うと、データ項目の検索・挿入・削除を高速に行うことができます。この<a href="https://www.geeksforgeeks.org/sorted-array-to-balanced-bst/">バランスの取れたBSTを構築する記事</a>を読んでください。また、<a href="https://youtu.be/VCTP81Ij-EM">バランスの取れたBSTを構築する動画</a>もあります。最後のリソースはJavaScriptを使っていませんが、自分なりの疑似コードを組み立てられる程度には理解できるはずです。</p>
+<h3>課題</h3>
+<p>この課題では、バランスの取れたBSTを構築します。重複した値は使わないでください。処理がより複雑になり、バランスを取るのがはるかに難しい木になってしまうからです。そのため、必ず重複した値を取り除くか、挿入前に既存の値かどうかを確認するようにしてください。</p>
 <div class="lesson-content__panel">
 <ol>
 <li>
-<p>Build a <code>Node</code> class/factory. It should have an attribute for the data it stores as well as its left and right children.</p>
+<p><code>Node</code>クラス/ファクトリを作成してください。保存するデータのための属性に加えて、左右の子のための属性も持つ必要があります。</p>
 </li>
 <li>
-<p>Build a <code>Tree</code> class/factory which accepts an array when initialized. The <code>Tree</code> class should have a <code>root</code> attribute, which uses the return value of <code>buildTree()</code> which you'll write next.</p>
+<p>初期化時に配列を受け取る<code>Tree</code>クラス/ファクトリを作成してください。<code>Tree</code>クラスは<code>root</code>属性を持つ必要があり、これには次に書く<code>buildTree()</code>の戻り値を使います。</p>
 </li>
 <li>
-<p>Write a <code>buildTree(array)</code> function that takes an array of numbers (e.g., <code>[1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]</code>) and turns it into a balanced binary tree full of <code>Node</code> objects appropriately placed (don't forget to sort and remove duplicates!). The <code>buildTree()</code> function should return the level-0 root node. You can make this function private (either through using class syntax privacy features or by not including it in your factory's return object), and just call it for initializing the value of the <code>root</code> node.</p>
+<p>数値の配列(例: <code>[1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]</code>)を受け取り、それを適切に配置された<code>Node</code>オブジェクトでいっぱいのバランスの取れた二分木に変換する、<code>buildTree(array)</code>関数を書いてください(ソートして重複を取り除くのを忘れないように!)。<code>buildTree()</code>関数は、レベル0のルートノードを返す必要があります。この関数は(クラス構文のプライバシー機能を使うか、ファクトリの戻り値オブジェクトに含めないことで)プライベートにしてもかまいません。あとは、それを呼び出して<code>root</code>ノードの値を初期化するだけです。</p>
 <div class="lesson-note lesson-note--tip" markdown="1">
-<h4>Visually representing your tree</h4>
-<p>If you would like to visualize your binary search tree, here is a <code>prettyPrint()</code> function that will <code>console.log</code> your tree in a structured format. This function will expect to receive the root of your tree as the value for the node parameter:</p>
+<h4>木を視覚的に表現する</h4>
+<p>二分探索木を視覚化したい場合は、木を構造化されたフォーマットで<code>console.log</code>する<code>prettyPrint()</code>関数を用意しました。この関数は、<code>node</code>パラメータの値として、あなたの木のルートを受け取ることを想定しています:</p>
 <pre class="highlight"><code class="language-javascript">const prettyPrint = (node, prefix = '', isLeft = true) =&gt; {
   if (node === null || node === undefined) {
     return;
@@ -67,56 +67,56 @@
 </div>
 <ol>
 <li>
-<p>Write an <code>includes(value)</code> function that accepts a value and returns <code>true</code> if the given value is in the tree. If the value isn't in the tree, it should return <code>false</code>.</p>
+<p>値を受け取り、指定された値が木の中にあれば<code>true</code>を返す、<code>includes(value)</code>関数を書いてください。値が木の中にない場合は、<code>false</code>を返す必要があります。</p>
 </li>
 <li>
-<p>Write an <code>insert(value)</code> function that accepts a value and inserts a new node with that value into the tree. Be sure to insert in a way that preserves the "binary search" property: for each node, every node to its left must have a lower value, and every node to its right must have a greater value. If the function is called with a value that already exists in the tree, the function should do nothing. If you need additional resources, check out the <a href="https://www.geeksforgeeks.org/insertion-in-binary-search-tree/?ref=lbp">Geeks for Geeks article on binary search tree insertion</a>.</p>
+<p>値を受け取り、その値を持つ新しいノードを木に挿入する、<code>insert(value)</code>関数を書いてください。"二分探索"の性質を保つように挿入することを忘れないでください: 各ノードについて、その左側にあるすべてのノードはより小さい値を持ち、右側にあるすべてのノードはより大きい値を持つ必要があります。すでに木の中に存在する値でこの関数が呼び出された場合、この関数は何もしないようにしてください。追加のリソースが必要な場合は、<a href="https://www.geeksforgeeks.org/insertion-in-binary-search-tree/?ref=lbp">二分探索木への挿入についてのGeeks for Geeksの記事</a>を確認してください。</p>
 <div class="lesson-note" markdown="1">
-<h4>Avoid using the original input array</h4>
-<p>You may be tempted to implement these methods using the original input array used to build the tree, but it's important for the efficiency of these operations that you don't do this. If we refer back to the <a href="https://www.bigocheatsheet.com/">Big O Cheatsheet</a>, we'll see that binary search trees can insert/delete in <code>O(log n)</code> time, which is a significant performance boost over arrays for the same operations. To get this added efficiency, your implementation of these methods should traverse the tree and manipulate the nodes and their connections.</p>
+<h4>元の入力配列を使うのは避ける</h4>
+<p>木を構築するために使った元の入力配列を使って、これらのメソッドを実装したくなるかもしれませんが、これらの操作の効率性のためには、それを避けることが重要です。<a href="https://www.bigocheatsheet.com/">Big O Cheatsheet</a>を振り返ってみると、二分探索木は<code>O(log n)</code>の時間で挿入・削除ができることがわかります。これは、同じ操作を配列で行う場合と比べて、パフォーマンスが大きく向上していることを意味します。この効率性を得るためには、これらのメソッドの実装が、木を走査してノードとそのつながりを操作するようにする必要があります。</p>
 </div>
 </li>
 <li>
-<p>Write a <code>deleteItem(value)</code> function that accepts a value and removes it from the tree. You'll have to deal with multiple cases for this based on how many children the targeted node has. If the given value doesn't exist in the tree, the function should do nothing. If you need additional resources, check out the <a href="https://www.geeksforgeeks.org/binary-search-tree-set-2-delete/?ref=lbp">Geeks for Geeks article on deleting in a binary search tree</a>.</p>
+<p>値を受け取り、それを木から削除する、<code>deleteItem(value)</code>関数を書いてください。対象のノードがいくつの子を持つかに応じて、複数のケースに対処する必要があります。指定された値が木の中に存在しない場合、この関数は何もしないようにしてください。追加のリソースが必要な場合は、<a href="https://www.geeksforgeeks.org/binary-search-tree-set-2-delete/?ref=lbp">二分探索木での削除についてのGeeks for Geeksの記事</a>を確認してください。</p>
 </li>
 <li>
-<p>Write a <code>levelOrderForEach(callback)</code> function that accepts a callback function as its parameter. <code>levelOrderForEach()</code> should traverse the tree in breadth-first level order and call the callback on each value as it traverses, passing each value (<em>not</em> the nodes) as an argument, similarly to how <code>Array.prototype.forEach()</code> might work for arrays. <code>levelOrderForEach()</code> may be implemented using either iteration or recursion (try implementing both!). If no callback function is provided, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw">throw an Error</a> reporting that a callback is required.</p>
+<p>パラメータとしてコールバック関数を受け取る、<code>levelOrderForEach(callback)</code>関数を書いてください。<code>levelOrderForEach()</code>は、幅優先のレベル順で木を走査し、走査しながら各値に対してコールバックを呼び出す必要があります。この際、<code>Array.prototype.forEach()</code>が配列に対して動作するのと同じように、(ノードでは<em>なく</em>)各値を引数として渡します。<code>levelOrderForEach()</code>は、反復処理または再帰処理のどちらを使っても実装できます(両方を試してみてください!)。コールバック関数が渡されなかった場合は、コールバックが必要であることを伝える<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw">エラーをスロー</a>してください。</p>
 <div class="lesson-note lesson-note--tip" markdown="1">
-<h4>Using a queue</h4>
-<p>You will want to use an array acting as a queue to keep track of all the child nodes that you have yet to traverse and to add new ones to the list. If you need a visualization, watch <a href="https://www.youtube.com/watch?v=86g8jAQug04">mycodeschool's video on level order traversal</a>.</p>
+<h4>キューを使う</h4>
+<p>まだ走査していないすべての子ノードを把握し、新しいノードをリストに追加していくために、キューとして機能する配列を使うとよいでしょう。視覚的なイメージが必要な場合は、<a href="https://www.youtube.com/watch?v=86g8jAQug04">mycodeschoolによるレベル順走査についての動画</a>を見てください。</p>
 </div>
 </li>
 <li>
-<p>Write <code>inOrderForEach(callback)</code>, <code>preOrderForEach(callback)</code>, and <code>postOrderForEach(callback)</code> functions that also accept a callback as a parameter. Each of these functions should traverse the tree in their respective depth-first order and pass each value to the provided callback. The functions should throw an Error if no callback is given as an argument, like with <code>levelOrderForEach()</code>. If you need a resource for how the different traversals work, watch <a href="https://www.youtube.com/watch?v=gm8DUJJhmY4">mycodeschool's video on Binary Tree Traversal: Preorder, Inorder, Postorder</a>.</p>
+<p>同じくコールバックをパラメータとして受け取る、<code>inOrderForEach(callback)</code>、<code>preOrderForEach(callback)</code>、<code>postOrderForEach(callback)</code>関数を書いてください。これらの関数はそれぞれ、対応する深さ優先の順序で木を走査し、各値を渡されたコールバックに渡す必要があります。<code>levelOrderForEach()</code>と同様に、これらの関数も、引数としてコールバックが渡されなかった場合はエラーをスローする必要があります。それぞれの走査がどのように機能するかについてのリソースが必要な場合は、<a href="https://www.youtube.com/watch?v=gm8DUJJhmY4">mycodeschoolによる二分木の走査: 行きがけ順・通りがけ順・帰りがけ順についての動画</a>を見てください。</p>
 </li>
 <li>
-<p>Write a <code>height(value)</code> function that returns the height of the node containing the given value. Height is defined as the number of edges in the longest path from that node to a leaf node. If the value is not found in the tree, the function should return <code>undefined</code>.</p>
+<p>指定された値を含むノードの高さを返す、<code>height(value)</code>関数を書いてください。高さとは、そのノードから葉ノードまでの最長経路にある辺の数として定義されます。値が木の中に見つからない場合は、<code>undefined</code>を返す必要があります。</p>
 </li>
 <li>
-<p>Write a <code>depth(value)</code> function that returns the depth of the node containing the given value. Depth is defined as the number of edges in the path from that node to the root node. If the value is not found in the tree, the function should return <code>undefined</code>.</p>
+<p>指定された値を含むノードの深さを返す、<code>depth(value)</code>関数を書いてください。深さとは、そのノードからルートノードまでの経路にある辺の数として定義されます。値が木の中に見つからない場合は、<code>undefined</code>を返す必要があります。</p>
 </li>
 <li>
-<p>Write an <code>isBalanced()</code> function that checks if the tree is balanced. A binary tree is considered balanced if, for every node in the tree, the height difference between its left and right subtrees is no more than 1, and both the left and right subtrees are also balanced.</p>
+<p>木がバランスしているかどうかを確認する、<code>isBalanced()</code>関数を書いてください。二分木は、木の中のすべてのノードについて、その左右の部分木の高さの差が1以下であり、かつ左右の部分木もどちらもバランスしている場合に、バランスしていると見なされます。</p>
 <div class="lesson-note lesson-note--tip" markdown="1">
-<h4>Pitfall with checking balance</h4>
-<p>A common mistake is only checking the height difference between the root's left and right children. That is not enough — you must check the balance condition for every node.</p>
+<h4>バランスの確認における落とし穴</h4>
+<p>よくある間違いは、ルートの左右の子の高さの差だけを確認してしまうことです。それだけでは不十分です。すべてのノードについて、バランスの条件を確認する必要があります。</p>
 </div>
 </li>
 <li>
-<p>Write a <code>rebalance()</code> function that rebalances an unbalanced tree. You'll want to use a traversal method to provide a new array to the <code>buildTree()</code> function.</p>
+<p>バランスの崩れた木を再びバランスさせる、<code>rebalance()</code>関数を書いてください。走査の手法を使って、<code>buildTree()</code>関数に新しい配列を渡すとよいでしょう。</p>
 </li>
 </ol>
-<h4>Tie it all together</h4>
-<p>Write a driver script that does the following:</p>
+<h4>すべてをまとめる</h4>
+<p>以下を行う、動作確認用のスクリプトを書いてください:</p>
 <ol>
-<li>Create a binary search tree from an array of random numbers with each element having a value less than 100. You can create a function that returns an array of random numbers every time you call it if you wish.</li>
-<li>Confirm that the tree is balanced by calling <code>isBalanced()</code>.</li>
-<li>Print out all elements in level, pre, post, and in order.</li>
-<li>Unbalance the tree by adding several numbers whose value is more than 100.</li>
-<li>Confirm that the tree is unbalanced by calling <code>isBalanced()</code>.</li>
-<li>Balance the tree by calling <code>rebalance()</code>.</li>
-<li>Confirm that the tree is balanced by calling <code>isBalanced()</code>.</li>
-<li>Print out all elements in level, pre, post, and in order.</li>
+<li>各要素が100未満の値を持つ、ランダムな数値の配列から二分探索木を作成してください。必要であれば、呼び出すたびにランダムな数値の配列を返す関数を作ってもかまいません。</li>
+<li><code>isBalanced()</code>を呼び出して、木がバランスしていることを確認してください。</li>
+<li>レベル順、行きがけ順、帰りがけ順、通りがけ順で、すべての要素を出力してください。</li>
+<li>100より大きい値を持つ数値をいくつか追加して、木のバランスを崩してください。</li>
+<li><code>isBalanced()</code>を呼び出して、木のバランスが崩れていることを確認してください。</li>
+<li><code>rebalance()</code>を呼び出して、木のバランスを取ってください。</li>
+<li><code>isBalanced()</code>を呼び出して、木がバランスしていることを確認してください。</li>
+<li>レベル順、行きがけ順、帰りがけ順、通りがけ順で、すべての要素を出力してください。</li>
 </ol>
 </div>
       </div>

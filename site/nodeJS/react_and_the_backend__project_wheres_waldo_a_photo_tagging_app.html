@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,36 +28,36 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Where\&#x27;s Waldo (A Photo Tagging App)</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">Where\&#x27;s Waldo (A Photo Tagging App)</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>This project will finally give you a chance to tie together everything you've learned so far. It's a project with a lot of complexity so take it one step at a time. Working with a backend is pretty straightforward, but you'll be juggling some of the front end functionality too. This is entirely within the realm of the kind of thing you might be asked to build on the job (though of course not exactly). Are you ready?</p>
-<p>Have you ever played <a href="http://en.wikipedia.org/wiki/Where's_Wally%3F">Where's Waldo</a>? If not, that's okay! Let us break it down: you are presented with a busy and crowded illustration that contains many different people, objects, and places. Your task is to find a particular character named Waldo, who is hidden somewhere in the illustration.</p>
-<h3>Your task</h3>
-<p>Build an app that, when it's finished, will feel very similar to a photo tagging app. You'll start with a large photograph containing several elements the user is meant to find, e.g. Waldo, The Wizard, Wilma etc. You can even name your own if you'd like to use custom pictures. The user will make selections for each character and they will be given feedback on whether they are correct or not.</p>
-<p>To start with, you'll need to choose a photo and identify where exactly each person is using its pixel position and save that to your database. When the user clicks the photo, it should place a targeting box around the portion of the photo the user has clicked. That box should contain a list of possible characters.</p>
-<p>When the user selects one of these characters, you should check with your backend to see if that character is actually within the targeting box. Provide the user with appropriate feedback (e.g. if wrong, an error message). If correct, place a marker on the photo in the character's location. In either case, remove the targeting box until the user clicks again.</p>
-<p>Keep track of how long it takes from when the photo is first loaded to when the user finally identifies all of the characters. It is advisable to do this on the server side, otherwise the user could hack their score (but you should know this by now). Once a round is complete, ask the user for their name and record that time. This will get a bit tricky since you'll have anonymous users you need to keep track of!</p>
-<h3>Assignment</h3>
+        <h3>イントロダクション</h3>
+<p>このプロジェクトでは、いよいよこれまでに学んだすべてのことを結びつける機会が得られます。かなり複雑なプロジェクトなので、一歩ずつ進めていってください。バックエンドを扱うこと自体はかなり単純ですが、フロントエンドの機能もいくつか同時に扱っていくことになります。これはまさに、実際の仕事で作ることを頼まれるかもしれない類のもの(もちろん、まったく同じというわけではありませんが)の範疇に完全に収まるものです。準備はいいですか?</p>
+<p><a href="http://en.wikipedia.org/wiki/Where's_Wally%3F">Where's Waldo</a>(邦題『ウォーリーをさがせ!』)で遊んだことはありますか?なければ、それでも大丈夫です!簡単に説明しましょう。あなたには、多くの異なる人々、物、場所が描かれた、賑やかでごちゃごちゃしたイラストが提示されます。あなたの仕事は、そのイラストのどこかに隠れている、Waldoという特定のキャラクターを見つけることです。</p>
+<h3>あなたのタスク</h3>
+<p>完成すると、写真タグ付けアプリにとても似た感覚のアプリを構築してください。ユーザーが見つけるべき、いくつかの要素(例えばWaldo、The Wizard、Wilmaなど)を含む、大きな写真から始めます。カスタムの画像を使いたければ、自分で名前を付けることもできます。ユーザーはそれぞれのキャラクターについて選択を行い、それが正しいかどうかのフィードバックを受け取ります。</p>
+<p>まず、写真を一枚選び、それぞれの人物が正確にどこにいるかを、そのピクセル位置を使って特定し、それをあなたのデータベースに保存する必要があります。ユーザーが写真をクリックすると、ユーザーがクリックした部分の周りにターゲティングボックスを配置するべきです。そのボックスには、可能性のあるキャラクターのリストが含まれるべきです。</p>
+<p>ユーザーがこれらのキャラクターのうちの一つを選択したら、そのキャラクターが実際にそのターゲティングボックスの中にいるかどうかを、あなたのバックエンドで確認するべきです。ユーザーに適切なフィードバックを提供してください(例えば、間違っていればエラーメッセージを)。正しければ、そのキャラクターの位置にある写真上にマーカーを配置してください。どちらの場合でも、ユーザーが再度クリックするまで、ターゲティングボックスを取り除いてください。</p>
+<p>写真が最初に読み込まれてから、ユーザーが最終的にすべてのキャラクターを特定するまでにかかった時間を記録してください。ユーザーが自分のスコアを改ざんできてしまう可能性があるため、これはサーバーサイドで行うことをおすすめします(ですが、あなたはもう今頃このことを知っているはずですね)。ラウンドが完了したら、ユーザーに名前を尋ね、その時間を記録してください。匿名のユーザーを追跡する必要があるため、これは少しトリッキーになるでしょう!</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Think about what you'll need to do to get this all working together. This is where it's really helpful to think it completely through on paper or a whiteboard ahead of time! A few minutes of thought can save you from wasting an hour on coding.</li>
-<li>Build the front end functionality without actually using any calls to the back end yet. Specifically, create the functionality that pops the targeting box and dropdown menu on the screen when the user clicks on the photo and removes it when the user clicks away.</li>
-<li>Now hook up the functionality for validating with your backend whether or not the user has clicked the right place for the character they selected from the dropdown.
-<strong>Note:</strong> Depending on how you are getting the coordinates of a user's clicks, different screen sizes may produce different coordinates. This could cause your app to record coordinates properly on a large screensize, but not smaller ones. Knowing this, you may need to implement methods to your click logic that will normalize coordinates across different screensizes.</li>
-<li>Tie it into your frontend so you can seamlessly select characters, validate them, and place the appropriate markers on the map if the selection was correct.</li>
-<li>Add in the ability to time the user from when they first load the page and then display their "score" (time) when they successfully identify all characters. Create a popup that asks them to enter their name for the high scores table if they have earned it.</li>
-<li>Play with it!</li>
-<li>Push your solution to GitHub and deploy it to any of the hosting options. Additionally, submit your solutions below. This is a serious project, congratulations!</li>
+<li>これをすべて連携して動かすために何をする必要があるか、考えてみてください。ここでは、事前に紙やホワイトボード上で完全に考え抜いておくことが、本当に役立ちます!数分間考えることで、コーディングに1時間も無駄にすることを避けられます。</li>
+<li>まだバックエンドへの呼び出しを一切使わずに、フロントエンドの機能を構築してください。具体的には、ユーザーが写真をクリックしたときに画面上にターゲティングボックスとドロップダウンメニューをポップアップさせ、ユーザーがよそをクリックしたときにそれを取り除く機能を作成してください。</li>
+<li>さて、ドロップダウンから選択したキャラクターについて、ユーザーが正しい場所をクリックしたかどうかを、あなたのバックエンドで検証する機能を接続してください。
+<strong>注:</strong> ユーザーのクリックの座標をどのように取得するかによっては、異なる画面サイズが異なる座標を生成することがあります。これにより、あなたのアプリが大きな画面サイズでは座標を正しく記録するものの、小さな画面サイズではそうならない、ということが起こり得ます。これを踏まえて、異なる画面サイズ間で座標を正規化するメソッドを、あなたのクリックロジックに実装する必要があるかもしれません。</li>
+<li>それをあなたのフロントエンドに組み込み、キャラクターをシームレスに選択し、検証し、選択が正しければ地図上に適切なマーカーを配置できるようにしてください。</li>
+<li>ユーザーが最初にページを読み込んでからの時間を計測する機能を追加し、すべてのキャラクターを正しく特定したら、その「スコア」(時間)を表示してください。それがハイスコアに値するものであれば、ハイスコアテーブルのために名前を入力するよう求めるポップアップを作成してください。</li>
+<li>遊んでみましょう!</li>
+<li>あなたの解答をGitHubにプッシュし、どれかのホスティングの選択肢にデプロイしてください。さらに、以下にあなたの解答を提出してください。これは本格的なプロジェクトです、おめでとうございます!</li>
 </ol>
-<h4>Extra credit</h4>
+<h4>発展課題</h4>
 <ul>
-<li>Load many images into your database and allow the user to select from among them before starting the game.</li>
+<li>あなたのデータベースにたくさんの画像を読み込み、ゲームを始める前にユーザーがその中から選べるようにしてください。</li>
 </ul>
 </div>
       </div>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,78 +28,78 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Introduction To State</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Introduction To State</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Any exciting application you build is likely to change over the time the user is exploring it. The changes could be as basic as toggling a dropdown menu or as complex as fetching data from an API. React provides primitives to manipulate the state of your apps, more specifically components, to make them dynamic. In this lesson, we will learn how to use state in React.</p>
-<p>Read  <a href="https://academind.com/tutorials/what-is-state">What is State? by Academind</a> before we get started.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>あなたが作るワクワクするようなアプリケーションは、ユーザーがそれを操作している間に変化していく可能性が高いでしょう。その変化は、ドロップダウンメニューを開閉するといった基本的なものから、APIからデータを取得するといった複雑なものまでさまざまです。Reactは、あなたのアプリ、より具体的にはコンポーネントのstateを操作し、それらを動的にするためのプリミティブを提供しています。このレッスンでは、Reactでstateを使う方法を学びます。</p>
+<p>始める前に、<a href="https://academind.com/tutorials/what-is-state">What is State? by Academind</a>を読んでください。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>What state in React is.</li>
-<li>How to use state in React.</li>
-<li>What happens in React when state is changed.</li>
+<li>Reactにおけるstateとは何か。</li>
+<li>Reactでstateを使う方法。</li>
+<li>stateが変更されたとき、Reactの中で何が起こるか。</li>
 </ul>
-<h3>What is state in React?</h3>
-<p>We write components in React, A LOT of components, and many times we want them to undergo visual changes as a result of user or computer interactions. For this purpose, a component needs to "remember" things about itself. This is where state comes in. <strong>State is a component's memory.</strong></p>
-<p>Let's take a look at how we can use state in our code. Go to our <a href="https://github.com/TheOdinProject/react-examples">react-examples repo</a> then fork and clone it. Once you've cloned it, <code>cd</code> into the <code>state/</code> directory, where you can then run <code>npm install</code> to get everything set up, then <code>npm run dev</code> to start the dev server.</p>
-<p>Once opened, you'll see we have an app that changes its background color based on the clicked button. Take your time reading the code as we'll jump right in and look at the code within <code>src/App.jsx</code>.</p>
-<h4>The useState hook</h4>
-<p><span id="useState-hook">The <code>useState</code> hook is a built-in hook (we'll talk about hooks later) in React that allows you to define state in a functional component. It takes an initial value as a parameter and returns an array with two elements that we can destructure to get:</span></p>
+<h3 id="what-is-state-in-react">Reactにおけるstateとは何ですか?</h3>
+<p>Reactではコンポーネントを、それもたくさんのコンポーネントを書きますが、多くの場合、ユーザーやコンピューターとのやり取りの結果として、それらに見た目の変化を起こしてほしいと思うでしょう。そのためには、コンポーネントが自分自身についての何かを「記憶」しておく必要があります。ここで登場するのがstateです。<strong>stateはコンポーネントの記憶です。</strong></p>
+<p>コードの中でstateをどう使えるか見ていきましょう。<a href="https://github.com/TheOdinProject/react-examples">react-examplesリポジトリ</a>にアクセスし、フォークしてクローンしてください。クローンしたら、<code>state/</code>ディレクトリに<code>cd</code>で移動し、<code>npm install</code>を実行してすべてをセットアップし、それから<code>npm run dev</code>で開発サーバーを起動してください。</p>
+<p>開くと、クリックされたボタンに応じて背景色が変わるアプリがあることがわかるはずです。すぐに<code>src/App.jsx</code>の中のコードを見ていくので、じっくり時間をかけてコードを読んでください。</p>
+<h4>useStateフック</h4>
+<p><span id="useState-hook"><code>useState</code>フックは、Reactに組み込まれているフック(フックについては後で説明します)で、関数コンポーネントの中でstateを定義できるようにしてくれます。これは初期値をパラメータとして受け取り、分割代入によって以下の2つの要素を取り出せる配列を返します:</span></p>
 <ol>
-<li>The current state value</li>
-<li>A function to update the state value</li>
+<li>現在のstateの値</li>
+<li>stateの値を更新するための関数</li>
 </ol>
-<p>State definition with <code>useState</code> commonly follows this pattern:</p>
+<p><code>useState</code>によるstateの定義は、一般的に以下のパターンに従います:</p>
 <pre class="highlight"><code class="language-javascript">const [stateValue, setStateValue] = useState(initialValue);
 
 // adapted for our use case:
 const [backgroundColor, setBackgroundColor] = useState(COLORS[0]);</code></pre>
-<p>Even without much knowledge of React, you can, to some extent, understand what's going on. The <code>backgroundColor</code> state is defined with the hook. Then on every button, we set up a <em>click</em> event handler that calls the <code>setBackgroundColor</code> function with the corresponding value. Then, magically the new color is applied to the background.</p>
-<p>Adding more state variables should be as easy as adding more <code>useState</code> calls.</p>
-<p>Great, you can now use state! But, what's going on under the hood?</p>
-<h3>How does state work in React?</h3>
-<p>Let's hit you with some theory.</p>
-<p>In React, when a component's state or props change, React runs your component function again from the beginning to figure out what should be displayed based on the freshly-set state and props. All the calculated changes are then applied to the DOM (committed).
-That is, the entire component is recreated, in a sense, but this time the latest state value will be returned from <code>useState</code>. This process is called rerendering. Rerendering is a key feature of React that enables it to efficiently update the user interface in response to changes in the underlying data.</p>
+<p>Reactについてあまり知識がなくても、ある程度は何が起こっているのか理解できるでしょう。<code>backgroundColor</code>というstateがこのフックで定義されています。そして、それぞれのボタンに対して、対応する値で<code>setBackgroundColor</code>関数を呼び出す<em>クリック</em>イベントハンドラを設定しています。すると、まるで魔法のように、新しい色が背景に適用されます。</p>
+<p>state変数をさらに追加するのは、<code>useState</code>の呼び出しをさらに追加するのと同じくらい簡単なはずです。</p>
+<p>これで、stateを使えるようになりました!でも、内部では一体何が起こっているのでしょうか?</p>
+<h3 id="how-does-state-work-in-react">Reactでstateはどのように機能するのですか?</h3>
+<p>ここで少し理論を見ていきましょう。</p>
+<p>Reactでは、コンポーネントのstateやpropsが変化すると、Reactはあなたのコンポーネント関数を最初からもう一度実行し、新しく設定されたstateとpropsに基づいて何を表示すべきかを判断します。計算されたすべての変更は、その後DOMに適用(コミット)されます。
+つまり、ある意味ではコンポーネント全体が再作成されるのですが、今回は<code>useState</code>から最新のstateの値が返されます。このプロセスは再レンダーと呼ばれます。再レンダーはReactの重要な機能であり、これによってReactは、背後にあるデータの変化に応じて、ユーザーインターフェースを効率的に更新できるのです。</p>
 <div class="lesson-note">
-<h4>React reconciliation algorithm</h4>
-<p>The process of rerendering generates a new virtual DOM (Document Object Model) tree. The virtual DOM is a lightweight representation of the actual DOM that React uses to keep track of the current state of the UI. React then compares the new virtual DOM tree to the previous one and calculates the minimal set of changes needed to update the actual DOM. This is the reconciliation algorithm.</p>
+<h4>Reactの調整(reconciliation)アルゴリズム</h4>
+<p>再レンダーのプロセスは、新しい仮想DOM(Document Object Model)ツリーを生成します。仮想DOMは、ReactがUIの現在の状態を把握しておくために使う、実際のDOMの軽量な表現です。それからReactは、新しい仮想DOMツリーを以前のものと比較し、実際のDOMを更新するために必要な最小限の変更を計算します。これが調整(reconciliation)アルゴリズムです。</p>
 </div>
-<h4>Explaining rerendering with the example above</h4>
-<p>Whenever <code>setBackgroundColor</code> is called, our <code>App</code> component is rerendered. Essentially, the component is recreated which means the <code>onButtonClick</code> function and our <code>div</code> and <code>button</code>s are recreated as well. You might wonder, shouldn't the <code>backgroundColor</code> state be recreated as well? Well, React takes the responsibility of keeping track of the latest state and providing it to the component. The initial state value is only used for the component's first render and is ignored on subsequent renders.</p>
-<p><img alt="code illustration of rerendering" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/abf5962ab36c951bab907a9952d09400651eab10/react/states_and_effects/introduction_to_state/imgs/00.png" /></p>
-<p>What we covered in this section is just a brief overview of a portion of React internals. You may be curious to learn more, but be advised, this is a deep rabbit hole. What we covered above is enough to get you through the React course.</p>
-<h3>Hooks</h3>
-<p>Hooks are functions that let you use React features. All hooks are recognizable by the <code>use</code> prefix. For example, <code>useState</code> is a hook. We'll use more of these as we get further into the course. For now, remember that hooks have rules that we need to abide by:</p>
+<h4>上の例で再レンダーを説明する</h4>
+<p><code>setBackgroundColor</code>が呼び出されるたびに、私たちの<code>App</code>コンポーネントは再レンダーされます。本質的には、コンポーネントが再作成されるということは、<code>onButtonClick</code>関数や、私たちの<code>div</code>と<code>button</code>も再作成されるということです。<code>backgroundColor</code>のstateも再作成されるべきではないか、と疑問に思うかもしれません。実は、最新のstateを把握し、それをコンポーネントに提供する責任は、Reactが担っています。初期のstateの値は、コンポーネントの最初のレンダーでのみ使われ、それ以降のレンダーでは無視されます。</p>
+<p><img alt="再レンダーを示すコードの図解" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/abf5962ab36c951bab907a9952d09400651eab10/react/states_and_effects/introduction_to_state/imgs/00.png" /></p>
+<p>このセクションで扱ったのは、Reactの内部の一部についての簡単な概要に過ぎません。もっと詳しく学びたいと思うかもしれませんが、これはかなり深い沼であることを覚えておいてください。上で扱った内容だけで、このReactコースを進めるには十分です。</p>
+<h3 id="hooks">フック</h3>
+<p>フックとは、Reactの機能を使えるようにしてくれる関数です。すべてのフックは、<code>use</code>という接頭辞によって見分けることができます。例えば、<code>useState</code>はフックです。このコースを進めていくにつれて、これらをもっと多く使うことになります。今のところは、フックには私たちが守らなければならないルールがあることを覚えておいてください:</p>
 <ol>
-<li>Hooks can only be called from the top level of a functional component.</li>
-<li>Hooks can't be called from inside loops or conditions.</li>
+<li>フックは関数コンポーネントのトップレベルからのみ呼び出せます。</li>
+<li>フックはループや条件分岐の中から呼び出すことはできません。</li>
 </ol>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Read the following articles from the React docs:<ol>
+<li>Reactドキュメントの以下の記事を読んでください:<ol>
 <li><a href="https://react.dev/learn/state-a-components-memory">State: A Component's Memory</a></li>
 <li><a href="https://react.dev/learn/render-and-commit">Render and Commit</a></li>
 </ol>
 </li>
-<li>Read this <a href="https://www.geeksforgeeks.org/reactjs-reconciliation/">article on React Reconciliation Algorithm</a> for a great explanation.</li>
-<li>Head back to the state example app from our <code>react-examples</code> repo earlier in the lesson. Add a new state variable to keep track of the number of times the background color has been changed. Display the number of times the background color has been changed on the page.</li>
+<li>素晴らしい説明が書かれている、この<a href="https://www.geeksforgeeks.org/reactjs-reconciliation/">Reactの調整アルゴリズムについての記事</a>を読んでください。</li>
+<li>このレッスンの前半で使った、<code>react-examples</code>リポジトリのstateのサンプルアプリに戻ってください。背景色が変更された回数を記録する、新しいstate変数を追加してください。背景色が変更された回数をページ上に表示してください。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#what-is-state-in-react">What is state?</a></li>
-<li><a href="#useState-hook">What is the <code>useState</code> hook and how would you use it?</a></li>
-<li><a href="#how-does-state-work-in-react">What happens to a component when one of its states is changed?</a></li>
-<li><a href="#hooks">What are some of the rules of hooks?</a></li>
+<li><a href="#what-is-state-in-react">stateとは何ですか?</a></li>
+<li><a href="#useState-hook"><code>useState</code>フックとは何で、どのように使いますか?</a></li>
+<li><a href="#how-does-state-work-in-react">コンポーネントのstateの一つが変更されると、そのコンポーネントに何が起こりますか?</a></li>
+<li><a href="#hooks">フックのルールにはどのようなものがありますか?</a></li>
 </ul>
       </div>
     </article>

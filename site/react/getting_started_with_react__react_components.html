@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,50 +28,50 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">React Components</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">React Components</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>In this lesson we'll be going over the basics of React components - what they do, and how to write them. Make sure to use the project you set up in the previous lesson, but try not to copy and paste any code while you're coding along.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>このレッスンでは、Reactコンポーネントの基本、つまりコンポーネントが何をするものなのか、そしてどうやって書くのかについて見ていきます。前のレッスンでセットアップしたプロジェクトを必ず使ってください。ただし、一緒にコーディングしていく際に、コードをコピー&amp;ペーストしないようにしてみてください。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Learn about React components.</li>
-<li>Understand how to create components.</li>
-<li>Describe where components reside in a React project.</li>
+<li>Reactコンポーネントについて学ぶ。</li>
+<li>コンポーネントの作り方を理解する。</li>
+<li>Reactプロジェクトの中でコンポーネントがどこに存在するかを説明する。</li>
 </ul>
-<h3>What are components?</h3>
-<p>The beauty of React is that it allows you to break a UI (User Interface) down into independent reusable chunks, which we will refer to as components. The following picture should give you an idea of how to do that when building a very basic app.</p>
-<p><img alt="Component Example" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/91485eec76445d86b29d35894e83324e2967f2fb/react/imgs/00.png" /></p>
-<p>For example, this website could be broken into the following components:</p>
+<h3 id="what-are-components">コンポーネントとは何ですか?</h3>
+<p>Reactの素晴らしいところは、UI(ユーザーインターフェース)を、独立した再利用可能な塊、つまり私たちがコンポーネントと呼ぶものに分解できるという点です。以下の画像は、非常に基本的なアプリを構築する際に、それをどのように行うかのイメージを与えてくれるはずです。</p>
+<p><img alt="コンポーネントの例" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/91485eec76445d86b29d35894e83324e2967f2fb/react/imgs/00.png" /></p>
+<p>例えば、このウェブサイトは以下のようなコンポーネントに分解できます:</p>
 <ul>
-<li><code>App</code>, which represents your main application and will be the parent of all other components.</li>
-<li><code>Navbar</code>, which will be the navigation bar.</li>
-<li><code>MainArticle</code>, which will be the component that renders your main content.</li>
-<li><code>NewsletterForm</code>, which is a form that lets a user input their email to receive the weekly newsletter.</li>
+<li><code>App</code>。これはあなたのメインアプリケーションを表し、他のすべてのコンポーネントの親になります。</li>
+<li><code>Navbar</code>。これはナビゲーションバーになります。</li>
+<li><code>MainArticle</code>。これはメインコンテンツをレンダーするコンポーネントになります。</li>
+<li><code>NewsletterForm</code>。これは、ユーザーが週刊ニュースレターを受け取るためにメールアドレスを入力できるフォームです。</li>
 </ul>
-<p>Think of these reusable chunks as JavaScript functions which can take some kind of input and return a React element.</p>
-<h3>How to create components</h3>
-<p>To get the feel of working with components, we're going to practice creating functional components. What are functional components? JavaScript functions! Let's have a look.</p>
+<p>これらの再利用可能な塊は、何らかの入力を受け取り、Reactの要素を返すことができるJavaScript関数だと考えてください。</p>
+<h3 id="how-to-create-components">コンポーネントの作り方</h3>
+<p>コンポーネントを扱う感覚をつかむために、関数コンポーネントを作る練習をしていきます。関数コンポーネントとは何でしょうか?JavaScriptの関数です!見てみましょう。</p>
 <pre class="highlight"><code class="language-jsx">function Greeting() {
   return &lt;h1&gt;"I swear by my pretty floral bonnet, I will end you."&lt;/h1&gt;;
 }</code></pre>
-<p>This might look mostly familiar to you - it's a JavaScript function, which returns JSX. Open up the project you were working on, create a new file named <code>Greeting.jsx</code>, and in that file write your own handmade functional component. Name it whatever you wish, and have it return whatever JSX you wish.</p>
-<p>Are you done? Check the naming of your function! Is it capitalized? Keep this key difference in mind. <strong>React components must be capitalized</strong> or they will not function as expected, which is why we capitalized <code>Greeting()</code>. More about that later.</p>
-<h4>What is HTML doing in my JavaScript?</h4>
-<p>It's JSX. It looks jarring at first, but soon we'll realize how cool it is. We'll learn all about it in the upcoming lessons!</p>
-<h3>Where do components live?</h3>
-<p>So remember how our component is just hanging out in its own dedicated file? This makes it independent from the rest of the codebase! That said, while independence is great, we do want the component to use functionality created elsewhere, and to share itself with other components. How can we do this? <code>import</code>ing and <code>export</code>ing! For a very long time in React development, it was necessary to <code>import</code> React in your JavaScript files that used React components, but since React v17.0 it is no longer required. Let's <code>export</code> our newly created component so that parent components can use it as a child throughout your project.</p>
+<p>これは、あなたにとってほぼ見覚えのあるものに見えるかもしれません。これはJavaScriptの関数で、JSXを返します。作業していたプロジェクトを開き、<code>Greeting.jsx</code>という名前の新しいファイルを作成し、そのファイルの中に、自分で手作りした関数コンポーネントを書いてください。名前は好きなものを付けてかまいませんし、好きなJSXを返すようにしてかまいません。</p>
+<p>できましたか?関数の名前を確認してみてください!大文字で始まっていますか?この重要な違いを覚えておいてください。<strong>Reactコンポーネントは大文字で始める必要があります</strong>。そうしないと期待通りに機能しません。だからこそ、私たちは<code>Greeting()</code>を大文字で始めたのです。これについては後で詳しく説明します。</p>
+<h4>私のJavaScriptの中でHTMLは何をしているのですか?</h4>
+<p>それはJSXです。最初は違和感があるように見えますが、すぐにそれがどれほどかっこいいものかに気づくはずです。この後のレッスンで、それについてすべて学んでいきます!</p>
+<h3 id="where-do-components-live">コンポーネントはどこにあるのですか?</h3>
+<p>さて、私たちのコンポーネントが、自分専用のファイルの中にただ存在していたことを覚えていますか?これにより、コンポーネントはコードベースの他の部分から独立しています!とはいえ、独立していることは素晴らしいことですが、コンポーネントには、他の場所で作られた機能を使ったり、自分自身を他のコンポーネントと共有したりしてほしいものです。どうすればそれができるのでしょうか?<code>import</code>と<code>export</code>です!React開発において、Reactコンポーネントを使うJavaScriptファイルでReactを<code>import</code>することが必要な期間が長く続きましたが、React v17.0以降はもはや必要ありません。プロジェクト全体で親コンポーネントが子として使えるように、新しく作成したコンポーネントを<code>export</code>しましょう。</p>
 <pre class="highlight"><code class="language-jsx">function Greeting() {
   return &lt;h1&gt;"I swear by my pretty floral bonnet, I will end you."&lt;/h1&gt;;
 }
 
 export default Greeting;</code></pre>
-<p>Are we done? Well let's think about this - we've declared our component, and exported it, but does <code>main.jsx</code> know about it yet? Nope! Let's fix that. Let's look at <code>main.jsx</code>, we can see that <code>render()</code> is rendering the <code>App</code> component. Let's replace that <code>App</code> component with our newly created greeting, which we'll have to make sure is first imported properly. The end result should look something like this:</p>
+<p>これで終わりでしょうか?少し考えてみましょう。コンポーネントを宣言し、それをエクスポートしましたが、<code>main.jsx</code>はまだそれを知っているでしょうか?いいえ!それを直しましょう。<code>main.jsx</code>を見てみると、<code>render()</code>が<code>App</code>コンポーネントをレンダーしていることがわかります。その<code>App</code>コンポーネントを、新しく作成したgreetingに置き換えましょう。その際、まず正しくインポートされていることを確認する必要があります。最終的な結果は、次のようになるはずです:</p>
 <pre class="highlight"><code class="language-jsx">import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
@@ -83,23 +83,23 @@ createRoot(document.getElementById("root")).render(
     &lt;Greeting /&gt;
   &lt;/StrictMode&gt;,
 );</code></pre>
-<p>Remember that <code>&lt;Greeting /&gt;</code> should be capitalized! Try using lower case for the import, function name and component and see what happens! When the JSX is parsed, React uses the capitalization to tell the difference between an HTML tag and an instance of a React component. <code>&lt;greeting /&gt;</code> would be interpreted as a normal HTML element with no special meaning, instead of your shiny new React component.</p>
-<p>Otherwise, just like that, you've successfully imported and used your first custom-made component, congratulations!</p>
-<h3>Assignment</h3>
+<p><code>&lt;Greeting /&gt;</code>は大文字で始める必要があることを忘れないでください!インポート、関数名、コンポーネントを小文字にして、何が起こるか試してみてください!JSXがパースされる際、Reactは大文字かどうかを使って、HTMLタグとReactコンポーネントのインスタンスを区別します。<code>&lt;greeting /&gt;</code>は、あなたが作ったピカピカの新しいReactコンポーネントではなく、特別な意味を持たない普通のHTML要素として解釈されてしまいます。</p>
+<p>それ以外は、これだけで、あなたは最初の自作コンポーネントのインポートと使用に成功しました。おめでとうございます!</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>It's time to create some new components! Use the same project, but play around with it, try displaying something like your favorite food.<ul>
-<li>While components normally get exported as defaults, try using some named exports instead of default exports. If you're unsure how to do this, consult your best friend: <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export#description">the MDN documentation about export statements</a></li>
+<li>さあ、新しいコンポーネントを作ってみましょう!同じプロジェクトを使いますが、いろいろ試してみて、例えば好きな食べ物のようなものを表示してみてください。<ul>
+<li>コンポーネントは通常デフォルトエクスポートされますが、デフォルトエクスポートの代わりに、いくつかの名前付きエクスポートを使ってみてください。やり方がよくわからない場合は、あなたの一番の友達に相談しましょう: <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export#description">export文についてのMDNのドキュメント</a></li>
 </ul>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#what-are-components">What does a React component look like?</a></li>
-<li><a href="#how-to-create-components">How would you create a functional component?</a></li>
-<li><a href="#where-do-components-live">How do you export and then import a component?</a></li>
+<li><a href="#what-are-components">Reactコンポーネントはどのような見た目をしていますか?</a></li>
+<li><a href="#how-to-create-components">関数コンポーネントはどのように作成しますか?</a></li>
+<li><a href="#where-do-components-live">コンポーネントをどのようにエクスポートし、その後インポートしますか?</a></li>
 </ul>
       </div>
     </article>

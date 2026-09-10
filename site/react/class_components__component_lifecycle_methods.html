@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,63 +28,63 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Component Lifecycle Methods</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Component Lifecycle Methods</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>In the previous section, you've learned about a component's lifecycle. In functional components, we've primarily used the <code>useEffect</code> hook to perform tasks throughout the lifecycle, but in class components we have to use specific lifecycle methods instead.</p>
-<p>We'll start with a short recap of what a component's lifecycle is. There are three stages to a component's life: mounting, updating, and unmounting. Each of these have a method assigned to them within class components, which is what we are going to cover in this lesson.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>前のセクションで、コンポーネントのライフサイクルについて学びました。関数コンポーネントでは、ライフサイクル全体を通してタスクを実行するために、主に<code>useEffect</code>フックを使ってきましたが、クラスコンポーネントでは、代わりに特定のライフサイクルメソッドを使わなければなりません。</p>
+<p>まずは、コンポーネントのライフサイクルとは何かを簡単におさらいすることから始めましょう。コンポーネントのライフには、マウント、更新、アンマウントという3つの段階があります。クラスコンポーネントでは、それぞれの段階に対応するメソッドが割り当てられており、これがこのレッスンで扱う内容です。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Learn how to use lifecycle methods in a class component.</li>
+<li>クラスコンポーネントでライフサイクルメソッドを使う方法を学ぶ。</li>
 </ul>
-<h3>render()</h3>
-<p>The render function is the most used lifecycle method, and one that you've come across in the last class components lesson. It is the only required lifecycle method in a class component. It runs on mount and update of a component. Render should be pure, meaning it doesn't modify component state, returns the same thing each time it's called (given the same inputs), and doesn't directly interact with the browser.</p>
-<h3>componentDidMount()</h3>
-<p>This method is run after the component is mounted (inserted in the DOM tree). You should make any calls to fetch data that is needed for the component here. It is also a good place to perform any operations that depend on the component being mounted in the DOM.</p>
-<h3>componentDidUpdate()</h3>
-<p>This method is run after a component re-renders. Because of this, you have to be careful about what you update in this method, as if you're updating state indiscriminately, a re-render is caused, and you'll end up in an endless loop. You can avoid this issue by using conditional statements about the equality of previous and current props when updating state.</p>
-<p>In this method you should be updating anything that needs to be changed in response to either the DOM changing, or any states that you might want to act on upon change. For example, you'd want to refetch user data if the user changes.</p>
-<h3>componentWillUnmount()</h3>
-<p>This is the last lifecycle method, which is called before a component is unmounted and destroyed. In this method you should be performing cleanup actions, so that would be cancelling network requests, clearing timers, etc.</p>
-<h3>How useEffect() combines the lifecycle methods</h3>
-<p>Now that we've learnt about class lifecycle methods, it's useful to understand that the <code>useEffect</code> hook used in functional components is essentially a combination of <code>componentDidMount</code>, <code>componentDidUpdate</code>, and <code>componentWillUnmount</code>. Which method/methods it relates to varies based on its dependency array, and if it returns anything.</p>
+<h3 id="render">render()</h3>
+<p>render関数は最もよく使われるライフサイクルメソッドであり、前回のクラスコンポーネントのレッスンですでに出会っています。これは、クラスコンポーネントの中で唯一必須のライフサイクルメソッドです。コンポーネントのマウント時と更新時に実行されます。renderは純粋であるべきです。つまり、コンポーネントのstateを変更せず、(同じ入力が与えられれば)呼び出されるたびに同じものを返し、ブラウザと直接やり取りすることもありません。</p>
+<h3 id="componentdidmount">componentDidMount()</h3>
+<p>このメソッドは、コンポーネントがマウントされた後(DOMツリーに挿入された後)に実行されます。コンポーネントに必要なデータを取得するための呼び出しは、ここで行うべきです。また、コンポーネントがDOMにマウントされていることに依存する操作を行うのにも適した場所です。</p>
+<h3 id="componentdidupdate">componentDidUpdate()</h3>
+<p>このメソッドは、コンポーネントが再レンダーされた後に実行されます。そのため、このメソッドの中で何を更新するかには注意が必要です。無差別にstateを更新してしまうと、再レンダーが引き起こされ、終わりのないループに陥ってしまいます。stateを更新する際に、以前のpropsと現在のpropsが等しいかどうかについての条件文を使うことで、この問題を避けることができます。</p>
+<p>このメソッドの中では、DOMの変化や、変化に応じて何か処理を行いたいstateに対応して、変更する必要のあるものを更新するべきです。例えば、ユーザーが変わったら、ユーザーデータを再取得したいと思うでしょう。</p>
+<h3 id="componentwillunmount">componentWillUnmount()</h3>
+<p>これは最後のライフサイクルメソッドであり、コンポーネントがアンマウントされて破棄される前に呼び出されます。このメソッドの中では、クリーンアップの操作、つまりネットワークリクエストのキャンセルや、タイマーのクリアなどを行うべきです。</p>
+<h3 id="how-useeffect-combines-the-lifecycle-methods">useEffect()はライフサイクルメソッドをどのように組み合わせているか</h3>
+<p>クラスのライフサイクルメソッドについて学んだところで、関数コンポーネントで使われる<code>useEffect</code>フックが、本質的には<code>componentDidMount</code>、<code>componentDidUpdate</code>、<code>componentWillUnmount</code>を組み合わせたものであると理解しておくと役立ちます。どのメソッドに関連するかは、その依存配列や、何かを返すかどうかによって変わります。</p>
 <ul>
-<li>An empty dependency array would be equivalent to <code>componentDidMount</code>.</li>
-<li>A dependency array with a value/values in it would be a combination of <code>componentDidMount</code> and <code>componentDidUpdate</code>, but only updating when dependencies change.</li>
-<li>No dependency array would be equivalent to <code>componentDidMount</code> and <code>componentDidUpdate</code> combined.</li>
-<li>A return function inside of a <code>useEffect()</code> hook would be equivalent to <code>componentWillUnmount</code>.</li>
+<li>空の依存配列は、<code>componentDidMount</code>と同等になります。</li>
+<li>値を含む依存配列は、<code>componentDidMount</code>と<code>componentDidUpdate</code>の組み合わせになりますが、依存関係が変化したときにのみ更新されます。</li>
+<li>依存配列がない場合は、<code>componentDidMount</code>と<code>componentDidUpdate</code>を組み合わせたものと同等になります。</li>
+<li><code>useEffect()</code>フックの中で関数を返すことは、<code>componentWillUnmount</code>と同等になります。</li>
 </ul>
-<p>For example:</p>
+<p>例えば:</p>
 <pre class="highlight"><code class="language-javascript">  useEffect(() =&gt; {
     placeholderFunction();
     return () =&gt; cleanupFunction();
   }, [])</code></pre>
-<p>In this snippet, the useEffect contains the functionality of <code>componentDidMount</code>, and <code>componentWillUnmount</code> via the return function. This example doesn't have the <code>componentDidUpdate</code> functionality because of an empty dependency array.</p>
-<h3>Assignment</h3>
+<p>このスニペットでは、useEffectは<code>componentDidMount</code>の機能を含んでおり、返される関数を通して<code>componentWillUnmount</code>の機能も含んでいます。この例では、依存配列が空であるため、<code>componentDidUpdate</code>の機能は含まれていません。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
 <li>
-<p>Check out this <a href="https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">component lifecycle diagram</a> to see a good visual representation of a component's lifecycle methods.</p>
+<p>この<a href="https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">コンポーネントライフサイクルの図</a>をチェックして、コンポーネントのライフサイクルメソッドの優れた視覚的な表現を見てみてください。</p>
 </li>
 <li>
-<p>Read through <a href="https://react.dev/reference/react/Component">component documentation</a> from 'constructor(props)' up to 'componentWillUnmount()' in the Reference section, being mindful of deprecated APIs. Consider other APIs as supplementary information.</p>
+<p><a href="https://react.dev/reference/react/Component">コンポーネントのドキュメント</a>のReferenceセクションにある「constructor(props)」から「componentWillUnmount()」までを読んでください。その際、非推奨のAPIに注意してください。それ以外のAPIについては、補足情報として捉えてください。</p>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#render">What is the only required lifecycle method?</a></li>
-<li><a href="#componentdidmount">What lifecycle method should you use for initial data fetching?</a></li>
-<li><a href="#componentdidupdate">When you want to act upon change of the DOM, or of state, what lifecycle method would you use?</a></li>
-<li><a href="#componentwillunmount">When performing cleanup actions, what lifecycle method should be used?</a></li>
-<li><a href="#how-useeffect-combines-the-lifecycle-methods">How does the useEffect hook combine some of the lifecycle methods?</a></li>
+<li><a href="#render">唯一必須のライフサイクルメソッドは何ですか?</a></li>
+<li><a href="#componentdidmount">初回のデータ取得には、どのライフサイクルメソッドを使うべきですか?</a></li>
+<li><a href="#componentdidupdate">DOMやstateの変化に応じて処理を行いたい場合、どのライフサイクルメソッドを使いますか?</a></li>
+<li><a href="#componentwillunmount">クリーンアップの操作を行う場合、どのライフサイクルメソッドを使うべきですか?</a></li>
+<li><a href="#how-useeffect-combines-the-lifecycle-methods">useEffectフックは、いくつかのライフサイクルメソッドをどのように組み合わせていますか?</a></li>
 </ul>
       </div>
     </article>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,59 +28,59 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">CV Application</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">CV Application</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Congratulations, you have made it to the very first React project. In this project, you will be creating a small application where users can input their information and generate a CV/résumé. It's a great project to get you started because it includes many of the basic concepts you've learned so far, without a huge overhead of complexity.</p>
-<h3>Assignment</h3>
+        <h3>イントロダクション</h3>
+<p>おめでとうございます、あなたはついに最初のReactプロジェクトにたどり着きました。このプロジェクトでは、ユーザーが自分の情報を入力し、履歴書(CV/résumé)を生成できる小さなアプリケーションを作成します。これは、大きな複雑さを伴うことなく、これまで学んできた基本的な概念の多くを含んでいるため、始めるのにぴったりのプロジェクトです。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <div class="lesson-note">
-<h4>Double rendering</h4>
-<p>While working on this project, you might notice that some parts of your code execute twice (e.g., console logs appearing doubled). This is due to <a href="https://react.dev/reference/react/StrictMode">React.StrictMode</a> and is intended behavior. We will go through this more in the next lesson, so don't worry about it for now.</p>
+<h4>二重レンダリング</h4>
+<p>このプロジェクトに取り組んでいる際、コードの一部が2回実行される(例えば、コンソールログが2重に表示される)ことに気づくかもしれません。これは<a href="https://react.dev/reference/react/StrictMode">React.StrictMode</a>によるもので、意図された挙動です。これについては次のレッスンでさらに詳しく扱うので、今のところは心配しないでください。</p>
 </div>
 <ol>
-<li>Create a new React project.</li>
-<li>Think about how to structure your application into components. Your application should include:<ol>
-<li>A section to add general information like name, email and phone number.</li>
-<li>A section to add your educational experience (school name, title of study and date of study)</li>
-<li>A section to add practical experience (company name, position title, main responsibilities of your jobs, date from and until when you worked for that company)</li>
+<li>新しいReactプロジェクトを作成してください。</li>
+<li>アプリケーションをどのようにコンポーネントに構造化するか考えてください。あなたのアプリケーションには、以下を含める必要があります:<ol>
+<li>名前、メールアドレス、電話番号のような一般的な情報を追加するセクション。</li>
+<li>あなたの学歴(学校名、専攻名、在学期間)を追加するセクション。</li>
+<li>あなたの職歴(会社名、役職名、仕事の主な職務内容、その会社で働いていた開始日と終了日)を追加するセクション。</li>
 </ol>
 </li>
-<li>Be sure to include an edit and submit button for each section or for the whole CV. The submit button should submit your form and display the value of your input fields in HTML elements. The edit button should add back (display) the input fields, with the previously displayed information as values. In those input fields, you should be able to edit and resubmit the content. You're going to make heavy use of state and props, so make sure you understood those concepts.</li>
-<li>Create a <code>components</code> directory under your <code>src</code> directory and add your components.</li>
-<li>Include a <code>styles</code> directory under your <code>src</code> directory for your CSS files. You'll need to import these in the component files to use them.</li>
-<li>Push the results and deploy them with any of the options mentioned below. At this point of the curriculum, it doesn't matter which platform you choose as long as your project is live on the internet!</li>
+<li>各セクションごと、または履歴書全体に対して、編集ボタンと送信ボタンを必ず含めてください。送信ボタンは、フォームを送信し、入力フィールドの値をHTML要素の中に表示するようにしてください。編集ボタンは、それまで表示されていた情報を値として持つ入力フィールドを再び追加(表示)するようにしてください。それらの入力フィールドの中で、内容を編集して再送信できるようにする必要があります。stateとpropsを大いに活用することになるので、これらの概念をしっかり理解しておいてください。</li>
+<li><code>src</code>ディレクトリの下に<code>components</code>ディレクトリを作成し、あなたのコンポーネントを追加してください。</li>
+<li>CSSファイルのために、<code>src</code>ディレクトリの下に<code>styles</code>ディレクトリを含めてください。これらを使うには、コンポーネントファイルの中でインポートする必要があります。</li>
+<li>結果をプッシュし、以下に挙げるいずれかのオプションでデプロイしてください。カリキュラムのこの時点では、あなたのプロジェクトがインターネット上に公開されている限り、どのプラットフォームを選んでも問題ありません!</li>
 </ol>
 </div>
-<h4>Deploying a React app</h4>
-<p>While we have been using GitHub Pages to deploy our <strong>static webpages</strong> till now, and we can definitely continue to do so with hacky ways, it's far easier to let a PaaS (Platform as a Service) do the same for us! There are a lot of options to host such sites, and the <a href="https://vitejs.dev/guide/static-deploy.html">Vite hosting docs</a> go over the most popular ones among them.</p>
-<p>Not only do some of these get rid of additional steps after pushing our code to GitHub as these services have tools that automatically <em>deploy on push</em>, but you also don't have to worry about other issues further down the curriculum, like routers and build steps. We shall use a few selected options for now. Once you are done with the assignment, choose one of the following options, and deploy!</p>
+<h4>Reactアプリをデプロイする</h4>
+<p>これまでは<strong>静的なウェブページ</strong>をデプロイするためにGitHub Pagesを使ってきましたし、多少強引な方法を使えば今後もそうすることは間違いなく可能です。しかし、PaaS(Platform as a Service)に同じことをやってもらうほうが、はるかに簡単です!このようなサイトをホスティングするための選択肢はたくさんあり、<a href="https://vitejs.dev/guide/static-deploy.html">Viteのホスティングに関するドキュメント</a>では、その中でも特に人気のあるものが紹介されています。</p>
+<p>これらのサービスの中には、コードをGitHubにプッシュした後の追加のステップを取り除いてくれるものがあります。これは、これらのサービスが自動的に<em>プッシュ時にデプロイする</em>ツールを持っているためです。それだけでなく、カリキュラムのこの先で出てくる、ルーターやビルドステップといった他の問題についても心配する必要がなくなります。今のところは、いくつか厳選したオプションを使うことにします。課題が終わったら、以下のオプションのいずれかを選んで、デプロイしましょう!</p>
 <h4>Netlify</h4>
-<p>While there are many ways to deploy to <a href="https://www.netlify.com/">Netlify</a> (<a href="https://docs.netlify.com/">Netlify documentation</a>), like uploading your <code>dist</code> directly or using <code>netlify-cli</code>, the most convenient way would be to directly import your GitHub repository to Netlify.</p>
+<p><a href="https://www.netlify.com/">Netlify</a>(<a href="https://docs.netlify.com/">Netlifyドキュメント</a>)へのデプロイ方法は、<code>dist</code>を直接アップロードしたり、<code>netlify-cli</code>を使ったりと、たくさんありますが、最も便利な方法は、GitHubリポジトリを直接Netlifyにインポートすることです。</p>
 <ol>
-<li>Push your React application to GitHub.</li>
-<li><a href="https://app.netlify.com/start">Import your project to Netlify</a> by logging in, and selecting your repository.</li>
-<li>Select the branch to deploy from (the default setting, from <code>main</code>, works) and hit "Deploy site"!</li>
-<li>You can access more settings here if you need to!</li>
+<li>あなたのReactアプリケーションをGitHubにプッシュしてください。</li>
+<li>ログインして、あなたのリポジトリを選択することで、<a href="https://app.netlify.com/start">プロジェクトをNetlifyにインポート</a>してください。</li>
+<li>デプロイ元にするブランチを選択し(デフォルト設定の<code>main</code>からで問題ありません)、「Deploy site」を押してください!</li>
+<li>必要であれば、ここでさらに多くの設定にアクセスできます!</li>
 </ol>
 <h4>Vercel</h4>
-<p>Similar to Netlify, <a href="https://www.vercel.com/">Vercel</a> (<a href="https://www.vercel.com/docs">Vercel documentation</a>) also offers a few ways to deploy, and we will also be importing our GitHub repository to get benefits like deploy-on-push.</p>
+<p>Netlifyと同様に、<a href="https://www.vercel.com/">Vercel</a>(<a href="https://www.vercel.com/docs">Vercelドキュメント</a>)もいくつかのデプロイ方法を提供しており、ここでもGitHubリポジトリをインポートすることで、プッシュ時のデプロイのような利点を得ることにします。</p>
 <ol>
-<li>Again, push your React application to GitHub.</li>
-<li><a href="https://vercel.com/new">Import your project to Vercel</a>.</li>
-<li>Vercel will automatically detect that you are using Vite. Set your name as you like, and hit "Deploy"!</li>
+<li>改めて、あなたのReactアプリケーションをGitHubにプッシュしてください。</li>
+<li><a href="https://vercel.com/new">プロジェクトをVercelにインポート</a>してください。</li>
+<li>Vercelは、あなたがViteを使っていることを自動的に検出します。名前を好きなように設定し、「Deploy」を押してください!</li>
 </ol>
 <h4>Cloudflare Pages</h4>
-<p><a href="https://pages.cloudflare.com/">Cloudflare Pages</a> (<a href="https://developers.cloudflare.com/pages">Cloudflare Pages documentation</a>) has a similar process and benefits to the other two options: import your GitHub repository and set the right build command and output directory.</p>
+<p><a href="https://pages.cloudflare.com/">Cloudflare Pages</a>(<a href="https://developers.cloudflare.com/pages">Cloudflare Pagesドキュメント</a>)も、他の2つのオプションと同様のプロセスと利点を持っています: GitHubリポジトリをインポートし、正しいビルドコマンドと出力ディレクトリを設定します。</p>
 <ol>
-<li>Yes, push your React application to GitHub.</li>
-<li><a href="https://developers.cloudflare.com/pages/framework-guides/deploy-a-vite3-project/#:~:text=To%20deploy%20your%20site%20to%20Pages">Import your project to Cloudflare Pages</a>. Make sure when creating an application that you create with Pages instead of creating a Worker.</li>
-<li>Hit "Save and Deploy" and watch it come to life!</li>
+<li>はい、あなたのReactアプリケーションをGitHubにプッシュしてください。</li>
+<li><a href="https://developers.cloudflare.com/pages/framework-guides/deploy-a-vite3-project/#:~:text=To%20deploy%20your%20site%20to%20Pages">プロジェクトをCloudflare Pagesにインポート</a>してください。アプリケーションを作成する際は、Workerではなく、必ずPagesで作成するようにしてください。</li>
+<li>「Save and Deploy」を押して、アプリケーションが動き出す様子を見届けましょう!</li>
 </ol>
       </div>
     </article>

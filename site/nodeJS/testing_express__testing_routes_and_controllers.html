@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,29 +28,29 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Testing Routes and Controllers</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">We learn how to use Supertest to write tests for our routes and controllers</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Unit Testing is important for many reasons that we probably don't need to cover right now. If you've already taken our basic JavaScript course you've already encountered Unit Testing, and the point of <em>this</em> lesson is not to teach you the philosophy or mechanics of writing tests, but how they apply to our Express applications and APIs.</p>
-<p>If you haven't finished our <a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript">front-end JavaScript course</a>, go back and take a look at those lessons before progressing.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>ユニットテストが重要である理由はたくさんありますが、今ここでそれをすべて取り上げる必要はおそらくないでしょう。すでに私たちの基本的なJavaScriptコースを受講済みであれば、すでにユニットテストに出会っているはずであり、<em>この</em>レッスンの目的は、テストを書くことの哲学やメカニズムを教えることではなく、それらが私たちのExpressアプリケーションとAPIにどのように適用されるかを教えることです。</p>
+<p>もし私たちの<a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript">フロントエンドJavaScriptコース</a>を完了していなければ、先に進む前に戻ってそれらのレッスンに目を通してください。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Use the <code>supertest</code> module to test Express routes/controllers.</li>
-<li>Describe how SuperTest handles our express application.</li>
-<li>Explain the functionality <code>superagent</code> provides to SuperTest.</li>
-<li>Describe what the <code>done</code> parameter is used for.</li>
-<li>Explain and have a firm understanding of <code>.expect()</code> method's functionality.</li>
-<li>Have familiarity with <code>supertest</code>'s documentation and methods.</li>
+<li>Expressのルート/コントローラーをテストするために<code>supertest</code>モジュールを使う。</li>
+<li>SuperTestが私たちのExpressアプリケーションをどう扱うかを説明する。</li>
+<li><code>superagent</code>がSuperTestに提供する機能を説明する。</li>
+<li><code>done</code>パラメータが何のために使われるかを説明する。</li>
+<li><code>.expect()</code>メソッドの機能を説明し、しっかりと理解する。</li>
+<li><code>supertest</code>のドキュメントとメソッドに親しむ。</li>
 </ul>
-<h3>Routes testing with supertest</h3>
-<p>The most important, basic requirement for testing something in your code is that it must be in an exported module. This is true for both custom middleware and your routes/controllers, so the very first thing you need to do is separate those things into their own modules, if they aren't already.</p>
-<p>In the case of routes, you already know how to do this using Express.Router. Below is a very basic example.</p>
+<h3>supertestでルートをテストする</h3>
+<p>コード内の何かをテストするための、最も重要で基本的な要件は、それがエクスポートされたモジュールの中になければならないということです。これはカスタムミドルウェアにもルート/コントローラーにも当てはまるため、まず最初にしなければならないことは、もしまだそうなっていなければ、それらを別々のモジュールに分離することです。</p>
+<p>ルートの場合、これをExpress.Routerを使ってどう行うかは、すでに知っているはずです。以下は、とても基本的な例です。</p>
 <pre class="highlight"><code class="language-javascript">//// app.js
 const express = require("express");
 const app = express();
@@ -84,9 +84,9 @@ index.post("/test", (req, res) =&gt; {
 });
 
 module.exports = index;</code></pre>
-<p>These two files, <code>app.js</code> and <code>index.js</code> define a couple of routes and then set up and start our express app. For the moment we do <em>not</em> need to test <code>app.js</code> because it only contains code that starts and runs an express app! It doesn't include any of our own logic so we don't need to test it. <code>index.js</code> however <em>does</em> include some things that we want to test.</p>
-<p>To facilitate actually testing these routes we're going to use a library called <a href="https://github.com/visionmedia/supertest">SuperTest</a>, and for familiarity of test syntax, we'll use it in conjunction with Jest in this lesson's examples. Go ahead and <code>npm install jest supertest --save-dev</code> and while it's installing, take a few minutes to look through the README on SuperTest's Git repo (linked above).</p>
-<p>Here's our test file:</p>
+<p><code>app.js</code>と<code>index.js</code>というこの2つのファイルは、いくつかのルートを定義し、それから私たちのExpressアプリをセットアップして起動します。今のところ、<code>app.js</code>はExpressアプリを起動して実行するコードしか含んでいないため、これをテストする<em>必要はありません</em>!私たち自身のロジックは何も含まれていないので、テストする必要はないのです。しかし、<code>index.js</code>には、私たちがテストしたいものが<em>いくつか</em>含まれています。</p>
+<p>これらのルートを実際にテストしやすくするために、<a href="https://github.com/visionmedia/supertest">SuperTest</a>というライブラリを使っていきます。そして、テストの構文に親しむために、このレッスンの例ではそれをJestと組み合わせて使います。<code>npm install jest supertest --save-dev</code>を実行し、それがインストールされている間に、少し時間を取って(上でリンクした)SuperTestのGitリポジトリのREADMEに目を通してください。</p>
+<p>以下が私たちのテストファイルです:</p>
 <pre class="highlight"><code class="language-javascript">const index = require("../index");
 
 const request = require("supertest");
@@ -115,18 +115,18 @@ test("testing route works", done =&gt; {
         .expect({ array: ["hey"] }, done);
     });
 });</code></pre>
-<p>Let's step through it piece by piece.</p>
-<p>To begin, we have to import the module we're testing, in this case it's the file <code>index.js</code> from above.</p>
+<p>一つずつ順を追って見ていきましょう。</p>
+<p>まず、テストしようとしているモジュールをインポートする必要があります。この場合、それは上の<code>index.js</code>ファイルです。</p>
 <pre class="highlight"><code class="language-javascript">const index = require("../index");</code></pre>
-<p>Next, we include both <code>supertest</code> and <code>express</code>.  We're setting up a new Express app and then using the index router that we imported previously. The reason we have to do this setup here is because we are not actually touching our original <code>app.js</code> file. The main reason that we're doing it this way is so that we can avoid calling the <code>app.listen</code> command and starting our server, but it's also useful because, in larger apps, we can skip some of the optional configuration steps and only include the bits that we need for our testing purposes.  In a larger test suite, it would probably be useful to abstract this part out to its own file that gets imported into each test file.</p>
+<p>次に、<code>supertest</code>と<code>express</code>の両方をインクルードします。新しいExpressアプリをセットアップし、それから先ほどインポートしたindexルーターを使っています。ここでこのセットアップを行わなければならない理由は、実際には元の<code>app.js</code>ファイルには一切触れていないからです。このようにする主な理由は、<code>app.listen</code>コマンドを呼び出してサーバーを起動することを避けられるからですが、それだけでなく、より大きなアプリでは、いくつかの任意の設定ステップをスキップし、テストの目的のために必要な部分だけを含められる、という点でも有用です。より大きなテストスイートでは、この部分を独自のファイルに抽象化し、それぞれのテストファイルにインポートするのが、おそらく有用でしょう。</p>
 <pre class="highlight"><code class="language-javascript">const request = require("supertest");
 const express = require("express");
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use("/", index);</code></pre>
-<p>The tests themselves are relatively straightforward, thanks to the SuperTest library! Remember that we imported supertest as the function <code>request</code> which we use as seen below. We call it on our freshly created express app, pass it our route, and then use it to make sure that the responses match the types and content that we expect.</p>
-<p>Notice the parameter <span id="done"><code>done</code></span> that is passed into the test callback.  Most testing libraries use this to signal that the test is complete in the case of asynchronous operations. In this case, SuperTest allows us to pass it into the last <code>.expect</code> and calls it for us.  Thanks, SuperTest!</p>
+<p>SuperTestライブラリのおかげで、テスト自体は比較的簡単です!私たちが<code>supertest</code>を、以下で見るように使う<code>request</code>という関数としてインポートしたことを思い出してください。これを、私たちが新しく作成したExpressアプリに対して呼び出し、そこにルートを渡し、それからそれを使って、レスポンスが期待する型と内容に一致することを確認します。</p>
+<p>テストのコールバックに渡されている、<span id="done"><code>done</code></span>というパラメータに注目してください。ほとんどのテストライブラリは、非同期処理の場合にテストが完了したことを知らせるために、これを使います。この場合、SuperTestは、私たちがそれを最後の<code>.expect</code>に渡すことを許してくれ、私たちの代わりにそれを呼び出してくれます。ありがとう、SuperTest!</p>
 <pre class="highlight"><code class="language-javascript">test("index route works", done =&gt; {
   request(app)
     .get("/")
@@ -134,7 +134,7 @@ app.use("/", index);</code></pre>
     .expect({ name: "frodo" })
     .expect(200, done);
 });</code></pre>
-<p>Our second test is very similar to the first one, but tests the <code>post</code> method. You can (and should) read about all the possible functions on the SuperTest readme, so we won't go into the details of every step here. The last bit however is important to us. By this point in your JavaScript career, you should be familiar with Promises, so the <code>.then()</code> syntax should be familiar. In this case we wait for the POST request to finish and then we call the GET request when that promise resolves to check if that item has been pushed into the array.</p>
+<p>私たちの2番目のテストは、最初のものととても似ていますが、<code>post</code>メソッドをテストしています。可能なすべての関数については、SuperTestのreadmeを読むことができますし、読むべきです。そのため、ここではそれぞれのステップの詳細には立ち入りません。しかし、最後の部分は私たちにとって重要です。あなたのJavaScriptのキャリアのこの時点までには、Promiseに親しんでいるはずなので、<code>.then()</code>という構文にも見覚えがあるはずです。この場合、私たちはPOSTリクエストが完了するのを待ち、それからそのPromiseが解決したときにGETリクエストを呼び出して、そのアイテムが配列にpushされたかどうかを確認します。</p>
 <pre class="highlight"><code class="language-javascript">test("testing route works", done =&gt; {
   request(app)
     .post("/test")
@@ -146,21 +146,21 @@ app.use("/", index);</code></pre>
         .expect({ array: ["hey"] }, done);
     });
 });</code></pre>
-<p>If we were using a real database here, then we would want to do something similar using either a test or a mock database. We'll talk about setting something like that up in a separate lesson. Suffice it to say for now that you do not want to run test code on your production database!</p>
-<h3>Assignment</h3>
+<p>もしここで実際のデータベースを使っていたなら、テスト用のデータベースかモックデータベースのどちらかを使って、似たようなことをしたいと思うはずです。そうしたもののセットアップについては、別のレッスンで話します。今のところは、本番データベースに対してテストコードを実行したくはない、と言っておけば十分でしょう!</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Make sure that you read through the <a href="https://github.com/forwardemail/supertest">SuperTest docs</a></li>
-<li>SuperTest actually pulls from another related project called SuperAgent.  Any method that you can call in SuperAgent you can also call from SuperTest, so you'll need to take a look through the <a href="https://forwardemail.github.io/superagent/">SuperAgent docs</a> as well.</li>
+<li>必ず<a href="https://github.com/forwardemail/supertest">SuperTestのドキュメント</a>に目を通してください。</li>
+<li>SuperTestは実は、SuperAgentという別の関連プロジェクトから機能を取り込んでいます。SuperAgentで呼び出せるメソッドはどれもSuperTestからも呼び出せるので、<a href="https://forwardemail.github.io/superagent/">SuperAgentのドキュメント</a>にも目を通す必要があるでしょう。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="https://github.com/forwardemail/supertest#about">What is the motivation behind SuperTest?</a></li>
-<li><a href="#done">What is the purpose of <code>done</code>? What convenience does SuperTest provide concerning it?</a></li>
-<li><a href="https://github.com/forwardemail/supertest#example">What is the difference in handling errors when using .end() method in conjunction with .expect() provided by SuperTest?</a></li>
-<li><a href="https://forwardemail.github.io/superagent/#multipart-requests">What are the methods provided by SuperAgent to handle multipart requests and how to use them?</a></li>
+<li><a href="https://github.com/forwardemail/supertest#about">SuperTestの背後にある動機は何ですか?</a></li>
+<li><a href="#done"><code>done</code>の目的は何ですか?それに関して、SuperTestはどのような利便性を提供してくれますか?</a></li>
+<li><a href="https://github.com/forwardemail/supertest#example">SuperTestが提供する<code>.expect()</code>と併用する際、<code>.end()</code>メソッドを使う場合のエラー処理には、どのような違いがありますか?</a></li>
+<li><a href="https://forwardemail.github.io/superagent/#multipart-requests">マルチパートリクエストを扱うためにSuperAgentが提供するメソッドには何があり、どのように使いますか?</a></li>
 </ul>
       </div>
     </article>

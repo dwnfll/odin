@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,60 +28,60 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Environment Variables</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">We learn about environment variables and how to use them.</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>When you run your code, your code runs in a specific environment. Run your code on a different machine? Different environment. Host your website somewhere like Netlify or Vercel? Different environment to your machine. Each environment is a unique collection of tools and configurations.</p>
-<p>You will have certainly written many functions that you've called multiple times with different arguments. The function may behave differently or return a different value depending on those arguments. Just like with function parameters, your applications themselves can make use of <strong>environment variables</strong>. When you run your code, you can pass in values to those environment variables, and different environments can be given different values.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>あなたがコードを実行するとき、そのコードは特定の環境の中で実行されます。別のマシンでコードを実行する?それは異なる環境です。NetlifyやVercelのようなところにウェブサイトをホストする?それはあなたのマシンとは異なる環境です。それぞれの環境は、ツールと設定の一意な組み合わせです。</p>
+<p>あなたはこれまで確実に、異なる引数で何度も呼び出す関数をたくさん書いてきたはずです。その関数は、それらの引数に応じて、異なる振る舞いをしたり、異なる値を返したりするかもしれません。関数のパラメータとまったく同じように、あなたのアプリケーション自体も<strong>環境変数</strong>を利用できます。コードを実行するとき、それらの環境変数に値を渡すことができ、異なる環境には異なる値を与えることができます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>Describe what environment variables are and their benefits.</li>
-<li>Use a <code>.env</code> file to store and make environment variables available in your code.</li>
-<li>Access environment variables using Node's <code>process.env</code> object.</li>
+<li>環境変数とは何か、そしてその利点を説明する。</li>
+<li><code>.env</code>ファイルを使って、コードの中で環境変数を保存し利用できるようにする。</li>
+<li>Nodeの<code>process.env</code>オブジェクトを使って環境変数にアクセスする。</li>
 </ul>
-<h3>Environment variables</h3>
-<p>Environment variables are just variables that have environment-specific values. For example, since they are specific to individual environments, we can use them to:</p>
+<h3 id="environment-variables">環境変数</h3>
+<p>環境変数とは、単に環境固有の値を持つ変数です。例えば、これらは個々の環境に固有であるため、次のような目的で使うことができます:</p>
 <ul>
-<li>Provide different values for different environments, such as your machine during development and a website host when deployed, without having to modify the source code.</li>
-<li>Store secrets, such as database URLs and credentials, or API keys.</li>
+<li>ソースコードを変更することなく、開発中の自分のマシンとデプロイ時のウェブサイトホストのように、異なる環境に異なる値を提供する。</li>
+<li>データベースのURLや認証情報、APIキーといった機密情報を保存する。</li>
 </ul>
-<p>For example, a production environment may want additional logging and analytics compared to a development environment. The source code may therefore have an environment variable for whether it's running in "dev" or "prod" mode and do different things based on that. This is very common and by convention, this environment variable is named <code>NODE_ENV</code>, though it would still work with any other name.</p>
-<p>Or perhaps you're building an API connected to a database, but you want to use a separate test database during development instead of the production one. You can pass your test database's URL and credentials into your app when you develop locally, but the deployment will have the values for the production database. On top of this, you can store environment variable values in a file that you add to your <code>.gitignore</code>, preventing the contents of that file from being exposed when changes are pushed.</p>
-<h3>Loading environment variables</h3>
-<p>There are multiple ways you can load environment variables, though some are more cumbersome or may not have stable support yet in many Node versions. One way is by defining the environment variables and their values directly in the command to run your code. Instead of running your app with just <code>node index.js</code>, you could run the following (note that quotes are optional for values that do not contain certain special characters like spaces or <code>=</code>):</p>
+<p>例えば、本番環境では、開発環境と比べて追加のログ記録や分析が欲しいかもしれません。そのため、ソースコードには、それが「dev」モードで動いているか「prod」モードで動いているかについての環境変数があり、それに基づいて異なることを行うかもしれません。これは非常によくあることで、慣習として、この環境変数は<code>NODE_ENV</code>という名前が付けられていますが、他のどんな名前でも問題なく機能します。</p>
+<p>あるいは、データベースに接続されたAPIを構築していて、本番用のデータベースの代わりに、開発中は別のテスト用データベースを使いたい場合もあるでしょう。ローカルで開発するときは、テスト用データベースのURLと認証情報をアプリに渡し、デプロイ時には本番用データベースの値を渡すことができます。それに加えて、環境変数の値を、<code>.gitignore</code>に追加したファイルに保存しておくことで、変更がプッシュされたときにそのファイルの内容が公開されてしまうのを防ぐことができます。</p>
+<h3>環境変数を読み込む</h3>
+<p>環境変数を読み込む方法は複数ありますが、中にはより面倒なものや、多くのNodeバージョンでまだ安定してサポートされていないものもあります。一つの方法は、コードを実行するコマンドの中に、環境変数とその値を直接定義することです。単に<code>node index.js</code>でアプリを実行する代わりに、以下のように実行できます(スペースや<code>=</code>のような特定の特殊文字を含まない値については、引用符は省略可能であることに注意してください):</p>
 <pre class="highlight"><code class="language-bash">NODE_ENV=prod VIDEO_URL="https://www.youtube.com/watch?v=X2CYWg9-2N0" node index.js</code></pre>
-<p>In the above, we define environment variables called <code>NODE_ENV</code> and <code>VIDEO_URL</code>, and assign them their respective values. Now any part of our code that uses those variables will have those values, just like function parameters! The convention for naming environment variables is to use <code>UPPER_SNAKE_CASE</code> (sometimes endearingly referred to as <code>SCREAMING_SNAKE_CASE</code> or <code>SHOUTY_CASE</code>).</p>
-<p>You might see that this could quickly get quite cumbersome though, especially if you had lots of environment variables. If you had sensitive data like database credentials, that's even worse since you wouldn't want to push your <code>package.json</code> if it contained those values in an npm script!</p>
+<p>上の例では、<code>NODE_ENV</code>と<code>VIDEO_URL</code>という環境変数を定義し、それぞれに値を割り当てています。これで、これらの変数を使うコードのどの部分でも、関数のパラメータとまったく同じように、それらの値が使われるようになります!環境変数の命名規則は、<code>UPPER_SNAKE_CASE</code>を使うことです(時に親しみを込めて<code>SCREAMING_SNAKE_CASE</code>や<code>SHOUTY_CASE</code>と呼ばれることもあります)。</p>
+<p>しかし、特に環境変数がたくさんある場合、これはすぐにかなり面倒になってしまうことがわかるでしょう。データベースの認証情報のような機密データがある場合は、さらに悪いことになります。というのも、それらの値がnpmスクリプトの中に含まれている<code>package.json</code>をプッシュしたくはないはずだからです!</p>
 <h4>export</h4>
-<p>Instead of setting environment variables directly in the command for running your code, you can use the shell command <code>export</code>, which will save environment variables and their values to the current shell session.</p>
+<p>コードを実行するコマンドの中に環境変数を直接設定する代わりに、シェルコマンドの<code>export</code>を使うことができます。これは、環境変数とその値を現在のシェルセッションに保存します。</p>
 <pre class="highlight"><code class="language-bash">export NODE_ENV=prod VIDEO_URL="https://www.youtube.com/watch?v=X2CYWg9-2N0"</code></pre>
-<p>The above command will set the two environment variables in the current shell environment only, meaning if you were to open a new shell, it would not have access to those environment variables since it's a new environment. If we ran <code>node index.js</code> in the first shell (the one with the environment variables set), anything that used the <code>NODE_ENV</code> environment variable would have the value <code>"prod"</code>. If we instead ran <code>node index.js</code> in the second shell, it would have the value <code>undefined</code> instead since nothing was set in its environment. Neat, no?</p>
-<p>This is definitely nicer than the previous directly-in-the-command method, and means we can really keep sensitive data hidden. To overwrite any variables, just rerun <code>export</code> with the new values for those variables like above.</p>
-<p>To view all environment variables in the current shell, you can run <code>printenv</code>. Hang on, it's showing <em>a lot</em> of stuff we never set ourselves! That's because the shell itself has a lot of environment variables already set and loaded when it first loads. That's a bit annoying, we just want to deal with our app's environment variables! Also, our environment variables will be lost when we terminate the shell. What if we had lots of variables? It'd be a nightmare to try and remember them all and export them again in the new shell. Well...</p>
-<h4>Node env files</h4>
-<p>Node (as of v24.10) has built-in stable support for files containing environment variables. You can create a file called <code>.env</code> (by convention) in the root of your project, and it will contain all of your environment variables in the format <code>NAME=VALUE</code>. For example:</p>
+<p>上のコマンドは、現在のシェル環境にのみ、この2つの環境変数を設定します。つまり、もし新しいシェルを開いたとすると、それは新しい環境であるため、それらの環境変数にアクセスすることはできません。もし最初のシェル(環境変数が設定されているほう)で<code>node index.js</code>を実行すれば、<code>NODE_ENV</code>環境変数を使うものはすべて、<code>"prod"</code>という値を持つことになります。代わりに2番目のシェルで<code>node index.js</code>を実行すれば、その環境には何も設定されていないため、代わりに<code>undefined</code>という値になります。なかなか面白いですよね?</p>
+<p>これは間違いなく、先ほどのコマンドに直接書き込む方法よりも良く、機密データを本当に隠しておけることを意味します。何らかの変数を上書きするには、上記のように、その変数の新しい値で<code>export</code>を再実行するだけです。</p>
+<p>現在のシェルにあるすべての環境変数を見るには、<code>printenv</code>を実行します。ちょっと待ってください、私たちが自分で設定した覚えのないものが<em>たくさん</em>表示されています!これは、シェル自体が、最初に読み込まれる際にすでに多くの環境変数を設定し読み込んでいるからです。これは少し煩わしいですね、私たちはただ自分のアプリの環境変数だけを扱いたいのに!それに、シェルを終了すると、私たちの環境変数は失われてしまいます。もしたくさんの変数があったらどうでしょうか?それらすべてを覚えておいて、新しいシェルで再びexportするのは悪夢でしょう。そこで……</p>
+<h4 id="node-env-files">Nodeのenvファイル</h4>
+<p>Node(v24.10時点)には、環境変数を含むファイルのための、組み込みの安定したサポートがあります。プロジェクトのルートに(慣習として)<code>.env</code>というファイルを作成でき、そこには<code>NAME=VALUE</code>という形式で、すべての環境変数が含まれます。例えば:</p>
 <pre class="highlight"><code class="language-properties"># .env
 
 NODE_ENV=prod
 VIDEO_URL="https://www.youtube.com/watch?v=X2CYWg9-2N0"</code></pre>
-<p><strong>This file must be added to your <code>.gitignore</code> file</strong> to keep secrets safe from being published!</p>
-<p>Node provides several ways to load it, such as using the <a href="https://nodejs.org/docs/latest-v24.x/api/cli.html#--env-filefile"><code>--env-file</code> CLI option</a> (that allows you to run <code>node --env-file=.env index.js</code> for example) or directly inside JavaScript with the <a href="https://nodejs.org/docs/latest-v24.x/api/process.html#processloadenvfilepath"><code>process.loadEnvFile()</code> method</a>. Both of these will throw an error if the <code>.env</code> file is missing.</p>
+<p>機密情報が公開されてしまわないようにするため、<strong>このファイルは必ず<code>.gitignore</code>ファイルに追加する必要があります</strong>!</p>
+<p>Nodeは、これを読み込むためのいくつかの方法を提供しています。例えば、<a href="https://nodejs.org/docs/latest-v24.x/api/cli.html#--env-filefile"><code>--env-file</code> CLIオプション</a>を使う方法(これにより、例えば<code>node --env-file=.env index.js</code>を実行できます)や、JavaScriptの中で直接<a href="https://nodejs.org/docs/latest-v24.x/api/process.html#processloadenvfilepath"><code>process.loadEnvFile()</code>メソッド</a>を使う方法です。これらはどちらも、<code>.env</code>ファイルが見つからない場合、エラーをスローします。</p>
 <div class="lesson-note lesson-note--tip">
-<h4>Environment variables and deployment</h4>
-<p>When you deploy an app that uses environment variables, your repo will not contain your <code>.env</code> file, so you will have to research how your chosen deployment service handles setting environment variable values. Typically, there will be a way via their website interface, but otherwise, always check their documentation!</p>
-<p>Because of this, you won't want to load your variables in production like you do in development, as it would likely throw an error for when it can't find a <code>.env</code> file. Instead, you can prevent that in many ways, like adding an npm script for production that doesn't use <code>--env-file</code>, using the <code>--env-file-if-exists</code> CLI option, or implementing error handling with <code>process.loadEnvFile()</code>.</p>
+<h4>環境変数とデプロイ</h4>
+<p>環境変数を使うアプリをデプロイする際、あなたのリポジトリには<code>.env</code>ファイルが含まれていないため、選んだデプロイサービスが環境変数の値の設定をどう扱っているかを調べる必要があります。通常は、そのサービスのウェブサイトのインターフェースを通じて設定する方法があるはずですが、そうでない場合は、必ずそのドキュメントを確認してください!</p>
+<p>このため、開発時と同じように本番環境でも変数を読み込みたいとは思わないはずです。というのも、<code>.env</code>ファイルが見つからない場合、おそらくエラーがスローされてしまうからです。代わりに、<code>--env-file</code>を使わない本番用のnpmスクリプトを追加したり、<code>--env-file-if-exists</code>というCLIオプションを使ったり、<code>process.loadEnvFile()</code>でエラーハンドリングを実装したりといった、さまざまな方法でそれを防ぐことができます。</p>
 </div>
 <h4>dotenv</h4>
-<p>Node did not always have built-in support for environment variable files. You will likely see libraries like <a href="https://www.npmjs.com/package/dotenv">dotenv</a> used out in the wild. The principle will be the same as the built-in feature, just with whatever library-specific instructions are required. Such libraries may also offer more sophisticated features that Node does not have built-in, which may be of benefit to teams working on more complex projects, but as far as TOP goes, they won't be necessary.</p>
-<p>Anyway, awesome! You can load environment variables now, but how do you actually access them in your code?</p>
-<h3>Accessing environment variables</h3>
-<p>Environment variables are accessed via Node's built-in <code>process</code> object, more specifically its <code>env</code> property. Node will load each environment variable to the <code>process.env</code> object, using its name as the property. You can then access them like any normal object property.</p>
+<p>Nodeには、常に環境変数ファイルのための組み込みサポートがあったわけではありません。実際の現場では、<a href="https://www.npmjs.com/package/dotenv">dotenv</a>のようなライブラリが使われているのをよく見かけるでしょう。原理は組み込み機能と同じで、そのライブラリ固有の指示が必要になるだけです。そうしたライブラリは、Nodeに組み込まれていない、より洗練された機能を提供していることもあり、より複雑なプロジェクトに取り組んでいるチームにとっては有益かもしれませんが、TOPに関する限り、それらは必要ないでしょう。</p>
+<p>とにかく、素晴らしいですね!これで環境変数を読み込めるようになりましたが、実際にコードの中でそれらにどうやってアクセスするのでしょうか?</p>
+<h3 id="accessing-environment-variables">環境変数にアクセスする</h3>
+<p>環境変数には、Nodeの組み込み<code>process</code>オブジェクト、より具体的にはその<code>env</code>プロパティを介してアクセスします。Nodeは、各環境変数を、その名前をプロパティとして<code>process.env</code>オブジェクトに読み込みます。それから、通常のオブジェクトのプロパティと同じようにそれらにアクセスできます。</p>
 <pre class="highlight"><code class="language-javascript">if (process.env.NODE_ENV === "prod") {
     // do production-specific stuff
 }
@@ -89,30 +89,30 @@ VIDEO_URL="https://www.youtube.com/watch?v=X2CYWg9-2N0"</code></pre>
 // don't want to ruin the surprise by hardcoding the URL!
 // it might even change every few days!
 redirectUserToSuperSecretVideo(process.env.VIDEO_URL);</code></pre>
-<p>No hardcoding of those values into the source code! If you want to change the value of an environment variable, you can just change it in your <code>.env</code> file then rerun the program. Do also note that environment variables will always be strings, so you must convert if you want to use any as a number or boolean, for example.</p>
+<p>それらの値をソースコードにハードコーディングする必要はありません!環境変数の値を変更したい場合は、<code>.env</code>ファイルの中でそれを変更してから、プログラムを再実行するだけです。また、環境変数は常に文字列であるため、例えば数値や真偽値として使いたい場合は、変換する必要があることにも注意してください。</p>
 <div class="lesson-note lesson-note--tip">
-<h4>Documenting your environment variables</h4>
-<p>When your projects include environment variables, those that assist you will need to know what environment variables are needed to run your project. Therefore, we highly recommend that you document them in your <code>README.md</code> file, like which ones are required and what they should contain. You could also include a dummy example <code>.env</code> file, such as an <code>.env.sample</code>, that others can rename then edit with the values they need.</p>
+<h4>環境変数をドキュメント化する</h4>
+<p>あなたのプロジェクトに環境変数が含まれている場合、あなたを助けてくれる人たちは、プロジェクトを実行するためにどの環境変数が必要かを知る必要があります。そのため、どれが必須で、それぞれ何を含めるべきかといったことを、<code>README.md</code>ファイルにドキュメント化しておくことを強くお勧めします。他の人がリネームしてから必要な値で編集できるような、<code>.env.sample</code>といったダミーの例の<code>.env</code>ファイルを含めておくこともできます。</p>
 </div>
-<h3>Assignment</h3>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <div class="lesson-note lesson-note--critical">
-<h4>Keep your secrets safe!</h4>
-<p>Environment variables aren't only for sensitive data, but you will often need them for that. In your projects, make sure you add <code>.env</code> to <code>.gitignore</code> so you <strong>do not publish it</strong>.</p>
+<h4 id="keep-your-secrets-safe">あなたの秘密を守ってください!</h4>
+<p>環境変数は機密データのためだけのものではありませんが、そのために使うことがよくあります。あなたのプロジェクトでは、必ず<code>.gitignore</code>に<code>.env</code>を追加し、<strong>それを公開しない</strong>ようにしてください。</p>
 </div>
 <ol>
-<li>Check out <a href="https://nodejs.org/docs/latest-v24.x/api/environment_variables.html">Node's documentation on environment variables</a> for more information about file syntax and CLI usage.</li>
+<li>ファイルの構文やCLIの使い方についてさらに詳しい情報は、<a href="https://nodejs.org/docs/latest-v24.x/api/environment_variables.html">環境変数についてのNodeのドキュメント</a>をチェックしてください。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#environment-variables">What are environment variables?</a></li>
-<li><a href="#environment-variables">What might you want to use environment variables for?</a></li>
-<li><a href="#node-env-files">How can you load environment variables from a <code>.env</code> file?</a></li>
-<li><a href="#accessing-environment-variables">How do you access environment variables in a Node app?</a></li>
-<li><a href="#accessing-environment-variables">What data type will an environment variable always be?</a></li>
-<li><a href="#keep-your-secrets-safe">Should you push your <code>.env</code> file to GitHub?</a></li>
+<li><a href="#environment-variables">環境変数とは何ですか?</a></li>
+<li><a href="#environment-variables">環境変数は何のために使いたくなるかもしれませんか?</a></li>
+<li><a href="#node-env-files"><code>.env</code>ファイルから環境変数をどのように読み込めますか?</a></li>
+<li><a href="#accessing-environment-variables">Nodeアプリの中で環境変数にどのようにアクセスしますか?</a></li>
+<li><a href="#accessing-environment-variables">環境変数は常にどのデータ型になりますか?</a></li>
+<li><a href="#keep-your-secrets-safe"><code>.env</code>ファイルをGitHubにプッシュすべきですか?</a></li>
 </ul>
       </div>
     </article>

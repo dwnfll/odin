@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,51 +28,51 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Odin-Book</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">You&#x27;ll use everything you&#x27;ve learned so far to replicate Facebook!</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>You've come a long way, congratulations! At this point, you should feel comfortable with building new Express applications and using PostgreSQL to model and store data. This project will require you to put all of that knowledge to the test. It's not going to be easy, but it should be well within your capabilities and it will be a <em>great</em> portfolio piece.</p>
-<p>You'll be building a clone of a social media site, such as Facebook, X, Myspace, or Threads. As with our previous lessons, how much effort you want to put into the styling and front end is up to you. The important stuff is the data and backend. You'll put together the core features of the platform like users, profiles, posts, following, and "liking".</p>
-<p>You'll also implement some form of authentication. Ideally, you'll want to use passport.js to support authenticating via the social media site you're cloning, but some sites (such as Facebook), have recently made this process impossible. If this is the case for your site, you can use passport.js to support authenticating via username and password with <code>passport-local</code> or via Github with <code>passport-github2</code>.</p>
-<p>There will probably be features you haven't been exposed to such as chat, real-time updates, and notifications. You won't be responsible for those unless you're feeling really confident in your skills at this point (e.g. <a href="https://socket.io/">socket.io</a> allows you to use websockets for real-time communication).</p>
-<h3>Assignment</h3>
+        <h3>イントロダクション</h3>
+<p>ここまでよく頑張りました、おめでとうございます!この時点で、あなたは新しいExpressアプリケーションを構築し、PostgreSQLを使ってデータをモデリングし保存することに、快適さを感じられるようになっているはずです。このプロジェクトでは、その知識すべてを試すことになります。簡単ではありませんが、あなたの能力の範囲内に十分収まるはずですし、<em>素晴らしい</em>ポートフォリオ作品になるでしょう。</p>
+<p>Facebook、X、Myspace、Threadsのような、ソーシャルメディアサイトのクローンを構築していきます。これまでのレッスンと同じように、スタイリングとフロントエンドにどれだけの労力をかけたいかは、あなた次第です。重要なのはデータとバックエンドです。ユーザー、プロフィール、投稿、フォロー、「いいね」といった、プラットフォームのコア機能をまとめ上げていきます。</p>
+<p>何らかの形の認証も実装することになります。理想的には、あなたがクローンしているソーシャルメディアサイトを介した認証をサポートするために、passport.jsを使いたいところですが、(Facebookのような)一部のサイトは、最近このプロセスを不可能にしてしまいました。あなたのサイトがそのような場合は、<code>passport-local</code>を使ったユーザー名とパスワードによる認証、または<code>passport-github2</code>を使ったGithub経由の認証をサポートするために、passport.jsを使うことができます。</p>
+<p>チャット、リアルタイムの更新、通知など、あなたがまだ触れたことのない機能もおそらくあるでしょう。この時点で自分のスキルに本当に自信を持てている場合を除き、それらについては責任を負う必要はありません(例えば、<a href="https://socket.io/">socket.io</a>を使えば、リアルタイム通信にWebSocketを使うことができます)。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
-<p>Build a social media site! You'll build a large portion of the core user functionality of your chosen site in this project. You don't have to worry about some of the more flashy front-end stuff unless you want to, but you don't need it to get a nice user experience.</p>
-<p>This project will give you the chance to take a relatively high-level set of requirements and turn it into a functioning website. You'll need to do some of your own research and read the documentation for a few of the modules you'll be using in this project.</p>
-<h4>Getting started</h4>
+<p>ソーシャルメディアサイトを構築してください!このプロジェクトでは、あなたが選んだサイトのコアなユーザー機能の大部分を構築していきます。希望しない限り、より華やかなフロントエンドについて心配する必要はありませんが、素敵なユーザー体験を得るためにそれが必要というわけでもありません。</p>
+<p>このプロジェクトでは、比較的高レベルな要件のセットを受け取り、それを機能するウェブサイトへと変えていく機会が得られます。自分で調べものをしたり、このプロジェクトで使ういくつかのモジュールのドキュメントを読んだりする必要があるでしょう。</p>
+<h4>始めるにあたって</h4>
 <ol>
-<li>Think about what you need to do. It's really helpful to write your plan down on paper or a whiteboard ahead of time! A few hours of thought now will save you days of coding. Try to lay it ALL out. An important part of planning is <strong>scope</strong>. You obviously can't build the entire website (which presumably took a full team of engineers years to produce), so you'll need to identify the site's core functionality and the "nice-to-have" stuff. <strong>Make sure you finish the core functionality BEFORE working on the rest.</strong> If you try to do everything at once, you'll get lost and frustrated. Trust us. Everything takes longer than you expect.</li>
-<li>Think through the data architecture required to make this work. There are lots of models and the relationship between them is more complicated than anything you've done before. Take some time to plan your approach before diving in.</li>
-<li>Work your way down the list below! Each step will involve a new challenge, but you've got the tools.</li>
-<li>You can populate data like users and posts with fake data using the <a href="https://github.com/faker-js/faker">Faker</a> module from npm. To accomplish this create a new JavaScript file named <code>seeds.js</code> which imports your Prisma models and uses the faker module to generate and save a bunch of new users.</li>
+<li>何をする必要があるか考えてください。事前に紙やホワイトボード上で計画を書き出しておくことは、本当に役立ちます!今数時間考えることで、何日ものコーディングの時間を節約できます。すべてを洗い出すようにしてみてください。計画を立てる上で重要な部分の一つは、<strong>スコープ</strong>です。(おそらくエンジニアのチーム全体が何年もかけて作り上げた)ウェブサイト全体を構築することは、当然できません。そのため、サイトのコア機能と、「あれば嬉しい」機能を見極める必要があります。<strong>残りの作業に取り組む前に、必ずコア機能を完成させてください。</strong>すべてを一度にやろうとすると、迷子になり、イライラすることになるでしょう。私たちを信じてください。すべてのことは、あなたが予想するよりも時間がかかります。</li>
+<li>これを機能させるために必要なデータアーキテクチャについて、よく考えてください。モデルはたくさんあり、それらの間の関係は、これまでにあなたが行ったどんなものよりも複雑です。飛び込む前に、あなたのアプローチを計画するための時間を取ってください。</li>
+<li>以下のリストを順番にこなしていきましょう!それぞれのステップには新しい挑戦が伴いますが、あなたにはそのためのツールがあります。</li>
+<li>npmの<a href="https://github.com/faker-js/faker">Faker</a>モジュールを使って、ユーザーや投稿のようなデータに偽のデータを投入することができます。これを実現するには、あなたのPrismaモデルをインポートし、fakerモジュールを使って新しいユーザーをたくさん生成して保存する、<code>seeds.js</code>という新しいJavaScriptファイルを作成してください。</li>
 </ol>
-<h4>Requirements</h4>
-<p>The following requirements are a very global list of features your app should have. Because of the open-ended nature of this project, it's possible that not all of them may apply to your chosen site, and that there might be core features of your site that aren't mentioned here.</p>
+<h4>要件</h4>
+<p>以下の要件は、あなたのアプリが持つべき機能の、非常に大まかなリストです。このプロジェクトのオープンエンドな性質上、それらのすべてが、あなたが選んだサイトに当てはまるとは限りませんし、あなたのサイトには、ここで触れられていないコア機能があるかもしれません。</p>
 <ol>
-<li>Users must sign in to see anything except the sign-in page.</li>
-<li>Users should be able to sign in using your chosen authentication method.</li>
-<li>Users can send follow requests to other users.</li>
-<li>Users can create posts (begin with text only).</li>
-<li>Users can like posts.</li>
-<li>Users can comment on posts.</li>
-<li>Posts should always display the post content, author, comments, and likes.</li>
-<li>There should be an index page for posts, which shows all the recent posts from the current user and users they are following.</li>
-<li>Users can create a profile with a profile picture. Depending on how you handle authentication, for example via <code>passport-github2</code>, you may be able to use their account's existing profile picture. If this isn't the case you can use <a href="https://www.gravatar.com/">Gravatar</a> to generate them.</li>
-<li>A user's profile page should contain their profile information, profile photo, and posts.</li>
-<li>There should be an index page for users, which shows all users and buttons for sending follow requests to users the user is not already following or have a pending request.</li>
-<li>Deploy your app to a hosting provider of your choice!</li>
+<li>ユーザーは、サインインページ以外の何かを見るためには、サインインする必要があります。</li>
+<li>ユーザーは、あなたが選んだ認証方法を使ってサインインできるべきです。</li>
+<li>ユーザーは他のユーザーにフォローリクエストを送ることができます。</li>
+<li>ユーザーは投稿を作成できます(まずはテキストのみから始めてください)。</li>
+<li>ユーザーは投稿に「いいね」できます。</li>
+<li>ユーザーは投稿にコメントできます。</li>
+<li>投稿には、常に投稿内容、著者、コメント、いいねが表示されるべきです。</li>
+<li>投稿用のindexページがあるべきで、そこには現在のユーザーと、彼らがフォローしているユーザーからの、すべての最近の投稿が表示されます。</li>
+<li>ユーザーはプロフィール写真付きのプロフィールを作成できます。認証をどう扱うか(例えば<code>passport-github2</code>経由など)によっては、彼らのアカウントの既存のプロフィール写真を使えるかもしれません。そうでない場合は、<a href="https://www.gravatar.com/">Gravatar</a>を使ってそれらを生成できます。</li>
+<li>ユーザーのプロフィールページには、彼らのプロフィール情報、プロフィール写真、投稿が含まれるべきです。</li>
+<li>ユーザー用のindexページがあるべきで、そこにはすべてのユーザーと、まだフォローしていない、または保留中のリクエストがないユーザーに対してフォローリクエストを送るためのボタンが表示されます。</li>
+<li>あなたが選んだホスティングプロバイダーに、あなたのアプリをデプロイしてください!</li>
 </ol>
-<h4>Extra credit</h4>
+<h4>発展課題</h4>
 <ol>
-<li>Make posts also allow images (either just via a URL or by uploading one). If you did the extra credit from the <a href="https://www.theodinproject.com/lessons/nodejs-file-uploader">File Uploader project</a>, then you may recall <a href="https://cloudinary.com/documentation/node_integration">Cloudinary</a> or <a href="https://supabase.com/docs/guides/storage">Supabase storage</a> being good options for hosting user-uploaded images. The URLs they provide you can then be stored in your database instead of the raw image binary data.</li>
-<li>Allow users to update their profile photo.</li>
-<li>Create a guest sign-in functionality that allows visitors to bypass the login screen without creating an account or supplying credentials. This is especially useful if you are planning on putting this project on your résumé - most recruiters, hiring managers, etc. will not take the time to create an account. This feature will allow them to look at your hard work without going through a tedious sign-up process.</li>
-<li>Make it pretty!</li>
+<li>投稿で画像も許可するようにしてください(URL経由だけでも、アップロードによってでも構いません)。もし<a href="https://www.theodinproject.com/lessons/nodejs-file-uploader">File Uploaderプロジェクト</a>の発展課題を行ったなら、ユーザーがアップロードした画像をホストするのに良い選択肢として、<a href="https://cloudinary.com/documentation/node_integration">Cloudinary</a>や<a href="https://supabase.com/docs/guides/storage">Supabase storage</a>を思い出すかもしれません。それらが提供してくれるURLを、生の画像バイナリデータの代わりに、あなたのデータベースに保存できます。</li>
+<li>ユーザーがプロフィール写真を更新できるようにしてください。</li>
+<li>訪問者が、アカウントを作成したり認証情報を提供したりすることなく、ログイン画面をバイパスできる、ゲストサインイン機能を作成してください。これは特に、このプロジェクトをあなたの履歴書に載せる予定がある場合に役立ちます――ほとんどの採用担当者や人事担当者は、アカウントを作成する時間を取ってはくれません。この機能があれば、彼らは面倒なサインアッププロセスを経ることなく、あなたの努力の成果を見ることができます。</li>
+<li>見た目を良くしてみましょう!</li>
 </ol>
 </div>
       </div>

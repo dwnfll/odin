@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,49 +28,49 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Knights Travails</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← javascript</a></p>
     </header>
     <p class="tvp-lesson__desc">Lets build Knights Travails</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Now you're a pro with DFS and BFS. Let's try using our search algorithms on a real problem.</p>
-<p>For this project, you'll need to use a graph, a data structure that's similar (but not identical) to a binary tree. For a good introduction on what graphs are, reference <a href="https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/describing-graphs">Khan Academy's "Describing Graphs"</a>. Don't forget to look at the <a href="https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs">section on representing graphs</a>, as it should give you some good ideas on how to actually implement graphs in your code.</p>
-<p>Given enough turns, a knight on a standard 8x8 chess board can move from any square to any other square. Its basic move is two steps forward and one step to the side or one step forward and two steps to the side. It can face any direction.</p>
-<p>All the possible places you can end up after one move look like this:</p>
-<p><img alt="Knights Travails board" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/d30038e0aaca1f35e58e205e37a21b2c9d31053d/javascript/computer_science/project_knights_travails/imgs/01.png" />
-Note: The picture is only to explain the problem, There is no need to create a GUI.</p>
-<p>In this problem, the chessboard can be represented as a graph:</p>
-<p>Each square on the board is a node (or vertex).
-A knight’s valid moves from any square represent the edges (or connections) between the vertices.
-Thus, the problem of finding the shortest path for the knight’s movement becomes a graph traversal problem. The goal is to traverse the graph (the chessboard) to find the shortest route between two nodes (the start and end positions).</p>
-<h4>Vertices and edges</h4>
-<p>The vertices in this graph are each of the possible positions on the chessboard, represented by a pair of coordinates like <code>[x, y]</code>, where x and y are between 0 and 7.
-The edges are the valid knight moves between vertices. For example, from <code>[0,0]</code>, a knight can move to <code>[2,1]</code>, <code>[1,2]</code>, and so on. Each of these moves represents a connection between the vertex <code>[0,0]</code> and the other reachable vertices.</p>
-<h4>Graph representation</h4>
-<p>While solving this problem, you don’t need to explicitly create a graph object with vertices and edges. Instead, you can think of the graph as implicit. The knight starts on a specific vertex, and the algorithm will dynamically explore all possible moves (edges) to other vertices (positions on the board) as it traverses the board.</p>
-<h3>Assignment</h3>
+        <h3>イントロダクション</h3>
+<p>これで、DFS(深さ優先探索)とBFS(幅優先探索)のプロになりました。それでは、これらの探索アルゴリズムを実際の問題に使ってみましょう。</p>
+<p>このプロジェクトでは、二分木に似ている(が同一ではない)データ構造である、グラフを使う必要があります。グラフとは何かについての良い入門として、<a href="https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/describing-graphs">Khan Academyの「Describing Graphs」</a>を参照してください。<a href="https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs">グラフの表現方法についてのセクション</a>も忘れずに見ておいてください。コード内でグラフを実際にどう実装するかについて、良いアイデアが得られるはずです。</p>
+<p>十分な手数があれば、標準的な8x8のチェス盤上のナイトは、どのマスからでも他のどのマスへも移動することができます。ナイトの基本的な動きは、前に2マス進んで横に1マス動くか、前に1マス進んで横に2マス動くかのどちらかです。ナイトはどの方向を向いていてもかまいません。</p>
+<p>1手動いた後にたどり着ける可能性のあるすべての場所は、以下のようになります:</p>
+<p><img alt="ナイトの巡歴の盤面" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/d30038e0aaca1f35e58e205e37a21b2c9d31053d/javascript/computer_science/project_knights_travails/imgs/01.png" />
+注: この画像は問題を説明するためだけのものです。GUIを作成する必要はありません。</p>
+<p>この問題では、チェス盤はグラフとして表現できます:</p>
+<p>盤上の各マスは、ノード(または頂点)です。
+あるマスからのナイトの有効な移動は、頂点同士の間の辺(またはつながり)を表します。
+つまり、ナイトの移動における最短経路を見つける問題は、グラフの走査問題になります。目標は、グラフ(チェス盤)を走査して、2つのノード(開始位置と終了位置)の間の最短経路を見つけることです。</p>
+<h4>頂点と辺</h4>
+<p>このグラフにおける頂点は、チェス盤上で取り得るそれぞれの位置であり、<code>[x, y]</code>のような座標のペアで表されます。ここでxとyは0から7の間の値です。
+辺は、頂点間でのナイトの有効な移動です。例えば、<code>[0,0]</code>から、ナイトは<code>[2,1]</code>や<code>[1,2]</code>などに移動できます。これらの移動はそれぞれ、頂点<code>[0,0]</code>と、他の到達可能な頂点との間のつながりを表します。</p>
+<h4>グラフの表現</h4>
+<p>この問題を解く際、頂点と辺を持つグラフオブジェクトを明示的に作成する必要はありません。代わりに、グラフは暗黙的なものと考えることができます。ナイトは特定の頂点から始まり、アルゴリズムは盤を走査しながら、他の頂点(盤上の位置)への可能なすべての移動(辺)を動的に探索していきます。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
-<p>Your task is to build a function <code>knightMoves</code> that shows the shortest possible way to get from one square to another by outputting all squares the knight will stop on along the way.</p>
-<p>You can think of the board as having 2-dimensional coordinates. Calling your function would therefore look like:</p>
+<p>あなたの課題は、あるマスから別のマスへ移動する最短経路を、ナイトが途中で止まるすべてのマスを出力することによって示す、<code>knightMoves</code>関数を作ることです。</p>
+<p>盤は2次元座標を持っていると考えることができます。そのため、関数の呼び出しは次のようになります:</p>
 <p><code>knightMoves([0,0],[1,2]) // returns [[0,0],[1,2]]</code></p>
 <div class="lesson-note">
-<h4>Multiple shortest paths</h4>
-<p>Sometimes <em>there is more than one fastest path</em>. Examples of this are shown below. Any answer is correct as long as it follows the rules and gives the shortest possible path.</p>
+<h4>複数の最短経路</h4>
+<p><em>最速の経路が複数存在する</em>こともあります。その例を以下に示します。ルールに従っていて、可能な限り最短の経路になっている限り、どの答えも正解です。</p>
 <ul>
-<li><code>knightMoves([0,0],[3,3])</code> may return <code>[[0,0],[2,1],[3,3]]</code> or <code>[[0,0],[1,2],[3,3]]</code>.</li>
-<li><code>knightMoves([3,3],[0,0])</code> may return <code>[[3,3],[2,1],[0,0]]</code> or <code>[[3,3],[1,2],[0,0]]</code>.</li>
-<li><code>knightMoves([0,0],[7,7])</code> may return <code>[[0,0],[2,1],[4,2],[6,3],[4,4],[6,5],[7,7]]</code> or <code>[[0,0],[2,1],[4,2],[6,3],[7,5],[5,6],[7,7]]</code> or other possible shortest paths.</li>
+<li><code>knightMoves([0,0],[3,3])</code>は<code>[[0,0],[2,1],[3,3]]</code>または<code>[[0,0],[1,2],[3,3]]</code>を返すことがあります。</li>
+<li><code>knightMoves([3,3],[0,0])</code>は<code>[[3,3],[2,1],[0,0]]</code>または<code>[[3,3],[1,2],[0,0]]</code>を返すことがあります。</li>
+<li><code>knightMoves([0,0],[7,7])</code>は<code>[[0,0],[2,1],[4,2],[6,3],[4,4],[6,5],[7,7]]</code>または<code>[[0,0],[2,1],[4,2],[6,3],[7,5],[5,6],[7,7]]</code>、あるいは他にありうる最短経路を返すことがあります。</li>
 </ul>
 </div>
 <ol>
-<li>Think about the rules of the board and knight, and make sure to follow them.</li>
-<li>From every square, multiple moves are possible. Choose a data structure that will allow you to work with them. Don't allow any moves to go off the board.</li>
-<li>Both DFS and BFS are viable here, though think carefully about how each of them work. One of them will require you to handle the possibility of getting stuck in an endless cycle.</li>
+<li>盤とナイトのルールについて考え、必ずそれに従うようにしてください。</li>
+<li>どのマスからも、複数の移動が可能です。それらを扱うことができるデータ構造を選んでください。盤の外に出るような移動は許可しないでください。</li>
+<li>ここではDFSとBFSのどちらも有効ですが、それぞれがどのように機能するかをよく考えてください。どちらか一方は、終わりのない循環にはまり込んでしまう可能性への対処が必要になります。</li>
 <li>
-<p>Use the chosen search algorithm to find the shortest path between the starting square (or node) and the ending square.  Output what that full path looks like, e.g.:</p>
+<p>選んだ探索アルゴリズムを使って、開始のマス(またはノード)と終了のマスの間の最短経路を見つけてください。その経路全体がどのようなものかを出力してください。例えば:</p>
 <pre class="highlight"><code class="language-bash">&gt; knightMoves([3,3],[4,3])
 =&gt; You made it in 3 moves!  Here's your path:
   [3,3]

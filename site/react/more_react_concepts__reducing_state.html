@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,28 +28,26 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Reducing State</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← react</a></p>
     </header>
     <p class="tvp-lesson__desc">Reducing State</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>You have probably heard about reducers before. In this lesson we are going to
-learn <em>what</em> they are, <em>when</em> to use them and <em>how</em> to use them in React with the <code>useReducer</code> hook.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3>イントロダクション</h3>
+<p>あなたはおそらく、以前にリデューサーについて聞いたことがあるでしょう。このレッスンでは、リデューサーが<em>何</em>であるか、<em>いつ</em>使うべきか、そしてReactで<code>useReducer</code>フックを使って<em>どうやって</em>使うのかを学んでいきます。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>What are reducers.</li>
-<li>When to use reducers.</li>
-<li>What is the <code>useReducer</code> hook.</li>
+<li>リデューサーとは何か。</li>
+<li>いつリデューサーを使うか。</li>
+<li><code>useReducer</code>フックとは何か。</li>
 </ul>
-<h3>What are reducers?</h3>
-<p>Reducers are pure functions that take a previous state and an action to return a new state.</p>
-<p>The action is an object with a <em>type</em> property describing what the user did. This object can also contain
-any other properties that our reducer might need to produce the new state.</p>
-<p>We can define a reducer that updates the state of a counter like this:</p>
+<h3 id="what-are-reducers">リデューサーとは何ですか?</h3>
+<p>リデューサーとは、以前のstateとactionを受け取り、新しいstateを返す純粋関数です。</p>
+<p>actionとは、ユーザーが何をしたかを表す<em>type</em>プロパティを持つオブジェクトです。このオブジェクトには、リデューサーが新しいstateを生成するために必要な、他のプロパティを含めることもできます。</p>
+<p>以下のように、カウンターのstateを更新するリデューサーを定義できます:</p>
 <pre class="highlight"><code class="language-javascript">function reducer(state, action) {
   switch (action.type) {
     case "incremented_count": {
@@ -66,45 +64,39 @@ any other properties that our reducer might need to produce the new state.</p>
     }
   }
 }</code></pre>
-<p>Remember, reducers are pure functions so we shouldn't mutate the state.</p>
-<h3>When to use reducers?</h3>
-<p>If a component only needs to update its state in a couple of simple ways, you don't need to use reducers.
-The opposite can be said when a component has become too big, hard to read or debug because of its state logic.</p>
-<p>By using reducers, we can separate the state logic and even store it in a different file or directory, leading
-to smaller components that are easier to read.</p>
-<p>Since reducers use <em>actions</em>, we can easily track any state-related bugs back to the dispatched action,
-and because our reducers are just pure functions, we can test them in isolation.</p>
-<h3>The useReducer hook</h3>
-<p>React allows us to use reducers in our components through a hook called <code>useReducer</code>. This hook takes a reducer function and
-an initial state as arguments, then returns an array with two values: the current state and a <code>dispatch</code> function.</p>
-<p>This <code>dispatch</code> function receives an <strong>action</strong> object as argument, which is passed to our reducer function and
-the returned value from it is used to update the state.</p>
+<p>リデューサーは純粋関数であることを忘れないでください。そのため、stateをミューテートすべきではありません。</p>
+<h3>いつリデューサーを使うべきですか?</h3>
+<p>コンポーネントが、いくつかの単純な方法でしかstateを更新する必要がない場合は、リデューサーを使う必要はありません。逆に、stateのロジックのせいでコンポーネントが大きくなりすぎ、読みにくく、デバッグしにくくなった場合には、その逆のことが言えます。</p>
+<p>リデューサーを使うことで、stateのロジックを分離し、別のファイルやディレクトリに保存することさえでき、より小さく読みやすいコンポーネントにつながります。</p>
+<p>リデューサーは<em>action</em>を使うため、state関連のバグを、dispatchされたactionまでさかのぼって簡単に追跡できます。また、私たちのリデューサーは単なる純粋関数であるため、それらを単独でテストすることもできます。</p>
+<h3 id="the-usereducer-hook">useReducerフック</h3>
+<p>Reactは、<code>useReducer</code>と呼ばれるフックを通して、コンポーネントの中でリデューサーを使えるようにしてくれます。このフックは、リデューサー関数と初期stateを引数として受け取り、現在のstateと<code>dispatch</code>関数という2つの値を持つ配列を返します。</p>
+<p>この<code>dispatch</code>関数は、<strong>action</strong>オブジェクトを引数として受け取り、それが私たちのリデューサー関数に渡され、そこから返された値がstateの更新に使われます。</p>
 <pre class="highlight"><code class="language-javascript">const [state, dispatch] = useReducer(reducer, { count: 0 });
 
 function handleClick() {
   dispatch({ type: "incremented_count" });
 }</code></pre>
-<p>Similarly to how React updates state with the <code>set</code> function in <code>useState</code>, React <em>only updates the state in the next render</em> after calling the <code>dispatch</code> function.
-Keep in mind that these functions use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is"><code>Object.is()</code></a> to determine if the state has changed, if it hasn't, then the component won't re-render.</p>
-<p>Whether you use <code>useState</code> or <code>useReducer</code> is up to you, they're both equivalent and you might use them both in the same component.</p>
-<h3>Assignment</h3>
+<p><code>useState</code>の<code>set</code>関数でReactがstateを更新するのと同じように、Reactは<code>dispatch</code>関数を呼び出した後、<em>次のレンダーでのみstateを更新します</em>。これらの関数は、stateが変化したかどうかを判断するために<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is"><code>Object.is()</code></a>を使うことを覚えておいてください。変化していなければ、コンポーネントは再レンダーされません。</p>
+<p><code>useState</code>と<code>useReducer</code>のどちらを使うかはあなた次第です。どちらも同等であり、同じコンポーネントの中で両方を使うこともあるでしょう。</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
 <li>
-<p>Read through the React docs <a href="https://react.dev/learn/extracting-state-logic-into-a-reducer">Extracting state logic into a reducer</a> to learn more about how to use reducers in React and how to refactor <code>useState</code> into <code>useReducer</code>. Don't forget to complete the challenges at the end.</p>
+<p>Reactでリデューサーを使う方法や、<code>useState</code>を<code>useReducer</code>にリファクタリングする方法についてさらに学ぶために、Reactドキュメントの<a href="https://react.dev/learn/extracting-state-logic-into-a-reducer">Extracting state logic into a reducer</a>を読んでください。最後にある課題を完了することを忘れないでください。</p>
 </li>
 <li>
-<p>Read the <a href="https://react.dev/reference/react/useReducer">useReducer</a> React docs to learn more about this hook. Pay close attention to the troubleshooting section for common problems that you might encounter.</p>
+<p>このフックについてさらに学ぶために、Reactドキュメントの<a href="https://react.dev/reference/react/useReducer">useReducer</a>を読んでください。遭遇する可能性のあるよくある問題については、トラブルシューティングのセクションに注意深く目を通してください。</p>
 </li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#what-are-reducers">What are reducers?</a></li>
-<li><a href="https://react.dev/reference/react/useReducer#writing-the-reducer-function">How would you declare a reducer?</a></li>
-<li><a href="#the-usereducer-hook">What does the dispatch function do?</a></li>
-<li><a href="https://react.dev/learn/extracting-state-logic-into-a-reducer#consolidate-state-logic-with-a-reducer">What steps can you follow to migrate from useState to useReducer?</a></li>
+<li><a href="#what-are-reducers">リデューサーとは何ですか?</a></li>
+<li><a href="https://react.dev/reference/react/useReducer#writing-the-reducer-function">リデューサーはどのように宣言しますか?</a></li>
+<li><a href="#the-usereducer-hook">dispatch関数は何をしますか?</a></li>
+<li><a href="https://react.dev/learn/extracting-state-logic-into-a-reducer#consolidate-state-logic-with-a-reducer">useStateからuseReducerに移行するには、どのような手順を踏めばよいですか?</a></li>
 </ul>
       </div>
     </article>

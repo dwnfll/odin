@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light scroll-smooth">
+<html lang="ja" class="light scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,45 +28,45 @@
     <header>
       <div class="tvp-lesson__head">
         <h1 class="tvp-lesson__title">Views</h1>
-        <span class="lang-badge lang-badge--en">未翻訳 (English fallback)</span>
+        <span class="lang-badge lang-badge--ja">日本語訳</span>
       </div>
       <p class="tvp-breadcrumb"><a href="index.html">← nodeJS</a></p>
     </header>
     <p class="tvp-lesson__desc">Views in Express</p>
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
-        <h3>Introduction</h3>
-<p>Previously, a lot of projects you'll have made would have been SPAs: the served HTML file would essentially be empty with a script tag that lets the client render the page using JavaScript. Now we're focusing on rendering HTML on the server, i.e. using the server to create HTML files that actually contain contents of the page.</p>
-<p>Views are the user-facing part of the application, in this case, HTML files. We've dealt with views in an earlier project where the server would send HTML files to the user, but these files were static and many of our use cases require views to be dynamic with regards to data.</p>
-<p>Hence, we will use template engines to create our views. As the name suggests, we write template files in our codebase that get transformed into HTML when we respond to a server request. Any variables defined in our template files are replaced with actual data. Additionally, we can insert conditional and/or loop logic into our template file, e.g. render the user's username once they have logged in. This would not be possible with plain HTML. Any client-side JavaScript can still be added via a script tag (though we won't be doing much fancy with the client side for now).</p>
-<p>In this course, we will use <a href="https://ejs.co/">EJS</a>. EJS's syntax is very similar to that of HTML, meaning that the learning curve is relatively low compared to other template engines.</p>
-<h3>Lesson overview</h3>
-<p>This section contains a general overview of topics that you will learn in this lesson.</p>
+        <h3 id="introduction">イントロダクション</h3>
+<p>これまでにあなたが作ってきた多くのプロジェクトは、SPA(シングルページアプリケーション)だったはずです。提供されるHTMLファイルは本質的に空っぽで、クライアントがJavaScriptを使ってページをレンダリングできるようにする、script タグだけが含まれていました。今度は、サーバー上でHTMLをレンダリングすること、つまりサーバーを使って、ページの内容を実際に含んだHTMLファイルを作成することに焦点を当てていきます。</p>
+<p>ビューは、アプリケーションのユーザーに面した部分――この場合はHTMLファイル――です。以前のプロジェクトでも、サーバーがHTMLファイルをユーザーに送信するという形でビューを扱ってきましたが、それらのファイルは静的なものであり、私たちの多くのユースケースでは、ビューがデータに関して動的である必要があります。</p>
+<p>そこで、ビューを作成するためにテンプレートエンジンを使います。その名前が示す通り、コードベースの中にテンプレートファイルを書き、それがサーバーリクエストに応答する際にHTMLへと変換されます。テンプレートファイルの中で定義された変数は、実際のデータに置き換えられます。さらに、テンプレートファイルの中に条件分岐やループのロジックを挿入することもできます。例えば、ユーザーがログインしたら、そのユーザー名をレンダリングする、といった具合です。これは、プレーンなHTMLでは不可能なことです。クライアントサイドのJavaScriptは、それでもscriptタグを介して追加できます(ただし、今のところクライアントサイドで凝ったことをする予定はありません)。</p>
+<p>このコースでは、<a href="https://ejs.co/">EJS</a>を使います。EJSの構文はHTMLの構文にとても似ているため、他のテンプレートエンジンに比べて学習曲線が比較的緩やかです。</p>
+<h3>レッスン概要</h3>
+<p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
-<li>How to set up EJS in an Express project.</li>
-<li>How to use EJS.</li>
+<li>Expressプロジェクトの中でEJSをセットアップする方法。</li>
+<li>EJSの使い方。</li>
 </ul>
-<h3>Setting up EJS</h3>
+<h3 id="setting-up-ejs">EJSをセットアップする</h3>
 <div class="lesson-note">
-<h4>Why not React?</h4>
-<p>We have not taught how to use React Server Components which are quite different to what you'll know about React so far. Setting these up on their own is not trivial unlike a template engine like EJS, and it would be hard to focus on learning back end fundamentals if using a preconfigured but highly abstracted full stack framework (which blurs the lines between both ends for more streamlined development).</p>
+<h4>なぜReactではないのか?</h4>
+<p>私たちは、これまで知っているReactとはかなり異なる、React Server Componentsの使い方については教えていません。これらを単独でセットアップすることは、EJSのようなテンプレートエンジンとは違って簡単なことではなく、両端の境界を曖昧にしてより効率的な開発を可能にする、事前設定済みだが高度に抽象化されたフルスタックフレームワークを使ってしまうと、バックエンドの基礎に集中して学ぶのが難しくなってしまいます。</p>
 </div>
-<p>Let's get started with EJS! Install EJS into your application by typing the following into your terminal:</p>
+<p>それでは、EJSを始めましょう!ターミナルに以下を入力して、アプリケーションにEJSをインストールしてください:</p>
 <pre class="highlight"><code class="language-bash">npm install ejs</code></pre>
-<p>At the root of your project, create a subfolder called <code>views</code>.</p>
-<p>Next, we need to let our app know that we intend to use <code>EJS</code> as a template engine, as well as where to look for view files.</p>
-<p>In your <code>app.js</code> file, set the following application properties:</p>
+<p>プロジェクトのルートに、<code>views</code>というサブフォルダを作成してください。</p>
+<p>次に、<code>EJS</code>をテンプレートエンジンとして使う予定であることと、ビューファイルをどこで探すべきかを、アプリに伝える必要があります。</p>
+<p><code>app.js</code>ファイルの中で、以下のアプリケーションプロパティを設定してください:</p>
 <pre class="highlight"><code class="language-javascript">// app.js
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");</code></pre>
-<p>And import the Path CommonJS module from Node near the top:</p>
+<p>そして、ファイルの上の方で、NodeのPath CommonJSモジュールをインポートしてください:</p>
 <pre class="highlight"><code class="language-javascript">// app.js
 const path = require("node:path");</code></pre>
-<p>This enables EJS as the view engine, and that our app should look for templates in the <code>/views</code> subdirectory.</p>
-<h3>EJS syntax</h3>
-<p>In EJS, the <code>&lt;%</code> and <code>%&gt;</code> tags allow us to use JavaScript. This lets us write conditional statements, <code>for</code> loops, as well as use variables.</p>
-<p>In order to output a variable as a value, we use the <code>&lt;%=</code> tag.</p>
-<p>Here's a quick example that includes arrays and loop logic.</p>
+<p>これにより、EJSがビューエンジンとして有効になり、私たちのアプリが<code>/views</code>サブディレクトリの中でテンプレートを探すようになります。</p>
+<h3 id="ejs-syntax">EJSの構文</h3>
+<p>EJSでは、<code>&lt;%</code>と<code>%&gt;</code>タグを使うことでJavaScriptを使えるようになります。これにより、条件文や<code>for</code>ループを書いたり、変数を使ったりできます。</p>
+<p>変数を値として出力するには、<code>&lt;%=</code>タグを使います。</p>
+<p>配列とループのロジックを含む簡単な例を見てみましょう。</p>
 <pre class="highlight"><code class="language-ejs">&lt;% const animals = ["Cat", "Dog", "Lemur", "Hawk"] %&gt;
 
 &lt;ul&gt;
@@ -74,30 +74,30 @@ const path = require("node:path");</code></pre>
     &lt;li&gt;&lt;%= animal %&gt;s are cute&lt;/li&gt;
   &lt;% }) %&gt;
 &lt;/ul&gt;</code></pre>
-<h3>Using EJS with Express</h3>
-<p>Let's use EJS with Express. First, create an EJS template file called <code>index.ejs</code> in the <code>views</code> subdirectory, and add the following:</p>
+<h3 id="using-ejs-with-express">ExpressでEJSを使う</h3>
+<p>ExpressでEJSを使ってみましょう。まず、<code>views</code>サブディレクトリの中に<code>index.ejs</code>というEJSテンプレートファイルを作成し、以下を追加してください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
 &lt;html&gt;
   &lt;body&gt;
     &lt;%= message %&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-<p>And in <code>app.js</code>, render this template file in one of your routes:</p>
+<p>そして<code>app.js</code>の中で、あなたのルートの一つで、このテンプレートファイルをレンダリングしてください:</p>
 <pre class="highlight"><code class="language-javascript">// app.js
 app.get("/", (req, res) =&gt; {
   res.render("index", { message: "EJS rocks!" });
 });</code></pre>
-<p>Ideally we would define the route in a separate router file, but for the purposes of this lesson we'll be defining it in <code>app.js</code></p>
-<p>Start the server and go to the <code>/</code> route in the browser. You should see:</p>
+<p>理想的には、このルートは別のルーターファイルの中で定義するべきですが、このレッスンの目的のためには、<code>app.js</code>の中で定義することにします。</p>
+<p>サーバーを起動し、ブラウザで<code>/</code>ルートにアクセスしてください。以下が表示されるはずです:</p>
 <pre class="highlight"><code class="language-html">EJS rocks!</code></pre>
-<p>If you inspect the HTML in the browser's dev tools, you can see the HTML is structured exactly like how we wrote the EJS template with the <code>message</code> variable replaced with its value.</p>
-<p>When you hit the <code>/</code> route, <code>res.render("index", { message: "EJS rocks!" });</code> is the line that sends back the response. Since we've already defined the <code>views</code> and <code>view engine</code> app properties, the first argument of <code>res.render</code> is programmed to look for "a template called index in the specified folder", while the second argument is an object of variables that are to be made available to that specific template.</p>
-<h3>The locals variable in EJS</h3>
-<p>In the example above, how did the template file know about the <code>message</code> variable? When we render the view, EJS has access to any properties from the object we pass into <code>res.render</code>, as well as any properties on <a href="https://expressjs.com/en/5x/api/response/#reslocals">Express's res.locals object</a> (<code>res.locals</code> can be useful if you need to pass values to the view in one middleware function, but won't call <code>res.render</code> until later in the middleware chain).</p>
-<p>EJS will store these properties in an object called <code>locals</code>, which you can access in the view. Similarly to the global <code>window</code> object in browsers, this allows you to access the <code>message</code> variable in the view via <code>locals.message</code>, or simply just <code>message</code>.</p>
+<p>ブラウザの開発者ツールでHTMLを検証すると、<code>message</code>変数がその値に置き換えられて、私たちが書いたEJSテンプレートとまったく同じ構造でHTMLが構成されていることがわかります。</p>
+<p><code>/</code>ルートにアクセスすると、<code>res.render("index", { message: "EJS rocks!" });</code>が、レスポンスを送り返す行になります。すでに<code>views</code>と<code>view engine</code>のアプリケーションプロパティを定義しているため、<code>res.render</code>の最初の引数は、「指定されたフォルダの中でindexという名前のテンプレートを探す」ようにプログラムされており、2番目の引数は、その特定のテンプレートで利用可能にしたい変数のオブジェクトです。</p>
+<h3 id="the-locals-variable-in-ejs">EJSのlocals変数</h3>
+<p>上の例で、テンプレートファイルはどのようにして<code>message</code>変数を知ったのでしょうか?ビューをレンダリングする際、EJSは、<code>res.render</code>に渡したオブジェクトのプロパティ、そして<a href="https://expressjs.com/en/5x/api/response/#reslocals">Expressの<code>res.locals</code>オブジェクト</a>にあるプロパティにアクセスできます(<code>res.locals</code>は、あるミドルウェア関数の中でビューに値を渡す必要があるものの、<code>res.render</code>をミドルウェアチェーンの後の方まで呼び出さない場合に役立ちます)。</p>
+<p>EJSはこれらのプロパティを<code>locals</code>というオブジェクトに格納し、それをビューの中でアクセスできます。ブラウザにおけるグローバルな<code>window</code>オブジェクトと同じように、これによってビューの中で<code>locals.message</code>、あるいは単に<code>message</code>として、<code>message</code>変数にアクセスできます。</p>
 <div class="lesson-note lesson-note--tip">
-<h4>Undefined variables in locals</h4>
-<p>If we try to access a variable in a rendered template file that was not defined in the <code>locals</code> argument of <code>res.render</code> or <code>res.locals</code>, this can cause a reference error. For instance if we try to access an undefined <code>foo</code> variable, <code>locals.foo</code> will return undefined, while <code>foo</code> will result in a reference error. Verify this by outputting <code>locals.foo</code> in <code>index.ejs</code>, then replacing it with<code>foo</code>:</p>
+<h4>localsの中の未定義の変数</h4>
+<p><code>res.render</code>の<code>locals</code>引数や<code>res.locals</code>の中で定義されていない変数に、レンダリングされたテンプレートファイルの中でアクセスしようとすると、参照エラーが発生することがあります。例えば、未定義の<code>foo</code>変数にアクセスしようとすると、<code>locals.foo</code>は<code>undefined</code>を返しますが、<code>foo</code>は参照エラーになります。<code>index.ejs</code>の中で<code>locals.foo</code>を出力し、それを<code>foo</code>に置き換えることで、これを確かめてみてください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
 &lt;html&gt;
   &lt;body&gt;
@@ -107,9 +107,9 @@ app.get("/", (req, res) =&gt; {
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 </div>
-<h3>Reusable templates</h3>
-<p>You may want to include webpage components that are shared across different pages, such as a sidebar or a header. To insert such components into your pages, we make use of the <code>include</code> command. This requires the name of the file to be inserted, and optionally an object of data you wish to pass.</p>
-<p>Create the following navbar component called <code>"navbar.ejs"</code>:</p>
+<h3 id="reusable-templates">再利用可能なテンプレート</h3>
+<p>サイドバーやヘッダーのように、異なるページ間で共有されるウェブページのコンポーネントを含めたいことがあるかもしれません。そのようなコンポーネントをページに挿入するには、<code>include</code>コマンドを使います。これには、挿入したいファイルの名前と、任意で渡したいデータのオブジェクトが必要です。</p>
+<p>以下の<code>"navbar.ejs"</code>というnavbarコンポーネントを作成してください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- navbar.ejs --&gt;
 &lt;nav&gt;
   &lt;ul&gt;
@@ -122,7 +122,7 @@ app.get("/", (req, res) =&gt; {
     &lt;% } %&gt;
   &lt;/ul&gt;
 &lt;/nav&gt;</code></pre>
-<p>Note that the navbar expects a <code>links</code> variable. To pass this data into the navbar, pass it as a <code>locals</code> variable when rendering the template file at <code>res.render()</code>. We will render <code>index.ejs</code> to include the navbar. To do this, modify <code>app.js</code> such that a <code>links</code> object is defined and passed into the <code>render</code> function rendering <code>index.ejs</code> in the <code>"/"</code> route handler:</p>
+<p>navbarは<code>links</code>変数を期待していることに注意してください。このデータをnavbarに渡すには、<code>res.render()</code>でテンプレートファイルをレンダリングする際に、それを<code>locals</code>変数として渡します。navbarを含めるために<code>index.ejs</code>をレンダリングします。そのために、<code>"/"</code>ルートハンドラの中で、<code>links</code>オブジェクトを定義し、<code>index.ejs</code>をレンダリングする<code>render</code>関数に渡すよう、<code>app.js</code>を修正してください:</p>
 <pre class="highlight"><code class="language-javascript">// app.js
 const links = [
   { href: "/", text: "Home" },
@@ -132,7 +132,7 @@ const links = [
 app.get("/", (req, res) =&gt; {
   res.render("index", { links: links });
 });</code></pre>
-<p>Then, modify the previously created <code>index.ejs</code> to remove the <code>&lt;%= message %&gt;</code> line and instead <code>include</code> the <code>navbar</code> with the <code>links</code> variable like so:</p>
+<p>次に、先ほど作成した<code>index.ejs</code>を修正して、<code>&lt;%= message %&gt;</code>の行を削除し、代わりに<code>links</code>変数を使って以下のように<code>navbar</code>を<code>include</code>してください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
 &lt;html&gt;
   &lt;head&gt;
@@ -142,9 +142,9 @@ app.get("/", (req, res) =&gt; {
     &lt;%- include('navbar', {links: links}) %&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-<p>This will include the navbar with links in <code>index.ejs</code>. Run your server and see! Reusable templates can be used to include headers and footers in all of your pages.</p>
-<p>Note the use of the raw output tag <code>&lt;%-</code> with the <code>include</code> which is used to avoid double-escaping the HTML output.</p>
-<p>Let's use <code>include</code> to dynamically render a list of variables a different way. In <code>app.js</code>, add the following <code>users</code> array just below the <code>links</code> variable, and pass it to the <code>render</code> function when rendering <code>index</code>:</p>
+<p>これで、<code>index.ejs</code>の中にリンク付きのnavbarが含まれるようになります。サーバーを実行して確認してみましょう!再利用可能なテンプレートは、すべてのページにヘッダーやフッターを含めるために使うことができます。</p>
+<p><code>include</code>とともに使われている、生の出力タグ<code>&lt;%-</code>に注目してください。これは、HTML出力の二重エスケープを避けるために使われています。</p>
+<p><code>include</code>を使って、別の方法で変数のリストを動的にレンダリングしてみましょう。<code>app.js</code>の中で、<code>links</code>変数のすぐ下に以下の<code>users</code>配列を追加し、<code>index</code>をレンダリングする際に<code>render</code>関数に渡してください:</p>
 <pre class="highlight"><code class="language-javascript">// app.js
 
 const links = [
@@ -157,20 +157,20 @@ const users = ["Rose", "Cake", "Biff"];
 app.get("/", (req, res) =&gt; {
   res.render("index", { links: links, users: users });
 });</code></pre>
-<p>Then create a new view called <code>user.ejs</code> in the <code>views</code> directory:</p>
+<p>次に、<code>views</code>ディレクトリの中に<code>user.ejs</code>という新しいビューを作成してください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- views/user.ejs --&gt;
 &lt;li&gt;&lt;%= user %&gt;&lt;/li&gt;</code></pre>
-<p>Then add the following block to <code>index.ejs</code>:</p>
+<p>そして、以下のブロックを<code>index.ejs</code>に追加してください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
 &lt;ul&gt;
   &lt;% users.forEach((user) =&gt; { %&gt;
     &lt;%- include('user', {user: user}); %&gt;
   &lt;% }); %&gt;
 &lt;/ul&gt;</code></pre>
-<p>If successful, Rose, Cake and Biff will be visible when rendering <code>index.ejs</code>.</p>
+<p>うまくいけば、<code>index.ejs</code>をレンダリングしたときに、Rose、Cake、Biffが表示されるはずです。</p>
 <div class="lesson-note lesson-note--tip">
-<h4>Directories within the views folder</h4>
-<p>Let's create nested directories of EJS template files within the views. Change the <code>user.ejs</code> in the <code>views</code> directory to <code>users/user.ejs</code>, and in <code>index.ejs</code> change the path from <code>user</code> to <code>users/user</code> in the <code>users.forEach</code> block:</p>
+<h4>viewsフォルダの中のディレクトリ</h4>
+<p>viewsの中に、EJSテンプレートファイルのネストされたディレクトリを作成してみましょう。<code>views</code>ディレクトリの中の<code>user.ejs</code>を<code>users/user.ejs</code>に変更し、<code>index.ejs</code>の中では、<code>users.forEach</code>ブロックのパスを<code>user</code>から<code>users/user</code>に変更してください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
 &lt;ul&gt;
   &lt;% users.forEach((user) =&gt; { %&gt;
@@ -178,43 +178,43 @@ app.get("/", (req, res) =&gt; {
   &lt;% }); %&gt;
 &lt;/ul&gt;</code></pre>
 </div>
-<h3>Serving Static Assets</h3>
-<p>Serving static assets with EJS is similar to how we served assets previously when working directly with HTML, in that we can add external files to the head of the template file using the <code>link</code> tag. The main thing to point out is that the app needs to know where to serve assets from. Assuming <code>express</code> is installed, set the following lines in <code>app.js</code>:</p>
+<h3>静的アセットを提供する</h3>
+<p>EJSで静的アセットを提供するのは、以前HTMLを直接扱っていたときにアセットを提供していた方法と似ています。テンプレートファイルのheadに<code>link</code>タグを使って外部ファイルを追加できる点も同じです。主に指摘しておきたいのは、アプリがアセットをどこから提供すべきかを知っている必要があるという点です。<code>express</code>がインストールされている前提で、<code>app.js</code>に以下の行を設定してください:</p>
 <pre class="highlight"><code class="language-javascript">// app.js
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));</code></pre>
-<p><code>express.static()</code> is a middleware function that enables the use of static assets, and we tell it to look for assets with the <code>public</code> directory as the root.</p>
-<p>Create the following <code>styles.css</code> file in the root of the <code>public</code> directory:</p>
+<p><code>express.static()</code>は静的アセットの使用を可能にするミドルウェア関数であり、<code>public</code>ディレクトリをルートとしてアセットを探すよう指示しています。</p>
+<p><code>public</code>ディレクトリのルートに、以下の<code>styles.css</code>ファイルを作成してください:</p>
 <pre class="highlight"><code class="language-css">/* public/styles.css */
 body {
   color: red;
 }</code></pre>
-<p>To serve <code>styles.css</code> in <code>index.ejs</code>, set the following <code>link</code> tag like so in the head:</p>
+<p><code>index.ejs</code>の中で<code>styles.css</code>を提供するには、head内に以下のような<code>link</code>タグを設定してください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- index.ejs --&gt;
 &lt;head&gt;
   &lt;link rel="stylesheet" href="/styles.css"&gt;
 &lt;/head&gt;</code></pre>
-<p>Your <code>index.ejs</code> file should now display red text!</p>
-<h3>Assignment</h3>
+<p>これで、あなたの<code>index.ejs</code>ファイルは赤色のテキストを表示するはずです!</p>
+<h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>
-<li>Have another read through the <a href="https://ejs.co/#docs">EJS docs</a>.</li>
-<li>Read through the <a href="https://expressjs.com/en/guide/using-template-engines.html">Express resource on template engines</a>. The resource uses Pug for the examples which has a different syntax, however the information should still be a useful supplement to this lesson.</li>
-<li>Let's add to the app we've been developing this lesson! Add a view for an about page, which should render on the <code>/about</code> route.</li>
-<li>Create a reusable footer template and render it in all of the app routes.</li>
+<li><a href="https://ejs.co/#docs">EJSのドキュメント</a>にもう一度目を通してください。</li>
+<li><a href="https://expressjs.com/en/guide/using-template-engines.html">テンプレートエンジンについてのExpressのリソース</a>を読んでください。このリソースは例にPugを使っており、構文が異なりますが、それでもこのレッスンの有用な補足情報になるはずです。</li>
+<li>このレッスンで開発してきたアプリに追加してみましょう!<code>/about</code>ルートでレンダリングされるべき、aboutページ用のビューを追加してください。</li>
+<li>再利用可能なフッターテンプレートを作成し、アプリのすべてのルートでそれをレンダリングしてください。</li>
 </ol>
 </div>
-<h3>Knowledge check</h3>
-<p>The following questions are an opportunity to reflect on key topics in this lesson. If you can't answer a question, click on it to review the material, but keep in mind you are not expected to memorize or master this knowledge.</p>
+<h3>知識の確認</h3>
+<p>以下の質問は、このレッスンの重要なトピックを振り返る機会です。答えられない質問があれば、それをクリックして該当の教材を復習してください。ただし、この知識を暗記したり完全に習得したりすることは期待されていない、ということを覚えておいてください。</p>
 <ul>
-<li><a href="#introduction">What are template engines for that differs from rendering an SPA on the client?</a></li>
-<li><a href="#setting-up-ejs">How do you configure EJS for Express projects?</a></li>
-<li><a href="#ejs-syntax">What is the difference between "&lt;%" and "&lt;%=" tags?</a></li>
-<li><a href="#using-ejs-with-express">How do you render a view in a controller callback?</a></li>
-<li><a href="#reusable-templates">How can templates be included in other templates?</a></li>
+<li><a href="#introduction">テンプレートエンジンは、クライアント側でSPAをレンダリングするのと何が違い、何のために使われますか?</a></li>
+<li><a href="#setting-up-ejs">ExpressプロジェクトのためにEJSをどのように設定しますか?</a></li>
+<li><a href="#ejs-syntax">「&lt;%」タグと「&lt;%=」タグの違いは何ですか?</a></li>
+<li><a href="#using-ejs-with-express">コントローラーのコールバックの中で、どのようにビューをレンダリングしますか?</a></li>
+<li><a href="#reusable-templates">テンプレートは、どのようにして他のテンプレートに含めることができますか?</a></li>
 </ul>
-<h3>Additional resources</h3>
-<p>This section contains helpful links to related content. It isn't required, so consider it supplemental.</p>
+<h3>追加リソース</h3>
+<p>このセクションには、関連コンテンツへの役立つリンクが含まれています。必須ではないので、補足として捉えてください。</p>
 <ul>
 <li><a href="https://blog.logrocket.com/how-to-use-ejs-template-node-js-application/">How to Use EJS to Template Your Node.js Application</a></li>
 </ul>
