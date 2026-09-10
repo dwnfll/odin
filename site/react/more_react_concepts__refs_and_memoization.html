@@ -179,8 +179,8 @@ function Counter() {
 }</code></pre>
 <p>スタイリングなどをそこで扱える、独立したボタンコンポーネントが欲しくなるでしょう。そこで、例として<code>ButtonComponent</code>というコンポーネントを作成しました。このコンポーネントは<code>children</code>と<code>onClick</code>propsを受け取ります。</p>
 <p>クリックハンドラは<code>Counter</code>コンポーネントの中で定義されており、それを<code>ButtonComponent</code>の<code>onClick</code>propに渡していることがわかります。</p>
-<p>私たちは、コンポーネントがstateまたはpropのどちらかが変化するたびにレンダーされることを知っています。その中にある、Reactによって制御されていないものはすべて破棄され、再実行されます。関数、変数などです。その結果、<code>handleClick</code>関数は毎回再作成され、<code>ButtonComponent</code>の<code>onClick</code>propも変化します。さて、ここで<code>useMemo</code>はどう役立つのでしょうか?</p>
-<p>私たちはすでに、<code>useMemo</code>を使って値をメモ化できることを知っていますよね?それなら、関数の参照をキャッシュし、それが変化しないように空の依存配列を使えばよいのです。</p>
+<p>コンポーネントがstateまたはpropのどちらかが変化するたびにレンダーされることを知っています。その中にある、Reactによって制御されていないものはすべて破棄され、再実行されます。関数、変数などです。その結果、<code>handleClick</code>関数は毎回再作成され、<code>ButtonComponent</code>の<code>onClick</code>propも変化します。さて、ここで<code>useMemo</code>はどう役立つのでしょうか?</p>
+<p>すでに、<code>useMemo</code>を使って値をメモ化できることを知っていますよね?それなら、関数の参照をキャッシュし、それが変化しないように空の依存配列を使えばよいのです。</p>
 <p>新しい関数を作成し、<code>memoizedHandleClick</code>という名前を付けましょう:</p>
 <pre class="highlight"><code class="language-jsx">const memoizedHandleClick = useMemo(() =&gt; handleClick, []);</code></pre>
 <p>新しい関数を作成する必要はありませんが、これはこの2つの関数を試すためだけのものです。以下のように直接行うこともできます:</p>
@@ -260,9 +260,9 @@ const memoizedHandleClick = useCallback(handleClick, []);</code></pre>
 <div class="lesson-content__panel">
 <ol>
 <li>Kent C. Dodds氏による記事、<a href="https://kentcdodds.com/blog/usememo-and-usecallback">When to useMemo and useCallback</a>は、<code>useMemo</code>と<code>useCallback</code>をいつ使うべきか、そしていつわざわざ使う必要がないかについて、さらに多くの例を紹介しています。</li>
-<li>私たちは、<code>useRef</code>フックの基本的な実装についてしか学んでいません。その使い方や、なぜこのフックの使用に注意すべきか(ガイドの中で提供されているリンクにさらに詳しく書かれています)についてのさらなる例については、Reactドキュメントの<a href="https://react.dev/reference/react/useRef">useRef hook</a>のインタラクティブなガイドをチェックしてみてください。</li>
+<li><code>useRef</code>フックの基本的な実装についてしか学んでいません。その使い方や、なぜこのフックの使用に注意すべきか(ガイドの中で提供されているリンクにさらに詳しく書かれています)についてのさらなる例については、Reactドキュメントの<a href="https://react.dev/reference/react/useRef">useRef hook</a>のインタラクティブなガイドをチェックしてみてください。</li>
 <li>DOMノードに安全にアクセスし変更する方法についてさらに深く掘り下げるために、<a href="https://react.dev/learn/manipulating-the-dom-with-refs">Manipulating the DOM with Refs</a>についてのReactドキュメントをチェックしてみてください。</li>
-<li>学んできた通り、<code>useRef</code>フックには、私たちが主に扱ったDOM操作以外にも、他の使い道があります。Dan Abramov氏によるこの素晴らしい記事、<a href="https://overreacted.io/making-setinterval-declarative-with-react-hooks/">Making setInterval Declarative with React Hooks</a>で、そのユースケースについてさらに詳しく知ってください。</li>
+<li>学んできた通り、<code>useRef</code>フックには、主に扱ったDOM操作以外にも、他の使い道があります。Dan Abramov氏によるこの素晴らしい記事、<a href="https://overreacted.io/making-setinterval-declarative-with-react-hooks/">Making setInterval Declarative with React Hooks</a>で、そのユースケースについてさらに詳しく知ってください。</li>
 <li><a href="https://react.dev/learn/react-compiler">React Compilerのドキュメント</a>に目を通して、それについてもう少し詳しく学び、プロジェクトへのインストール方法や設定方法を確認してください。</li>
 </ol>
 </div>

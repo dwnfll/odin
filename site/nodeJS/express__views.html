@@ -49,7 +49,7 @@
 <h3 id="setting-up-ejs">EJSをセットアップする</h3>
 <div class="lesson-note">
 <h4>なぜReactではないのか?</h4>
-<p>私たちは、これまで知っているReactとはかなり異なる、React Server Componentsの使い方については教えていません。これらを単独でセットアップすることは、EJSのようなテンプレートエンジンとは違って簡単なことではなく、両端の境界を曖昧にしてより効率的な開発を可能にする、事前設定済みだが高度に抽象化されたフルスタックフレームワークを使ってしまうと、バックエンドの基礎に集中して学ぶのが難しくなってしまいます。</p>
+<p>これまで知っているReactとはかなり異なる、React Server Componentsの使い方については教えていません。これらを単独でセットアップすることは、EJSのようなテンプレートエンジンとは違って簡単なことではなく、両端の境界を曖昧にしてより効率的な開発を可能にする、事前設定済みだが高度に抽象化されたフルスタックフレームワークを使ってしまうと、バックエンドの基礎に集中して学ぶのが難しくなってしまいます。</p>
 </div>
 <p>それでは、EJSを始めましょう!ターミナルに以下を入力して、アプリケーションにEJSをインストールしてください:</p>
 <pre class="highlight"><code class="language-bash">npm install ejs</code></pre>
@@ -90,7 +90,7 @@ app.get("/", (req, res) =&gt; {
 <p>理想的には、このルートは別のルーターファイルの中で定義するべきですが、このレッスンの目的のためには、<code>app.js</code>の中で定義することにします。</p>
 <p>サーバーを起動し、ブラウザで<code>/</code>ルートにアクセスしてください。以下が表示されるはずです:</p>
 <pre class="highlight"><code class="language-html">EJS rocks!</code></pre>
-<p>ブラウザの開発者ツールでHTMLを検証すると、<code>message</code>変数がその値に置き換えられて、私たちが書いたEJSテンプレートとまったく同じ構造でHTMLが構成されていることがわかります。</p>
+<p>ブラウザの開発者ツールでHTMLを検証すると、<code>message</code>変数がその値に置き換えられて、書いたEJSテンプレートとまったく同じ構造でHTMLが構成されていることがわかります。</p>
 <p><code>/</code>ルートにアクセスすると、<code>res.render("index", { message: "EJS rocks!" });</code>が、レスポンスを送り返す行になります。すでに<code>views</code>と<code>view engine</code>のアプリケーションプロパティを定義しているため、<code>res.render</code>の最初の引数は、「指定されたフォルダの中でindexという名前のテンプレートを探す」ようにプログラムされており、2番目の引数は、その特定のテンプレートで利用可能にしたい変数のオブジェクトです。</p>
 <h3 id="the-locals-variable-in-ejs">EJSのlocals変数</h3>
 <p>上の例で、テンプレートファイルはどのようにして<code>message</code>変数を知ったのでしょうか?ビューをレンダリングする際、EJSは、<code>res.render</code>に渡したオブジェクトのプロパティ、そして<a href="https://expressjs.com/en/5x/api/response/#reslocals">Expressの<code>res.locals</code>オブジェクト</a>にあるプロパティにアクセスできます(<code>res.locals</code>は、あるミドルウェア関数の中でビューに値を渡す必要があるものの、<code>res.render</code>をミドルウェアチェーンの後の方まで呼び出さない場合に役立ちます)。</p>

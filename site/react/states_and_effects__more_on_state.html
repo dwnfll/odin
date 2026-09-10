@@ -77,7 +77,7 @@
 }</code></pre>
 <div class="lesson-note lesson-note--tip">
 <h4 id="objects-and-arrays-in-state">stateの中のオブジェクトと配列</h4>
-<p>上の例で、私たちが新しいオブジェクトを<em>作成</em>し、それから既存のstateの値をその新しいオブジェクトにコピーしながら、<code>age</code>には新しい値を渡している点に注目してください。
+<p>上の例で、新しいオブジェクトを<em>作成</em>し、それから既存のstateの値をその新しいオブジェクトにコピーしながら、<code>age</code>には新しい値を渡している点に注目してください。
 これは、<code>setState</code>に新しいオブジェクトを渡さないと、ページが再レンダーされる保証がないためです。そのため、再レンダーを発生させるためには、常に<code>setState</code>に新しいオブジェクトを渡すべきです。<code>setState</code>は、以前のstateと同じかどうかを判断するために<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is">Object.is()</a>を使います。</p>
 <p>ネストしたオブジェクトや配列については、ネストした項目もコピーする必要が出てくるため、stateがすぐにやっかいになることがあります。それらを使う際は注意してください。</p>
 </div>

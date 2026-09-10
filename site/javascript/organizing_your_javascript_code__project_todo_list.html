@@ -36,7 +36,7 @@
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
         <h3>イントロダクション</h3>
-<p>この時点で、あなたはすでに私たちが示してきたさまざまなテクニックをかなり練習してきました。しかし、私たちはあなたにたくさんの情報を投げかけてきたので、先に進む前に少し立ち止まって、これらのテクニックを結びつける、もう一つの素晴らしいプロジェクトに取り組む時間を取りましょう。あなたが新しく身につけたスキルのほとんど(もしすべてでなければ)を披露する機会になるはずです!</p>
+<p>この時点で、あなたはすでに示してきたさまざまなテクニックをかなり練習してきました。しかし、あなたにたくさんの情報を投げかけてきたので、先に進む前に少し立ち止まって、これらのテクニックを結びつける、もう一つの素晴らしいプロジェクトに取り組む時間を取りましょう。あなたが新しく身につけたスキルのほとんど(もしすべてでなければ)を披露する機会になるはずです!</p>
 <h3>Todoリスト</h3>
 <p>Todoリストは初心者向けのウェブ開発チュートリアルの定番であり、実装は基本的なものにできます。しかし、改善の余地や追加できる機能はたくさんあります。</p>
 <p>コードに飛び込む前に、少し時間を取って、プロジェクトをどう整理したいか考えてみてください。</p>
@@ -65,7 +65,7 @@
 </ol>
 </li>
 <li>
-<p>私たちはまだ、実際にデータをどこかに保存するテクニックを学んでいないので、ユーザーがページをリフレッシュすると、彼らのすべてのtodoが消えてしまいます!Web Storage APIを使って、このtodoアプリに何らかの永続性を追加すべきです。</p>
+<p>まだ、実際にデータをどこかに保存するテクニックを学んでいないので、ユーザーがページをリフレッシュすると、彼らのすべてのtodoが消えてしまいます!Web Storage APIを使って、このtodoアプリに何らかの永続性を追加すべきです。</p>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API">localStorage</a>を使うと、ユーザーのコンピューターにデータを保存できます。ここでの欠点は、そのデータが作成されたコンピューター上でしかアクセスできないということです。それでも、かなり便利です!新しいプロジェクト(またはtodo)が作成されるたびにプロジェクト(とtodo)をlocalStorageに保存する関数と、アプリが最初に読み込まれたときにlocalStorageの中にそのデータを探す別の関数をセットアップしてください。さらに、つまずかないようにするための、いくつかの簡単なヒントをここに示します:
 - localStorageから取得したいデータが存在しない場合でも、あなたのアプリがクラッシュしないことを確認してください!
 - DevToolsを使って、localStorageに保存したデータを検査できます!これを行うには、DevToolsの<code>Application</code>タブを開き、<code>Storage</code>の下にある<code>Local Storage</code>タブをクリックしてください。アプリでlocalStorageのデータを追加、更新、削除するたびに、それらの変更はDevToolsに反映されます。

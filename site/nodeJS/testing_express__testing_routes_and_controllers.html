@@ -84,7 +84,7 @@ index.post("/test", (req, res) =&gt; {
 });
 
 module.exports = index;</code></pre>
-<p><code>app.js</code>と<code>index.js</code>というこの2つのファイルは、いくつかのルートを定義し、それから私たちのExpressアプリをセットアップして起動します。今のところ、<code>app.js</code>はExpressアプリを起動して実行するコードしか含んでいないため、これをテストする<em>必要はありません</em>!私たち自身のロジックは何も含まれていないので、テストする必要はないのです。しかし、<code>index.js</code>には、私たちがテストしたいものが<em>いくつか</em>含まれています。</p>
+<p><code>app.js</code>と<code>index.js</code>というこの2つのファイルは、いくつかのルートを定義し、それから私たちのExpressアプリをセットアップして起動します。今のところ、<code>app.js</code>はExpressアプリを起動して実行するコードしか含んでいないため、これをテストする<em>必要はありません</em>!私たち自身のロジックは何も含まれていないので、テストする必要はないのです。しかし、<code>index.js</code>には、テストしたいものが<em>いくつか</em>含まれています。</p>
 <p>これらのルートを実際にテストしやすくするために、<a href="https://github.com/visionmedia/supertest">SuperTest</a>というライブラリを使っていきます。そして、テストの構文に親しむために、このレッスンの例ではそれをJestと組み合わせて使います。<code>npm install jest supertest --save-dev</code>を実行し、それがインストールされている間に、少し時間を取って(上でリンクした)SuperTestのGitリポジトリのREADMEに目を通してください。</p>
 <p>以下が私たちのテストファイルです:</p>
 <pre class="highlight"><code class="language-javascript">const index = require("../index");
@@ -125,8 +125,8 @@ const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use("/", index);</code></pre>
-<p>SuperTestライブラリのおかげで、テスト自体は比較的簡単です!私たちが<code>supertest</code>を、以下で見るように使う<code>request</code>という関数としてインポートしたことを思い出してください。これを、私たちが新しく作成したExpressアプリに対して呼び出し、そこにルートを渡し、それからそれを使って、レスポンスが期待する型と内容に一致することを確認します。</p>
-<p>テストのコールバックに渡されている、<span id="done"><code>done</code></span>というパラメータに注目してください。ほとんどのテストライブラリは、非同期処理の場合にテストが完了したことを知らせるために、これを使います。この場合、SuperTestは、私たちがそれを最後の<code>.expect</code>に渡すことを許してくれ、私たちの代わりにそれを呼び出してくれます。ありがとう、SuperTest!</p>
+<p>SuperTestライブラリのおかげで、テスト自体は比較的簡単です!<code>supertest</code>を、以下で見るように使う<code>request</code>という関数としてインポートしたことを思い出してください。これを、新しく作成したExpressアプリに対して呼び出し、そこにルートを渡し、それからそれを使って、レスポンスが期待する型と内容に一致することを確認します。</p>
+<p>テストのコールバックに渡されている、<span id="done"><code>done</code></span>というパラメータに注目してください。ほとんどのテストライブラリは、非同期処理の場合にテストが完了したことを知らせるために、これを使います。この場合、SuperTestは、それを最後の<code>.expect</code>に渡すことを許してくれ、私たちの代わりにそれを呼び出してくれます。ありがとう、SuperTest!</p>
 <pre class="highlight"><code class="language-javascript">test("index route works", done =&gt; {
   request(app)
     .get("/")
@@ -134,7 +134,7 @@ app.use("/", index);</code></pre>
     .expect({ name: "frodo" })
     .expect(200, done);
 });</code></pre>
-<p>私たちの2番目のテストは、最初のものととても似ていますが、<code>post</code>メソッドをテストしています。可能なすべての関数については、SuperTestのreadmeを読むことができますし、読むべきです。そのため、ここではそれぞれのステップの詳細には立ち入りません。しかし、最後の部分は私たちにとって重要です。あなたのJavaScriptのキャリアのこの時点までには、Promiseに親しんでいるはずなので、<code>.then()</code>という構文にも見覚えがあるはずです。この場合、私たちはPOSTリクエストが完了するのを待ち、それからそのPromiseが解決したときにGETリクエストを呼び出して、そのアイテムが配列にpushされたかどうかを確認します。</p>
+<p>私たちの2番目のテストは、最初のものととても似ていますが、<code>post</code>メソッドをテストしています。可能なすべての関数については、SuperTestのreadmeを読むことができますし、読むべきです。そのため、ここではそれぞれのステップの詳細には立ち入りません。しかし、最後の部分は私たちにとって重要です。あなたのJavaScriptのキャリアのこの時点までには、Promiseに親しんでいるはずなので、<code>.then()</code>という構文にも見覚えがあるはずです。この場合、POSTリクエストが完了するのを待ち、それからそのPromiseが解決したときにGETリクエストを呼び出して、そのアイテムが配列にpushされたかどうかを確認します。</p>
 <pre class="highlight"><code class="language-javascript">test("testing route works", done =&gt; {
   request(app)
     .post("/test")

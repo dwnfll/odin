@@ -82,7 +82,7 @@ GETとPOSTのリクエストメソッドが、あなたが最もよく使うこ�
 &lt;input type="text" id="first_name" placeholder="Bob..."&gt;</code></pre>
 <p>プレースホルダーテキストを使って、テキストがどう入力・フォーマットされるべきかを示してください。</p>
 <h4 id="the-name-attribute">name属性</h4>
-<p>入力フィールドに入力されたデータが何を表すのかをユーザーが理解できるように、ラベルを使う必要があります。それと同じように、私たちがデータを送信するバックエンドにも、それぞれのデータが何を表すのかを知らせる必要があります。</p>
+<p>入力フィールドに入力されたデータが何を表すのかをユーザーが理解できるように、ラベルを使う必要があります。それと同じように、データを送信するバックエンドにも、それぞれのデータが何を表すのかを知らせる必要があります。</p>
 <p>これは、入力に<code>name</code>属性を追加することで行います:</p>
 <pre class="highlight"><code class="language-html">&lt;label for="first_name"&gt;First Name:&lt;/label&gt;
 &lt;input type="text" id="first_name" name="first_name"&gt;</code></pre>
@@ -254,7 +254,7 @@ GETとPOSTのリクエストメソッドが、あなたが最もよく使うこ�
 <p>button要素は、ユーザーがフォームを送信したり他のアクションをトリガーしたりするためにやり取りできる、クリック可能なボタンを作成します。</p>
 <p>ボタンを作成するには、<code>&lt;button&gt;</code>要素を使います。ボタンの中に表示したいコンテンツやテキストは、開始タグと終了タグの中に入れます:</p>
 <pre class="highlight"><code class="language-html">&lt;button&gt;Click Me&lt;/button&gt;</code></pre>
-<p>button要素はまた、ブラウザにどんな種類のボタンを扱っているかを伝える<code>type</code>属性も受け付けます。私たちが使える3種類のボタンがあります。</p>
+<p>button要素はまた、ブラウザにどんな種類のボタンを扱っているかを伝える<code>type</code>属性も受け付けます。使える3種類のボタンがあります。</p>
 <h4>送信ボタン</h4>
 <p>ユーザーがフォームへの入力を終えたら、それを送信する方法が必要になります。これには専用のボタンがあります。送信ボタンです。送信ボタンがクリックされると、それが含まれているフォームを送信します。<code>type</code>属性は、<code>type</code>が指定されていないか提供された値が無効な場合、デフォルトでsubmitという値を持ちます。</p>
 <p>送信ボタンを作成するには、<code>type</code>属性が"submit"であるbutton要素を使います:</p>

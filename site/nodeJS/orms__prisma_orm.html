@@ -72,7 +72,7 @@
 <p>プロジェクトの要件が進化するにつれて、データベースは避けられず変化していきます。新しい列を追加したり、既存のデータで新しいテーブルにデータを投入したりする必要があるかもしれません。技術的には、これはマイグレーションと呼ばれます。ORMや類似のライブラリがなければ、あなたはこれらのマイグレーションを手作業で行うことになり、それはエラーが起きやすく面倒な作業になるでしょう。ORMは、チェンジログを介してマイグレーションを標準化し、競合に対処するためのプロセスを備えています。確かに、カリキュラムのプロジェクトではそれほど多くのマイグレーションを実行することはありませんが、実務で働くようになると、一日おきにそれを行うことになるかもしれません。</p>
 <h3>Prisma ORMを紹介する</h3>
 <p>ORMは、上記で述べた問題点のほぼすべてを解決してくれますが、良いことばかりというわけではありません。ORMの細部まで完全に理解するには学習曲線があるかもしれませんし、中にはすべてのSQL機能を完全にはサポートしていないものもあります。こうした欠点があっても、ORMを使うことは非常に価値があります。</p>
-<p>Node.jsのエコシステムには、選べるORMが<em>たくさん</em>あり、コミュニティはまだ「これ」という定番にたどり着いていません。私たちは、その人気とコミュニティのサポートから、カリキュラムでは<a href="https://www.prisma.io/orm">Prisma ORM</a>を取り上げることに決めました。</p>
+<p>Node.jsのエコシステムには、選べるORMが<em>たくさん</em>あり、コミュニティはまだ「これ」という定番にたどり着いていません。その人気とコミュニティのサポートから、カリキュラムでは<a href="https://www.prisma.io/orm">Prisma ORM</a>を取り上げることに決めました。</p>
 <p>Prisma ORMには、このカリキュラムを完了するために必要な機能がすべて備わっており、それ以上のものもあります。Prisma ORMはいくつかのライブラリで構成されているため、npmを使って、アプリケーションが必要とするものだけをインストールできます。まずはその機能のいくつかについて議論し、それから、始めるのに役立ついくつかの公式Prisma ORMガイドにリンクします。</p>
 <h3 id="prisma-schema">Prismaスキーマ</h3>
 <p>Prismaスキーマは、あなたのモデルを定義するファイルです。例えば、チャットアプリにおけるmessageテーブルを考えてみましょう:</p>
@@ -133,7 +133,7 @@ const messages = await prisma.message.findMany();</code></pre>
 npm install typescript tsx @types/node --save-dev
 npx tsc --init</code></pre>
 <p><strong>ステップ2:</strong> <code>@types/pg</code>をインストールする必要はありません。「install scripts not yet covered by allowScripts」についての警告が出た場合、Prismaがいずれにせよ後のステップで必要な処理を行ってくれるので、安全に無視して構いません。</p>
-<p><strong>ステップ3:</strong> 私たちはTypescriptを使わないので、このステップは完全にスキップします。</p>
+<p><strong>ステップ3:</strong> Typescriptを使わないので、このステップは完全にスキップします。</p>
 <p><strong>ステップ4:</strong> デフォルトの代わりに<code>prisma-client-js</code>ジェネレーターを使いたいので、Prismaのinitコマンドに<code>--generator-provider prisma-client-js</code>を追加してください。また、Prisma Skillsカタログからデフォルトで何のAI機能もインストールしたくないので、それを無効にするために<code>--no-skills</code>を追加してください:</p>
 <pre class="highlight"><code class="language-bash">npx prisma init --datasource-provider postgresql --output ../generated/prisma --generator-provider prisma-client-js --no-skills</code></pre>
 <p>また、<code>prisma7.config.ts</code>を<code>prisma7.config.js</code>にリネームします。</p>

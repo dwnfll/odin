@@ -65,7 +65,7 @@
 <p><code>POST</code>は、機密情報をURLの外に保っておける――つまりサーバーのログに残らない――ため、一般的により安全であり、サーバーサイドでデータを作成・更新するための標準的な選択肢です。<code>GET</code>は、検索フォームのようにデータを変更しないフォームのため、あるいはフォームの送信結果をブックマークしたりURL経由で共有したりできるようにしたい場合のためのものです。この場合、フォームデータはリクエストURLの一部として、クエリ文字列として送信されます。</p>
 <h4>フォーム処理のプロセス</h4>
 <p>フォームの<code>action</code>は、私たちのコントローラーがそのリクエストを処理できるようにする、サーバー上の何らかのエンドポイントを指します。それからコントローラーはデータベースと通信し、データを処理します。</p>
-<p>その後、私たちはコントローラーの応答で新しいビューまたは更新されたビューを生成し、クライアントをリダイレクトします。これは、重複した<code>POST</code>リクエストを防ぐのに役立つ、<a href="https://en.wikipedia.org/wiki/Post/Redirect/Get">Post/Redirect/Get(PRG)</a>というデザインパターンとして知られています。</p>
+<p>その後、コントローラーの応答で新しいビューまたは更新されたビューを生成し、クライアントをリダイレクトします。これは、重複した<code>POST</code>リクエストを防ぐのに役立つ、<a href="https://en.wikipedia.org/wiki/Post/Redirect/Get">Post/Redirect/Get(PRG)</a>というデザインパターンとして知られています。</p>
 <h3 id="validation-and-sanitization">バリデーションとサニタイゼーション</h3>
 <p>フォームからのデータがサーバーに送信される前に、2つの重要なステップを考慮する必要があります:</p>
 <ul>
@@ -155,7 +155,7 @@ module.exports = usersRouter;</code></pre>
 <p>私たちのフォームでは、actionは以下のようなものになるでしょう:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- Example using EJS with POST to submit an update to our Express server. --&gt;
 &lt;form action="/users/&lt;%= user.userId %&gt;/update" method="POST"&gt;&lt;/form&gt;</code></pre>
-<p><code>/users/:id/update</code>は、私たちがExpressサーバー上に作成した<em>エンドポイント</em>です。</p>
+<p><code>/users/:id/update</code>は、Expressサーバー上に作成した<em>エンドポイント</em>です。</p>
 <h3>組み合わせてみる</h3>
 <p>クライアントがフォームを使ってサーバーにどのようにデータを送るかを実演するために、簡単なExpressアプリケーションを作ってみましょう。</p>
 <p>EJSテンプレーティングを使った、新しいExpressアプリをセットアップしてください:</p>
@@ -325,7 +325,7 @@ exports.usersCreatePost = [
     res.redirect("/");
   }
 ];</code></pre>
-<p>私たちは、<a href="https://express-validator.github.io/docs/api/matched-data"><code>matchedData()</code></a>関数を介してバリデーション済みのすべてのデータを取得し、取得するすべてのデータに、行われたサニタイゼーション(トリムされたデータなど)が確実に反映されるようにします。</p>
+<p><a href="https://express-validator.github.io/docs/api/matched-data"><code>matchedData()</code></a>関数を介してバリデーション済みのすべてのデータを取得し、取得するすべてのデータに、行われたサニタイゼーション(トリムされたデータなど)が確実に反映されるようにします。</p>
 <p>そして今度は、これらのエラーをレンダリングするために、<code>createUser.ejs</code>ビューを更新する必要があります。新しいパーシャルを作成しましょう。<code>views</code>フォルダの中に、<code>partials</code>という新しいフォルダを作成し、その中に<code>errors.ejs</code>を作成してください:</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- views/partials/errors.ejs --&gt;
 &lt;% if (locals.errors) {%&gt;
@@ -390,7 +390,7 @@ exports.usersUpdatePost = [
     res.redirect("/");
   }
 ];</code></pre>
-<p>これでユーザーを更新できるようになったことがわかるはずで、これは私たちがユーザーを作成する方法ととてもよく似ています。</p>
+<p>これでユーザーを更新できるようになったことがわかるはずで、これはユーザーを作成する方法ととてもよく似ています。</p>
 <p>最後に、<code>index.ejs</code>ビューの中に、もう一つ別のフォームを追加することから始めて、ユーザーを削除する方法も追加しましょう。</p>
 <pre class="highlight"><code class="language-ejs">&lt;!-- In views/index.ejs --&gt;
 &lt;ul&gt;

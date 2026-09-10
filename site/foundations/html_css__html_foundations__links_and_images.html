@@ -59,7 +59,7 @@
 <p>HTMLでリンクを作成するには、アンカー要素を使用します。アンカー要素は、リンクにしたいテキストや他のHTML要素を<code>&lt;a&gt;</code>タグで囲むことで定義されます。</p>
 <p>先ほど作成した<code>index.html</code>ページのbodyに以下を追加し、ブラウザで開いてみてください:</p>
 <pre class="highlight"><code class="language-html">&lt;a&gt;About The Odin Project&lt;/a&gt;</code></pre>
-<p>このリンクをクリックしても何も起きないことに気づいたかもしれません。これは、アンカータグ単体では、私たちがどこにリンクしたいのかが分からないためです。リンク先を伝えてあげる必要があります。これはHTML属性を使うことで行います。</p>
+<p>このリンクをクリックしても何も起きないことに気づいたかもしれません。これは、アンカータグ単体では、どこにリンクしたいのかが分からないためです。リンク先を伝えてあげる必要があります。これはHTML属性を使うことで行います。</p>
 <p><span id="attribute"></span>HTML属性は、HTML要素に追加の情報を与えるもので、常に要素の開始タグの中に置かれます。属性は通常、名前と値の2つの部分で構成されますが、すべての属性が値を必要とするわけではありません。<span id="where-to-go"></span>今回の場合、開始アンカータグに<code>href</code>(ハイパーテキスト参照)属性を追加する必要があります。href属性の値が、私たちのリンクを送り届けたい行き先です。</p>
 <p>先ほど作成したアンカー要素に以下の<code>href</code>属性を追加し、もう一度クリックしてみてください。新しい変更が反映されるよう、ブラウザを更新するのを忘れないでください。</p>
 <pre class="highlight"><code class="language-html">&lt;a href="https://www.theodinproject.com/about"&gt;About The Odin Project&lt;/a&gt;</code></pre>
@@ -75,14 +75,14 @@
 <li><code>noreferrer</code>: <code>noopener</code>と同じですが、さらに元のページについてのある種の詳細情報が新しいページに渡されるのを防ぎます。<a href="https://developer.mozilla.org/en-US/docs/Web/Privacy/Guides/Referer_header:_privacy_and_security_concerns#the_referrer_problem">リファラー情報は常に共有することが望ましいわけではありません</a>。</li>
 </ul>
 <h3 id="absolute-and-relative-links">絶対リンクと相対リンク</h3>
-<p>一般的に、私たちが作成するリンクには2種類あります:</p>
+<p>一般的に、作成するリンクには2種類あります:</p>
 <ul>
 <li>インターネット上の他のウェブサイトのページへのリンク。</li>
 <li>自分自身のウェブサイト内にあるページへのリンク。</li>
 </ul>
 <h4>絶対リンク</h4>
 <p>インターネット上の他のウェブサイトのページへのリンクは、絶対リンクと呼ばれます。典型的な絶対リンクは、<code>scheme://domain/path</code>という部分で構成されます。絶対リンクには、必ずリンク先の<a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_URL#basics_anatomy_of_a_url">スキームとドメイン</a>が含まれます。</p>
-<p>私たちはすでに実際に動作する絶対リンクを見てきました。先ほど作成したThe Odin ProjectのAboutページへのリンクは、スキームとドメインを含んでいたため、絶対リンクでした。</p>
+<p>すでに実際に動作する絶対リンクを見てきました。先ほど作成したThe Odin ProjectのAboutページへのリンクは、スキームとドメインを含んでいたため、絶対リンクでした。</p>
 <p><code>https://www.theodinproject.com/about</code></p>
 <h4>相対リンク</h4>
 <p>自分自身のウェブサイト内の他のページへのリンクは、相対リンクと呼ばれます。相対リンクにはドメイン名が含まれません。同じサイト内の別のページであるため、ドメイン名はリンクを作成したページと同じであることが前提とされています。</p>
@@ -259,7 +259,7 @@
 <li><a href="https://www.youtube.com/watch?v=ta3Oxx7Yqbo">File Structure</a>。</li>
 </ul>
 </li>
-<li>Interneting is Hardの<a href="https://internetingishard.netlify.app/html-and-css/links-and-images">Links and Images</a>の記事を読んで、一緒にコードを書いてみましょう。4つの主要な画像フォーマットを扱っているセクションには特に注意を払ってください。この記事では、画像の寸法はCSSで設定する方が良いと提案されています。それでも私たちは、このレッスンの前半で述べた通り、すべての画像にwidthとheight属性を設定することをお勧めします。</li>
+<li>Interneting is Hardの<a href="https://internetingishard.netlify.app/html-and-css/links-and-images">Links and Images</a>の記事を読んで、一緒にコードを書いてみましょう。4つの主要な画像フォーマットを扱っているセクションには特に注意を払ってください。この記事では、画像の寸法はCSSで設定する方が良いと提案されています。それでもこのレッスンの前半で述べた通り、すべての画像にwidthとheight属性を設定することをお勧めします。</li>
 </ol>
 </div>
 <h3>知識の確認</h3>

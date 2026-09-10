@@ -153,7 +153,7 @@ Object.getPrototypeOf(Player.prototype) === Object.prototype; // true
 
 // Output may slightly differ based on the browser
 player1.valueOf(); // Output: Object { name: "steve", marker: "X", sayName: sayName() }</code></pre>
-<p>この<code>.valueOf</code>関数は何で、私たちが定義していないのにどこから来たのでしょうか?これは、<code>Object.getPrototypeOf(Player.prototype)</code>が<code>Object.prototype</code>という値を持っていることの結果として現れます!これはつまり、<code>Player.prototype</code>が<code>Object.prototype</code>から継承しているということです。この<code>.valueOf</code>関数は、<code>.sayHello</code>が<code>Player.prototype</code>に定義されているのとちょうど同じように、<code>Object.prototype</code>に定義されています。</p>
+<p>この<code>.valueOf</code>関数は何で、定義していないのにどこから来たのでしょうか?これは、<code>Object.getPrototypeOf(Player.prototype)</code>が<code>Object.prototype</code>という値を持っていることの結果として現れます!これはつまり、<code>Player.prototype</code>が<code>Object.prototype</code>から継承しているということです。この<code>.valueOf</code>関数は、<code>.sayHello</code>が<code>Player.prototype</code>に定義されているのとちょうど同じように、<code>Object.prototype</code>に定義されています。</p>
 <p>この<code>.valueOf</code>関数が<code>Object.prototype</code>に定義されているということを、どうやって知るのでしょうか?<code>.hasOwnProperty</code>という別の関数を利用します:</p>
 <pre class="highlight"><code class="language-javascript">player1.hasOwnProperty("valueOf"); // false
 Object.prototype.hasOwnProperty("valueOf"); // true</code></pre>
@@ -209,7 +209,7 @@ player2.getMarker(); // My marker is "O"</code></pre>
 <p><code>Object.setPrototypeOf()</code>を使ってプロトタイプ継承をセットアップするのは簡単な方法に思えますが、プロトタイプチェーンは、どんなオブジェクトも作成する<em>前に</em>この関数を使ってセットアップされなければなりません。オブジェクトがすでに作成された後で<code>setPrototypeOf()</code>を使うと、パフォーマンスの問題を引き起こす可能性があります。</p>
 <p>一つ警告です…これは機能しません:</p>
 <pre class="highlight"><code class="language-javascript">Player.prototype = Person.prototype;</code></pre>
-<p><code>Player.prototype</code>と<code>Person.prototype</code>の両方が、メモリ上でまったく同じオブジェクトになってしまいます。これはつまり、<code>Player.prototype</code>に加えられた変更は<code>Person.prototype</code>にも影響してしまうということで、これは意図した振る舞いではありません。その代わり、私たちは<code>Player.prototype</code>と<code>Person.prototype</code>を同じオブジェクトにするのではなく、<code>Player.prototype</code>が<code>Person.prototype</code>から継承するようにすべきです。もう一つ例を考えてみましょう:</p>
+<p><code>Player.prototype</code>と<code>Person.prototype</code>の両方が、メモリ上でまったく同じオブジェクトになってしまいます。これはつまり、<code>Player.prototype</code>に加えられた変更は<code>Person.prototype</code>にも影響してしまうということで、これは意図した振る舞いではありません。その代わり、<code>Player.prototype</code>と<code>Person.prototype</code>を同じオブジェクトにするのではなく、<code>Player.prototype</code>が<code>Person.prototype</code>から継承するようにすべきです。もう一つ例を考えてみましょう:</p>
 <pre class="highlight"><code class="language-javascript">function Person(name) {
   this.name = name;
 }
@@ -248,7 +248,7 @@ carl.sayName(); // Uh oh! this logs "HAHAHAHAHAHA" because we edited the sayName
 <ol>
 <li>以下の記事から、プロトタイプの概念について読んでください。<ol>
 <li>Digital Oceanの記事<a href="https://www.digitalocean.com/community/tutorials/understanding-prototypes-and-inheritance-in-javascript">Understanding Prototypes and Inheritance in JavaScript</a>を読んでください。これは、いくつかの例を交えた、プロトタイプ継承とコンストラクタ関数の良い復習になります。</li>
-<li>チェーンと継承の両方についてもう少し深く掘り下げるために、<a href="http://javascript.info/prototype-inheritance">JavaScript.Infoのプロトタイプ継承についての記事</a>に時間をかけて取り組んでください。いつも通り、最後にある演習を行うことが、この知識をあなたの頭に定着させるのに役立ちます。飛ばさないでください!重要な注意: この記事は<code>__proto__</code>を多用していますが、これは一般的には推奨されません。ここでの概念こそが、今私たちが求めているものです。すぐに、プロトタイプを設定するための別の方法を1つか2つ学びます。</li>
+<li>チェーンと継承の両方についてもう少し深く掘り下げるために、<a href="http://javascript.info/prototype-inheritance">JavaScript.Infoのプロトタイプ継承についての記事</a>に時間をかけて取り組んでください。いつも通り、最後にある演習を行うことが、この知識をあなたの頭に定着させるのに役立ちます。飛ばさないでください!重要な注意: この記事は<code>__proto__</code>を多用していますが、これは一般的には推奨されません。ここでの概念こそが、今求めているものです。すぐに、プロトタイプを設定するための別の方法を1つか2つ学びます。</li>
 </ol>
 </li>
 <li>上記の例で、オブジェクトコンストラクタとプロトタイプメソッドの中で<code>this</code>キーワードを使っていることに気づいたかもしれません。<a href="https://www.javascripttutorial.net/javascript-this/"><code>this</code>キーワードについてのJavaScript Tutorialの記事</a>は、さまざまな状況で<code>this</code>がどう変化するかを扱っています。各セクションで言及されている落とし穴に特に注意を払ってください。</li>

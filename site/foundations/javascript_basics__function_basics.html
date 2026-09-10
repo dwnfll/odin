@@ -53,13 +53,13 @@
 
 const message = favoriteAnimal('Goat')
 console.log(message)</code></pre>
-<p>JavaScriptでは、パラメータとは関数宣言のかっこ<code>()</code>の間に列挙される項目のことです。関数の引数とは、私たちがその関数に渡すことに決めた実際の値のことです。</p>
+<p>JavaScriptでは、パラメータとは関数宣言のかっこ<code>()</code>の間に列挙される項目のことです。関数の引数とは、その関数に渡すことに決めた実際の値のことです。</p>
 <p>上記の例では、関数の定義は最初の行に書かれています:<code>function favoriteAnimal(animal)</code>。パラメータ<code>animal</code>は、かっこの中にあります。<code>animal</code>を<code>pet</code>、<code>x</code>、<code>blah</code>などに置き換えることも同じくらい簡単にできます。しかしこの場合、パラメータに<code>animal</code>という名前を付けることで、コードを読む人に多少の文脈が与えられ、<code>animal</code>が最終的に何を含むことになるのかを推測する必要がなくなります。</p>
-<p><code>favoriteAnimal</code>関数宣言のかっこの中に<code>animal</code>を入れることで、私たちは<code>favoriteAnimal</code>関数に<em>何らかの</em>値を送ることをJavaScriptに伝えています。つまり、<code>animal</code>は将来のある値のための単なる<strong>プレースホルダー</strong>にすぎないということです。では、どんな値を送っているのでしょうか?</p>
-<p>5行目の<code>favoriteAnimal('Goat')</code>は、私たちが<code>favoriteAnimal</code>関数を呼び出し、その関数呼び出しの中に値<code>'Goat'</code>を渡している箇所です。ここでは<code>'Goat'</code>が私たちの引数です。私たちは<code>favoriteAnimal</code>関数に「<code>'Goat'</code>を<code>favoriteAnimal</code>関数に送り、<code>animal</code>というプレースホルダーがあるところではどこでも<code>'Goat'</code>を使ってください」と伝えているのです。パラメータを使うことで得られる柔軟性のおかげで、どんな動物でも自分のお気に入りとして宣言できます。</p>
+<p><code>favoriteAnimal</code>関数宣言のかっこの中に<code>animal</code>を入れることで、<code>favoriteAnimal</code>関数に<em>何らかの</em>値を送ることをJavaScriptに伝えています。つまり、<code>animal</code>は将来のある値のための単なる<strong>プレースホルダー</strong>にすぎないということです。では、どんな値を送っているのでしょうか?</p>
+<p>5行目の<code>favoriteAnimal('Goat')</code>は、<code>favoriteAnimal</code>関数を呼び出し、その関数呼び出しの中に値<code>'Goat'</code>を渡している箇所です。ここでは<code>'Goat'</code>が私たちの引数です。<code>favoriteAnimal</code>関数に「<code>'Goat'</code>を<code>favoriteAnimal</code>関数に送り、<code>animal</code>というプレースホルダーがあるところではどこでも<code>'Goat'</code>を使ってください」と伝えているのです。パラメータを使うことで得られる柔軟性のおかげで、どんな動物でも自分のお気に入りとして宣言できます。</p>
 <p>以下は、パラメータが関数にどう渡され、値がそこからどう返されるかを視覚的に理解するのに役立つ図です。</p>
 <p><img alt="パラメータが関数にどのように渡され、値がそこからどのように返されるか" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/c53dd9a12f0c9afde0d9229f82a176170f12e120/foundations/javascript_basics/function_basics/imgs/00.png" /></p>
-<p>私たちは<code>favoriteAnimal('Goat')</code>の結果を<code>message</code>変数に保存し、後で<code>message</code>を<code>log()</code>の引数として渡していますが、関数呼び出しを別の関数呼び出しの引数として渡すことも可能であることに注意してください。</p>
+<p><code>favoriteAnimal('Goat')</code>の結果を<code>message</code>変数に保存し、後で<code>message</code>を<code>log()</code>の引数として渡していますが、関数呼び出しを別の関数呼び出しの引数として渡すことも可能であることに注意してください。</p>
 <pre class="highlight"><code class="language-javascript">function favoriteAnimal(animal) {
     return animal + " is my favorite animal!"
 }

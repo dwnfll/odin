@@ -60,8 +60,8 @@
 <p>ここには3つのnpmスクリプトがあります。この場合、<code>npm run build</code>を実行するのは<code>npx webpack</code>を実行するのと同じ(これは前のWebpackのレッスンのWebpackガイドで見たかもしれません)であり、<code>npm run dev</code>は<code>npx webpack serve</code>と同じで、<code>npm run deploy</code>は私たちの代わりに<code>git subtree push --prefix dist origin gh-pages</code>を実行します。時間を節約できるだけでなく、コマンドに理にかなった、ある程度標準化された名前を付けられることも良い点です。<code>npm run build</code>には、しばしばツールのビルド/バンドル/コンパイルのためのコマンドが含まれています。<code>npm run dev</code>は、しばしば開発サーバーを起動するために使われます、などです。名前は常に同じとは限りませんが、<code>npx webpack</code>よりもその目的をよりよく説明してくれます。</p>
 <p><code>webpack</code>と<code>webpack serve</code>コマンドをスクリプトとして設定する際、先頭の<code>npx</code>を省いていることに注意してください。npmスクリプトなしでターミナルで直接それらを実行するためだけに<code>npx</code>が必要だったからです。</p>
 <h3 id="webpack-modes">Webpackのモード</h3>
-<p>ここまで、私たちは開発モードでWebpackを使い続けてきました。これは、開発作業をしているときに当然最も適しています。しかし、デプロイのためにプロジェクトをビルドする段階になると、専用のproductionモードが、私たちのためにいくつかの異なる最適化を行ってくれます。試してみましょう!Restaurant Pageプロジェクトに行き、<code>webpack.config.js</code>でモードを<code>"production"</code>に変更してから、ビルドコマンドを再び実行してみてください。<code>dist</code>内のJavaScriptバンドルを見て、さらに壮大な文字のごちゃまぜを見てみてください!</p>
-<p>私たちは、正確にどんな最適化が適用されたのかを知る<em>本当の</em>必要はありませんし、productionモードの他の詳細について知る必要もありませんが、この2つのモードが存在し、特定の目的のために設計されているということを知っておくのは良いことです。</p>
+<p>ここまで、開発モードでWebpackを使い続けてきました。これは、開発作業をしているときに当然最も適しています。しかし、デプロイのためにプロジェクトをビルドする段階になると、専用のproductionモードが、私たちのためにいくつかの異なる最適化を行ってくれます。試してみましょう!Restaurant Pageプロジェクトに行き、<code>webpack.config.js</code>でモードを<code>"production"</code>に変更してから、ビルドコマンドを再び実行してみてください。<code>dist</code>内のJavaScriptバンドルを見て、さらに壮大な文字のごちゃまぜを見てみてください!</p>
+<p>正確にどんな最適化が適用されたのかを知る<em>本当の</em>必要はありませんし、productionモードの他の詳細について知る必要もありませんが、この2つのモードが存在し、特定の目的のために設計されているということを知っておくのは良いことです。</p>
 <p><code>dist</code>にバンドルする前や開発サーバーを再び使う前など、モードを切り替えたいたびに設定ファイルを手動で編集する手間を省くために、2つの異なる設定ファイル(例えば<code>webpack.dev.js</code>と<code>webpack.prod.js</code>)を持ち、それからビルド用と開発用のnpmスクリプトに、どの設定ファイルを使うかを指定させることができます(<code>--config</code>オプションを省略すると、Webpackはデフォルトで<code>webpack.config.js</code>を探します):</p>
 <pre class="highlight"><code class="language-json">"build": "webpack --config webpack.prod.js",
 "dev": "webpack serve --config webpack.dev.js"</code></pre>

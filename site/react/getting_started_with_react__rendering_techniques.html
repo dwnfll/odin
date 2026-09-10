@@ -113,8 +113,8 @@ function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<p>私たちは<code>&lt;ul&gt;</code>要素を、<code>List</code>という別のコンポーネントに移動しました。それでも<code>&lt;ul&gt;</code>要素を返していますが、独自のコンポーネントとして、それに対してもっと多くのことができるようになります。<code>List</code>は、動物の配列をpropとして受け取り、それぞれの動物を個別に<code>ListItem</code>コンポーネントへpropとして渡します。</p>
-<p>もちろん、私たちは<code>&lt;li&gt;</code>だけに限定されているわけではありません。「リスト」と言うとき、それは非常に一般的な意味で使っています。<code>&lt;select&gt;</code>の中で複数の<code>&lt;option&gt;</code>要素を動的にレンダーすることもできますし、グリッドの一部として複数の<code>&lt;div&gt;</code>をレンダーすることもできます。</p>
+<p><code>&lt;ul&gt;</code>要素を、<code>List</code>という別のコンポーネントに移動しました。それでも<code>&lt;ul&gt;</code>要素を返していますが、独自のコンポーネントとして、それに対してもっと多くのことができるようになります。<code>List</code>は、動物の配列をpropとして受け取り、それぞれの動物を個別に<code>ListItem</code>コンポーネントへpropとして渡します。</p>
+<p>もちろん、<code>&lt;li&gt;</code>だけに限定されているわけではありません。「リスト」と言うとき、それは非常に一般的な意味で使っています。<code>&lt;select&gt;</code>の中で複数の<code>&lt;option&gt;</code>要素を動的にレンダーすることもできますし、グリッドの一部として複数の<code>&lt;div&gt;</code>をレンダーすることもできます。</p>
 <div class="lesson-note lesson-note--tip">
 <h4>「Missing in props validation」</h4>
 <p>上の<code>&lt;ListItem /&gt;</code>コンポーネントの中の<code>animal</code>のように、propsの下に波線が表示されることに気づくかもしれません。</p>
@@ -150,7 +150,7 @@ function App() {
   );
 }</code></pre>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith">文字列メソッド<code>startsWith</code></a>を使って、<code>animal</code>が文字Lで始まるかどうかを確認しています。このメソッドは、trueまたはfalseのどちらかを返します。</p>
-<p>動物が文字Lで始まる場合、私たちはその特定の動物をレンダーする<code>&lt;li&gt;</code>要素を返します。そうでない場合は、何もレンダーしないことを示すために<code>null</code>を返します。</p>
+<p>動物が文字Lで始まる場合、その特定の動物をレンダーする<code>&lt;li&gt;</code>要素を返します。そうでない場合は、何もレンダーしないことを示すために<code>null</code>を返します。</p>
 <h4>&amp;&amp;演算子を使う</h4>
 <p>要素を条件付きでレンダーするもう一つの手早い方法は、<code>&amp;&amp;</code>演算子を使うことです。</p>
 <pre class="highlight"><code class="language-jsx">function List(props) {
@@ -185,7 +185,7 @@ function App() {
 <li><code>animals</code>プロパティが渡されているかを確認する</li>
 <li><code>animals</code>の長さが0より大きいかを確認する</li>
 </ol>
-<p>今後、私たちは頻繁にリストを扱うことになりますが、リストが空だったり、そもそも存在しなかったりする場合に何をレンダーするかについても考える必要があります。真っ白なページなど、確かに見たくはないですよね?それを実装してみましょう:</p>
+<p>今後、頻繁にリストを扱うことになりますが、リストが空だったり、そもそも存在しなかったりする場合に何をレンダーするかについても考える必要があります。真っ白なページなど、確かに見たくはないですよね?それを実装してみましょう:</p>
 <pre class="highlight"><code class="language-jsx">function List(props) {
   if (!props.animals) {
     return &lt;div&gt;Loading...&lt;/div&gt;;
@@ -228,7 +228,7 @@ function App() {
   );
 }</code></pre>
 <p>今度は最初の<code>if</code>文が実行され、「Loading...」というテキストを含む<code>&lt;div&gt;</code>が返されます。これは、APIからデータを取得しているときによくあるケースです。実際にデータを取得するのに時間がかかることがあるため、そのためのインジケーターを表示しておくのは良いプラクティスです。</p>
-<p>これらのチェックのいずれにも該当しなかった場合、私たちはリストを正しくレンダーするために必要なデータを持っていることになります。<code>animals</code>リストにアイテムを追加し、プロパティを元に戻して、実際に試してみてください。</p>
+<p>これらのチェックのいずれにも該当しなかった場合、リストを正しくレンダーするために必要なデータを持っていることになります。<code>animals</code>リストにアイテムを追加し、プロパティを元に戻して、実際に試してみてください。</p>
 <p>もちろん、これは三項演算子と<code>&amp;&amp;</code>演算子だけでも実現できます。</p>
 <pre class="highlight"><code class="language-jsx">function List(props) {
   return (

@@ -36,7 +36,7 @@
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
         <h3>イントロダクション</h3>
-<p>ここまで、私たちはインタラクティブなユーザーインターフェースを持つクライアントサイドアプリケーションを構築するために、Reactを使ってきました。しかし、インターネットからデータを取得したい場合はどうすればよいでしょうか?本格的なウェブアプリケーションを作るためには、外部のソースからデータを取得し、それを動的に表示する何らかの方法が必要です。</p>
+<p>ここまで、インタラクティブなユーザーインターフェースを持つクライアントサイドアプリケーションを構築するために、Reactを使ってきました。しかし、インターネットからデータを取得したい場合はどうすればよいでしょうか?本格的なウェブアプリケーションを作るためには、外部のソースからデータを取得し、それを動的に表示する何らかの方法が必要です。</p>
 <p>このレッスンでは、APIコールの基本、コンポーネントのstateの管理、そしてJavaScriptの<code>fetch</code>関数を使った非同期処理の扱い方から始めて、Reactでデータを取得することの詳細を探っていきます。あなたはすでに以前のプロジェクトでデータの取得を行っているので、このレッスンで扱う内容の一部はすでに馴染みがあるでしょう。復習して損はありません!</p>
 <h3>レッスン概要</h3>
 <p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
@@ -54,7 +54,7 @@ fetch("https://picsum.photos/v2/list")
     image.src = response[0].download_url;
   })
   .catch((error) =&gt; console.error(error));</code></pre>
-<p>私たちはPicsum APIにリクエストを送って画像を取得し、そのURLを<code>&lt;img&gt;</code>要素の<code>src</code>に設定しています。</p>
+<p>Picsum APIにリクエストを送って画像を取得し、そのURLを<code>&lt;img&gt;</code>要素の<code>src</code>に設定しています。</p>
 <div class="lesson-note">
 <h4>識別ヘッダーを含める</h4>
 <p>一部のAPIでは、クライアントが自身のトラフィックを識別する必要がある場合があります。そのような場合は、リクエストオプションの中に、<code>User-Agent</code>や、APIの提供元が指定する他の識別子といった、カスタムの識別ヘッダーを含めることでそれを行えます。これは、他のヘッダーを追加する場合と同じプロセスです。</p>
@@ -230,7 +230,7 @@ const Image = () =&gt; {
 <p>これが実際にどう動くか見るために、<code>Profile</code>と<code>Bio</code>の両方のコンポーネントで、それらをコメントアウトし、その下にある別バージョンのコメントを外してください。</p>
 <p>これで、<code>Profile</code>がレンダーされるとすぐに、両方のリクエストが発火するようになりました。<code>imageURL</code>のリクエストは<code>bioText</code>のリクエストより2秒早く解決し、<code>&lt;Bio /&gt;</code>を含む私たちのdivがレンダーされます。<code>bioText</code>が解決すると、stateが更新され、それが<code>&lt;Bio /&gt;</code>の再レンダーを引き起こし、そのテキストの説明がページに追加されます。</p>
 <h3>データ取得ライブラリ</h3>
-<p>私たちは、フロントエンドにおけるデータ取得の表面をなぞり始めたばかりです。フロントエンドのデータをサーバーと同期させ続けることは、達成するのが難しいタスクです。「非同期」stateの管理は、機能が追加されるたびにますます複雑になっていきます。</p>
+<p>フロントエンドにおけるデータ取得の表面をなぞり始めたばかりです。フロントエンドのデータをサーバーと同期させ続けることは、達成するのが難しいタスクです。「非同期」stateの管理は、機能が追加されるたびにますます複雑になっていきます。</p>
 <p>あなたはすでに、このレッスンでデータ取得の複雑さを味わっています。最適なユーザー体験を実現するには、各リクエストは<em>最低でも</em><code>data</code>、<code>loading</code>、<code>error</code>という3つのstateを持つ必要があります。データ取得などを助けてくれるライブラリもありますが、このコースのすべてのプロジェクトでは、素のReactによるデータ取得を使うことを強くお勧めします。そうすることで学べる教訓は、非常に貴重なものになるでしょう。</p>
 <h3>課題</h3>
 <div class="lesson-content__panel">

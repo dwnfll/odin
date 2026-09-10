@@ -62,7 +62,7 @@ export default function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<p>ここまでは順調ですよね?私たちは、好きなだけ何度でも使える美しい再利用可能なボタンを手に入れましたが、一つだけ小さな問題があります。</p>
+<p>ここまでは順調ですよね?好きなだけ何度でも使える美しい再利用可能なボタンを手に入れましたが、一つだけ小さな問題があります。</p>
 <p>もし2番目のボタンの中のテキストを「Don't Click Me!」にしたかったらどうでしょうか?今のままでは、この異なるテキストを持つ2つ目のボタンコンポーネントを作らなければなりません。</p>
 <pre class="highlight"><code class="language-jsx">function Button() {
   return (
@@ -214,7 +214,7 @@ export default function App() {
 <p>ここでいくつか注意すべき点があります。</p>
 <ul>
 <li>
-<p>私たちは<code>handleButtonClick</code>への参照だけを渡しています。つまり、関数を<code>Button</code>に渡す際にかっこを含めていません。もし<code>handleClick={handleButtonClick()}</code>のようなことをしてしまうと、ボタンがレンダーされる際に関数が呼び出されてしまいます。</p>
+<p><code>handleButtonClick</code>への参照だけを渡しています。つまり、関数を<code>Button</code>に渡す際にかっこを含めていません。もし<code>handleClick={handleButtonClick()}</code>のようなことをしてしまうと、ボタンがレンダーされる際に関数が呼び出されてしまいます。</p>
 </li>
 <li>
 <p>この関数を呼び出すすべての<code>Button</code>は、同じページに遷移します。関数をリファクタリングし、<code>Button</code>の中で引数を渡すことで、この機能をカスタマイズできます。</p>
@@ -249,7 +249,7 @@ export default function App() {
 <h4>カリー化された関数を使った別の実装方法</h4>
 <p>この振る舞いを実装する他の方法もあります。ヒント: <a href="https://javascript.info/currying-partials">カリー化された関数!</a></p>
 </div>
-<p>このレッスンの例を通して、propsが再利用可能でカスタマイズ可能なReactコンポーネントを書く上で、どれほど信じられないほど便利であるかを理解していただけたなら幸いです。とはいえ、私たちはまだReactが提供してくれるものの表面をなぞっているにすぎません。さらに詳しく学ぶために、次のセクションに進んでください!</p>
+<p>このレッスンの例を通して、propsが再利用可能でカスタマイズ可能なReactコンポーネントを書く上で、どれほど信じられないほど便利であるかを理解していただけたなら幸いです。とはいえ、まだReactが提供してくれるものの表面をなぞっているにすぎません。さらに詳しく学ぶために、次のセクションに進んでください!</p>
 <h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>

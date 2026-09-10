@@ -36,7 +36,7 @@
     <article>
       <div class="lesson-content prose prose-gray prose-a:text-blue-800 prose-a:visited:text-purple-800 prose-code:bg-gray-100 prose-code:p-1 prose-code:font-normal prose-code:rounded-md break-words line-numbers prose-pre:rounded-xl prose-pre:bg-slate-800 prose-pre:shadow-lg" data-controller="syntax-highlighting">
         <h3>イントロダクション</h3>
-<p>前のセクションで、素のJavaScriptアプリケーションをテストする方法を学びました。テストは、保守しやすく柔軟なコードを書くことを可能にしてくれる、強力なツールです。これまでのレッスンについてきたなら、ここまでは<a href="https://jestjs.io/">Jest</a>フレームワークを使ってきました。しかし、私たちは<a href="https://vitejs.dev/">Vite</a>を使っているので、Viteとうまく統合される<a href="https://vitest.dev/">Vitest</a>に、テストランナーを切り替えます。<a href="https://testing-library.com/docs/react-testing-library/intro/">React Testing Library(RTL)</a>を使って、テストにさらなる機能を追加していきます。</p>
+<p>前のセクションで、素のJavaScriptアプリケーションをテストする方法を学びました。テストは、保守しやすく柔軟なコードを書くことを可能にしてくれる、強力なツールです。これまでのレッスンについてきたなら、ここまでは<a href="https://jestjs.io/">Jest</a>フレームワークを使ってきました。しかし、<a href="https://vitejs.dev/">Vite</a>を使っているので、Viteとうまく統合される<a href="https://vitest.dev/">Vitest</a>に、テストランナーを切り替えます。<a href="https://testing-library.com/docs/react-testing-library/intro/">React Testing Library(RTL)</a>を使って、テストにさらなる機能を追加していきます。</p>
 <h3>レッスン概要</h3>
 <p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
@@ -89,7 +89,7 @@ describe("App component", () =&gt; {
     expect(screen.getByRole("heading").textContent).toMatch(/our first test/i);
   });
 });</code></pre>
-<p>ターミナルで<code>npm test App.test.jsx</code>を実行し、テストがパスするのを確認してください。<code>getByRole</code>は、私たちが使えたであろう十数個のクエリメソッドのうちの一つにすぎません。基本的に、クエリは<code>getBy</code>、<code>queryBy</code>、<code>findBy</code>という3つのタイプに分類されます。<a href="https://testing-library.com/docs/queries/about/">クエリについてのReact Testing Libraryドキュメントのページ</a>に目を通してください。特に「Types of Queries」と「Priority」のセクションに注目してください。</p>
+<p>ターミナルで<code>npm test App.test.jsx</code>を実行し、テストがパスするのを確認してください。<code>getByRole</code>は、使えたであろう十数個のクエリメソッドのうちの一つにすぎません。基本的に、クエリは<code>getBy</code>、<code>queryBy</code>、<code>findBy</code>という3つのタイプに分類されます。<a href="https://testing-library.com/docs/queries/about/">クエリについてのReact Testing Libraryドキュメントのページ</a>に目を通してください。特に「Types of Queries」と「Priority」のセクションに注目してください。</p>
 <p><span id="by-role-methods">React Testing Libraryのドキュメントで述べられているように、<code>ByRole</code>メソッドは、特に<code>name</code>オプションと組み合わせた場合に、クエリのために好まれるメソッドです。例えば、上のクエリの特異性を次のように改善できます: <code>getByRole("heading", { name: "Our First Test" })</code>。<code>ByRole</code>を通して行われるクエリは、ユーザーがウェブページをどのような方法(マウスや支援技術など)でナビゲートしていても、私たちのUIが誰にとってもアクセシブルであることを保証してくれます。</span></p>
 <h3 id="simulating-user-events">ユーザーイベントをシミュレートする</h3>
 <p>ユーザーがウェブページと対話する方法は数多くあります。実際のユーザーからのフィードバックや操作にはかけがえのない価値がありますが、それでもテストを通して、私たちのコンポーネントにある程度の自信を築くことができます。以下は、Appの見出しを変更するボタンです:</p>
@@ -141,10 +141,10 @@ describe("App component", () =&gt; {
     expect(screen.getByRole("heading").textContent).toMatch(/radical rhinos/i);
   });
 });</code></pre>
-<p>これらのテストは、それ自体で説明になっています。最初のテストでは、スナップショットを活用して、すべてのノードが期待通りにレンダーされるかを確認しています。2つ目のテストでは、クリックイベントをシミュレートしています。それから、見出しが変わったかを確認しています。<code>toMatch</code>は、私たちが行えたであろうさまざまなアサーションの一つです。2つ目のテストのコールバック関数が<code>async</code>になっていることに注目してください。これは、<code>await user.click()</code>を行うために必要だからです。</p>
-<p>また、React Testing Libraryは、すべてのテストの後にレンダーされたコンポーネントをアンマウントする、という点にも注意しておくことが重要です。だからこそ、私たちは各テストごとにレンダーを行っています。1つのコンポーネントに対してテストがたくさんある場合は、カスタムの<code>setup</code>関数が役立つことがあります。</p>
+<p>これらのテストは、それ自体で説明になっています。最初のテストでは、スナップショットを活用して、すべてのノードが期待通りにレンダーされるかを確認しています。2つ目のテストでは、クリックイベントをシミュレートしています。それから、見出しが変わったかを確認しています。<code>toMatch</code>は、行えたであろうさまざまなアサーションの一つです。2つ目のテストのコールバック関数が<code>async</code>になっていることに注目してください。これは、<code>await user.click()</code>を行うために必要だからです。</p>
+<p>また、React Testing Libraryは、すべてのテストの後にレンダーされたコンポーネントをアンマウントする、という点にも注意しておくことが重要です。だからこそ、各テストごとにレンダーを行っています。1つのコンポーネントに対してテストがたくさんある場合は、カスタムの<code>setup</code>関数が役立つことがあります。</p>
 <h3>スナップショットとは何ですか?</h3>
-<p>スナップショットテストとは、単に、私たちがレンダーしたコンポーネントを、関連するスナップショットファイルと比較することです。例えば、<em>"renders magnificent monkeys"</em>テストを実行した後に自動生成されたスナップショットファイルは、以下のようなものでした:</p>
+<p>スナップショットテストとは、単に、レンダーしたコンポーネントを、関連するスナップショットファイルと比較することです。例えば、<em>"renders magnificent monkeys"</em>テストを実行した後に自動生成されたスナップショットファイルは、以下のようなものでした:</p>
 <pre class="highlight"><code class="language-jsx">// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`App component &gt; renders magnificent monkeys 1`] = `
@@ -161,7 +161,7 @@ exports[`App component &gt; renders magnificent monkeys 1`] = `
 `;</code></pre>
 <p>これは、<code>App</code>コンポーネントのHTMLによる表現です。そして、これは今後のスナップショットのアサーションで、<code>App</code>と比較されることになります。<code>App</code>が少しでも変化すると、テストは失敗します。</p>
 <p><span id="advantage-snapshot-tests">スナップショットテストは、書くのが速く、簡単です。一つのアサーションで、複数行のコードを書く手間を省けます。例えば、<code>toMatchSnapshot</code>を使えば、ボタンや見出しの存在をアサートする必要がなくなります。</span> また、予期しない変更がコードに忍び込むことも防いでくれます。スナップショットで何が実現できるかについては、<a href="https://vitest.dev/guide/snapshot.html">Vitestのスナップショットドキュメント</a>ですべて読むことができます。</p>
-<p>スナップショットは、これまでのテストの中で私たちに起こった最高の出来事のように思えるかもしれません。しかし、私たちは疑問を抱かざるを得ません。私たちは正確に<em>何</em>をテストしているのでしょうか?何が検証されているのでしょうか?もしスナップショットがパスしたら、それはコンポーネントの正しさについて何を伝えているのでしょうか?</p>
+<p>スナップショットは、これまでのテストの中で私たちに起こった最高の出来事のように思えるかもしれません。しかし、疑問を抱かざるを得ません。正確に<em>何</em>をテストしているのでしょうか?何が検証されているのでしょうか?もしスナップショットがパスしたら、それはコンポーネントの正しさについて何を伝えているのでしょうか?</p>
 <p><span id="disadvantage-snapshot-tests">スナップショットテストは、偽陽性(false positive)を引き起こすことがあります。スナップショットテストからはコンポーネントの妥当性を確認できないため、バグが検出されないまま残ってしまうことがあります。スナップショットに過度に依存すると、開発者が自分のコードについて、実際よりも自信を持ちすぎてしまうことがあります。</span></p>
 <p>スナップショットのもう一つの問題は、偽陰性(false negative)です。どんなにささいな変更でも、テストを失敗させてしまいます。句読点を直しただけ?スナップショットは失敗します。HTMLタグをよりセマンティックなものに置き換えただけ?スナップショットは失敗します。これにより、テストスイート全体への信頼を完全に失ってしまうかもしれません。スナップショットが本質的に悪いわけではなく、それなりの目的を果たしてくれます。しかし、いつスナップショットを取るべきで、いつ取るべきでないかを理解しておくことは有益です。</p>
 <h3>課題</h3>

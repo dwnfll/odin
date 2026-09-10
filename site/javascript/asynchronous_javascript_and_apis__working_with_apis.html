@@ -58,7 +58,7 @@
 <p>APIキーを発行することで、APIサービスは自分たちのシステムやデータの乱用をより良く追跡できるようになります。さらに、それはそれらのサービスが運用コストを緩和し、回収する方法にもなり得ます。例えばVisual Crossingは、無料枠だけでなく、月額150米ドルにもなり得るさまざまな有料プランも提供しています!結局のところ、サーバーを運用するにはお金がかかり、APIも例外ではありません。APIへの単一のリクエストは1セントの何分の一かのコストしかかからないかもしれませんが、そのAPIを使って世界中で使われる素晴らしい天気アプリを作ることを想像してみてください…毎分何千人もの人々がそのデータにアクセスすることになるかもしれません!そのトラフィックを処理するコストは、APIサービスにとってすぐにかなりの金額に膨れ上がる可能性があります。</p>
 <p>そのため、すべてとは言わないまでも、ほとんどのAPIサービスが、より頻繁にリクエストできる能力や、より下位のプランでは利用できないより多くの情報へのアクセスが付いてくる、有料プランを提供していることに気づくでしょう。例えば、Visual Crossingの無料版では、限られた量の情報(それでも個人プロジェクトには十分ですが)で1日あたり1000回の呼び出し/リクエストが許可されています。一方、Enterprise版は月間無制限のAPI呼び出しを提供し、エネルギーデータ、海洋データ…そういったすべての付加機能があります(気になる場合は<a href="https://www.visualcrossing.com/weather-data-editions">Visual Crossingの価格設定についての詳細</a>)。ですので、もしあなたのアプリが成功して追加の機能が必要になったら、おそらくより良いアカウントにお金を払う必要があるでしょう。</p>
 <p>あなたのAPIキーは<strong>あなたの</strong>、これらのサービスとデータへの鍵であるため、それを保護することは重要な習慣です。特に有料プランを使っている場合はなおさらです。ハードコードされた/保護されていないAPIキーだけを目的にGitHubのリポジトリをクロールするボットがたくさんあり、悪意のある人物が<a href="https://web.archive.org/web/20150102022540/http://www.devfactor.net/2014/12/30/2375-amazon-mistake/">あなたがお金を払って手に入れたサービスやデータを利用する</a>ことを可能にしてしまいます。実際、より目ざとい読者は、上記のデモンストレーションの問題にすでに気づいたかもしれません: APIキーがまさにそのURLリクエストの中にあります。インターネットトラフィックのスニファーがAPIキーを拾い上げるのに、大した労力は要りませんし、まして肩越しに見ている人にとってはなおさらです!</p>
-<p>とはいえ、カリキュラムのこの時点では、この点は大部分どうでもよいことです。結局のところ、私たちはAPIへの無料アクセスを利用しているだけであり、私たちのアプリのほとんどは私たちとポートフォリオを見る人だけに使われることになるからです。今のところは、上記で示したようにAPIキーを使うことの深刻な限界を心に留めておくだけにしてください。APIキーを保護するには、サーバーサイドで物事を扱う必要がありますが、私たちはここではフロントエンドの概念だけに焦点を当てています。もしFull Stack JavaScriptパスウェイにいるなら、バックエンドについてはカリキュラムの後の方で扱います。</p>
+<p>とはいえ、カリキュラムのこの時点では、この点は大部分どうでもよいことです。結局のところ、APIへの無料アクセスを利用しているだけであり、私たちのアプリのほとんどは私たちとポートフォリオを見る人だけに使われることになるからです。今のところは、上記で示したようにAPIキーを使うことの深刻な限界を心に留めておくだけにしてください。APIキーを保護するには、サーバーサイドで物事を扱う必要がありますが、ここではフロントエンドの概念だけに焦点を当てています。もしFull Stack JavaScriptパスウェイにいるなら、バックエンドについてはカリキュラムの後の方で扱います。</p>
 <p>Visual Crossingに戻りましょう。<a href="https://www.visualcrossing.com/sign-up">無料のVisual Crossingアカウントを作成</a>して、APIキーを取得してください。APIキーは、あなたのアカウントのプロフィールページで見つけることができます。キーを手に入れたら、上記の例のように、好きな都市とクエリ文字列パラメータとして渡したAPIキーで、新しいリクエストを試してみてください。うまくいけば、次のような適切なレスポンスが見えるはずです:</p>
 <pre class="highlight"><code class="language-JSON">{"queryCost":1,"latitude":51.5064,"longitude":-0.12721,"resolvedAddress":"London, England, United Kingdom","address":"london","timezone":"Europe/London","tzoffset":1.0,"description":"Similar temperatures continuing with a chance of rain tomorrow, Tuesday &amp; Thursday.","days":[{"datetime":"2024-07-06","datetimeEpoch":1720220400,"tempmax":61.4,"tempmin":53.1,"temp":57.8,"feelslikemax":61.4,"feelslikemin":53.1,"feelslike":57.8,"dew":51.3,"humidity":79.7,"precip":0.457,"precipprob":100.0,"precipcover":75.0,"preciptype":["rain"],"snow":0.0,"snowdepth":0.0,"windgust":35.3,"windspeed":21.9,"winddir":262.6,"pressure":1001.8,"cloudcover":70.5,"visibility":8.3,"solarradiation":147.5,"solarenergy":12.9,"uvindex":6.0,"severerisk":10.0,"sunrise":"04:52:02","sunriseEpoch":1720237922,"sunset":"21:18:20","sunsetEpoch":1720297100,"moonphase":0.02,"conditions":"Rain, Partially cloudy","description":"Partly cloudy throughout the day with a chance of rain throughout the day.","icon":"rain","stations":["EGWU","EGLL","D5621","EGLC"]}]}</code></pre>
 <p>(上記のプレビューは氷山の一角に過ぎず、実際のレスポンスはもっとずっと長いです!)</p>
@@ -90,7 +90,7 @@ request.open('GET', 'https://url.com/some/url', true);
 request.send(null);</code></pre>
 <p>うっ。それは辛かったですね。</p>
 <p>開発者たちは、そのようなものを書き出さなければならない痛みを感じ、それを処理してずっと使いやすくするためのサードパーティのライブラリを書き始めました。より人気のあるライブラリのいくつかには、<a href="https://github.com/mzabriskie/axios">axios</a>と<a href="https://github.com/visionmedia/superagent">superagent</a>があり、どちらもそれぞれの長所と短所があります。</p>
-<p>しかし、より最近では、ウェブブラウザは、HTTPリクエストを行うための新しいネイティブ関数を実装し始めています。それが、今のところ私たちが使い続けることになるものです。fetchに会いましょう:</p>
+<p>しかし、より最近では、ウェブブラウザは、HTTPリクエストを行うための新しいネイティブ関数を実装し始めています。それが、今のところ使い続けることになるものです。fetchに会いましょう:</p>
 <pre class="highlight"><code class="language-javascript">// URL (required), options (optional)
 fetch('https://url.com/some/url')
   .then(function(response) {
@@ -142,7 +142,7 @@ fetch('https://url.com/some/url')
       console.log(response);
     });
 &lt;/script&gt;</code></pre>
-<p>これでJavaScriptオブジェクトが手に入りました。十分に注意深く調べてみると、私たちが必要とするデータ(画像のURL)がオブジェクトの中にかなり深くネストされていることに気づくでしょう:</p>
+<p>これでJavaScriptオブジェクトが手に入りました。十分に注意深く調べてみると、必要とするデータ(画像のURL)がオブジェクトの中にかなり深くネストされていることに気づくでしょう:</p>
 <p><img alt="レスポンス" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/284f0cdc998be7e4751e29e8458323ad5d320303/javascript/async-apis/APIs/imgs/00.png" /></p>
 <p>データにたどり着くには、望むものを見つけるまでオブジェクトの層をドリルダウンしていく必要があります!</p>
 <pre class="highlight"><code class="language-html">&lt;script&gt;

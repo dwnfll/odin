@@ -86,7 +86,7 @@ VALUES ('Mao'), ('nevz'), ('Lofty');</code></pre>
 <p>確認してみましょう:</p>
 <pre class="highlight"><code class="language-sql">SELECT * FROM usernames;</code></pre>
 <h3 id="using-node-postgres-in-express">Expressでnode-postgresを使う</h3>
-<p>私たちは、Expressアプリケーションの中で、<a href="https://github.com/brianc/node-postgres"><code>node-postgres</code></a>(略して<code>pg</code>)を通してPostgreSQLを扱うことができます。これは、PostgreSQLのdbとやり取りするために使うライブラリです。以下でインストールしてください:</p>
+<p>Expressアプリケーションの中で、<a href="https://github.com/brianc/node-postgres"><code>node-postgres</code></a>(略して<code>pg</code>)を通してPostgreSQLを扱うことができます。これは、PostgreSQLのdbとやり取りするために使うライブラリです。以下でインストールしてください:</p>
 <pre class="highlight"><code class="language-bash">npm install pg</code></pre>
 <p>それから、必要な接続情報とともに、アプリケーションの中でそれを初期化できます。<code>db</code>フォルダを作成し、以下の内容で新しいファイル<code>db/pool.js</code>を作成してください:</p>
 <pre class="highlight"><code class="language-javascript">const { Pool } = require("pg");
@@ -137,7 +137,7 @@ module.exports = {
 <p>insertクエリの中の<code>$1</code>は何なのでしょうか?</p>
 <p>代わりに、クエリを以下のようにすることもできます:</p>
 <pre class="highlight"><code class="language-javascript">await pool.query("INSERT INTO usernames (username) VALUES ('" + username + "')");</code></pre>
-<p>私たちは、ユーザーが入力した値、つまり<code>username</code>を直接クエリに渡しています。悪意のあるユーザーが<code>sike'); DROP TABLE usernames; --</code>のようなものを入力し、大混乱を引き起こす可能性があります。恐ろしいことですね。これは<a href="https://en.wikipedia.org/wiki/SQL_injection">SQLインジェクション</a>と呼ばれます。</p>
+<p>ユーザーが入力した値、つまり<code>username</code>を直接クエリに渡しています。悪意のあるユーザーが<code>sike'); DROP TABLE usernames; --</code>のようなものを入力し、大混乱を引き起こす可能性があります。恐ろしいことですね。これは<a href="https://en.wikipedia.org/wiki/SQL_injection">SQLインジェクション</a>と呼ばれます。</p>
 <p><code>pg</code>はこれを防ぐために、<a href="https://node-postgres.com/features/queries#parameterized-query">クエリのパラメータ化</a>を提供しています。ユーザー入力を直接渡す代わりに、それを配列に入れて2番目の引数として渡します。あとは<code>pg</code>が処理してくれます。</p>
 </div>
 <p>上記の2つの関数を、それぞれのコントローラーの中で呼び出してください(関数名などは異なるかもしれません。重要なのは、db関数がどのように呼び出されるかを理解することです):</p>
@@ -204,8 +204,8 @@ main();</code></pre>
 <p>素晴らしいですね!これで、PostgreSQLを使ってローカルdbをセットアップし、使う方法を学びました。ローカルデータベースは、より高速なやり取り、より簡単な変更を提供し、インターネット接続を必要としないため、開発に理想的です。これは、新しい機能をプロトタイピングしたりテストしたりする際に、特に役立ちます。</p>
 <p>プロジェクトを公開する準備ができたら、あなたのローカルマシンから独立した外部サーバー上にホストされた、本番用データベースに移行する必要があります。本番データベースは、グローバルなアクセス可能性、スケーラビリティ、そしてより堅牢なセキュリティを可能にします。<a href="https://www.theodinproject.com/lessons/node-path-nodejs-deployment">デプロイのレッスン</a>で紹介したホスティングプロバイダーのほとんどは、データベースサービスも提供しています。この違いがわかったところで、本番データベースにどうデータを投入できるか見ていきましょう。</p>
 <h4>本番dbにデータを投入する</h4>
-<p>私たちは、ローカルのdb接続情報をスクリプトの中にハードコーディングしました。そのため、このスクリプトはローカルのdbにしかデータを投入しません。本番のdbにもデータを投入する方法が必要です。これを行う一つの方法は環境変数を使うことですが、これは不必要な手間につながります。なぜでしょうか?なぜなら、そうすると、このスクリプトは本番サーバー上でのみ本番dbにデータを投入できることになり、つまりスクリプトを実行するために本番サーバーのCLIにアクセスする必要が出てきてしまうからです。あるいは、こっそりと環境ファイルを編集して本番dbを指すようにし、自分のマシンでスクリプトを実行してから元に戻す、という方法もあります。</p>
-<p>私たちは、スクリプトをできるだけコードベースから独立させることを目指すべきです。</p>
+<p>ローカルのdb接続情報をスクリプトの中にハードコーディングしました。そのため、このスクリプトはローカルのdbにしかデータを投入しません。本番のdbにもデータを投入する方法が必要です。これを行う一つの方法は環境変数を使うことですが、これは不必要な手間につながります。なぜでしょうか?なぜなら、そうすると、このスクリプトは本番サーバー上でのみ本番dbにデータを投入できることになり、つまりスクリプトを実行するために本番サーバーのCLIにアクセスする必要が出てきてしまうからです。あるいは、こっそりと環境ファイルを編集して本番dbを指すようにし、自分のマシンでスクリプトを実行してから元に戻す、という方法もあります。</p>
+<p>スクリプトをできるだけコードベースから独立させることを目指すべきです。</p>
 <p>はるかに手間のかからないアプローチは、接続情報をスクリプトへの引数として提供することです。こうすれば、自分のマシン上で、ローカルdb用にも本番db用にもスクリプトを実行できます。引数には、<a href="https://nodejs.org/docs/latest/api/process.html#processargv">process.argv</a>を通してアクセスできます。</p>
 <pre class="highlight"><code class="language-bash"># populating local db 
 node db/populatedb.js &lt;local-db-url&gt;

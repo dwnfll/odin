@@ -78,7 +78,7 @@ console.log(objCopy); // { data: 43 }</code></pre>
 <p>この振る舞いはあなたにとって初めてのものではありません。前回のプロジェクトでは、参照を使ってEtch-A-Sketchグリッドのセルに変更を加えました。このコードの断片を例に取ってみましょう:</p>
 <pre class="highlight"><code class="language-javascript">const element = document.querySelector("#container");
 element.style.backgroundColor = "red";</code></pre>
-<p>私たちは宣言した変数(<code>element</code>)を変更(mutate)していますが、その変更はDOM内の対応するノードに影響を与えます。なぜこれが起きるのでしょうか?私たちのコードにあるノードは、私たちのDOMが使用しているのと同じノードへの<strong>参照</strong>です。もし<code>element</code>が参照ではなく、代わりにノード自体のコピーだったら(プリミティブ型がそうであるように)、それを変更しても<strong>何の</strong>効果もなかったでしょう。なぜなら、変更はコピーにしか影響せず、元のものには影響しないからです。</p>
+<p>宣言した変数(<code>element</code>)を変更(mutate)していますが、その変更はDOM内の対応するノードに影響を与えます。なぜこれが起きるのでしょうか?私たちのコードにあるノードは、私たちのDOMが使用しているのと同じノードへの<strong>参照</strong>です。もし<code>element</code>が参照ではなく、代わりにノード自体のコピーだったら(プリミティブ型がそうであるように)、それを変更しても<strong>何の</strong>効果もなかったでしょう。なぜなら、変更はコピーにしか影響せず、元のものには影響しないからです。</p>
 <p>この振る舞いは、関数に引数を渡す際にも考慮すべきことです。以下の関数を例に取ってみましょう:</p>
 <pre class="highlight"><code class="language-javascript">function increaseCounterObject(objectCounter) {
   objectCounter.counter += 1;
@@ -94,7 +94,7 @@ let primitive = 0;
 increaseCounterObject(object);
 increaseCounterPrimitive(primitive);</code></pre>
 <p>少し時間を取って、関数呼び出しを行った後、<code>object</code>と<code>primitive</code>にそれぞれ何が起きるか予想してみてください。</p>
-<p>オブジェクトのカウンターは1増え、プリミティブのカウンターは変わらないと答えたなら、それは正解です。パラメータ<code>objectCounter</code>は、私たちが渡した<code>object</code>変数と同じオブジェクトへの<em>参照</em>を含んでいるのに対し、<code>primitiveCounter</code>はプリミティブな値のコピーしか含んでいないことを思い出してください。</p>
+<p>オブジェクトのカウンターは1増え、プリミティブのカウンターは変わらないと答えたなら、それは正解です。パラメータ<code>objectCounter</code>は、渡した<code>object</code>変数と同じオブジェクトへの<em>参照</em>を含んでいるのに対し、<code>primitiveCounter</code>はプリミティブな値のコピーしか含んでいないことを思い出してください。</p>
 <div class="lesson-note">
 <h4>オブジェクト型の変数を再代入する</h4>
 <p>複数の変数から参照されているオブジェクトを変更すると、それらの変数はすべて同じオブジェクトを参照しているため、その変更はすべての変数を通して見えるようになります。しかし、それらの変数の一つを新しいオブジェクトに再代入しても、他の変数が再代入されるわけではありません。例えば:</p>

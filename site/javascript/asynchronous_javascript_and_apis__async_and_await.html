@@ -121,7 +121,7 @@
 }</code></pre>
 <p>これを行うと乱雑に見えるかもしれませんが、関数呼び出しの後に<code>.catch()</code>を追加することなくエラーを処理する、非常に簡単な方法です。エラーをどう処理するかはあなた次第であり、どちらの方法を使うべきかは、あなたのコードがどう書かれたかによって決まるべきです。何が必要かは、時間をかけて感覚がつかめてくるでしょう。課題も、<code>async/await</code>の処理方法を理解するのに役立ちます。</p>
 <h3>練習</h3>
-<p>Giphy APIの練習プロジェクトを覚えていますか?(もし覚えていなければ、戻ってAPIのレッスンを完了させるべきです)。Promiseベースのコードを<code>async/await</code>互換のコードに変換していきます。これが、私たちが出発点とするコードのおさらいです:</p>
+<p>Giphy APIの練習プロジェクトを覚えていますか?(もし覚えていなければ、戻ってAPIのレッスンを完了させるべきです)。Promiseベースのコードを<code>async/await</code>互換のコードに変換していきます。これが、出発点とするコードのおさらいです:</p>
 <pre class="highlight"><code class="language-javascript">&lt;script&gt;
   const img = document.querySelector('img');
   fetch('https://api.giphy.com/v1/gifs/translate?api_key=YOUR_KEY_HERE&amp;s=cats')

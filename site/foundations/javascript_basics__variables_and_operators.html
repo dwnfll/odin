@@ -48,7 +48,7 @@
 <li>論理演算子と算術演算子を使用すること。</li>
 </ul>
 <h3 id="how-to-run-javascript-code">JavaScriptコードを実行する方法</h3>
-<p>Foundationsコースの大部分で書くJavaScriptはすべて、ブラウザを通して実行されます。Foundationsの後のレッスンやNode.jsパスでは、ブラウザ環境の外でJavaScriptを実行する方法を紹介します。つまり、それが私たちが作成したファイルから来ているものであっても、ブラウザにコードを実行させるということです。</p>
+<p>Foundationsコースの大部分で書くJavaScriptはすべて、ブラウザを通して実行されます。Foundationsの後のレッスンやNode.jsパスでは、ブラウザ環境の外でJavaScriptを実行する方法を紹介します。つまり、それが作成したファイルから来ているものであっても、ブラウザにコードを実行させるということです。</p>
 <p>これらのレッスン以外では、今のところ、特に指定がない限り、常にブラウザでJavaScriptを実行することをデフォルトにしてください。そうしないと、予期しないエラーに遭遇する可能性があります。</p>
 <p>始めるための最も簡単な方法は、JavaScriptコードを含むHTMLファイルを作成することです。VS Codeのスニペット<kbd>!</kbd> + <kbd>TAB</kbd>を使って、コンピューター上のどこかのファイルに基本的なHTMLの骨組みを作成してください。<code>&lt;script&gt;</code>タグを必ず含めてください:</p>
 <pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
@@ -81,7 +81,7 @@
 <p>ウェブページにJavaScriptを含めるもう一つの方法は、外部スクリプトを通すことです。これは、ウェブサイトに外部CSSファイルをリンクするのと非常によく似ています。</p>
 <pre class="highlight"><code class="language-html">&lt;script src="javascript.js"&gt;&lt;/script&gt;</code></pre>
 <p>JavaScriptファイルには、スタイルシートの<code>.css</code>と同様に、<code>.js</code>という拡張子が付きます。外部JavaScriptファイルは、より複雑なスクリプトのために使用されます。</p>
-<p>私たちはファイルに<code>javascript.js</code>という名前を付けましたが、<code>my-script.js</code>や<code>i-love-the-odin-project.js</code>のような、どんな名前を選んでもよかったのです。</p>
+<p>ファイルに<code>javascript.js</code>という名前を付けましたが、<code>my-script.js</code>や<code>i-love-the-odin-project.js</code>のような、どんな名前を選んでもよかったのです。</p>
 <h3 id="variables">変数</h3>
 <p>変数はあらゆるプログラムの構成要素です。変数は、コード内のデータのための「保管容器」だと考えることができます。</p>
 <p><img alt="変数の箱のイラスト" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/d39eaf2ca95e80705f703bb218216c10508f5047/foundations/javascript_basics/fundamentals-1/imgs/00.png" /></p>
@@ -106,7 +106,7 @@ pi = 10;
 
 console.log(pi); // What will be output?</code></pre>
 <p>直感的には<code>3.14</code>が出力されると思うかもしれません。試してみてください!</p>
-<p>エラーが発生します。<code>console.log</code>にすら到達しません!なぜ私たちがコード内でエラーを<em>望む</em>のか、疑問に思うかもしれません。実のところ、エラーは、私たちのコードの何が間違っていて、問題が正確にどこにあるのかを教えてくれる、非常に役立つものです。エラーがなければ、私たちのコードは望み通りに動作しないままですが、何が間違っているのかを見つけようとするのは非常に大変な作業になってしまいます!</p>
+<p>エラーが発生します。<code>console.log</code>にすら到達しません!なぜコード内でエラーを<em>望む</em>のか、疑問に思うかもしれません。実のところ、エラーは、私たちのコードの何が間違っていて、問題が正確にどこにあるのかを教えてくれる、非常に役立つものです。エラーがなければ、私たちのコードは望み通りに動作しないままですが、何が間違っているのかを見つけようとするのは非常に大変な作業になってしまいます!</p>
 <p>つまり、まとめると、変数を宣言する方法は2つあります:</p>
 <ul>
 <li><code>let</code>は、再代入できます。</li>

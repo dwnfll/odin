@@ -63,7 +63,7 @@
 <pre class="highlight"><code class="language-bash">npm install express express-session pg passport passport-local ejs</code></pre>
 <div class="lesson-note lesson-note--warning">
 <h4>パスワードを保護する</h4>
-<p>今のところ、私たちはユーザーを単なるプレーンテキストのパスワードで保存しています。これは、実際のプロジェクトにとっては<em>本当に</em>良くない考えです。このレッスンの最後で、bcryptを使ってこれらのパスワードを適切に保護する方法を学びます。その部分を飛ばさないでください。</p>
+<p>今のところ、ユーザーを単なるプレーンテキストのパスワードで保存しています。これは、実際のプロジェクトにとっては<em>本当に</em>良くない考えです。このレッスンの最後で、bcryptを使ってこれらのパスワードを適切に保護する方法を学びます。その部分を飛ばさないでください。</p>
 </div>
 <pre class="highlight"><code class="language-javascript">/////// app.js
 
@@ -94,7 +94,7 @@ app.listen(3000, (error) =&gt; {
   }
   console.log("app listening on port 3000!");
 });</code></pre>
-<p>これまでのところ、新しく必要になった<code>express-session</code>と<code>passport</code>というモジュール以外は、ほとんど見覚えがあるはずです。実は、私たちが<code>express-session</code>を直接使うことはありません。これは、<code>passport.js</code>が背後で使っている依存関係です。<a href="https://github.com/expressjs/session">express-sessionパッケージが何をしているかについては、Expressのドキュメントで見ることができます</a>。</p>
+<p>これまでのところ、新しく必要になった<code>express-session</code>と<code>passport</code>というモジュール以外は、ほとんど見覚えがあるはずです。実は、<code>express-session</code>を直接使うことはありません。これは、<code>passport.js</code>が背後で使っている依存関係です。<a href="https://github.com/expressjs/session">express-sessionパッケージが何をしているかについては、Expressのドキュメントで見ることができます</a>。</p>
 <p>私たちのビューエンジンは<code>views</code>の中の<code>index.ejs</code>を探しているので、それを作成しましょう:</p>
 <pre class="highlight"><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
@@ -144,7 +144,7 @@ app.get("/sign-up", (req, res) =&gt; res.render("sign-up-form"));</code></pre>
 <p>改めて言っておきますが、これはデータベースにユーザーを作成する上で、特に安全な方法ではありません……。しかし、これで<code>/sign-up</code>にアクセスし、フォームを送信できるようになったはずです。すべてがうまくいけば、indexにリダイレクトされ、データベースの中に新しく作成されたユーザーを見に行くことができるようになります。<code>psql</code>でデータベースを開き、クエリを実行して、最初のユーザーを見てみましょう!</p>
 <h3>認証</h3>
 <p>これでデータベースにユーザーを入れられるようになったので、彼らがログインして、ホームページで特別なメッセージを見られるようにしましょう!このプロセスを一つずつ順に進めていきますが、まずは少し時間を取って、<a href="http://www.passportjs.org/">passport.jsのウェブサイト</a>を眺めてみてください。ここのドキュメントには、それをセットアップするために必要なことがほとんどすべて書かれています。プロジェクトに取り組む際には、これに立ち返って参照したくなるはずです。</p>
-<p><span id='strategy'>Passport.jsは、ユーザーを認証するために<em>Strategy</em>と呼ばれるものを使います</span>。彼らには500種類以上のこうしたstrategyがありますが、私たちは、最も基本的な(そして最も一般的な)もの――ユーザー名とパスワードによるもの、彼らが<code>LocalStrategy</code>と呼ぶもの――に焦点を当てていきます(<a href="http://www.passportjs.org/docs/username-password/">LocalStrategyのドキュメント</a>)。すでに適切なモジュールをインストールし<code>require</code>してあるので、それをセットアップしていきましょう!</p>
+<p><span id='strategy'>Passport.jsは、ユーザーを認証するために<em>Strategy</em>と呼ばれるものを使います</span>。彼らには500種類以上のこうしたstrategyがありますが、最も基本的な(そして最も一般的な)もの――ユーザー名とパスワードによるもの、彼らが<code>LocalStrategy</code>と呼ぶもの――に焦点を当てていきます(<a href="http://www.passportjs.org/docs/username-password/">LocalStrategyのドキュメント</a>)。すでに適切なモジュールをインストールし<code>require</code>してあるので、それをセットアップしていきましょう!</p>
 <p>app.jsファイルに3つの関数を追加し、それから私たちの<code>/log-in</code>パス用に<code>app.post</code>を追加する必要があります。</p>
 <h4>関数その1: LocalStrategyをセットアップする</h4>
 <pre class="highlight"><code class="language-javascript">passport.use(
@@ -167,7 +167,7 @@ app.get("/sign-up", (req, res) =&gt; res.render("sign-up-form"));</code></pre>
 );</code></pre>
 <p>この関数は、後ほど<code>passport.authenticate()</code>関数を使う際に呼び出されるものです。基本的には、ユーザー名とパスワードを受け取り、私たちのDBの中でユーザーを見つけようとし、それからそのユーザーのパスワードが与えられたパスワードと一致することを確認します。それらすべてがうまくいけば(DBにユーザーが存在し、パスワードが一致すれば)、私たちのユーザーを認証して先に進みます!この関数を直接呼び出すことはないので、<code>done</code>関数を自分で用意する必要はありません。この関数は少しミドルウェアのように振る舞い、後ほどpassportに認証を依頼する際に、私たちの代わりに呼び出されます。</p>
 <h3>関数その2とその3: セッションとシリアライゼーション</h3>
-<p><span id='cookie'>私たちのユーザーがログインしていることを確認し、アプリの中を移動している間ずっと<em>ログインし続けられる</em>ようにするために、passportは内部で<code>express-session</code>の関数を呼び出し、いくつかのデータを使って<code>connect.sid</code>と呼ばれるクッキーを作成し、それがユーザーのブラウザに保存されます</span>。この次の2つの関数は、クッキーを作成し、それからそれをデコードする際に、passportがどのようなデータを探しているかを定義します。これらの関数を私たちに定義させる理由は、passportが探しているデータが実際に私たちのデータベースに存在することを、確実に確認できるようにするためです!<code>passport.serializeUser</code>は、セッションデータに保存したい情報を含むコールバックを受け取ります。<code>passport.deserializeUser</code>はセッションを取得する際に呼び出され、そこで私たちが「シリアライズ」したデータを取り出し、最終的にリクエストオブジェクトの<code>.user</code>プロパティ(<code>req.user</code>)に何かをアタッチして、リクエストの残りの部分で使えるようにします。</p>
+<p><span id='cookie'>私たちのユーザーがログインしていることを確認し、アプリの中を移動している間ずっと<em>ログインし続けられる</em>ようにするために、passportは内部で<code>express-session</code>の関数を呼び出し、いくつかのデータを使って<code>connect.sid</code>と呼ばれるクッキーを作成し、それがユーザーのブラウザに保存されます</span>。この次の2つの関数は、クッキーを作成し、それからそれをデコードする際に、passportがどのようなデータを探しているかを定義します。これらの関数を私たちに定義させる理由は、passportが探しているデータが実際に私たちのデータベースに存在することを、確実に確認できるようにするためです!<code>passport.serializeUser</code>は、セッションデータに保存したい情報を含むコールバックを受け取ります。<code>passport.deserializeUser</code>はセッションを取得する際に呼び出され、そこで「シリアライズ」したデータを取り出し、最終的にリクエストオブジェクトの<code>.user</code>プロパティ(<code>req.user</code>)に何かをアタッチして、リクエストの残りの部分で使えるようにします。</p>
 <p>私たちの目的のためには、passportのドキュメントに載っている関数がそのままうまく機能します:</p>
 <pre class="highlight"><code class="language-javascript">passport.serializeUser((user, done) =&gt; {
   done(null, user.id);
@@ -204,10 +204,10 @@ passport.deserializeUser(async (id, done) =&gt; {
     failureMessage: true,
   })
 );</code></pre>
-<p>ご覧の通り、私たちがしなければならないのは、<code>passport.authenticate()</code>を呼び出すことだけです。このミドルウェアは、裏側で数多くの機能を実行します。その中でも、リクエストボディの中から<code>username</code>と<code>password</code>という名前のパラメータを探し、先ほど定義した<code>LocalStrategy</code>関数を実行して、そのユーザー名とパスワードがデータベースに存在するかどうかを確認します。それから、ユーザーのブラウザに保存されるセッションクッキーを作成し、それが今後のすべてのリクエストで、そのユーザーがログインしているかどうかを確認するために使われます。ログインが成功したか失敗したかに応じて、異なるルートにリダイレクトすることもできます。先ほど定義したエラーメッセージにアクセスするために、<code>failureMessage</code>に真偽値を渡すことができ、それを後で後続のミドルウェアの中で<code>req.session.messages</code>配列を通してアクセスできます。</p>
-<p>もし別々のログインページがあったなら、ログインが失敗した場合はそこに戻りたいと思うかもしれませんし、ログインが成功した場合はユーザーのダッシュボードに連れて行きたいと思うかもしれません。私たちはすべてをindexにまとめているので、どちらの場合でも<code>/</code>に戻りたいところです。</p>
+<p>ご覧の通り、しなければならないのは、<code>passport.authenticate()</code>を呼び出すことだけです。このミドルウェアは、裏側で数多くの機能を実行します。その中でも、リクエストボディの中から<code>username</code>と<code>password</code>という名前のパラメータを探し、先ほど定義した<code>LocalStrategy</code>関数を実行して、そのユーザー名とパスワードがデータベースに存在するかどうかを確認します。それから、ユーザーのブラウザに保存されるセッションクッキーを作成し、それが今後のすべてのリクエストで、そのユーザーがログインしているかどうかを確認するために使われます。ログインが成功したか失敗したかに応じて、異なるルートにリダイレクトすることもできます。先ほど定義したエラーメッセージにアクセスするために、<code>failureMessage</code>に真偽値を渡すことができ、それを後で後続のミドルウェアの中で<code>req.session.messages</code>配列を通してアクセスできます。</p>
+<p>もし別々のログインページがあったなら、ログインが失敗した場合はそこに戻りたいと思うかもしれませんし、ログインが成功した場合はユーザーのダッシュボードに連れて行きたいと思うかもしれません。すべてをindexにまとめているので、どちらの場合でも<code>/</code>に戻りたいところです。</p>
 <p>今フォームに記入して送信すると、技術的にはすべてうまくいくはずですが、実際にはページ上で何も変わったようには見えません……それを直しましょう。</p>
-<p>passportミドルウェアは、ログインしているユーザーがいるかどうかを(<code>req</code>オブジェクトとともに送られてくるクッキーを確認することで)チェックし、もしいれば、そのユーザーを私たちの代わりにリクエストオブジェクトに追加してくれます。そのため、私たちがすべきことは、ユーザーがログインしているかどうかに応じてビューを変えるために、<code>req.user</code>をチェックすることだけです。</p>
+<p>passportミドルウェアは、ログインしているユーザーがいるかどうかを(<code>req</code>オブジェクトとともに送られてくるクッキーを確認することで)チェックし、もしいれば、そのユーザーを私たちの代わりにリクエストオブジェクトに追加してくれます。そのため、すべきことは、ユーザーがログインしているかどうかに応じてビューを変えるために、<code>req.user</code>をチェックすることだけです。</p>
 <p><code>app.get("/")</code>を編集して、以下のようにユーザーオブジェクトをビューに送信するようにしてください:</p>
 <pre class="highlight"><code class="language-javascript">app.get("/", (req, res) =&gt; {
   res.render("index", { user: req.user });
@@ -297,7 +297,7 @@ if (!match) {
 <li><a href="https://www.youtube.com/playlist?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">Expressにおけるセッションと、Passport.jsによるlocal strategy認証についてのこのYoutubeプレイリスト</a>の動画1、2、3、5、6を見てください。<ul>
 <li>動画の中のいくつかの箇所で、Expressアプリに<code>app.use(passport.initialize())</code>という行が含まれていることに気づくかもしれません。この行は、現在のバージョンのPassportではもう含める必要はありません。</li>
 <li>彼らはMongoDBを使っていますが、そのインスタンスはどれもPostgreSQLに置き換えることができます。</li>
-<li><a href="https://youtu.be/J1qXK66k1y4?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">動画3: 「express-sessionライブラリを理解するための完全ガイド」</a>と<a href="https://youtu.be/xMEOT9J0IvI?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">動画5: 「Passport Local Configuration (Node + Passport + Express)」</a>では、セッションをメモリに保存する代わりに、MongoDB接続を使ってセッションを保存するために<code>connect-mongo</code>ライブラリを使う様子が示されています。しかし、私たちはPostgreSQLを使っているため、代わりに<code>connect-pg-simple</code>というライブラリに置き換える必要があります。これを行うための実装は、<a href="https://www.npmjs.com/package/connect-pg-simple">connect-pg-simpleのnpmページ</a>で確認できます。</li>
+<li><a href="https://youtu.be/J1qXK66k1y4?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">動画3: 「express-sessionライブラリを理解するための完全ガイド」</a>と<a href="https://youtu.be/xMEOT9J0IvI?list=PLYQSCk-qyTW2ewJ05f_GKHtTIzjynDgjK">動画5: 「Passport Local Configuration (Node + Passport + Express)」</a>では、セッションをメモリに保存する代わりに、MongoDB接続を使ってセッションを保存するために<code>connect-mongo</code>ライブラリを使う様子が示されています。しかし、PostgreSQLを使っているため、代わりに<code>connect-pg-simple</code>というライブラリに置き換える必要があります。これを行うための実装は、<a href="https://www.npmjs.com/package/connect-pg-simple">connect-pg-simpleのnpmページ</a>で確認できます。</li>
 <li>セッションストアに使う必要があるテーブルは、デフォルトでは自動的に作成されないことに注意してください。彼らのnpmページで利用可能なオプションを必ず確認してください。</li>
 </ul>
 </li>

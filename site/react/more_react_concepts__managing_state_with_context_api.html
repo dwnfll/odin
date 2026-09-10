@@ -50,7 +50,7 @@
 <p><img alt="ショッピングサイトの商品ページの大まかなレイアウト" src="https://cdn.statically.io/gh/TheOdinProject/curriculum/e6a43abb8ad6836796159e0ab6160045293e2a27/react/more-react-concepts/managing-state-with-context-api/imgs/00.png" /></p>
 <p>ヘッダーには、現在カートに入っている商品の数を表示するカウンターがあります。「Add to Cart」ボタンを使って、カートに商品を追加できます。</p>
 <p>以下の例では、プロジェクトで行ったルーティングや、この例に必要のない他のコンポーネントは省略します。このレッスンに関連するコードだけを見ていきます。</p>
-<p>すでに知っている通り、stateを永続させ、コンポーネント間で共有したい場合、私たちが行いたいのは、共通の祖先/親に<a href="https://react.dev/learn/sharing-state-between-components">stateをリフトアップする</a>ことです。</p>
+<p>すでに知っている通り、stateを永続させ、コンポーネント間で共有したい場合、行いたいのは、共通の祖先/親に<a href="https://react.dev/learn/sharing-state-between-components">stateをリフトアップする</a>ことです。</p>
 <p>私たちのアプリケーションのコードは、次のようになるかもしれません:</p>
 <pre class="highlight"><code class="language-jsx">import { useState } from "react";
 // other imports for Header and ProductDetail
@@ -117,7 +117,7 @@ export default function Header({ cartItemsCount }) {
   );
 }</code></pre>
 <p>素晴らしいですね。これは非常によくあるパターンで、コンポーネント間でデータや関数を受け渡しているだけで、特に複雑なことはしていません。しかし、細かく管理しなければならないことがたくさんあり、propsを渡さなければならないコンポーネントもたくさんあり、<code>cartItemsCount</code>が<code>App</code> -&gt; <code>Header</code> -&gt; <code>Links</code>と渡されていく、ちょっとしたprop drillingも起こっています。</p>
-<p>ここまで、<code>App</code>コンポーネントの中で私たちが行ってきたのは:</p>
+<p>ここまで、<code>App</code>コンポーネントの中で行ってきたのは:</p>
 <ul>
 <li><code>products</code>と<code>addToCart</code>を<code>ProductDetail</code>コンポーネントに渡す</li>
 <li><code>cartItemsCount</code>を<code>Header</code>コンポーネントと、<code>Header</code>の一部である<code>Links</code>コンポーネントに渡す</li>
@@ -127,7 +127,7 @@ export default function Header({ cartItemsCount }) {
 <p>アプリケーションを単純化し、複雑さを減らすために、Context APIを実装できます。このAPIには、理解しておく必要がある3つの重要な要素があります:</p>
 <ol>
 <li><code>createContext</code> - これは「コンテキストを作成する」ものです。当たり前ですね……でも、その通りです。これが、コンテキストを作成する方法です。これは、数値、文字列、オブジェクトなど、どんな値でも受け取ることができ、それはコンテキストの<em>デフォルト値</em>と呼ぶことができるもので、コンポーネントにデータを渡すために使えるコンテキストオブジェクトを返します</li>
-<li><code>useContext</code> - このフックは、<code>createContext</code>によって作成されたコンテキストオブジェクトからデータを利用するために使われます。私たちは、コンポーネントの中でこのフックを使って、必要なデータを取得できます。このフックは、コンテキストオブジェクトを引数として受け取ります</li>
+<li><code>useContext</code> - このフックは、<code>createContext</code>によって作成されたコンテキストオブジェクトからデータを利用するために使われます。コンポーネントの中でこのフックを使って、必要なデータを取得できます。このフックは、コンテキストオブジェクトを引数として受け取ります</li>
 <li><code>ContextObject</code> - コンテキストオブジェクトは、<code>value</code>と呼ばれるpropを受け取るコンポーネントです。これは、どれだけ深くネストされていても、コンポーネントに渡されることになるコンテキストの値です。言い換えると、これらのコンポーネントにコンテキストの値を「提供する」方法です。React 19より前は、<code>ContextObject</code>の代わりに<code>ContextObject.Provider</code>が使われていました。そのため、<code>Provider</code>という表記を見かけたら、それは<code>ContextObject</code>を意味しています</li>
 </ol>
 <p><code>react</code>モジュールからインポートできる<code>createContext</code>関数を使うところから始められます。</p>
@@ -140,9 +140,9 @@ export default function Header({ cartItemsCount }) {
   addToCart: () =&gt; {},
 });</code></pre>
 <p>この例では、私たちのデフォルト値は、<code>products</code>、<code>cartItems</code>、<code>addToCart</code>という3つのプロパティを持つオブジェクトです。<code>products</code>と<code>cartItems</code>は配列であり、それぞれ商品とユーザーのカートに入っている商品を保持します。<code>addToCart</code>は、カートに商品を追加できるようにしてくれる関数です。</p>
-<p>私たちが定義したこのオブジェクトは、必須ではありません。もちろん、以下のようにすることもでき、それでもまったく問題ありません:</p>
+<p>定義したこのオブジェクトは、必須ではありません。もちろん、以下のようにすることもでき、それでもまったく問題ありません:</p>
 <pre class="highlight"><code class="language-javascript">const ShopContext = createContext(null);</code></pre>
-<p>しかし、私たちがこのオブジェクトを追加している理由は、たとえ何らかの形でProviderの中にネストされていないコンポーネントの中でコンテキストを使ってしまったとしても、<em>デフォルト値</em>を設定しているため、アプリケーションが壊れないようにするためです(これは、値を取得するためにコンポーネントをProviderでラップする必要がないため、テストにも都合が良いです)。また、値としてオブジェクトを持っていると、オートコンプリートのようなIDEの機能も活用できます。コンポーネントの中でこのコンテキストを使うとき、コンテキストから直接プロパティにアクセスできるようになります。これは基本的におまけのようなものです!デフォルト値をオブジェクトにするか、単に<code>null</code>にするかは、あなた次第です。というのも、いずれにせよこのデフォルト値は上書きすることになるからです。</p>
+<p>しかし、このオブジェクトを追加している理由は、たとえ何らかの形でProviderの中にネストされていないコンポーネントの中でコンテキストを使ってしまったとしても、<em>デフォルト値</em>を設定しているため、アプリケーションが壊れないようにするためです(これは、値を取得するためにコンポーネントをProviderでラップする必要がないため、テストにも都合が良いです)。また、値としてオブジェクトを持っていると、オートコンプリートのようなIDEの機能も活用できます。コンポーネントの中でこのコンテキストを使うとき、コンテキストから直接プロパティにアクセスできるようになります。これは基本的におまけのようなものです!デフォルト値をオブジェクトにするか、単に<code>null</code>にするかは、あなた次第です。というのも、いずれにせよこのデフォルト値は上書きすることになるからです。</p>
 <p>では、このコンテキストをどう使えばよいのでしょうか?それは、Contextオブジェクトをコンポーネントとして使い、その中に子コンポーネントをネストさせることによってです。この例では、propsを完全に取り除きます。</p>
 <pre class="highlight"><code class="language-jsx">import { useState, createContext } from "react";
 // other imports for Header and ProductDetail
@@ -237,7 +237,7 @@ export default function ProductDetail() {
 <h3>考えられる解決策</h3>
 <ol>
 <li>単一の大きなコンテキストの代わりに、複数の小さなコンテキストを使う。アプリケーションのすべてのstateを管理するために単一の大きなコンテキストを使う代わりに、関連するstateの部分を管理するために複数の小さなコンテキストを使うことを検討してください。これにより、そのコンテキストを利用するコンポーネントの数を減らし、不要な再レンダーを最小限に抑えることができます。</li>
-<li>場合によっては、Context APIが、私たちが対処したい問題にとって最善の解決策でさえないこともあります。Robin Wieruchによる<a href="https://www.robinwieruch.de/react-component-composition/">React Component Composition</a>の記事を見てみてください。</li>
+<li>場合によっては、Context APIが、対処したい問題にとって最善の解決策でさえないこともあります。Robin Wieruchによる<a href="https://www.robinwieruch.de/react-component-composition/">React Component Composition</a>の記事を見てみてください。</li>
 <li><a href="https://github.com/pmndrs/zustand">Zustand</a>や<a href="https://redux.js.org/">Redux</a>のような、外部のstate管理システムに頼ることもできます。これらには最適化が数多く組み込まれており、機能も豊富です。残念ながら、これらには学習曲線があるため、このコースの残りの部分ではContext APIを使い続けることをお勧めします。これから構築するプロジェクトの大部分にとって、Context APIは依然として信頼できるものだからです。</li>
 </ol>
 <h3>課題</h3>

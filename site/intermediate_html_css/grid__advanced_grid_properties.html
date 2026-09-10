@@ -72,7 +72,7 @@
 grid-template-columns: 150px 150px 150px 150px 150px;</code></pre>
 <p>ここが、このレッスンで注目したい場所です。2行5列を作るために、それぞれの行と列のトラックサイズを個別に手動で定義しています。</p>
 <p>うわあ、なんて面倒なんでしょう!</p>
-<p>まあ、それほど面倒ではなかったかもしれません。しかし、この場合、私たちは2x5のグリッドしか作っておらず、これは合計10個のアイテムを保持できます。何百ものアイテムを保持できるグリッドのすべての列と行を定義するのに、この方法を使うことを想像してみてください!</p>
+<p>まあ、それほど面倒ではなかったかもしれません。しかし、この場合、2x5のグリッドしか作っておらず、これは合計10個のアイテムを保持できます。何百ものアイテムを保持できるグリッドのすべての列と行を定義するのに、この方法を使うことを想像してみてください!</p>
 <p>そこで登場するのが<code>repeat()</code>です。</p>
 <h3 id="repeat">Repeat</h3>
 <p><code>repeat()</code>は、CSS Gridのtemplateプロパティで利用できるCSS関数で、それぞれのトラックのサイズを個別に手動で入力することなく、行や列の数とその望むサイズを定義できるようにしてくれます。例えば、上記の私たちのセットアップでは:</p>
@@ -100,7 +100,7 @@ grid-template-columns: 150px 150px 150px 150px 150px;</code></pre>
 <p>たくさんのグリッドトラックを素早く作る方法が分かったので、次はそれらを<em>動的に</em>し始める方法を学ぶ番です。この文脈で動的とは、「柔軟である」あるいは「何らかの形でレスポンシブである」ことを意味します。動的の反対は<em>静的</em>、つまり、このサンプルグリッドのセットアップで使った<code>150px</code>のように、特定の定義された高さに固定されていることです。</p>
 <p>グリッドアイテムを動的にする最も基本的な方法は、<code>fr</code>とも呼ばれる<strong>フラクショナル単位</strong>を使うことです。</p>
 <p><code>fr</code>単位は、グリッドに残っている<em>残りのスペース</em>を分配する方法です。例えば、合計幅<code>400px</code>の4列グリッドがあり、それぞれの列トラックに割り当てられた4つのグリッドアイテムがサイズとして<code>1fr</code>を持っている場合、すべてのグリッドアイテムには、その<code>400px</code>のスペースの<strong>1フラクション(分数)分</strong>、つまり100ピクセルが与えられるはずです。</p>
-<p>私たちが作成したサンプルグリッドの列と行のトラックに、150pxという静的な幅の代わりに<code>1fr</code>という動的な幅を与えたらどうなるか見てみましょう:</p>
+<p>作成したサンプルグリッドの列と行のトラックに、150pxという静的な幅の代わりに<code>1fr</code>という動的な幅を与えたらどうなるか見てみましょう:</p>
 <p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="WNZbbgG" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
 
   <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/WNZbbgG">
@@ -157,7 +157,7 @@ grid-template-columns: 150px 150px 150px 150px 150px;</code></pre>
   grid-template-columns: repeat(5, max(120px, 15%));
 }</code></pre>
 <p>この場合、グリッドの行のサイズは、<code>200px</code>という値とグリッドコンテナの高さの<code>50%</code>という値から計算されます。リアルタイムで、ブラウザはこれら両方の値を比較し、どちらか小さい方をグリッドの行のサイズに適用します。基本的に、これがこのグリッドに伝えているのは、トラックのサイズはグリッドの縦方向の全スペースの50%であるべきだ(行のサイズを定義しているため)ということですが、<em>ただし</em>その数値が<code>200px</code>を超える場合は除く、ということです。基本的には、トラックの最大高さを設定していることになります。</p>
-<p>逆に、グリッドの列のサイズは、<code>120px</code>とグリッドコンテナの幅の<code>15%</code>という2つの値のうち大きい方に基づいて計算されます。そうすることで、私たちは基本的に、グリッドの列サイズの<em>最小</em>幅を<code>120px</code>に設定していることになります。ここにある例をチェックし、クリックしてドラッグしてグリッドの寸法を変え、グリッドアイテムがどう反応するか見てみてください:</p>
+<p>逆に、グリッドの列のサイズは、<code>120px</code>とグリッドコンテナの幅の<code>15%</code>という2つの値のうち大きい方に基づいて計算されます。そうすることで、基本的に、グリッドの列サイズの<em>最小</em>幅を<code>120px</code>に設定していることになります。ここにある例をチェックし、クリックしてドラッグしてグリッドの寸法を変え、グリッドアイテムがどう反応するか見てみてください:</p>
 <p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="css,result" data-slug-hash="PoJwwLq" data-editable="true" data-user="TheOdinProjectExamples" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
 
   <span>See the Pen <a href="https://codepen.io/TheOdinProjectExamples/pen/PoJwwLq">

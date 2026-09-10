@@ -57,7 +57,7 @@
 <h3 id="promises">Promise</h3>
 <p>JavaScriptで非同期コードを扱う方法は複数あり、それらはすべてそれぞれの使いどころがあります。Promiseはそのような仕組みの一つで、他のライブラリやフレームワークを使う際に、ある程度よく見かけることになるものです。それらが何で、どう使うかを知っておくことはかなり役立ちます。</p>
 <p>基本的に、Promiseとは、将来のある時点で値を生み出すかもしれないオブジェクトです。以下は例です:</p>
-<p><code>getData()</code>が、サーバーから何らかのデータを取得し、私たちがコードで使えるオブジェクトとしてそれを返す関数だとしましょう:</p>
+<p><code>getData()</code>が、サーバーから何らかのデータを取得し、コードで使えるオブジェクトとしてそれを返す関数だとしましょう:</p>
 <pre class="highlight"><code class="language-javascript">const getData = function() {
   // go fetch data from some API...
   // clean it up a bit and return it as an object:
@@ -66,7 +66,7 @@
 <p>この例の問題は、データを取得するのに多少時間がかかるということですが、私たちのコードにそれを伝えない限り、関数内のすべてのことが基本的に瞬時に起こると想定してしまいます。ですので、もし次のようなことをしようとすると:</p>
 <pre class="highlight"><code class="language-javascript">const myData = getData()
 const pieceOfData = myData['whatever']</code></pre>
-<p>私たちは問題に遭遇することになります。なぜなら、返されたデータから<code>pieceOfData</code>を抽出しようとするとき、<code>getData()</code>関数はおそらくまだ取得中であり、<code>myData</code>は期待されるデータではなく<code>undefined</code>になってしまうからです。残念です。</p>
+<p>問題に遭遇することになります。なぜなら、返されたデータから<code>pieceOfData</code>を抽出しようとするとき、<code>getData()</code>関数はおそらくまだ取得中であり、<code>myData</code>は期待されるデータではなく<code>undefined</code>になってしまうからです。残念です。</p>
 <p>この問題を解決し、データの取得が完了するまで続行を待つよう私たちのコードに伝える、何らかの方法が必要です。Promiseがこの問題を解決してくれます。具体的な構文の学習は、これから読む記事に任せますが、基本的にPromiseを使うと次のようなことができるようになります:</p>
 <pre class="highlight"><code class="language-javascript">const myData = getData() // if this is refactored to return a Promise...
 

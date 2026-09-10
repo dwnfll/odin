@@ -64,14 +64,14 @@ console.log(greeting);</code></pre>
 (() =&gt; {
   const greeting = "Hello, Odinite!";
 })();</code></pre>
-<p>これで、コンソールに<code>greeting is not defined</code>というエラーが出るようになります。なぜなら、私たちがログ出力できる<code>greeting</code>というグローバル変数がもう存在しないからです!しかし、<em>一部</em>のものだけを他のファイルに公開したい場合はどうすればよいでしょうか?私たちのIIFEからそれらのものをグローバルスコープに返しつつ、他のものはプライベートに保つことができます!</p>
+<p>これで、コンソールに<code>greeting is not defined</code>というエラーが出るようになります。なぜなら、ログ出力できる<code>greeting</code>というグローバル変数がもう存在しないからです!しかし、<em>一部</em>のものだけを他のファイルに公開したい場合はどうすればよいでしょうか?私たちのIIFEからそれらのものをグローバルスコープに返しつつ、他のものはプライベートに保つことができます!</p>
 <pre class="highlight"><code class="language-javascript">// one.js
 const greeting = (() =&gt; {
   const greetingString = "Hello, Odinite!";
   const farewellString = "Bye bye, Odinite!";
   return greetingString;
 })();</code></pre>
-<p>これで、グローバル変数<code>greeting</code>は<code>"Hello, Odinite!"</code>を含むことになり、<code>two.js</code>からの私たちのコードはこれを正常にコンソールにログ出力します。しかし、<code>greetingString</code>と<code>farewellString</code>のどちらもIIFEにローカルであり、グローバルではありません。違いは、<code>greetingString</code>がIIFEから明示的にreturnされ、<code>greeting</code>に割り当てられているため、関数の外からアクセス可能になっているのに対し、<code>farewellString</code>はreturnされていないため、<code>two.js</code>では完全にアクセス不可能なままだということです。これを通して、私たちは一つのファイルから何を公開し、それに続くすべてのファイルで利用可能にするかを選べます!これが、IIFEがしばしば「モジュールパターン」と呼ばれた理由です。なぜなら、それらは「本物のモジュール」が与えられる前に、複数のファイルにまたがってモジュール式のコードを書けるようにしてくれたからです。</p>
+<p>これで、グローバル変数<code>greeting</code>は<code>"Hello, Odinite!"</code>を含むことになり、<code>two.js</code>からの私たちのコードはこれを正常にコンソールにログ出力します。しかし、<code>greetingString</code>と<code>farewellString</code>のどちらもIIFEにローカルであり、グローバルではありません。違いは、<code>greetingString</code>がIIFEから明示的にreturnされ、<code>greeting</code>に割り当てられているため、関数の外からアクセス可能になっているのに対し、<code>farewellString</code>はreturnされていないため、<code>two.js</code>では完全にアクセス不可能なままだということです。これを通して、一つのファイルから何を公開し、それに続くすべてのファイルで利用可能にするかを選べます!これが、IIFEがしばしば「モジュールパターン」と呼ばれた理由です。なぜなら、それらは「本物のモジュール」が与えられる前に、複数のファイルにまたがってモジュール式のコードを書けるようにしてくれたからです。</p>
 <p>しかし今では、ESMを使えば、この特定の目的のためにIIFEを使う必要はもうありません。</p>
 <h3>ES6モジュール</h3>
 <p>ESMを使うと、物事をもう少しコントロールできるようになります。それぞれのファイルはデフォルトで独自のプライベートスコープを持ち、そのファイルから何をエクスポートするかを選べるだけでなく、他のファイルに何をインポートするかも選べます。ですので、何かをエクスポートしたからといって、それが自動的に他の場所で利用可能になるわけではありません。それは、別のファイルでそれを明示的にインポートした場合にのみ、そのファイルで利用可能になります。たくさんのコントロールですね!</p>
@@ -106,7 +106,7 @@ console.log(farewell); // "Bye bye, Odinite!"</code></pre>
 <pre class="highlight"><code class="language-javascript">export { greeting, farewell };
 
 import { greeting, farewell } from "./one.js";</code></pre>
-<p>上記では、<code>greeting</code>と<code>farewell</code>キーを含むオブジェクトをエクスポートしているわけでも、インポート時にそれらのキーを持つオブジェクトを分割代入しているわけでもありません。私たちは単に名前付きインポート/エクスポートの構文を使っているだけです。</p>
+<p>上記では、<code>greeting</code>と<code>farewell</code>キーを含むオブジェクトをエクスポートしているわけでも、インポート時にそれらのキーを持つオブジェクトを分割代入しているわけでもありません。単に名前付きインポート/エクスポートの構文を使っているだけです。</p>
 </div>
 <h4 id="default-exports">デフォルトエクスポート</h4>
 <p>名前付きエクスポートとは対照的に、一つのファイルはデフォルトエクスポートを一つしか持てません。この方法でエクスポートされたものには名前が付いていないため、どこかでそれをインポートするときに、どんな名前を付けるか自分で決めることができます。</p>
@@ -150,7 +150,7 @@ two.js &lt;-------------- one.js</code></pre>
 <p>もしレッスンの最初にあったIIFEの例で一緒に手を動かしていたなら、JavaScriptを<code>import</code>と<code>export</code>を使うように書き直し、エントリーポイントだけをモジュールスクリプトとしてリンクしてみてください。ブラウザのセキュリティ上の理由から、ブラウザでHTMLファイルを直接開いた場合、ES6モジュールは読み込めません。ですので、まだ使っていなければ、Visual Studio Codeの<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server">Live Preview拡張機能</a>を必ず使ってください。</p>
 <h3>CommonJS</h3>
 <p>これまでの道のりで、<code>import</code>や<code>export</code>の代わりに<code>require</code>や<code>module.exports</code>のような構文を使う、CommonJS(CJS)と呼ばれるものに出会ったことがあるかもしれません。Foundationsコースの私たちのJavaScript演習でこれを見たのを覚えているかもしれません(ずいぶん遠くまで来ましたね)!これはNode.jsで使うために設計されたモジュールシステムで、ESMとは少し異なる働き方をし、ブラウザが理解できるものではありません。</p>
-<p>CJSは今でもNode.jsのコードでかなり多く使われていますが、近年ではNode.jsでもESMが人気を集めてきています。今のところ、私たちはブラウザで実行するコードを書くことに焦点を当てているので、ESMに時間を費やしていきます。もしFull Stack JavaScriptパスウェイを進めているなら、Node.jsのコースで後ほどCJSについてさらに詳しく扱います。</p>
+<p>CJSは今でもNode.jsのコードでかなり多く使われていますが、近年ではNode.jsでもESMが人気を集めてきています。今のところ、ブラウザで実行するコードを書くことに焦点を当てているので、ESMに時間を費やしていきます。もしFull Stack JavaScriptパスウェイを進めているなら、Node.jsのコースで後ほどCJSについてさらに詳しく扱います。</p>
 <h3>課題</h3>
 <div class="lesson-content__panel">
 <ol>

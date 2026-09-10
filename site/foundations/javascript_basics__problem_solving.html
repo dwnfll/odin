@@ -87,7 +87,7 @@ Print the value of the counter variable</code></pre>
 <blockquote>
 <p>ユーザーの入力を受け取り、1からユーザーが入力した数までの数を出力するプログラムを書いてください。ただし、3の倍数についてはその数の代わりに<code>Fizz</code>を、5の倍数については<code>Buzz</code>を出力してください。3と5の両方の倍数である数については<code>FizzBuzz</code>を出力してください。</p>
 </blockquote>
-<p>これが、私たちが解決しようとしている大きな全体像の問題です。しかし、言い換えることで、常により明確にできます。</p>
+<p>これが、解決しようとしている大きな全体像の問題です。しかし、言い換えることで、常により明確にできます。</p>
 <p>ユーザーが数を入力できるようにし、1からユーザーが入力した数までの各数を出力するプログラムを書いてください。ただし、3で割り切れる数については代わりに<code>Fizz</code>を出力してください。5で割り切れる数については<code>Buzz</code>を出力し、最後に3と5の両方で割り切れる数については<code>FizzBuzz</code>を出力してください。</p>
 <h4>計画を立てる</h4>
 <p>あなたのプログラムにはインターフェースがありますか?それはどのような見た目になりますか?
@@ -106,7 +106,7 @@ If the current number is divisible by 5 then print "Buzz"
 If the current number is divisible by 3 and 5 then print "FizzBuzz"
 Otherwise print the current number</code></pre>
 <h4>分割統治する</h4>
-<p>私たちが作成したアルゴリズムから分かるように、最初に解決できる部分問題はユーザーから入力を得ることです。それでは、そこから始めて、入力された数を出力することでうまくいくか確認しましょう。</p>
+<p>作成したアルゴリズムから分かるように、最初に解決できる部分問題はユーザーから入力を得ることです。それでは、そこから始めて、入力された数を出力することでうまくいくか確認しましょう。</p>
 <p>JavaScriptでは、「prompt」メソッドを使用します。</p>
 <pre class="highlight"><code class="language-javascript">let answer = parseInt(prompt("Please enter the number you would like to FizzBuzz up to: "));</code></pre>
 <p>上記のコードは、ユーザーに数を尋ねる小さなポップアップボックスを作成するはずです。返ってきた入力は、私たちの変数<code>answer</code>に保存されます。</p>
@@ -120,10 +120,10 @@ Otherwise print the current number</code></pre>
 for (let i = 1; i &lt;= answer; i++) {
   console.log(i);
 }</code></pre>
-<p>これを見たことがなく、奇妙に見える場合でも、実際には単純です。私たちは変数<code>i</code>を宣言し、それに1を代入します。これがループにおける変数<code>i</code>の初期値です。2番目の節、<code>i &lt;= answer</code>が私たちの条件です。<code>i</code>が<code>answer</code>より大きくなるまでループしたいのです。3番目の節、<code>i++</code>は、ループに対して繰り返しごとに<code>i</code>を1ずつ増やすよう指示します。結果として、ユーザーが10を入力した場合、このループはコンソールに1から10までの数を出力します。</p>
+<p>これを見たことがなく、奇妙に見える場合でも、実際には単純です。変数<code>i</code>を宣言し、それに1を代入します。これがループにおける変数<code>i</code>の初期値です。2番目の節、<code>i &lt;= answer</code>が私たちの条件です。<code>i</code>が<code>answer</code>より大きくなるまでループしたいのです。3番目の節、<code>i++</code>は、ループに対して繰り返しごとに<code>i</code>を1ずつ増やすよう指示します。結果として、ユーザーが10を入力した場合、このループはコンソールに1から10までの数を出力します。</p>
 <div class="lesson-note lesson-note--tip">
 <h4>ループを1から始める</h4>
-<p>ほとんどの場合、プログラマーは0からループすることになります。私たちのプログラムのニーズにより、私たちは1から始めています。</p>
+<p>ほとんどの場合、プログラマーは0からループすることになります。私たちのプログラムのニーズにより、1から始めています。</p>
 </div>
 <p>それが動くようになったら、次の問題に移りましょう:現在の数が3で割り切れる場合、<code>Fizz</code>を出力する。</p>
 <pre class="highlight"><code class="language-javascript">let answer = parseInt(prompt("Please enter the number you would like to FizzBuzz up to: "));

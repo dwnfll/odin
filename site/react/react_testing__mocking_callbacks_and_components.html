@@ -56,7 +56,7 @@ const CustomButton = ({ onClick }) =&gt; {
 };
 
 export default CustomButton;</code></pre>
-<p>特に凝ったものではありません。<code>CustomButton</code>はpropが渡されているコンポーネントです。私たちが注目しているのは<code>onClick</code>propです。その関数が何をするのかはわかりません。その関数がアプリケーションにどう影響するのかもわかりません。私たちにわかっているのは、ユーザーがボタンをクリックしたときに、それが呼び出される必要があるということだけです。テストしてみましょう。</p>
+<p>特に凝ったものではありません。<code>CustomButton</code>はpropが渡されているコンポーネントです。注目しているのは<code>onClick</code>propです。その関数が何をするのかはわかりません。その関数がアプリケーションにどう影響するのかもわかりません。私たちにわかっているのは、ユーザーがボタンをクリックしたときに、それが呼び出される必要があるということだけです。テストしてみましょう。</p>
 <p><span id="testing-callback-handlers"><code>onClick</code>関数をどのようにモックしテストするかに注目してください</span>:</p>
 <pre class="highlight"><code class="language-jsx">// CustomButton.test.jsx
 
@@ -98,7 +98,7 @@ describe("CustomButton", () =&gt; {
 <p>モックは、各テストブロックの中ではなく、<code>beforeEach</code>ブロックの中でセットアップすることもできます。これは、状況によっては適している場合もあります。しかし、可読性を高めるためには、すべてのセットアップを同じテストブロックの中で行うことが推奨されます。そうすることで、コンテキストを把握するためにファイル全体を検索する必要がなくなり、将来の変更をレビューしやすくなります。これはまた、リーク(漏れ)がテストスイート全体で問題を引き起こす可能性も減らしてくれます。テストファイルが特に長く、テストの準備が数十行にもなる場合を除いて、モックは各テストブロックの中でセットアップすることが推奨されます。そうでない場合は、<code>beforeEach</code>を使ってもかまいません。</p>
 <p><code>userEvent.setup()</code>は、コンポーネントをレンダーする前に呼び出すことが推奨されます。レンダーや<code>userEvent</code>関数を(例えば<code>beforeEach</code>ブロックの中のような)テスト自体の外で呼び出すことは推奨されません。複数のテストで同じコードを繰り返していることに気づいたら、各テストを短くするための推奨されるアプローチは、<a href="https://testing-library.com/docs/user-event/intro/#writing-tests-with-userevent">setup関数を書く</a>ことです。</p>
 <h4>子コンポーネントをモックする</h4>
-<p>モジュールをモックするという概念に出会ったことがあるかもしれません。Reactでは、コンポーネントツリーが大きくなると、テストが複雑になることがあります。特に、ツリーの上位にあるコンポーネントについてはなおさらです。だからこそ、私たちは子コンポーネントをモックします。これは頻繁に出会うものではありませんが、それでも、自分自身のテストで必要になるかもしれない場合に備えて、この概念を理解しておくことは有益です。</p>
+<p>モジュールをモックするという概念に出会ったことがあるかもしれません。Reactでは、コンポーネントツリーが大きくなると、テストが複雑になることがあります。特に、ツリーの上位にあるコンポーネントについてはなおさらです。だからこそ、子コンポーネントをモックします。これは頻繁に出会うものではありませんが、それでも、自分自身のテストで必要になるかもしれない場合に備えて、この概念を理解しておくことは有益です。</p>
 <h3>実際の現場でのReactテスト</h3>
 <p>この(<a href="https://theodinproject.com">theodinproject.com</a>)ウェブサイトにログインしているなら、おそらく、それぞれのプロジェクトの下にあるプロジェクトの提出物リストを目にしたことがあるでしょう。それらのコンポーネントはReactで書かれ、React Testing Libraryでテストされていました。それらはその後削除されましたが、それでも素晴らしい実例として役立ってくれます。これは楽しくなりそうです。あなたの課題は次の通りです:</p>
 <p><a href="https://github.com/TheOdinProject/theodinproject/blob/0886578d5b27a967e6bba2b31f212efe284d9413/app/javascript/components/project-submissions/components/submissions-list.jsx">submissions-list.jsx</a>コンポーネントを読み、理解しようと試みてください。すべてを理解できなくても大丈夫です。そして朗報は、このレッスンについていくために、すべてを理解する必要はない、ということです!</p>
@@ -129,7 +129,7 @@ describe("CustomButton", () =&gt; {
 <h4>注記 - Vitestのモック</h4>
 <p>ここでのテストでは<code>jest.mock()</code>を使っています。ここまでついてきて、Vitestを使ってテストをセットアップしている場合は、代わりに<code>vi.mock()</code>を使ってもかまいません。<a href="https://vitest.dev/api/vi.html#vi-mock"><code>vi.mock()</code> API</a>を参照してください。</p>
 </div>
-<p>最初のアサーションに進みましょう。<code>ProjectSubmissionContext.Provider</code>についてはあまり気にしなくて大丈夫です。このテストの文脈では、その目的は、<code>allSubmissionsPath</code>propを渡すための経路として機能することです。私たちはすでに、テストしたい3つの注目ポイントを特定しています。可読性のために、<code>describe</code>を使ってそれらを3つのテストスイートに分けます。</p>
+<p>最初のアサーションに進みましょう。<code>ProjectSubmissionContext.Provider</code>についてはあまり気にしなくて大丈夫です。このテストの文脈では、その目的は、<code>allSubmissionsPath</code>propを渡すための経路として機能することです。すでに、テストしたい3つの注目ポイントを特定しています。可読性のために、<code>describe</code>を使ってそれらを3つのテストスイートに分けます。</p>
 <p>最初のスイートでは、ユーザーが提出物を持っている場合のアサーションと、持っていない場合のアサーションを行います。他のスイートも同様のパターンに従います。</p>
 <h4>さらに探ってみる</h4>
 <p>他のコンポーネントとそのテストにも、遠慮なく目を通してみてください。モックされた関数を目にするでしょう。<code>act</code>のような、まだ見たことのない関数も目にするでしょう。カスタムのrender関数も目にするでしょう。すべてを理解できなくても大丈夫です。目標は、慣れ親しむことです。</p>
@@ -138,7 +138,7 @@ describe("CustomButton", () =&gt; {
 <div class="lesson-content__panel">
 <ol>
 <li><a href="https://medium.com/@taylormclean15/jest-testing-mocking-child-components-to-make-your-unit-tests-more-concise-18691ef6a0c2">子コンポーネントのモック</a>についてのこの記事を読んでください。子コンポーネントをモックする「方法」について、幅広く扱われています。(読むためにサインアップが必要な場合があります)</li>
-<li>Academindによるこの<a href="https://academind.com/tutorials/testing-react-apps">Reactアプリのテストについてのチュートリアル</a>は、あなたがこれまで学んできたことについての、素晴らしい概観になっています。このチュートリアルの<code>userEvent</code> APIは、私たちが現在使っている非同期のものとは異なり、同期的です。しかし、これまでの知識を使ってついていけるはずですし、ViteとVitestもこれまでと同じように使うことができます。</li>
+<li>Academindによるこの<a href="https://academind.com/tutorials/testing-react-apps">Reactアプリのテストについてのチュートリアル</a>は、あなたがこれまで学んできたことについての、素晴らしい概観になっています。このチュートリアルの<code>userEvent</code> APIは、現在使っている非同期のものとは異なり、同期的です。しかし、これまでの知識を使ってついていけるはずですし、ViteとVitestもこれまでと同じように使うことができます。</li>
 </ol>
 </div>
 <h3>知識の確認</h3>

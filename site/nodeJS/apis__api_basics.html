@@ -39,7 +39,7 @@
 <p>近年、ウェブサイトを開発するための新しいパターンが人気を集めています。データベースとビューテンプレートの両方をホストするアプリを作成する代わりに、多くの開発者は、これらの関心事を別々のプロジェクトに分離し、バックエンドとデータベースをサーバー上に(例えば<a href="https://www.heroku.com/">Heroku</a>のようなものか、<a href="https://www.digitalocean.com/">Digital Ocean</a>のようなVPS上に)ホストし、それから<a href="https://pages.github.com/">GitHub Pages</a>や<a href="https://www.netlify.com/">Netlify</a>のようなサービスを使ってフロントエンドをホストしています。この技法は、<a href="https://jamstack.org/what-is-jamstack/">Jamstack</a>と呼ばれることもあります。</p>
 <p>このようにプロジェクトを整理することは、ビジネスロジックとビューロジックを組み合わせるのではなく、プロジェクトをよりモジュール化できるため、有益な場合があります。これにより、ウェブサイト、デスクトップアプリ、モバイルアプリといった、複数のフロントエンドアプリケーションのために、単一のバックエンドソースを使うこともできるようになります。他の開発者たちは、ReactやVueのようなフロントエンドフレームワークを使って、洗練されたフロントエンドのみのシングルページアプリケーションを作るのが好きだという理由で、このパターンを好んでいます。</p>
 <p>フロントエンドとバックエンドのアプリケーションは、通常JSONを使って互いに通信します。これは、私たちのフロントエンドJavaScriptコースを通してすでに出会っているはずです。そのため、今の時点で本当に学ぶ必要があるのは、あなたのExpressアプリケーションに、HTMLの代わりにJSONを話させる方法だけです。このレッスンの最後の課題では、チュートリアルを通してこれを扱いますが、基本的にあなたがしなければならないのは、<a href="https://expressjs.com/en/5x/api/response/#ressendbody"><code>res.send()</code></a>や<a href="https://expressjs.com/en/5x/api/response/#resrenderview--locals--callback"><code>res.render()</code></a>の代わりに、<a href="https://expressjs.com/en/5x/api/response/#resjsonbody"><code>res.json()</code></a>に情報を渡すことだけです。とても簡単ですよね?</p>
-<p><a href="https://www.theodinproject.com/lessons/nodejs-routes#routers">Routesレッスン</a>でのルートの整理の仕方を思い出してみると、私たちは関連するルートをまとめてグループ化し、それぞれのグループを個別のファイルに抽出しました。このアプローチにより、他のルートに影響を与えることなく、特定のルートをより簡単に修正できるようになりました。</p>
+<p><a href="https://www.theodinproject.com/lessons/nodejs-routes#routers">Routesレッスン</a>でのルートの整理の仕方を思い出してみると、関連するルートをまとめてグループ化し、それぞれのグループを個別のファイルに抽出しました。このアプローチにより、他のルートに影響を与えることなく、特定のルートをより簡単に修正できるようになりました。</p>
 <h3>レッスン概要</h3>
 <p>このセクションでは、このレッスンで学ぶトピックの概要を説明します。</p>
 <ul>
@@ -56,7 +56,7 @@
 <h3 id="rest">REST</h3>
 <p>APIの構造にはさまざまな形があり得ます。例えば、<code>/api/getAllPostComments/:postid</code>や<code>/api/posts/:postid/comments</code>という名前のルートを持つことができます。
 <em>しかし</em>、<a href="https://www.codecademy.com/article/what-is-crud">CRUDアクション</a>に対応する、あなたのAPIのための人気があり一般的な整理方法である、REST(Representational State Transferの頭字語)に従うのが慣習です。RESTのような確立されたパターンに従うことで、あなたのAPIはより保守しやすくなり、他の開発者があなたのAPIと統合しやすくなります。ソフトウェア開発は、しばしば明確なコミュニケーションが重要であり、それは期待に従うことによって助けられます。</p>
-<p><a href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTの実際の技術的な定義</a>は少し複雑ですが、私たちの目的のためには、その要素のほとんど(ステートレス性、キャッシュ可能性など)は、単にExpressを使ってJSONを出力するだけで、デフォルトでカバーされます。私たちが特に考えたい部分は、<strong>エンドポイントのURI</strong>(Uniform Resource Identifier)をどう整理するかです。</p>
+<p><a href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTの実際の技術的な定義</a>は少し複雑ですが、私たちの目的のためには、その要素のほとんど(ステートレス性、キャッシュ可能性など)は、単にExpressを使ってJSONを出力するだけで、デフォルトでカバーされます。特に考えたい部分は、<strong>エンドポイントのURI</strong>(Uniform Resource Identifier)をどう整理するかです。</p>
 <p>REST APIはリソースベースです。これは基本的に、<code>/getPostComments</code>や<code>/savePostInDatabase</code>のような名前を持つ代わりに、<strong>リソースを直接指す</strong>(この場合はブログ投稿)ということを意味し、アクションを決定するためにGET、POST、PUT、DELETEといったHTTP動詞を使います。
 通常、これはリソースごとに2つのURIという形を取ります。一つはコレクション全体のためのもので、もう一つはそのコレクション内の単一のオブジェクトのためのものです。例えば、<code>/posts</code>からブログ投稿のリストを取得し、それから<code>/posts/:postid</code>から特定の投稿を取得するかもしれません。このようにコレクションをネストすることもできます。ある投稿へのコメントのリストを取得するには<code>/posts/:postid/comments</code>にアクセスし、それから単一のコメントを取得するには<code>/posts/:postid/comments/:commentid</code>にアクセスします。以下は、あなたが持つことになるかもしれない、エンドポイントの他の基本的な例です。</p>
 <h4 id="http-verbs-table">HTTP動詞の表</h4>
@@ -91,7 +91,7 @@
 </tr>
 </tbody>
 </table>
-<p>APIのURIのそれぞれの部分は、リソースを指定します。例えば、<code>GET /posts</code>はブログ投稿のリスト全体を返しますが、<code>GET /posts/:postid</code>は私たちが求める正確なブログ投稿を指定します。<code>GET /posts/:postid/comments</code>でさらにネストして、そのブログ投稿へのコメントのリストを返すこともできますし、<code>GET /posts/:postid/comments/:commentid</code>で非常に特定のブログ投稿のコメントを返すこともできます。</p>
+<p>APIのURIのそれぞれの部分は、リソースを指定します。例えば、<code>GET /posts</code>はブログ投稿のリスト全体を返しますが、<code>GET /posts/:postid</code>は求める正確なブログ投稿を指定します。<code>GET /posts/:postid/comments</code>でさらにネストして、そのブログ投稿へのコメントのリストを返すこともできますし、<code>GET /posts/:postid/comments/:commentid</code>で非常に特定のブログ投稿のコメントを返すこともできます。</p>
 <h3 id="cors">CORS</h3>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy">同一オリジンポリシー</a>は、ブラウザにとって重要なセキュリティ対策であり、ウェブページが、そのページを提供したオリジンとは異なるオリジンにリクエストを送ることを制限します(何が「同一オリジン」とみなされるかについてのいくつかの例は、上記のリンクを参照してください)。</p>
 <p>次のプロジェクトでは、私たちのREST APIとフロントエンドを別々に(異なるドメインに)デプロイすることになります。つまり、私たちの別々のフロントエンドがそのリソースにアクセスできるように、サーバー上で<strong>クロスオリジンリソース共有(CORS)</strong>を有効にする必要があります。Expressには、すべてをセットアップできる<a href="https://expressjs.com/en/resources/middleware/cors.html">CORSミドルウェアパッケージ</a>があります。</p>
@@ -100,7 +100,7 @@
 <div class="lesson-content__panel">
 <ol>
 <li><a href="https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design">RESTful API設計</a>について読んでください。もし最初の記事と一緒にコードを書きたい場合は、これにはリクエストボディのJSONデータを解析するためのbody-parserミドルウェアが含まれていますが、Express 4.16.0以降、この解析機能はExpressパッケージ自体に直接組み込まれていることに注意してください。</li>
-<li><a href="https://www.robinwieruch.de/node-express-server-rest-api/">Expressで REST APIをセットアップする</a>についてのこのチュートリアルを読み、一緒にコードを書いてください。これは私たちがこれまで出会った中で最良のExpressチュートリアルの一つであり、モジュール化されたコードの整理やミドルウェアの書き方についても触れており、最後には素晴らしい追加情報へのリンクもあります。</li>
+<li><a href="https://www.robinwieruch.de/node-express-server-rest-api/">Expressで REST APIをセットアップする</a>についてのこのチュートリアルを読み、一緒にコードを書いてください。これはこれまで出会った中で最良のExpressチュートリアルの一つであり、モジュール化されたコードの整理やミドルウェアの書き方についても触れており、最後には素晴らしい追加情報へのリンクもあります。</li>
 </ol>
 </div>
 <h3>知識の確認</h3>
